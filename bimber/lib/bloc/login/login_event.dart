@@ -5,6 +5,9 @@ abstract class LoginEvent extends Equatable{
 
   @override
   List<Object> get props => [];
+
+  @override
+  bool get stringify => true;
 }
 
 class LoginCheckEmail extends LoginEvent{
@@ -13,11 +16,6 @@ class LoginCheckEmail extends LoginEvent{
 
   @override
   List<Object> get props => [email];
-
-  @override
-  String toString() {
-    return 'LoginCheckEmail { email: $email}';
-  }
 }
 
 class LoginCheckPassword extends LoginEvent{
@@ -27,10 +25,4 @@ class LoginCheckPassword extends LoginEvent{
 
   @override
   List<Object> get props => [email, password];
-
-  @override
-  String toString() {
-    return 'LoginCheckPassword { email: $email, password: $password}';
-  }
-
 }

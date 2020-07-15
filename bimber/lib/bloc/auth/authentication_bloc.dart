@@ -26,7 +26,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>{
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
     try {
-      final isLoggedIn = await _accountRepository.isLoggedIn();
+      final isLoggedIn = await _accountRepository.isLoggedIn().timeout(Duration(seconds: 5));
       if (isLoggedIn) {
         yield Authenticated();
       } else {

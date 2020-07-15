@@ -4,6 +4,9 @@ abstract class LoginState extends Equatable{
   const LoginState();
   @override
   List<Object> get props => [];
+
+  @override
+  bool get stringify => true;
 }
 
 class LoginInitial extends LoginState{}
@@ -16,9 +19,6 @@ class LoginEmailExists extends LoginState{
 
   @override
   List<Object> get props => [email];
-
-  @override
-  String toString() => 'LoginEmailExists { email $email }';
 }
 
 class LoginEmailNotExists extends LoginState{
@@ -27,9 +27,6 @@ class LoginEmailNotExists extends LoginState{
 
   @override
   List<Object> get props => [email];
-
-  @override
-  String toString() => 'LoginEmailNotExists { email $email }';
 }
 
 class LoginSucceed extends LoginState{}
