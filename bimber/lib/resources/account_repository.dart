@@ -6,6 +6,7 @@ abstract class AccountRepository{
   Future<bool> login(String email, String password);
   Future<bool> createAccount(String email, String password, String imagePath, int age, Alcohol favouriteAlcoholType, String favouriteAlcohol, String name,
       String description, Gender genderPreferences, int agePreferences, Gender gender, Alcohol alcoholPreferences);
+  Future<void> logout();
 }
 
 class MockAccountRepository extends AccountRepository{
@@ -27,6 +28,12 @@ class MockAccountRepository extends AccountRepository{
   @override
   Future<bool> createAccount(String email, String password, String imagePath, int age, Alcohol favouriteAlcoholType, String favouriteAlcohol, String name, String description, Gender genderPreferences, int agePreferences, Gender gender, Alcohol alcoholPreferences) {
     // TODO: implement createAccount
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> logout() {
+    // TODO: implement logut
     throw UnimplementedError();
   }
 
