@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -15,7 +16,7 @@ class LoginScreen extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
-                colors: [Colors.yellow, Colors.deepOrange],
+                colors: [Color(0xfff4d35e), Color(0xffee964b)],
                 tileMode: TileMode.repeated, // repeats the gradient over the canvas
               ),
             ),
@@ -26,35 +27,30 @@ class LoginScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                    flex: 4,
+                    flex: 2,
                     child: Container(),
                   ),
                   Expanded(
-                    flex: 3,
-                    child: Container(
-                      margin: new EdgeInsets.only(bottom: 10),
-                      color: Colors.red,
-                      child: Center(
-                        child: Text("Logo"),
-                      ),
-                    ),
+                    flex: 4,
+                    child: FlareActor("assets/Bimber-logo.flr", alignment:Alignment.center, fit:BoxFit.contain, animation:"idle"),
                   ),
                   Expanded(
-                    flex: 4,
+                    flex: 3,
                     child: Padding(
-                        padding: new EdgeInsets.only(top: 15, bottom: 15),
+                        padding: new EdgeInsets.only(top: 15),
                         child: Text("Logując się akceptujesz nasz regulamin. Informację na temat sposobu, w jaki sposób wykorzystujemy twoje dane, znajdziesz w naszej Polityce prywatności oraz polityce plików cookies.",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 14,
                                 fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FontStyle.italic
                             )),
                       ),
                   ),
                   Expanded(
                     flex: 2,
-                    child: Text("Mój email to:", style: TextStyle(fontSize: 33, fontWeight: FontWeight.w600), textAlign: TextAlign.center,),
+                    child: Text("Mój email to:", style: TextStyle(fontSize: 33, fontWeight: FontWeight.w900, fontFamily: 'Baloo'), textAlign: TextAlign.center,),
                   ),
                   Expanded(
                     flex: 5,
@@ -84,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                           Material(
                               elevation: 5.0,
                               borderRadius: BorderRadius.circular(50.0),
-                              color: Colors.black,
+                              color: Color(0xff0d3b66),
                               child: MaterialButton(
                                   minWidth: MediaQuery.of(context).size.width,
                                   padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
