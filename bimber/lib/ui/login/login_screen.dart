@@ -68,6 +68,10 @@ class LoginScreenState extends State<LoginScreen> {
                     ));
             } else if(state is LoginEmailNotExists){
               Navigator.push(context, PageTransition(type: PageTransitionType.downToUp,child: RegisterScreen()));
+            } else if(state is LoginInitial){
+                setState(() {
+                  animate = false;
+                });
             } else {
               Navigator.push(context, PageTransition(type: PageTransitionType.downToUp,child: SplashScreen()));
             }
@@ -107,15 +111,20 @@ class LoginForm extends StatefulWidget{
 
 class LoginFormState extends State<LoginForm> with SingleTickerProviderStateMixin{
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   AnimationController _animationController;
   Animation _animation;
+  double _height;
 
 
   @override
   void didUpdateWidget(LoginForm oldWidget) {
-    if(widget.animate){
+    if(widget.animate && !oldWidget.animate){
       _animationController.forward();
+      setState(() {
+        _height = 100;
+      });
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -123,8 +132,9 @@ class LoginFormState extends State<LoginForm> with SingleTickerProviderStateMixi
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(duration: Duration(seconds: 2), vsync: this);
-    _animation = IntTween(begin: 30, end: 0).animate(_animationController);
+    _height = 0;
+    _animationController = AnimationController(duration: Duration(milliseconds: 500), vsync: this);
+    _animation = IntTween(begin: 500, end: 1).animate(new CurvedAnimation(parent: _animationController, curve: Curves.decelerate));
     _animation.addListener(() => setState(() {}));
   }
 
@@ -135,38 +145,46 @@ class LoginFormState extends State<LoginForm> with SingleTickerProviderStateMixi
      mainAxisAlignment: MainAxisAlignment.center,
      children: <Widget>[
        Expanded(
-         flex: 20,
+         flex: 200,
          child: Container(),
        ),
        Expanded(
-         flex: 40,
-         child: FlareActor("assets/Bimber-logo.flr", alignment:Alignment.center, fit:BoxFit.contain, animation:"idle"),
+         flex: 400,
+         child: Padding(
+            padding: new EdgeInsets.only(bottom: 15),
+            child: FlareActor("assets/Bimber-logo.flr", alignment:Alignment.center, fit:BoxFit.contain, animation:"idle"),
+         )
        ),
        Expanded(
          flex: _animation.value,
-         child: Padding(
-           padding: new EdgeInsets.only(top: 15),
-           child: Text("Logując się akceptujesz nasz regulamin. Informację na temat sposobu, w jaki sposób wykorzystujemy twoje dane, znajdziesz w naszej Polityce prywatności oraz polityce plików cookies.",
-               textAlign: TextAlign.center,
-               style: TextStyle(
-                   fontSize: 14,
-                   fontFamily: 'Montserrat',
-                   fontWeight: FontWeight.w600,
-                   fontStyle: FontStyle.italic
-               )),
-         ),
+           child: Column(
+             children: <Widget>[
+               Expanded(
+                 flex: 3,
+                 child: Text("Logując się akceptujesz nasz regulamin. Informację na temat sposobu, w jaki sposób wykorzystujemy twoje dane, znajdziesz w naszej Polityce prywatności oraz polityce plików cookies.",
+                     textAlign: TextAlign.center,
+                     style: TextStyle(
+                         fontSize: 14,
+                         fontFamily: 'Montserrat',
+                         fontWeight: FontWeight.w600,
+                         fontStyle: FontStyle.italic
+                     )),
+               ),
+               Expanded(
+                 flex: 2,
+                 child: Text("Mój email to:", style: TextStyle(fontSize: 33, fontWeight: FontWeight.w900, fontFamily: 'Baloo'), textAlign: TextAlign.center,),
+               )
+             ],
+           )
        ),
        Expanded(
-         flex: 20,
-         child: Text("Mój email to:", style: TextStyle(fontSize: 33, fontWeight: FontWeight.w900, fontFamily: 'Baloo'), textAlign: TextAlign.center,),
-       ),
-       Expanded(
-           flex: 50 + (30 - _animation.value),
+           flex: 500 + (500 - _animation.value),
            child: Form(
              key: _formKey,
              child: Column(
                children: <Widget>[
                  TextFormField(
+                   enabled: !widget.animate,
                    controller: _emailController,
                    obscureText: false,
                    style: TextStyle(fontFamily: 'Montserrat', fontSize: 15.0),
@@ -184,6 +202,30 @@ class LoginFormState extends State<LoginForm> with SingleTickerProviderStateMixi
                      return null;
                    },
                  ),
+                 AnimatedContainer(
+                   margin: widget.animate? EdgeInsets.only(top: 40) : EdgeInsets.zero,
+                   height: _height,
+                   duration: Duration(milliseconds: 500),
+                   curve: Curves.fastOutSlowIn,
+                   child:  TextFormField(
+                     controller: _passwordController,
+                     obscureText: true,
+                     style: TextStyle(fontFamily: 'Montserrat', fontSize: 15.0),
+                     decoration: InputDecoration(
+                       contentPadding:
+                       EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                       hintText: "Hasło",),
+                     validator: (value) {
+                       if(!widget.animate){
+                         return null;
+                       }
+                       if (value.length < 5) {
+                         return "Hasło musi zawierać co najmniej 5 znaków";
+                       }
+                       return null;
+                     },
+                   ),
+                 ),
                  SizedBox(height: 30.0),
                  Material(
                      elevation: 5.0,
@@ -195,15 +237,48 @@ class LoginFormState extends State<LoginForm> with SingleTickerProviderStateMixi
                          onPressed: () {
                            FocusScope.of(context).unfocus();
                            if(_formKey.currentState.validate()){
-                             BlocProvider.of<LoginBloc>(context).add(LoginCheckEmail(_emailController.value.text));
+                             if(widget.animate){
+                               BlocProvider.of<LoginBloc>(context).add(LoginCheckPassword(_emailController.value.text, _passwordController.value.text));
+                             } else{
+                               BlocProvider.of<LoginBloc>(context).add(LoginCheckEmail(_emailController.value.text));
+                             }
                            }
                          },
-                         child: Text("DALEJ",
+                         child: widget.animate? Text("ZALOGUJ",
+                             textAlign: TextAlign.center,
+                             style: TextStyle(fontFamily: 'Montserrat', fontSize: 15.0, fontWeight: FontWeight.bold)
+                         ): Text("DALEJ",
                              textAlign: TextAlign.center,
                              style: TextStyle(fontFamily: 'Montserrat', fontSize: 15.0, fontWeight: FontWeight.bold)
                          )
                      )
                  ),
+                 AnimatedContainer(
+                   margin: widget.animate? EdgeInsets.only(top: 40) : EdgeInsets.zero,
+                   height: _height/2,
+                   duration: Duration(milliseconds: 500),
+                   curve: Curves.fastOutSlowIn,
+                   child: Material(
+                       elevation: 5.0,
+                       borderRadius: BorderRadius.circular(50.0),
+                       color: Color(0xff0d3b66),
+                       child: MaterialButton(
+                           minWidth: MediaQuery.of(context).size.width,
+                           padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                           onPressed: () {
+                             BlocProvider.of<LoginBloc>(context).add(LoginReset());
+                              setState(() {
+                                _height = 0;
+                                _animationController.reverse();
+                              });
+                           },
+                           child: Text("POWRÓT",
+                               textAlign: TextAlign.center,
+                               style: TextStyle(fontFamily: 'Montserrat', fontSize: 15.0, fontWeight: FontWeight.bold)
+                           )
+                       )
+                   ),
+                 )
                ],
              ),
            )

@@ -17,6 +17,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState>{
       yield* _mapCheckEmailToState(event);
     } else if (event is LoginCheckPassword) {
       yield* _mapCheckPasswordToState(event);
+    } else if (event is LoginReset){
+      yield LoginInitial();
     }
   }
 
@@ -38,11 +40,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState>{
   Stream<LoginState> _mapCheckPasswordToState(LoginCheckPassword event) async*{
       yield LoginLoading();
       try{
-        bool emailExists = await _accountRepository.checkIfEmailExists(event.email).timeout(Duration(seconds: 5));
-        if(emailExists){
-          yield LoginEmailExists(event.email);
+        bool loginSucceed = await _accountRepository.login(event.email, event.password).timeout(Duration(seconds: 5));
+        if(loginSucceed){
+          yield LoginSucceed();
         } else{
-          yield LoginEmailNotExists(event.email);
+          yield LoginFailed();
         }
       } catch( exception){
         if(exception is TimeoutException) yield LoginServerNotResponding();
