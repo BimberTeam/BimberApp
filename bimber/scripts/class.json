@@ -1,0 +1,6 @@
+
+{
+    "__class__": "AgePreference",
+    "from": "int",
+    "to": "int"
+}

@@ -1,0 +1,15 @@
+
+{
+    "__class__": "RegisterAccountData",
+    "name": "String",
+    "email": "String",
+    "gender": "Gender",
+    "age": "int",
+    "description": "String",
+    "favoriteAlcohol": "Alcohol",
+    "genderPreference": "Gender",
+    "agePreference": "AgePreference",
+    "alcoholPreference": "AlcoholType",
+    "password": "String",
+    "imagePath": "String"
+}

@@ -1,0 +1,5 @@
+{
+    "__class__": "Alcohol",
+    "name": "String",
+    "type": "AlcoholType"
+}
