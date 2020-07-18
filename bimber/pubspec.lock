@@ -36,6 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  build_context:
+    dependency: "direct main"
+    description:
+      name: build_context
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.4"
   charcode:
     dependency: transitive
     description:
@@ -138,7 +145,7 @@ packages:
     source: hosted
     version: "0.12.6"
   meta:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: meta
       url: "https://pub.dartlang.org"
@@ -172,15 +179,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.0"
-<<<<<<< HEAD
-  provider:
-    dependency: transitive
-    description:
-      name: provider
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.3.1"
-=======
   pigment:
     dependency: transitive
     description:
@@ -188,7 +186,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
->>>>>>> master
+  provider:
+    dependency: transitive
+    description:
+      name: provider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.3.1"
   quiver:
     dependency: transitive
     description:
@@ -273,8 +277,4 @@ packages:
     version: "3.6.1"
 sdks:
   dart: ">=2.7.0 <3.0.0"
-<<<<<<< HEAD
-  flutter: ">=1.16.0"
-=======
-  flutter: ">=0.1.4 <3.0.0"
->>>>>>> master
+  flutter: ">=1.16.0 <3.0.0"

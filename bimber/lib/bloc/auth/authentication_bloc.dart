@@ -27,19 +27,10 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
     try {
-      final isLoggedIn =
-          await _accountRepository.isLoggedIn().timeout(Duration(seconds: 5));
-      if (isLoggedIn) {
-        yield Authenticated();
-      } else {
-        yield Unauthenticated();
-      }
+      final isLoggedIn = await _accountRepository.isLoggedIn();
+      yield (isLoggedIn ? Authenticated() : Unauthenticated());
     } catch (e) {
-      if (e is TimeoutException)
-        yield ServerNotResponding();
-      else {
-        yield Unauthenticated();
-      }
+      yield (e is TimeoutException ? ServerNotResponding() : Unauthenticated());
     }
   }
 
@@ -47,10 +38,7 @@ class AuthenticationBloc
     try {
       yield Authenticated();
     } catch (e) {
-      if (e is TimeoutException)
-        yield ServerNotResponding();
-      else
-        yield Unauthenticated();
+      yield (e is TimeoutException ? ServerNotResponding() : Unauthenticated());
     }
   }
 

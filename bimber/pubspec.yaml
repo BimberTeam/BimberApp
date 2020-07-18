@@ -19,7 +19,8 @@ dependencies:
   flare_flutter: ^2.0.5
   page_transition: "^1.1.5"
   tinycolor: ^1.0.2
-  meta: ^1.2.2
+  meta: ^1.1.8
+  build_context: ^2.0.2
 
 dev_dependencies:
   flutter_test:

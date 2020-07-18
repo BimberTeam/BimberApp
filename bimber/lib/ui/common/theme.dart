@@ -1,30 +1,61 @@
-import 'package:bimber/app.dart';
 import 'package:flutter/material.dart';
 import 'package:tinycolor/tinycolor.dart';
 
-final indigoDye = Color(0xFF0D3B66);
-final lemonMeringue = Color(0xFFFAF0CA);
-final orangeYellowCrayola = Color(0xFFF4D35E);
-final sandyBrown = Color(0xFFEE964B);
-final orangeSoda = Color(0xFFF95738);
+const indigoDye = Color(0xFF0D3B66);
+const lemonMeringue = Color(0xFFFAF0CA);
+const orangeYellowCrayola = Color(0xFFF4D35E);
+const sandyBrown = Color(0xFFEE964B);
+const orangeSoda = Color(0xFFF95738);
 
 final colorScheme = ColorScheme(
-  primary: lemonMeringue,
-  primaryVariant: TinyColor(lemonMeringue).darken(10).color,
-  secondary: indigoDye,
-  secondaryVariant: TinyColor(indigoDye).darken(10).color,
-  surface: orangeYellowCrayola,
-  background: lemonMeringue,
-  error: Colors.red,
-  onPrimary: sandyBrown,
-  onSecondary: orangeYellowCrayola,
-  onSurface: orangeSoda,
-  onBackground: sandyBrown,
-  onError: Colors.white,
-  brightness: Brightness.light
+    primary: lemonMeringue,
+    primaryVariant: TinyColor(lemonMeringue).darken(10).color,
+    secondary: indigoDye,
+    secondaryVariant: TinyColor(indigoDye).darken(10).color,
+    surface: orangeYellowCrayola,
+    background: lemonMeringue,
+    error: Colors.red,
+    // onPrimary: sandyBrown,
+    onPrimary: lemonMeringue,
+    onSecondary: orangeYellowCrayola,
+    onSurface: orangeYellowCrayola,
+    onBackground: sandyBrown,
+    onError: Colors.white,
+    brightness: Brightness.light);
+
+final textTheme = TextTheme(
+  headline1:
+      TextStyle(color: Colors.white, fontSize: 96, fontWeight: FontWeight.w300),
+  headline2:
+      TextStyle(color: Colors.white, fontSize: 60, fontWeight: FontWeight.w300),
+  headline3:
+      TextStyle(color: Colors.white, fontSize: 48, fontWeight: FontWeight.w400),
+  headline4:
+      TextStyle(color: Colors.white, fontSize: 34, fontWeight: FontWeight.w400),
+  headline5:
+      TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w400),
+  headline6:
+      TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
+  subtitle1:
+      TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
+  subtitle2:
+      TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+  bodyText1:
+      TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
+  bodyText2:
+      TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+  button:
+      TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+  caption:
+      TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
+  overline:
+      TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w400),
 );
 
+final buttonTheme = ButtonTheme(textTheme: ButtonTextTheme.normal);
+
 final themeData = ThemeData(
+  textTheme: textTheme,
   colorScheme: colorScheme,
   brightness: Brightness.light,
   visualDensity: VisualDensity.standard,
@@ -38,23 +69,23 @@ final themeData = ThemeData(
   scaffoldBackgroundColor: lemonMeringue,
   bottomAppBarColor: orangeYellowCrayola,
   cardColor: lemonMeringue,
-  dividerColor: orangeSoda,
+  dividerColor: Colors.black,
   focusColor: orangeYellowCrayola,
   hoverColor: orangeYellowCrayola,
-  highlightColor: sandyBrown,
-  splashColor: orangeSoda,
+
+  // highlightColor: sandyBrown,
+  splashColor: TinyColor(lemonMeringue).lighten().color,
   selectedRowColor: sandyBrown,
-  disabledColor: orangeSoda.withOpacity(0.7),
+  disabledColor: TinyColor(orangeYellowCrayola).darken().color,
   unselectedWidgetColor: sandyBrown.withOpacity(0.7),
   buttonColor: indigoDye,
   textSelectionColor: orangeYellowCrayola.withOpacity(0.5),
   // here a change
   backgroundColor: lemonMeringue,
-  
+
   dialogBackgroundColor: lemonMeringue,
   textSelectionHandleColor: indigoDye,
   hintColor: orangeYellowCrayola.withOpacity(0.5),
   errorColor: Colors.red,
-  toggleableActiveColor: orangeSoda,
-  // TODO: add text themes
+  toggleableActiveColor: orangeYellowCrayola,
 );
