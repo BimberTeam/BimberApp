@@ -1,11 +1,3 @@
-enum Alcohol{
-  Vodka,
-  Beer,
-  Wine,
-  Other
-}
+enum Gender { Male, Female }
 
-enum Gender{
-  Male,
-  Female
-}
+enum AlcoholType { Beer, Wine, Vodka, Other }

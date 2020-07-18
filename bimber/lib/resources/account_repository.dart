@@ -1,18 +1,20 @@
+import 'package:bimber/models/alcohol.dart';
+import 'package:bimber/models/register_account_data.dart';
 import 'package:bimber/models/utils.dart';
 
-abstract class AccountRepository{
+abstract class AccountRepository {
   Future<bool> isLoggedIn();
   Future<bool> checkIfEmailExists(String email);
-  Future<bool> login(String email, String password);
-  Future<bool> createAccount(String email, String password, String imagePath, int age, Alcohol favouriteAlcoholType, String favouriteAlcohol, String name,
-      String description, Gender genderPreferences, int agePreferences, Gender gender, Alcohol alcoholPreferences);
+
+  Future<void> login(String email, String password);
+  Future<void> register(RegisterAccountData data);
   Future<void> logout();
 }
 
-class MockAccountRepository extends AccountRepository{
+class MockAccountRepository extends AccountRepository {
   @override
   Future<bool> checkIfEmailExists(String email) {
-     return Future.value(email == "kuba@gmail.com");
+    return Future.value(email == "kuba@gmail.com");
   }
 
   @override
@@ -21,14 +23,13 @@ class MockAccountRepository extends AccountRepository{
   }
 
   @override
-  Future<bool> login(String email, String password) {
-    return Future.value(email == "kuba@gmail.com" && password == "12345678");
+  Future<void> register(RegisterAccountData data) {
+    throw UnimplementedError();
   }
 
   @override
-  Future<bool> createAccount(String email, String password, String imagePath, int age, Alcohol favouriteAlcoholType, String favouriteAlcohol, String name, String description, Gender genderPreferences, int agePreferences, Gender gender, Alcohol alcoholPreferences) {
-    // TODO: implement createAccount
-    throw UnimplementedError();
+  Future<bool> login(String email, String password) {
+    return Future.value(email == "kuba@gmail.com" && password == "12345678");
   }
 
   @override
@@ -36,5 +37,4 @@ class MockAccountRepository extends AccountRepository{
     // TODO: implement logut
     throw UnimplementedError();
   }
-
 }
