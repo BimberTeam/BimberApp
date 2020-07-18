@@ -3,6 +3,7 @@ import 'package:bimber/resources/account_repository.dart';
 import 'package:bimber/ui/home/home_screen.dart';
 import 'package:bimber/ui/login/login_screen.dart';
 import 'package:bimber/ui/login/starting_screen.dart';
+import 'package:bimber/ui/common/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,18 +17,19 @@ class App extends StatelessWidget {
           )
         ],
         child: BlocProvider<AuthenticationBloc>(
-          create: (BuildContext context) => AuthenticationBloc(RepositoryProvider.of<AccountRepository>(context))..add(AppStarted()),
+          create: (BuildContext context) => AuthenticationBloc(
+              accountRepository: context.repository<AccountRepository>())
+            ..add(AppStarted()),
           child: MaterialApp(
-                title: "Bimber",
-                theme: ThemeData(brightness: Brightness.dark, accentColor: Colors.black),
-                routes: {
-                  "/initial": (context) => StartingScreen(),
-                  "/login": (context) => LoginScreen(),
-                  "/home": (context) => HomeScreen()
-                },
-                initialRoute: "/initial",
-              ),
-         )
-    );
+            title: "Bimber",
+            theme: themeData,
+            routes: {
+              "/initial": (context) => StartingScreen(),
+              "/login": (context) => LoginScreen(),
+              "/home": (context) => HomeScreen()
+            },
+            initialRoute: "/initial",
+          ),
+        ));
   }
 }
