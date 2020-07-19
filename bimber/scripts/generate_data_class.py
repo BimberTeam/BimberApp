@@ -1,13 +1,63 @@
+# TODO: generating enum class with all extension method
 
-
-# This script generates dart data-like class with copyWith functionality based on input json file.
+# This script generates dart data-like class with copyWith and serialization/deserialization functionality based on input json file.
 # The concept is simple. Declare json file with necessary fields, pipe it via this script and requested data class will be generated.
 
 # Format:
 # __class__ - this field is a must, here you specify name of your output class
-# pairs {key, value} should be of format: key <-> propery name, value <-> respective property type
+# paris {key, value} should be of format: key <-> property name, value <-> map containing property metadata
+# currently supported metadata is of format: [type: "type name", "enum": true]
+# "enum": true indicates that requested type is an enum and different name should be used for 'fromJson" method (see dart static method extensions)
+
+# Scripts supports list types which must be of format 'List<YourType>'
+# if 'YourType' is one of default types, default serialization/deserialization will be applied
+# otherwise 'toJson' and 'fromJson' are applied as the type is assumed to be a custom one
+
+# DEFAULT TYPES
+# - bool
+# - int
+# - double
+# - String
+# - DateTime
 
 # Dislaimer: if you use custom type for a property make sure is already exists, script will not generate anything besides the type name
+# Another disclaimer: if you want well formatted output class please use `flutter format <your_class_file.dart>` as it is easier than doing it by hand in python
+
+# Example
+
+# age_preference.json
+# {
+#     "__class__": "AgePreference",
+#     "from": {"type": "int"},
+#     "to": {"type": "int"}
+# }
+
+# age_preference.dart
+#
+# import 'package:equatable/equatable.dart';
+# import 'package:meta/meta.dart';
+#
+# class AgePreference extends Equatable {
+#   final int from;
+#   final int to;
+#
+#   AgePreference({@required this.from, @required this.to});
+#
+#   AgePreference copyWith({int from, int to}) {
+#     return AgePreference(from: from ?? this.from, to: to ?? this.to);
+#   }
+#
+#   @override
+#   List get props => [from, to];
+#
+#   Map<String, dynamic> toJson() {
+#     return {"from": from, "to": to};
+#   }
+#
+#   factory AgePreference.fromJson(dynamic json) {
+#     return AgePreference(from: json["from"] as int, to: json["to"] as int);
+#   }
+# }
 
 
 import sys
@@ -16,11 +66,13 @@ import json
 import argparse
 import re
 
+from generate_class_serialization import get_property_serialization_line, get_property_deserialization_line
+
 
 def generate_properties(keys, spec):
     properties = []
     for key in keys:
-        properties.append(f"  final {spec[key]} {key};")
+        properties.append(f"  final {spec[key]['type']} {key};")
     return "\n".join(properties)
 
 
@@ -37,7 +89,7 @@ def generate_constructor(classname, keys, spec):
 def generate_copy_with(classname, keys, spec):
     properties = []
     for key in keys:
-        properties.append(f"{spec[key]} {key}")
+        properties.append(f"{spec[key]['type']} {key}")
 
     props = ", ".join(properties)
 
@@ -62,6 +114,25 @@ def generate_props(keys, spec):
   @override
   List get props => [{", ".join(keys)}];
 """
+
+def generate_serialization(classname, keys, spec):
+    serialization_lines = ",\n".join([get_property_serialization_line(key, spec) for key in keys])
+    deserialization_lines = ",\n".join([get_property_deserialization_line(key, spec) for key in keys])
+    serialize = f"""
+Map<String, dynamic> toJson() {{
+    return {{
+    {serialization_lines}
+    }};
+}}
+"""
+    deserialize = f"""
+factory {classname}.fromJson(dynamic json) {{
+    return {classname}(
+    {deserialization_lines}
+    );
+}}
+"""
+    return serialize + deserialize
 
 
 def generate_dart_data_class(filename):
@@ -92,12 +163,17 @@ class {classname} extends Equatable {{
 {generate_constructor(classname, keys, spec)}
 {generate_copy_with(classname, keys, spec)}
 {generate_props(keys, spec)}
+{generate_serialization(classname, keys, spec)}
 }}"""
 
             return classname, formatted
     except Exception as e:
         print(e)
         return None, None
+
+def generate_dart_enum(filename):
+    # TODO
+    pass
 
 
 if __name__ == "__main__":

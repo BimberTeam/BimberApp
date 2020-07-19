@@ -1,15 +1,15 @@
 
 {
     "__class__": "RegisterAccountData",
-    "name": "String",
-    "email": "String",
-    "gender": "Gender",
-    "age": "int",
-    "description": "String",
-    "favoriteAlcohol": "Alcohol",
-    "genderPreference": "Gender",
-    "agePreference": "AgePreference",
-    "alcoholPreference": "AlcoholType",
-    "password": "String",
-    "imagePath": "String"
+    "name": {"type": "String"},
+    "email": {"type": "String"},
+    "gender": {"type": "Gender", "enum": true},
+    "age": {"type": "int"},
+    "description": {"type": "String"},
+    "favoriteAlcohol": {"type": "Alcohol"},
+    "genderPreference": {"type": "Gender", "enum": true},
+    "agePreference": {"type": "AgePreference"},
+    "alcoholPreference": {"type": "AlcoholType", "enum": true},
+    "password": {"type": "String"},
+    "imagePath": {"type": "String"}
 }

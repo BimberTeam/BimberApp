@@ -1,6 +1,5 @@
-
 {
     "__class__": "AgePreference",
-    "from": "int",
-    "to": "int"
+    "from": {"type": "int"},
+    "to": {"type": "int"}
 }
