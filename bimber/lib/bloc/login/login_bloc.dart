@@ -22,8 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     yield LoginLoading();
     try {
       bool emailExists = await _accountRepository
-          .checkIfEmailExists(event.email)
-          .timeout(Duration(seconds: 5));
+          .checkIfEmailExists(event.email);
       if (emailExists) {
         yield LoginEmailExists(event.email);
       } else {
