@@ -1,0 +1,6 @@
+{
+    "__class__": "Gender",
+    "__enum__": true,
+    "Male": null,
+    "Female": null
+}

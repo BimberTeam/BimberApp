@@ -1,8 +1,9 @@
-import 'package:bimber/models/age_preference.dart';
-import 'package:bimber/models/alcohol.dart';
-import 'package:bimber/models/utils.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import "package:bimber/models/alcohol_type.dart";
+import "package:bimber/models/age_preference.dart";
+import "package:bimber/models/alcohol.dart";
+import "package:bimber/models/gender.dart";
 
 class RegisterAccountData extends Equatable {
   final String name;
@@ -70,4 +71,36 @@ class RegisterAccountData extends Equatable {
         password,
         imagePath
       ];
+
+  Map<String, dynamic> toJson() {
+    return {
+      "name": name,
+      "email": email,
+      "gender": gender?.toJson(),
+      "age": age,
+      "description": description,
+      "favoriteAlcohol": favoriteAlcohol?.toJson(),
+      "genderPreference": genderPreference?.toJson(),
+      "agePreference": agePreference?.toJson(),
+      "alcoholPreference": alcoholPreference?.toJson(),
+      "password": password,
+      "imagePath": imagePath
+    };
+  }
+
+  factory RegisterAccountData.fromJson(dynamic json) {
+    return RegisterAccountData(
+        name: json["name"],
+        email: json["email"],
+        gender: GenderExtension.fromJson(json["gender"]),
+        age: json["age"] as int,
+        description: json["description"],
+        favoriteAlcohol: Alcohol.fromJson(json["favoriteAlcohol"]),
+        genderPreference: GenderExtension.fromJson(json["genderPreference"]),
+        agePreference: AgePreference.fromJson(json["agePreference"]),
+        alcoholPreference:
+            AlcoholTypeExtension.fromJson(json["alcoholPreference"]),
+        password: json["password"],
+        imagePath: json["imagePath"]);
+  }
 }

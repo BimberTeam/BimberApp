@@ -1,9 +1,0 @@
-
-{
-    "__class__": "AgePreference",
-    "from": {"type": "int"},
-    "to": {"type": "int"},
-    "createdAt": {"type": "DateTime"},
-    "address": {"type": "Address"}
-
-}

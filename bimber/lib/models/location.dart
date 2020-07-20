@@ -15,4 +15,14 @@ class Location extends Equatable {
 
   @override
   List get props => [latitude, longtitude];
+
+  Map<String, dynamic> toJson() {
+    return {"latitude": latitude, "longtitude": longtitude};
+  }
+
+  factory Location.fromJson(dynamic json) {
+    return Location(
+        latitude: json["latitude"] as double,
+        longtitude: json["longtitude"] as double);
+  }
 }

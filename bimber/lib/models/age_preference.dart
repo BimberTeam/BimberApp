@@ -13,4 +13,12 @@ class AgePreference extends Equatable {
 
   @override
   List get props => [from, to];
+
+  Map<String, dynamic> toJson() {
+    return {"from": from, "to": to};
+  }
+
+  factory AgePreference.fromJson(dynamic json) {
+    return AgePreference(from: json["from"] as int, to: json["to"] as int);
+  }
 }

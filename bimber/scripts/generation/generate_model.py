@@ -59,83 +59,19 @@
 #   }
 # }
 
-
 import sys
 import os
 import json
 import argparse
 import re
 
-from generate_class_serialization import get_property_serialization_line, get_property_deserialization_line
+from data_class_generation import generate_dart_data_class
+from enum_generation import generate_dart_enum
+
+META = ["__class__", "__enum__"]
 
 
-def generate_properties(keys, spec):
-    properties = []
-    for key in keys:
-        properties.append(f"  final {spec[key]['type']} {key};")
-    return "\n".join(properties)
-
-
-def generate_constructor(classname, keys, spec):
-    properties = []
-    for key in keys:
-        properties.append(f"@required this.{key}")
-
-    props = ", ".join(properties)
-
-    return f"  {classname}({{{props}}});\n"
-
-
-def generate_copy_with(classname, keys, spec):
-    properties = []
-    for key in keys:
-        properties.append(f"{spec[key]['type']} {key}")
-
-    props = ", ".join(properties)
-
-    replace = []
-
-    for key in keys:
-        replace.append(f"{key}: {key} ?? this.{key}")
-
-    reps = f",\n{8 * ' '}".join(replace)
-
-    return f"""
-  {classname} copyWith({{{props}}}) {{
-      return {classname}(
-        {reps}
-      );
-  }}"""
-
-
-def generate_props(keys, spec):
-
-    return f"""
-  @override
-  List get props => [{", ".join(keys)}];
-"""
-
-def generate_serialization(classname, keys, spec):
-    serialization_lines = ",\n".join([get_property_serialization_line(key, spec) for key in keys])
-    deserialization_lines = ",\n".join([get_property_deserialization_line(key, spec) for key in keys])
-    serialize = f"""
-Map<String, dynamic> toJson() {{
-    return {{
-    {serialization_lines}
-    }};
-}}
-"""
-    deserialize = f"""
-factory {classname}.fromJson(dynamic json) {{
-    return {classname}(
-    {deserialization_lines}
-    );
-}}
-"""
-    return serialize + deserialize
-
-
-def generate_dart_data_class(filename):
+def load_file_information(filename):
     if ".json" not in filename:
         print("expected first argument to be a json format file")
         sys.exit(1)
@@ -147,34 +83,17 @@ def generate_dart_data_class(filename):
     try:
         with open(filename) as fp:
             spec = json.load(fp)
-            if spec["__class__"] is None:
+            if spec["__class__"] == None:
                 print("expected '__class__' key, make sure to include one")
                 sys.exit(1)
 
             classname = spec["__class__"]
-            keys = list(filter(lambda x: x != "__class__", spec.keys()))
+            keys = list(filter(lambda x: x not in META, spec.keys()))
+            meta = list(filter(lambda x: x in META, spec.keys()))
 
-            formatted = f"""import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-
-class {classname} extends Equatable {{
-{generate_properties(keys, spec)}
-
-{generate_constructor(classname, keys, spec)}
-{generate_copy_with(classname, keys, spec)}
-{generate_props(keys, spec)}
-{generate_serialization(classname, keys, spec)}
-}}"""
-
-            return classname, formatted
+            return classname, keys, spec, meta
     except Exception as e:
         print(e)
-        return None, None
-
-def generate_dart_enum(filename):
-    # TODO
-    pass
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -188,7 +107,19 @@ if __name__ == "__main__":
 
     args = parser.parse_args(sys.argv[1:])
 
-    classname, src = generate_dart_data_class(args.input_file)
+
+    classname, keys, spec, meta = load_file_information(args.input_file)
+
+
+
+    generated = ""
+    if "__enum__" in meta:
+        generated = generate_dart_enum(classname, keys, spec, meta)
+    else:
+        generated = generate_dart_data_class(classname, keys, spec, meta)
+        
+
+
     if classname != None:
         name = args.output_file if not args.discover_output else re.sub(
             r'(?<!^)(?=[A-Z])', '_', classname).lower() + ".dart"
@@ -197,4 +128,4 @@ if __name__ == "__main__":
                 "you have to either specify output file path or use path discovery option")
             sys.exit(1)
         with open(name, "w") as fp:
-            fp.write(src)
+            fp.write(generated)

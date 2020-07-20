@@ -1,6 +1,6 @@
-import 'package:bimber/models/utils.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import "package:bimber/models/alcohol_type.dart";
 
 class Alcohol extends Equatable {
   final String name;
@@ -14,4 +14,13 @@ class Alcohol extends Equatable {
 
   @override
   List get props => [name, type];
+
+  Map<String, dynamic> toJson() {
+    return {"name": name, "type": type?.toJson()};
+  }
+
+  factory Alcohol.fromJson(dynamic json) {
+    return Alcohol(
+        name: json["name"], type: AlcoholTypeExtension.fromJson(json["type"]));
+  }
 }

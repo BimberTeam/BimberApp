@@ -1,0 +1,8 @@
+{
+    "__class__": "AlcoholType",
+    "__enum__": true,
+    "Beer": null,
+    "Wine": null,
+    "Vodka": null,
+    "Other": null
+}

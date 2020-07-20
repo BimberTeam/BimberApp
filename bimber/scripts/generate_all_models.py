@@ -13,7 +13,8 @@ dest_path = "../lib/models/"
 
 
 for file in files:
-    run = f"python3 generate_data_class.py -i {join(models_path, file)} --discover-output true"
+    print(f"Running {file} generation...")
+    run = f"python3 generation/generate_model.py -i {join(models_path, file)} --discover-output true"
     subprocess.run(run,shell=True)
 
 dest_path = os.path.abspath(dest_path)

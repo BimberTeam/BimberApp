@@ -1,7 +1,5 @@
 import re
 
-
-
 BASIC_TYPE_SERIALIZATIONS = {"String": "{}", "int": "{}", "double": "{}", "bool": "{}", "DateTime": "{}?.toIso8601String()"}
 BASIC_TYPE_DESERIALIZATIONS = {"String": "{}", "int": "{} as int", "double": "{} as double", "bool": "{} as bool", "DateTime": "{0} != null ? DateTime.parse({0}) : null"}
 
@@ -44,7 +42,7 @@ def deserialize_method(key, spec):
 
     # we are not hitting deserializing list so just use 'toJson' method
     if not "List" in prop_type:
-        prop_type = f"{prop_type}Extension" if spec[key]["enum"] else prop_type
+        prop_type = f"{prop_type}Extension" if "enum" in spec[key] else prop_type
         return f'{prop_type}.fromJson(json["{key}"])'
 
     list_type = get_type_from_list(prop_type)
