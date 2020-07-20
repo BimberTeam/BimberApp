@@ -1,12 +1,11 @@
 import 'package:bimber/models/alcohol.dart';
 import 'package:bimber/models/register_account_data.dart';
-import 'package:bimber/models/utils.dart';
 
 abstract class AccountRepository {
   Future<bool> isLoggedIn();
   Future<bool> checkIfEmailExists(String email);
 
-  Future<void> login(String email, String password);
+  Future<bool> login(String email, String password);
   Future<void> register(RegisterAccountData data);
   Future<void> logout();
 }

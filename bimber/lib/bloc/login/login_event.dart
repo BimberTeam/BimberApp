@@ -1,6 +1,6 @@
-import 'package:equatable/equatable.dart';
+part of 'login_bloc.dart';
 
-abstract class LoginEvent extends Equatable{
+abstract class LoginEvent extends Equatable {
   const LoginEvent();
 
   @override
@@ -10,21 +10,21 @@ abstract class LoginEvent extends Equatable{
   bool get stringify => true;
 }
 
-class LoginCheckEmail extends LoginEvent{
+class LoginCheckEmail extends LoginEvent {
   final String email;
-  LoginCheckEmail(this.email);
+  LoginCheckEmail({@required this.email});
 
   @override
   List<Object> get props => [email];
 }
 
-class LoginCheckPassword extends LoginEvent{
+class LoginCheckPassword extends LoginEvent {
   final String email;
   final String password;
-  LoginCheckPassword(this.email, this.password);
+  LoginCheckPassword({@required this.email, @required this.password});
 
   @override
   List<Object> get props => [email, password];
 }
 
-class LoginReset extends LoginEvent{}
+class LoginReset extends LoginEvent {}

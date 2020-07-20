@@ -1,6 +1,6 @@
-import 'package:equatable/equatable.dart';
+part of "authentication_bloc.dart";
 
-abstract class AuthenticationEvent extends Equatable{
+abstract class AuthenticationEvent extends Equatable {
   const AuthenticationEvent();
   @override
   List<Object> get props => [];
@@ -15,4 +15,4 @@ class LoggedIn extends AuthenticationEvent {}
 
 class LoggedOut extends AuthenticationEvent {}
 
-class ServerTimeout extends AuthenticationEvent{}
+class ServerTimeout extends AuthenticationEvent {}

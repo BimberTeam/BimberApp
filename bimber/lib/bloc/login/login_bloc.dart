@@ -1,7 +1,11 @@
 import 'dart:async';
-import 'package:bimber/bloc/login/login.dart';
 import 'package:bimber/resources/account_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
+
+part 'login_event.dart';
+part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AccountRepository _accountRepository;
@@ -21,19 +25,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> _mapCheckEmailToState(LoginCheckEmail event) async* {
     yield LoginLoading();
     try {
-      bool emailExists = await _accountRepository
-          .checkIfEmailExists(event.email)
-          .timeout(Duration(seconds: 5));
-      if (emailExists) {
-        yield LoginEmailExists(event.email);
-      } else {
-        yield LoginEmailNotExists(event.email);
-      }
+      bool emailExists =
+          await _accountRepository.checkIfEmailExists(event.email);
+
+      yield (emailExists
+          ? LoginEmailExists(email: event.email)
+          : LoginEmailNotExists(email: event.email));
     } catch (exception) {
-      if (exception is TimeoutException)
-        yield LoginServerNotResponding();
-      else
-        yield LoginFailed();
+      yield (exception is TimeoutException
+          ? LoginServerNotResponding()
+          : LoginFailed());
     }
   }
 
@@ -42,16 +43,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       bool loginSucceed =
           await _accountRepository.login(event.email, event.password);
-      if (loginSucceed) {
-        yield LoginSucceed();
-      } else {
-        yield LoginFailed();
-      }
+
+      yield (loginSucceed ? LoginSucceed() : LoginFailed());
     } catch (exception) {
-      if (exception is TimeoutException)
-        yield LoginServerNotResponding();
-      else
-        yield LoginFailed();
+      yield (exception is TimeoutException
+          ? LoginServerNotResponding()
+          : LoginFailed());
     }
   }
 }

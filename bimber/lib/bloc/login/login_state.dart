@@ -1,6 +1,6 @@
-import 'package:equatable/equatable.dart';
+part of "login_bloc.dart";
 
-abstract class LoginState extends Equatable{
+abstract class LoginState extends Equatable {
   const LoginState();
   @override
   List<Object> get props => [];
@@ -9,28 +9,28 @@ abstract class LoginState extends Equatable{
   bool get stringify => true;
 }
 
-class LoginInitial extends LoginState{}
+class LoginInitial extends LoginState {}
 
-class LoginLoading extends LoginState{}
+class LoginLoading extends LoginState {}
 
-class LoginEmailExists extends LoginState{
+class LoginEmailExists extends LoginState {
   final String email;
-  LoginEmailExists(this.email);
+  LoginEmailExists({@required this.email});
 
   @override
   List<Object> get props => [email];
 }
 
-class LoginEmailNotExists extends LoginState{
+class LoginEmailNotExists extends LoginState {
   final String email;
-  LoginEmailNotExists(this.email);
+  LoginEmailNotExists({@required this.email});
 
   @override
   List<Object> get props => [email];
 }
 
-class LoginSucceed extends LoginState{}
+class LoginSucceed extends LoginState {}
 
-class LoginFailed extends LoginState{}
+class LoginFailed extends LoginState {}
 
-class LoginServerNotResponding extends LoginState{}
+class LoginServerNotResponding extends LoginState {}
