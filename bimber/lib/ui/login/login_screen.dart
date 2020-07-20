@@ -1,4 +1,3 @@
-import 'package:bimber/bloc/auth/authentication.dart';
 import 'package:bimber/bloc/login/login.dart';
 import 'package:bimber/resources/account_repository.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
