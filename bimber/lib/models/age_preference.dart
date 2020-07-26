@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 class AgePreference extends Equatable {
+  bool get stringify => true;
+
   final int from;
   final int to;
 
@@ -19,6 +21,7 @@ class AgePreference extends Equatable {
   }
 
   factory AgePreference.fromJson(dynamic json) {
+    if (json == null) return null;
     return AgePreference(from: json["from"] as int, to: json["to"] as int);
   }
 }

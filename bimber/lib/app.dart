@@ -1,4 +1,4 @@
-import 'package:bimber/bloc/auth/authentication.dart';
+import 'package:bimber/bloc/auth/authentication_bloc.dart';
 import 'package:bimber/resources/account_repository.dart';
 import 'package:bimber/ui/home/home_screen.dart';
 import 'package:bimber/ui/login/login_screen.dart';
@@ -46,7 +46,8 @@ class App extends StatelessWidget {
                 case "/register":
                   {
                     return PageTransition(
-                        type: PageTransitionType.rightToLeft,
+                        settings: settings,
+                        type: PageTransitionType.fade,
                         duration: Duration(milliseconds: 200),
                         child: RegisterScreen());
                   }

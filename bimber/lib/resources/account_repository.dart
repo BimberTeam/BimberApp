@@ -1,4 +1,3 @@
-import 'package:bimber/models/alcohol.dart';
 import 'package:bimber/models/register_account_data.dart';
 
 abstract class AccountRepository {

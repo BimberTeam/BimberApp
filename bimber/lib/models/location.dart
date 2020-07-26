@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 class Location extends Equatable {
+  bool get stringify => true;
+
   final double latitude;
   final double longtitude;
 
@@ -21,6 +23,7 @@ class Location extends Equatable {
   }
 
   factory Location.fromJson(dynamic json) {
+    if (json == null) return null;
     return Location(
         latitude: json["latitude"] as double,
         longtitude: json["longtitude"] as double);

@@ -1,5 +1,4 @@
-import 'package:bimber/bloc/auth/authentication.dart';
-import 'package:bimber/bloc/login/login.dart';
+import 'package:bimber/bloc/login/login_bloc.dart';
 import 'package:bimber/resources/account_repository.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
 import 'package:bimber/ui/common/theme.dart';
@@ -43,7 +42,8 @@ class LoginScreenState extends State<LoginScreen>
                     showLoadingSnackbar(context,
                         message: "Poszukiwanie danych bimbrownika...");
                   } else if (state is LoginEmailNotExists) {
-                    context.pushNamed("/register");
+                    context.pushNamed("/register",
+                        arguments: {"email": state.email});
                   } else if (state is LoginInitial) {
                     _controller.reset();
                   } else {
@@ -63,7 +63,7 @@ class LoginScreenState extends State<LoginScreen>
                           ),
                         ),
                         child: Padding(
-                            padding: const EdgeInsets.all(30.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
                             child: LoginForm(controller: _controller)))))));
   }
 }

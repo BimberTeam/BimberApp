@@ -19,3 +19,12 @@ class RegisterAccount extends RegisterEvent {
   @override
   List<Object> get props => [data];
 }
+
+class RegisterSaveData extends RegisterEvent {
+  final RegisterAccountData data;
+
+  RegisterSaveData({@required this.data});
+
+  @override
+  List<Object> get props => [data];
+}

@@ -1,11 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import "package:bimber/models/alcohol_type.dart";
-import "package:bimber/models/age_preference.dart";
-import "package:bimber/models/alcohol.dart";
 import "package:bimber/models/gender.dart";
+import "package:bimber/models/age_preference.dart";
+import "package:bimber/models/alcohol_type.dart";
+import "package:bimber/models/alcohol.dart";
 
 class RegisterAccountData extends Equatable {
+  bool get stringify => true;
+
   final String name;
   final String email;
   final Gender gender;
@@ -89,6 +91,7 @@ class RegisterAccountData extends Equatable {
   }
 
   factory RegisterAccountData.fromJson(dynamic json) {
+    if (json == null) return null;
     return RegisterAccountData(
         name: json["name"],
         email: json["email"],

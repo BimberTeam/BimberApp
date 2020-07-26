@@ -3,6 +3,8 @@ import 'package:meta/meta.dart';
 import "package:bimber/models/alcohol_type.dart";
 
 class Alcohol extends Equatable {
+  bool get stringify => true;
+
   final String name;
   final AlcoholType type;
 
@@ -20,6 +22,7 @@ class Alcohol extends Equatable {
   }
 
   factory Alcohol.fromJson(dynamic json) {
+    if (json == null) return null;
     return Alcohol(
         name: json["name"], type: AlcoholTypeExtension.fromJson(json["type"]));
   }

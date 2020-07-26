@@ -70,6 +70,7 @@ Map<String, dynamic> toJson() {{
 """
     deserialize = f"""
 factory {classname}.fromJson(dynamic json) {{
+    if (json == null) return null;
     return {classname}(
     {deserialization_lines}
     );
@@ -84,6 +85,9 @@ import 'package:meta/meta.dart';
 {generate_custom_type_imports(keys, spec)}
 
 class {classname} extends Equatable {{
+
+    bool get stringify => true;
+    
 {generate_properties(keys, spec)}
 
 {generate_constructor(classname, keys, spec)}

@@ -19,6 +19,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   Stream<RegisterState> mapEventToState(
     RegisterEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+    if (event is RegisterSaveData) {
+      print(event.data.toString());
+      yield RegisterSavedData(data: event.data);
+    }
+    if (event is RegisterAccount) {
+      // TODO: bind it with repository
+      yield RegisterSuccess(data: event.data);
+    }
   }
 }
