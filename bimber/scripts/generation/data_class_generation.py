@@ -8,11 +8,15 @@ def generate_properties(keys, spec):
         properties.append(f"  final {spec[key]['type']} {key};")
     return "\n".join(properties)
 
+
 def generate_custom_type_imports(keys, spec, package_dir="bimber/models/"):
     types = [spec[key]["type"] for key in keys]
-    types = list(set(list(filter(lambda x: x not in basic_types.keys(), types))))
-    to_snake_case = lambda x: re.sub(r'(?<!^)(?=[A-Z])', '_', x).lower()
-    imports = "\n".join([f'import "package:{package_dir}{to_snake_case(type)}.dart";' for type in types])
+    types = list(
+        set(list(filter(lambda x: x not in basic_types.keys(), types))))
+
+    def to_snake_case(x): return re.sub(r'(?<!^)(?=[A-Z])', '_', x).lower()
+    imports = "\n".join(
+        [f'import "package:{package_dir}{to_snake_case(type)}.dart";' for type in types])
     return imports
 
 

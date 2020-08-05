@@ -1,8 +1,10 @@
 def generate_enum_names(keys):
     return ",\n".join([name.lower().capitalize() for name in keys])
 
+
 def generate_to_json_enum_switch(classname, keys):
-    cases = "\n".join([f'case {classname}.{name.lower().capitalize()}: return "{name.lower()}";' for name in keys])
+    cases = "\n".join(
+        [f'case {classname}.{name.lower().capitalize()}: return "{name.lower()}";' for name in keys])
 
     formatted = f"""
     switch(this) {{
@@ -14,8 +16,10 @@ def generate_to_json_enum_switch(classname, keys):
 """
     return formatted
 
+
 def generate_from_json_enum_switch(classname, keys):
-    cases = "\n".join([f'case "{name.lower()}": return {classname}.{name.lower().capitalize()};' for name in keys])
+    cases = "\n".join(
+        [f'case "{name.lower()}": return {classname}.{name.lower().capitalize()};' for name in keys])
 
     formatted = f"""
     switch(name) {{
@@ -26,7 +30,7 @@ def generate_from_json_enum_switch(classname, keys):
     }}
 """
     return formatted
-    
+
 
 def generate_dart_enum(classname, keys, spec, meta):
 

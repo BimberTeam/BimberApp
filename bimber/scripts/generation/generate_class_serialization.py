@@ -1,13 +1,16 @@
 import re
 
-BASIC_TYPE_SERIALIZATIONS = {"String": "{}", "int": "{}", "double": "{}", "bool": "{}", "DateTime": "{}?.toIso8601String()"}
-BASIC_TYPE_DESERIALIZATIONS = {"String": "{}", "int": "{} as int", "double": "{} as double", "bool": "{} as bool", "DateTime": "{0} != null ? DateTime.parse({0}) : null"}
+BASIC_TYPE_SERIALIZATIONS = {"String": "{}", "int": "{}",
+                             "double": "{}", "bool": "{}", "DateTime": "{}?.toIso8601String()"}
+BASIC_TYPE_DESERIALIZATIONS = {"String": "{}", "int": "{} as int", "double": "{} as double",
+                               "bool": "{} as bool", "DateTime": "{0} != null ? DateTime.parse({0}) : null"}
 
 
 def get_type_from_list(type):
     match = re.search("List<(.+)>", type)
 
     return match.group(1)
+
 
 def serialize_method(key, spec):
     prop_type = spec[key]["type"]
@@ -20,15 +23,15 @@ def serialize_method(key, spec):
 
     list_type = get_type_from_list(prop_type)
 
-
-    map_function = BASIC_TYPE_SERIALIZATIONS[list_type].format('e') if list_type in BASIC_TYPE_SERIALIZATIONS else 'e?.toJson()'
+    map_function = BASIC_TYPE_SERIALIZATIONS[list_type].format(
+        'e') if list_type in BASIC_TYPE_SERIALIZATIONS else 'e?.toJson()'
     return f"{key}.map((e) => {map_function})"
 
-    
 
 def get_property_serialization_line(key, spec):
     if spec[key]["type"] is None:
-        raise AttributeError("spec structure is expected to have 'type' property")
+        raise AttributeError(
+            "spec structure is expected to have 'type' property")
 
     return f'"{key}": {serialize_method(key, spec)}'
 
@@ -49,29 +52,14 @@ def deserialize_method(key, spec):
 
     list_type_static = f"{prop_type}Extension" if spec[key]["enum"] else list_type
 
-    map_function = BASIC_TYPE_DESERIALIZATIONS[list_type].format('e') if list_type in BASIC_TYPE_DESERIALIZATIONS else f'{list_type_static}.fromJson(e)'
+    map_function = BASIC_TYPE_DESERIALIZATIONS[list_type].format(
+        'e') if list_type in BASIC_TYPE_DESERIALIZATIONS else f'{list_type_static}.fromJson(e)'
     return f"{key}.map((e) => {map_function})"
-    
 
 
 def get_property_deserialization_line(key, spec):
     if spec[key]["type"] is None:
-        raise AttributeError("spec structure is expected to have 'type' property")
+        raise AttributeError(
+            "spec structure is expected to have 'type' property")
 
     return f"{key}: {deserialize_method(key, spec)}"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

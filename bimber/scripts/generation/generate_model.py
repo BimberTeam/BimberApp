@@ -95,6 +95,7 @@ def load_file_information(filename):
     except Exception as e:
         print(e)
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='Generate dart data class based on provided json spec file.')
@@ -107,18 +108,13 @@ if __name__ == "__main__":
 
     args = parser.parse_args(sys.argv[1:])
 
-
     classname, keys, spec, meta = load_file_information(args.input_file)
-
-
 
     generated = ""
     if "__enum__" in meta:
         generated = generate_dart_enum(classname, keys, spec, meta)
     else:
         generated = generate_dart_data_class(classname, keys, spec, meta)
-        
-
 
     if classname != None:
         name = args.output_file if not args.discover_output else re.sub(
