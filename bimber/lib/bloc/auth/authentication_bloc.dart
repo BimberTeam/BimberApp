@@ -1,8 +1,11 @@
 import 'dart:async';
-import 'package:bimber/bloc/auth/authentication.dart';
 import 'package:bimber/resources/account_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+
+part "authentication_event.dart";
+part "authentication_state.dart";
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {

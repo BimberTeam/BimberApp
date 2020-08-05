@@ -1,0 +1,5 @@
+{
+    "__class__": "Location",
+    "latitude": {"type": "double"},
+    "longtitude": {"type": "double"}
+}

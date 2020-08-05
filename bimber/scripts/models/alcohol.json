@@ -1,0 +1,5 @@
+{
+    "__class__": "Alcohol",
+    "name": {"type": "String"},
+    "type": {"type": "AlcoholType", "enum": true}
+}
