@@ -60,7 +60,7 @@ class LoginFormState extends State<LoginForm> {
   @override
   void initState() {
     super.initState();
-    _animation = IntTween(begin: 500, end: 150).animate(new CurvedAnimation(
+    _animation = IntTween(begin: 500, end: 50).animate(new CurvedAnimation(
         parent: widget.controller, curve: Curves.decelerate));
     _animation.addListener(() => setState(() {}));
   }

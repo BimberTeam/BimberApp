@@ -3,6 +3,7 @@ import 'package:bimber/resources/account_repository.dart';
 import 'package:bimber/ui/home/home_screen.dart';
 import 'package:bimber/ui/login/login_screen.dart';
 import 'package:bimber/ui/common/theme.dart';
+import 'package:bimber/ui/login/starting_screen.dart';
 import 'package:bimber/ui/register/register_screen.dart';
 import 'package:bimber/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class App extends StatelessWidget {
                 case "/":
                   {
                     return PageTransition(
-                        type: PageTransitionType.fade, child: LoginScreen());
+                        type: PageTransitionType.fade, child: StartingScreen());
                   }
                 case "/splash":
                   {

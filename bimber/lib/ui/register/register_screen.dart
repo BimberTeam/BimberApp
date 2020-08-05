@@ -42,6 +42,8 @@ class RegisterScreen extends StatelessWidget {
                       type: PageTransitionType.rightToLeft,
                       child: RegisterPartThree());
                 }
+              default:
+                return null;
             }
           },
         ));
