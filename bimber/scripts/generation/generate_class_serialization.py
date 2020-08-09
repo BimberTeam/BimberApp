@@ -54,7 +54,8 @@ def deserialize_method(key, spec):
 
     map_function = BASIC_TYPE_DESERIALIZATIONS[list_type].format(
         'e') if list_type in BASIC_TYPE_DESERIALIZATIONS else f'{list_type_static}.fromJson(e)'
-    return f'List<{list_type_static}>.from(json["{key}"]).map((e) => {map_function}).toList()'
+
+    return f'json["{key}"].map((e) => {map_function}).toList()'
 
 
 def get_property_deserialization_line(key, spec):
