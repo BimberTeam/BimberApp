@@ -72,7 +72,7 @@ class App extends StatelessWidget {
                   }
               }
             },
-            initialRoute: "/discover",
+            initialRoute: "/home",
           ),
         ));
   }

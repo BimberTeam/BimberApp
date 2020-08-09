@@ -19,16 +19,18 @@ class DiscoverCard extends StatelessWidget {
     // necessary for updating card that is being used inside DiscoverSwipe
     if (opacitiesNotifier != null) {
       return Consumer<SwipeCardLabelOpacities>(
+          child: child,
           builder: (context, value, child) {
-        return _body(
-            likeOpacity: value.likeOpacity,
-            dislikeOpacity: value.dislikeOpacity);
-      });
+            return _body(
+                child: child,
+                likeOpacity: value.likeOpacity,
+                dislikeOpacity: value.dislikeOpacity);
+          });
     }
-    return _body(likeOpacity: 0, dislikeOpacity: 0);
+    return _body(child: child, likeOpacity: 0, dislikeOpacity: 0);
   }
 
-  _body({double likeOpacity, double dislikeOpacity}) {
+  _body({double likeOpacity, double dislikeOpacity, Widget child}) {
     return Container(
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
         decoration: BoxDecoration(

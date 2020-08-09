@@ -75,6 +75,7 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
           _translateY = null;
           _discoverCardEntry = null;
           animating = false;
+          dragChildOpacity = 1.0;
         });
       }
     };
