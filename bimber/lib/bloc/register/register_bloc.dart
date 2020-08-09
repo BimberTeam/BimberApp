@@ -20,7 +20,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     RegisterEvent event,
   ) async* {
     if (event is RegisterSaveData) {
-      print(event.data.toString());
       yield RegisterSavedData(data: event.data);
     }
     if (event is RegisterAccount) {
