@@ -50,7 +50,7 @@ def deserialize_method(key, spec):
 
     list_type = get_type_from_list(prop_type)
 
-    list_type_static = f"{prop_type}Extension" if spec[key]["enum"] else list_type
+    list_type_static = f"{prop_type}Extension" if "enum" in spec[key] else list_type
 
     map_function = BASIC_TYPE_DESERIALIZATIONS[list_type].format(
         'e') if list_type in BASIC_TYPE_DESERIALIZATIONS else f'{list_type_static}.fromJson(e)'

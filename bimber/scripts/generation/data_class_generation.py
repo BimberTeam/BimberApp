@@ -8,9 +8,15 @@ def generate_properties(keys, spec):
         properties.append(f"  final {spec[key]['type']} {key};")
     return "\n".join(properties)
 
+def parse_type_import(type):
+    if not "List" in type:
+        return type
+    match = re.search("List<(.+)>", type)
+    return match.group(1)
+
 
 def generate_custom_type_imports(keys, spec, package_dir="bimber/models/"):
-    types = [spec[key]["type"] for key in keys]
+    types = [parse_type_import(spec[key]["type"]) for key in keys]
     types = list(
         set(list(filter(lambda x: x not in basic_types.keys(), types))))
 
