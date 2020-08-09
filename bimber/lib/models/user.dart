@@ -1,13 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import "package:bimber/models/alcohol.dart";
 import "package:bimber/models/gender.dart";
 import "package:bimber/models/age_preference.dart";
 import "package:bimber/models/alcohol_type.dart";
+import "package:bimber/models/alcohol.dart";
+import "package:bimber/models/user.dart";
+import "package:bimber/models/location.dart";
 
-class RegisterAccountData extends Equatable {
+class User extends Equatable {
   bool get stringify => true;
 
+  final String id;
   final String name;
   final String email;
   final Gender gender;
@@ -17,11 +20,13 @@ class RegisterAccountData extends Equatable {
   final Gender genderPreference;
   final AgePreference agePreference;
   final AlcoholType alcoholPreference;
-  final String password;
   final String imagePath;
+  final Location location;
+  final List<User> friends;
 
-  RegisterAccountData(
-      {@required this.name,
+  User(
+      {@required this.id,
+      @required this.name,
       @required this.email,
       @required this.gender,
       @required this.age,
@@ -30,11 +35,13 @@ class RegisterAccountData extends Equatable {
       @required this.genderPreference,
       @required this.agePreference,
       @required this.alcoholPreference,
-      @required this.password,
-      @required this.imagePath});
+      @required this.imagePath,
+      @required this.location,
+      @required this.friends});
 
-  RegisterAccountData copyWith(
-      {String name,
+  User copyWith(
+      {String id,
+      String name,
       String email,
       Gender gender,
       int age,
@@ -43,9 +50,11 @@ class RegisterAccountData extends Equatable {
       Gender genderPreference,
       AgePreference agePreference,
       AlcoholType alcoholPreference,
-      String password,
-      String imagePath}) {
-    return RegisterAccountData(
+      String imagePath,
+      Location location,
+      List<User> friends}) {
+    return User(
+        id: id ?? this.id,
         name: name ?? this.name,
         email: email ?? this.email,
         gender: gender ?? this.gender,
@@ -55,12 +64,14 @@ class RegisterAccountData extends Equatable {
         genderPreference: genderPreference ?? this.genderPreference,
         agePreference: agePreference ?? this.agePreference,
         alcoholPreference: alcoholPreference ?? this.alcoholPreference,
-        password: password ?? this.password,
-        imagePath: imagePath ?? this.imagePath);
+        imagePath: imagePath ?? this.imagePath,
+        location: location ?? this.location,
+        friends: friends ?? this.friends);
   }
 
   @override
   List get props => [
+        id,
         name,
         email,
         gender,
@@ -70,12 +81,14 @@ class RegisterAccountData extends Equatable {
         genderPreference,
         agePreference,
         alcoholPreference,
-        password,
-        imagePath
+        imagePath,
+        location,
+        friends
       ];
 
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "name": name,
       "email": email,
       "gender": gender?.toJson(),
@@ -85,14 +98,16 @@ class RegisterAccountData extends Equatable {
       "genderPreference": genderPreference?.toJson(),
       "agePreference": agePreference?.toJson(),
       "alcoholPreference": alcoholPreference?.toJson(),
-      "password": password,
-      "imagePath": imagePath
+      "imagePath": imagePath,
+      "location": location?.toJson(),
+      "friends": friends.map((e) => e?.toJson())
     };
   }
 
-  factory RegisterAccountData.fromJson(dynamic json) {
+  factory User.fromJson(dynamic json) {
     if (json == null) return null;
-    return RegisterAccountData(
+    return User(
+        id: json["id"],
         name: json["name"],
         email: json["email"],
         gender: GenderExtension.fromJson(json["gender"]),
@@ -103,7 +118,8 @@ class RegisterAccountData extends Equatable {
         agePreference: AgePreference.fromJson(json["agePreference"]),
         alcoholPreference:
             AlcoholTypeExtension.fromJson(json["alcoholPreference"]),
-        password: json["password"],
-        imagePath: json["imagePath"]);
+        imagePath: json["imagePath"],
+        location: Location.fromJson(json["location"]),
+        friends: json["friends"].map((e) => User.fromJson(e)).toList());
   }
 }

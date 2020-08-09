@@ -1,0 +1,7 @@
+{
+  "__class__": "Group",
+  "id": {"type":  "String"},
+  "members": {"type": "List<User>"},
+  "averageAge": {"type": "int"},
+  "averageLocation": {"type":  "Location"}
+}
