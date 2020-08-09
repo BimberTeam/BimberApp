@@ -4,34 +4,41 @@ import 'package:bimber/ui/common/utils.dart';
 
 class DiscoverCard extends StatelessWidget {
   final Size size;
-  final Color color;
+  final Widget child;
 
-  DiscoverCard({@required this.size, @required this.color});
+  DiscoverCard({@required this.size, @required this.child});
+
+  Widget copy() {
+    return DiscoverCard(child: child, size: size);
+  }
 
   @override
   Widget build(BuildContext context) {
     var opacitiesNotifier = context.watchOrNull<SwipeCardLabelOpacities>();
 
+    // necessary for updating card that is being used inside DiscoverSwipe
     if (opacitiesNotifier != null) {
       return Consumer<SwipeCardLabelOpacities>(
           builder: (context, value, child) {
-        return _body(value.likeOpacity, value.dislikeOpacity);
+        return _body(
+            likeOpacity: value.likeOpacity,
+            dislikeOpacity: value.dislikeOpacity);
       });
     }
-    return _body(0, 0);
+    return _body(likeOpacity: 0, dislikeOpacity: 0);
   }
 
-  _body(double likeOpacity, double dislikeOpacity) {
+  _body({double likeOpacity, double dislikeOpacity}) {
     return Container(
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
         decoration: BoxDecoration(
-          color: color,
           borderRadius: BorderRadius.circular(15),
         ),
         height: size.height,
         width: size.height,
         child: Stack(
           children: <Widget>[
+            child,
             Positioned(
                 top: 10,
                 left: 10,
