@@ -2,7 +2,6 @@ import 'package:bimber/ui/common/position.dart';
 import 'package:bimber/ui/common/utils.dart';
 import 'package:bimber/ui/discover/discover_card.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sprung/sprung.dart';
 
 class DiscoverSwipe extends StatefulWidget {
@@ -34,8 +33,6 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
 
   OverlayEntry _discoverCardEntry;
   Position _currentDragPosition;
-  final _opacitiesNotifier =
-      SwipeCardLabelOpacities(likeOpacity: 0, dislikeOpacity: 0);
 
   AnimationController controller;
 
@@ -140,6 +137,7 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
 
     RenderBox renderBox = context.findRenderObject();
     var offset = renderBox.localToGlobal(Offset.zero);
+    final child = widget.card.copy();
 
     _discoverCardEntry = OverlayEntry(builder: (context) {
       final width = widget.size.width;
@@ -154,9 +152,6 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
       final dislikeOpacity = interpolate(xPos,
           inputFrom: -width / 2, inputTo: 0, outputFrom: 1, outputTo: 0);
 
-      _opacitiesNotifier.setOpacities(
-          likeOpacity: likeOpacity, dislikeOpacity: dislikeOpacity);
-
       return Positioned(
           height: widget.card.size.height,
           // TODO: fix that
@@ -165,10 +160,28 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
           top: (translateY?.value ?? 0) + offset.dy + _currentDragPosition.top,
           left:
               (translateX?.value ?? 0) + offset.dx + _currentDragPosition.left,
-          child: ChangeNotifierProvider<SwipeCardLabelOpacities>.value(
-              value: _opacitiesNotifier,
-              child: Transform.rotate(
-                  angle: radians(degrees), child: widget.card.copy())));
+          child: Transform.rotate(
+            angle: radians(degrees),
+            child: Stack(
+              children: <Widget>[
+                child,
+                Positioned(
+                    top: 30,
+                    left: 20,
+                    child: SwipeCardLabel(
+                        label: "LIKE",
+                        color: Colors.green,
+                        opacity: likeOpacity)),
+                Positioned(
+                    top: 30,
+                    right: 20,
+                    child: SwipeCardLabel(
+                        label: "NOPE",
+                        color: Colors.red,
+                        opacity: dislikeOpacity)),
+              ],
+            ),
+          ));
     });
 
     Overlay.of(context).insert(_discoverCardEntry);
@@ -217,5 +230,44 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
         onPanUpdate: _onPanUpdate,
         onPanEnd: _onPanEnd,
         child: Opacity(opacity: dragChildOpacity, child: widget.card));
+  }
+}
+
+class SwipeCardLabel extends StatelessWidget {
+  final String label;
+  final Color color;
+  final double opacity;
+
+  SwipeCardLabel({this.label, this.color, this.opacity});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      type: MaterialType.transparency,
+      child: Opacity(
+        opacity: opacity,
+        child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(width: 5, color: color),
+            ),
+            child: Text(label,
+                style: TextStyle(
+                    color: color, fontSize: 40, fontWeight: FontWeight.w700))),
+      ),
+    );
+  }
+}
+
+class SwipeCardLabelOpacities extends ChangeNotifier {
+  double likeOpacity;
+  double dislikeOpacity;
+
+  SwipeCardLabelOpacities({this.likeOpacity, this.dislikeOpacity});
+
+  void setOpacities({double likeOpacity, double dislikeOpacity}) {
+    this.likeOpacity = likeOpacity;
+    this.dislikeOpacity = dislikeOpacity;
+    notifyListeners();
   }
 }
