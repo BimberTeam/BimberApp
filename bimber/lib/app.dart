@@ -1,5 +1,6 @@
 import 'package:bimber/bloc/auth/authentication_bloc.dart';
 import 'package:bimber/resources/account_repository.dart';
+import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:bimber/ui/home/home_screen.dart';
 import 'package:bimber/ui/login/login_screen.dart';
 import 'package:bimber/ui/common/theme.dart';
@@ -57,6 +58,12 @@ class App extends StatelessWidget {
                     return PageTransition(
                         type: PageTransitionType.downToUp, child: HomeScreen());
                   }
+                case "/discover":
+                  {
+                    return PageTransition(
+                        type: PageTransitionType.scale,
+                        child: DiscoverScreen());
+                  }
                 default:
                   {
                     // this should not happen
@@ -65,7 +72,7 @@ class App extends StatelessWidget {
                   }
               }
             },
-            initialRoute: "/",
+            initialRoute: "/home",
           ),
         ));
   }

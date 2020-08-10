@@ -14,7 +14,6 @@ class RegisterPartThree extends StatelessWidget {
 
   _confirm(BuildContext context, RegisterAccountData data,
       Map<String, dynamic> values) {
-    print(values);
     final finalData = data?.copyWith(
         imagePath: ((values["imageUrl"] as List).first as File).path);
     context.bloc<RegisterBloc>().add(RegisterAccount(data: finalData));

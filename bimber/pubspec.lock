@@ -367,12 +367,12 @@ packages:
     source: hosted
     version: "1.0.2"
   provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.1"
+    version: "4.3.2"
   quiver:
     dependency: transitive
     description:
@@ -413,6 +413,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  sprung:
+    dependency: "direct main"
+    description:
+      name: sprung
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0+12"
   stack_trace:
     dependency: transitive
     description:

@@ -9,7 +9,6 @@ import 'package:page_transition/page_transition.dart';
 
 class RegisterScreen extends StatelessWidget {
   String _navigationArumentEmail(BuildContext context) {
-    print(ModalRoute.of(context).settings.arguments);
     return (ModalRoute.of(context).settings.arguments
         as Map<String, String>)["email"];
   }
