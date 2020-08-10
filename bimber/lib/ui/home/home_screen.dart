@@ -1,3 +1,4 @@
+import 'package:bimber/ui/account/account_screen.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -55,7 +56,7 @@ class HomeScreenState extends State<HomeScreen>
           physics: new NeverScrollableScrollPhysics(),
           controller: _tabController,
           children: <Widget>[
-            Text("Moje konto"),
+            AccountScreen(),
             DiscoverScreen(),
             Text("Wiadomosci")
           ],
