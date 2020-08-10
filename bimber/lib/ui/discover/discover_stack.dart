@@ -53,16 +53,12 @@ class _DiscoverStackState extends State<DiscoverStack> {
     return DiscoverSwipe(
         card: card,
         onAccept: (_) {
-          print("calling on accept");
           _replaceSwipeCard();
         },
         onDismiss: (_) {
-          print("calling on dismiss");
           _replaceSwipeCard();
         },
-        onCancel: (card) {
-          print("calling on cancel");
-        });
+        onCancel: (card) {});
   }
 
   _replaceSwipeCard() {
@@ -82,7 +78,6 @@ class _DiscoverStackState extends State<DiscoverStack> {
     if (cards.isNotEmpty) {
       elements.addAll(cards.sublist(cards.length - min(cards.length, 3)));
     }
-    print("creating swipe, ${cards.length} left");
     elements.add(_createDiscoverSwipe(currentCard));
     return elements;
   }

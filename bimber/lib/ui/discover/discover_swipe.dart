@@ -213,12 +213,24 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
       return;
     }
 
+    // if we reach threshold in certain direction but horizontal velocity is in an opposite direction
+    // then animate back instead of to like/dislike
+    final velocityX = details.velocity.pixelsPerSecond.dx;
+
     if (progress <= leftThreshold) {
-      _animateToDislike();
+      if (velocityX > 0) {
+        _animateBack();
+      } else {
+        _animateToDislike();
+      }
       return;
     }
     if (progress >= rightThreshold) {
-      _animateToLike();
+      if (velocityX < 0) {
+        _animateBack();
+      } else {
+        _animateToLike();
+      }
       return;
     }
   }
@@ -256,18 +268,5 @@ class SwipeCardLabel extends StatelessWidget {
                     color: color, fontSize: 40, fontWeight: FontWeight.w700))),
       ),
     );
-  }
-}
-
-class SwipeCardLabelOpacities extends ChangeNotifier {
-  double likeOpacity;
-  double dislikeOpacity;
-
-  SwipeCardLabelOpacities({this.likeOpacity, this.dislikeOpacity});
-
-  void setOpacities({double likeOpacity, double dislikeOpacity}) {
-    this.likeOpacity = likeOpacity;
-    this.dislikeOpacity = dislikeOpacity;
-    notifyListeners();
   }
 }
