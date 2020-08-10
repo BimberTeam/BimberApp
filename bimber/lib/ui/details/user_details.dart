@@ -1,5 +1,6 @@
 import 'package:bimber/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:bimber/ui/common/language_utils.dart';
 
 class UserDetails extends StatelessWidget{
   final User user;
@@ -23,9 +24,61 @@ class UserDetails extends StatelessWidget{
     );
   }
 
+  Row createStatsRow(IconData icon, String text, Color color){
+    return Row(
+      children: <Widget>[
+        Icon(icon),
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(text, style: TextStyle(
+              color: color,
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
+              fontFamily: 'Baloo'),),
+        )
+      ],
+    );
+  }
+
+  Container createBottomBar(BuildContext context){
+    if(like != null && dislike != null){
+      return  Container(
+        padding: EdgeInsets.all(10),
+        height: 100,
+        child: Row(
+          mainAxisAlignment:
+          MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            createButton(Icons.clear, Colors.red, dislike, context),
+            createButton(Icons.check, Colors.green, like, context)
+          ],
+        ),
+      );
+    } else{
+      return Container();
+    }
+  }
+
+  Row createDescription(String text, Color color){
+    return Row(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(text, style: TextStyle(
+              color: color,
+              fontSize: 15,
+              fontWeight: FontWeight.w900,
+              fontFamily: 'Baloo'),),
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double _appBarHeight = MediaQuery.of(context).size.height*0.7;
+    Color textColor= Theme.of(context).colorScheme.secondary;
+    double sizedBoxHeight = MediaQuery.of(context).size.height - 350;
     return Scaffold(
       body: Container(
         child: Stack(
@@ -49,9 +102,9 @@ class UserDetails extends StatelessWidget{
                   expandedHeight: _appBarHeight,
                   pinned: true,
                   floating: true,
-                  snap: true,
+                  snap: false,
                   flexibleSpace: FlexibleSpaceBar(
-                    title: Text(user.name),
+                    title: Text("${user.name}, ${user.age}"),
                     background: Stack(
                       fit: StackFit.expand,
                       children: <Widget>[
@@ -66,47 +119,21 @@ class UserDetails extends StatelessWidget{
                   delegate: SliverChildListDelegate(<Widget>[
                     Container(
                       child: Padding(
-                        padding: const EdgeInsets.all(35.0),
+                        padding: EdgeInsets.all(35.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.only(bottom: 20.0),
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-//                                  Row(
-//                                    children: <Widget>[
-//                                      Icon(
-//                                        Icons.access_time,
-//                                        color: Colors.cyan,
-//                                      ),
-//                                      Padding(
-//                                        padding:
-//                                        const EdgeInsets.all(8.0),
-//                                        child: new Text("10:00  AM"),
-//                                      )
-//                                    ],
-//                                  ),
-//                                  Row(
-//                                    children: <Widget>[
-//                                      Icon(
-//                                        Icons.map,
-//                                        color: Colors.cyan,
-//                                      ),
-//                                      Padding(
-//                                        padding:
-//                                        const EdgeInsets.all(8.0),
-//                                        child: Text("15 MILES"),
-//                                      )
-//                                    ],
-//                                  ),
-                                ],
-                              ),
+                            createStatsRow(Icons.person, user.gender.readable(), textColor),
+                            createStatsRow(Icons.local_bar, "${user.favoriteAlcohol.type.readable()}: ${user.favoriteAlcohol.name}", textColor),
+                            createStatsRow(Icons.location_on, "10km", textColor),
+                            Divider(
+                              height: 20,
+                              thickness: 2,
+                              indent: 0,
+                              endIndent: 0,
                             ),
-                            SizedBox(height: 500,),
+                            createDescription(user.description, textColor),
+                            SizedBox(height: sizedBoxHeight > 0 ? sizedBoxHeight : 0),
                           ],
                         ),
                       ),
@@ -115,18 +142,7 @@ class UserDetails extends StatelessWidget{
                 ),
               ],
             ),
-            Container(
-              padding: EdgeInsets.all(10),
-              height: 100,
-              child: Row(
-                mainAxisAlignment:
-                MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  createButton(Icons.clear, Colors.red, dislike, context),
-                  createButton(Icons.check, Colors.green, like, context)
-                ],
-              ),
-            ),
+           createBottomBar(context)
           ],
         ),
       ),

@@ -22,6 +22,6 @@ class HomeScreen extends StatelessWidget {
         alcoholPreference: AlcoholType.Beer,
         imagePath: "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.png",
         location: Location(latitude: 50.44, longtitude: 56.78),
-        friends: null));
+        friends: null), like: () => 3, dislike: () => 1,);
   }
 }
