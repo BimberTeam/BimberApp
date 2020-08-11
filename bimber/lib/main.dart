@@ -20,5 +20,9 @@ Future<void> main() async {
 
   Bloc.observer = SimpleBlocObserver();
 
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
+
   runApp(App());
 }

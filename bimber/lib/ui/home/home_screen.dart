@@ -1,27 +1,64 @@
-import 'package:bimber/models/age_preference.dart';
-import 'package:bimber/models/alcohol.dart';
-import 'package:bimber/models/alcohol_type.dart';
-import 'package:bimber/models/gender.dart';
-import 'package:bimber/models/location.dart';
-import 'package:bimber/models/user.dart';
-import 'package:bimber/ui/details/user_details.dart';
+import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => HomeScreenState();
+}
+
+class HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: 3);
+    _tabController.index = 1;
+    _tabController.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  Widget _tabBarIcon({int index, IconData icon}) {
+    return Align(
+        alignment: Alignment.bottomCenter,
+        child: Icon(
+          icon,
+          color: _tabController.index == index
+              ? Theme.of(context).colorScheme.secondaryVariant
+              : Theme.of(context).accentColor,
+          size: 30.0,
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return UserDetails(user: User(id: null,
-        name: "Harnas",
-        email: null,
-        gender: Gender.Male,
-        age: 6,
-        description: "Harnas, piwo z gór",
-        favoriteAlcohol: Alcohol(name: "Harnas", type: AlcoholType.Beer),
-        genderPreference: Gender.Male,
-        agePreference: AgePreference(from: 18, to: 99),
-        alcoholPreference: AlcoholType.Beer,
-        imagePath: "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.png",
-        location: Location(latitude: 50.44, longtitude: 56.78),
-        friends: null), like: () => 3, dislike: () => 1,);
+    Size screenSize = MediaQuery.of(context).size;
+    return Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size(screenSize.width, 30),
+          child: TabBar(
+            controller: _tabController,
+            tabs: <Widget>[
+              _tabBarIcon(icon: Icons.account_circle, index: 0),
+              _tabBarIcon(icon: Icons.local_bar, index: 1),
+              _tabBarIcon(icon: Icons.message, index: 2),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          physics: new NeverScrollableScrollPhysics(),
+          controller: _tabController,
+          children: <Widget>[
+            Text("Moje konto"),
+            DiscoverScreen(),
+            Text("Wiadomosci")
+          ],
+        ));
   }
 }
