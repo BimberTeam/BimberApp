@@ -24,6 +24,18 @@ class UserDetails extends StatelessWidget{
     );
   }
 
+  Row createName(Color color){
+    return Row(
+      children: <Widget>[
+        Text("${user.name}, ${user.age}", style: TextStyle(
+              color: color,
+              fontSize: 30,
+              fontWeight: FontWeight.w900,
+              fontFamily: 'Baloo'),),
+      ]
+    );
+  }
+
   Row createStatsRow(IconData icon, String text, Color color){
     return Row(
       children: <Widget>[
@@ -78,7 +90,7 @@ class UserDetails extends StatelessWidget{
   Widget build(BuildContext context) {
     double _appBarHeight = MediaQuery.of(context).size.height*0.7;
     Color textColor= Theme.of(context).colorScheme.secondary;
-    double sizedBoxHeight = MediaQuery.of(context).size.height - 350;
+    double containerHeight = MediaQuery.of(context).size.height - 100;
     return Scaffold(
       body: Container(
         child: Stack(
@@ -88,8 +100,6 @@ class UserDetails extends StatelessWidget{
               shrinkWrap: false,
               slivers: <Widget>[
                 SliverAppBar(
-                  elevation: 0.0,
-                  forceElevated: true,
                   leading: IconButton(
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -101,28 +111,31 @@ class UserDetails extends StatelessWidget{
                   ),
                   expandedHeight: _appBarHeight,
                   pinned: true,
-                  floating: true,
+                  floating: false,
                   snap: false,
                   flexibleSpace: FlexibleSpaceBar(
-                    title: Text("${user.name}, ${user.age}"),
-                    background: Stack(
-                      fit: StackFit.expand,
-                      children: <Widget>[
-                        Positioned(
-                          child: Image.network(user.imagePath, height: _appBarHeight, fit: BoxFit.cover,)
-                        ),
-                      ],
+                    title: LayoutBuilder(
+                      builder: ((BuildContext context, BoxConstraints constraints) {
+                        if(constraints.biggest.height < 85){
+                          return Text("${user.name}");
+                        } else{
+                          return Container();
+                        }
+                      }),
                     ),
+                    background: Image.network(user.imagePath, height: _appBarHeight, fit: BoxFit.cover, )
                   ),
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate(<Widget>[
-                    Container(
-                      child: Padding(
-                        padding: EdgeInsets.all(35.0),
-                        child: Column(
+                   Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 35.0),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(minHeight: containerHeight),
+                          child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
+                            createName(textColor),
                             createStatsRow(Icons.person, user.gender.readable(), textColor),
                             createStatsRow(Icons.local_bar, "${user.favoriteAlcohol.type.readable()}: ${user.favoriteAlcohol.name}", textColor),
                             createStatsRow(Icons.location_on, "10km", textColor),
@@ -133,15 +146,15 @@ class UserDetails extends StatelessWidget{
                               endIndent: 0,
                             ),
                             createDescription(user.description, textColor),
-                            SizedBox(height: sizedBoxHeight > 0 ? sizedBoxHeight : 0),
                           ],
                         ),
-                      ),
+                      )
                     ),
                   ]),
                 ),
               ],
             ),
+           Container(height: 55, color: Theme.of(context).colorScheme.primary),
            createBottomBar(context)
           ],
         ),
