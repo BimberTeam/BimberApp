@@ -1,11 +1,26 @@
 import 'package:bimber/models/user.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:bimber/ui/common/language_utils.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 
-
+/* use exmple
+UserDetails(user: User(id: null,
+        name: "Harnas",
+        email: null,
+        gender: Gender.Male,
+        age: 6,
+        description: "Harnas, piwo z gór",
+        favoriteAlcohol: Alcohol(name: "Harnas", type: AlcoholType.Beer),
+        genderPreference: Gender.Male,
+        agePreference: AgePreference(from: 18, to: 99),
+        alcoholPreference: AlcoholType.Beer,
+        imagePath: "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.png",
+        location: Location(latitude: 50.44, longtitude: 56.78),
+        friends: null), like: () => 3, dislike: () => 1,);
+ */
 
 class UserDetails extends StatefulWidget {
   final User user;
@@ -145,6 +160,24 @@ class UserDetailsState extends State<UserDetails>{
     );
   }
 
+  Widget createBackgroundImage(double height){
+    return  CachedNetworkImage(
+      imageUrl: widget.user.imagePath,
+      imageBuilder: (context, image) {
+        return FittedBox(
+          fit: BoxFit.cover,
+          child: Image(image: image),
+        );
+      },
+      progressIndicatorBuilder: (context, url, downloadProgress) =>
+          SizedBox(
+              height: height,
+              child: CircularProgressIndicator(value: downloadProgress.progress)),
+      errorWidget: (context, url, error) =>
+          Icon(Icons.error, color: Colors.red, size: 150),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double _appBarHeight = MediaQuery.of(context).size.height*0.7;
@@ -183,7 +216,7 @@ class UserDetailsState extends State<UserDetails>{
                         }
                       }),
                     ),
-                    background: Image.network(widget.user.imagePath, height: _appBarHeight, fit: BoxFit.cover, )
+                    background: createBackgroundImage(_appBarHeight)
                   ),
                 ),
                 SliverList(
