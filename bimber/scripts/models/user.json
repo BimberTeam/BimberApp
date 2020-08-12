@@ -7,11 +7,11 @@
   "gender": {"type": "Gender", "enum": true},
   "age": {"type": "int"},
   "description": {"type": "String"},
-  "favoriteAlcohol": {"type": "Alcohol"},
+  "favouriteAlcohol": {"type": "Alcohol"},
   "genderPreference": {"type": "Gender", "enum": true},
   "agePreference": {"type": "AgePreference"},
   "alcoholPreference": {"type": "AlcoholType", "enum": true},
-  "imagePath": {"type": "String"},
+  "imageUrl": {"type": "String"},
   "location": {"type": "Location"},
   "friends": {"type":  "List<User>"}
 }

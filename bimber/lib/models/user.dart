@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import "package:bimber/models/gender.dart";
-import "package:bimber/models/age_preference.dart";
-import "package:bimber/models/alcohol_type.dart";
-import "package:bimber/models/alcohol.dart";
 import "package:bimber/models/user.dart";
 import "package:bimber/models/location.dart";
+import "package:bimber/models/alcohol.dart";
+import "package:bimber/models/age_preference.dart";
+import "package:bimber/models/alcohol_type.dart";
 
 class User extends Equatable {
   bool get stringify => true;
@@ -16,11 +16,11 @@ class User extends Equatable {
   final Gender gender;
   final int age;
   final String description;
-  final Alcohol favoriteAlcohol;
+  final Alcohol favouriteAlcohol;
   final Gender genderPreference;
   final AgePreference agePreference;
   final AlcoholType alcoholPreference;
-  final String imagePath;
+  final String imageUrl;
   final Location location;
   final List<User> friends;
 
@@ -31,11 +31,11 @@ class User extends Equatable {
       @required this.gender,
       @required this.age,
       @required this.description,
-      @required this.favoriteAlcohol,
+      @required this.favouriteAlcohol,
       @required this.genderPreference,
       @required this.agePreference,
       @required this.alcoholPreference,
-      @required this.imagePath,
+      @required this.imageUrl,
       @required this.location,
       @required this.friends});
 
@@ -46,11 +46,11 @@ class User extends Equatable {
       Gender gender,
       int age,
       String description,
-      Alcohol favoriteAlcohol,
+      Alcohol favouriteAlcohol,
       Gender genderPreference,
       AgePreference agePreference,
       AlcoholType alcoholPreference,
-      String imagePath,
+      String imageUrl,
       Location location,
       List<User> friends}) {
     return User(
@@ -60,11 +60,11 @@ class User extends Equatable {
         gender: gender ?? this.gender,
         age: age ?? this.age,
         description: description ?? this.description,
-        favoriteAlcohol: favoriteAlcohol ?? this.favoriteAlcohol,
+        favouriteAlcohol: favouriteAlcohol ?? this.favouriteAlcohol,
         genderPreference: genderPreference ?? this.genderPreference,
         agePreference: agePreference ?? this.agePreference,
         alcoholPreference: alcoholPreference ?? this.alcoholPreference,
-        imagePath: imagePath ?? this.imagePath,
+        imageUrl: imageUrl ?? this.imageUrl,
         location: location ?? this.location,
         friends: friends ?? this.friends);
   }
@@ -77,11 +77,11 @@ class User extends Equatable {
         gender,
         age,
         description,
-        favoriteAlcohol,
+        favouriteAlcohol,
         genderPreference,
         agePreference,
         alcoholPreference,
-        imagePath,
+        imageUrl,
         location,
         friends
       ];
@@ -94,11 +94,11 @@ class User extends Equatable {
       "gender": gender?.toJson(),
       "age": age,
       "description": description,
-      "favoriteAlcohol": favoriteAlcohol?.toJson(),
+      "favouriteAlcohol": favouriteAlcohol?.toJson(),
       "genderPreference": genderPreference?.toJson(),
       "agePreference": agePreference?.toJson(),
       "alcoholPreference": alcoholPreference?.toJson(),
-      "imagePath": imagePath,
+      "imageUrl": imageUrl,
       "location": location?.toJson(),
       "friends": friends.map((e) => e?.toJson())
     };
@@ -113,12 +113,12 @@ class User extends Equatable {
         gender: GenderExtension.fromJson(json["gender"]),
         age: json["age"] as int,
         description: json["description"],
-        favoriteAlcohol: Alcohol.fromJson(json["favoriteAlcohol"]),
+        favouriteAlcohol: Alcohol.fromJson(json["favouriteAlcohol"]),
         genderPreference: GenderExtension.fromJson(json["genderPreference"]),
         agePreference: AgePreference.fromJson(json["agePreference"]),
         alcoholPreference:
             AlcoholTypeExtension.fromJson(json["alcoholPreference"]),
-        imagePath: json["imagePath"],
+        imageUrl: json["imageUrl"],
         location: Location.fromJson(json["location"]),
         friends: json["friends"].map((e) => User.fromJson(e)).toList());
   }
