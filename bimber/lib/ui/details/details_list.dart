@@ -35,7 +35,7 @@ class DetailsList extends StatelessWidget{
     );
   }
 
-  _nameRow(Color color){
+  _name(Color color){
     return Row(
         children: <Widget>[
           Text("${userName}, ${age}", style: TextStyle(
@@ -47,7 +47,7 @@ class DetailsList extends StatelessWidget{
     );
   }
 
-  _statsRow(IconData icon, String text, Color color){
+  _iconText(IconData icon, String text, Color color){
     return Row(
       children: <Widget>[
         Icon(icon),
@@ -76,10 +76,10 @@ class DetailsList extends StatelessWidget{
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _nameRow(textColor),
-                  _statsRow(Icons.person, gender.readable(), textColor),
-                  _statsRow(Icons.local_bar, "${favouriteAlcohol.type.readable()}: ${favouriteAlcohol.name}", textColor),
-                  distance>=0 ? _statsRow(Icons.location_on, "${distance}km", textColor) : Container(),
+                  _name(textColor),
+                  _iconText(Icons.person, gender.readable(), textColor),
+                  _iconText(Icons.local_bar, "${favouriteAlcohol.type.readable()}: ${favouriteAlcohol.name}", textColor),
+                  distance>=0 ? _iconText(Icons.location_on, "${distance}km", textColor) : Container(),
                   Divider(
                     height: 20,
                     thickness: 2,
