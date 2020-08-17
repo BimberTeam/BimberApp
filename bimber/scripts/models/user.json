@@ -1,0 +1,17 @@
+
+{
+  "__class__": "User",
+  "id": {"type":  "String"},
+  "name": {"type": "String"},
+  "email": {"type": "String"},
+  "gender": {"type": "Gender", "enum": true},
+  "age": {"type": "int"},
+  "description": {"type": "String"},
+  "favouriteAlcohol": {"type": "Alcohol"},
+  "genderPreference": {"type": "Gender", "enum": true},
+  "agePreference": {"type": "AgePreference"},
+  "alcoholPreference": {"type": "AlcoholType", "enum": true},
+  "imageUrl": {"type": "String"},
+  "location": {"type": "Location"},
+  "friends": {"type":  "List<User>"}
+}
