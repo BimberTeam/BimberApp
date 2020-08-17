@@ -1,6 +1,13 @@
 import 'dart:ui';
 import 'dart:math' as math;
 
+import 'package:bimber/models/age_preference.dart';
+import 'package:bimber/models/alcohol.dart';
+import 'package:bimber/models/alcohol_type.dart';
+import 'package:bimber/models/gender.dart';
+import 'package:bimber/models/group.dart';
+import 'package:bimber/models/location.dart';
+import 'package:bimber/models/user.dart';
 import 'package:flutter/material.dart';
 
 Size sizeWithoutAppBar(BuildContext context) {
@@ -39,4 +46,35 @@ Color randomColor() {
   var random = new math.Random();
   return Color.fromARGB(
       255, random.nextInt(255), random.nextInt(255), random.nextInt(255));
+}
+
+Group getGroup(){
+  return Group(id: null, averageAge: 20, averageLocation: Location(latitude: 50.44, longtitude: 56.78), members: [
+    User(id: null,
+      name: "Harnas",
+      email: null,
+      gender: Gender.Male,
+      age: 18,
+      description: "Harnas, piwo z gór",
+      favouriteAlcohol: Alcohol(name: "Harnas", type: AlcoholType.Beer),
+      genderPreference: Gender.Male,
+      agePreference: AgePreference(from: 18, to: 99),
+      alcoholPreference: AlcoholType.Beer,
+      imageUrl: "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.png",
+      location: Location(latitude: 50.44, longtitude: 56.78),
+      friends: null),
+    User(id: null,
+        name: "Harnas",
+        email: null,
+        gender: Gender.Male,
+        age: 22,
+        description: "Harnas, piwo z gór",
+        favouriteAlcohol: Alcohol(name: "Harnas", type: AlcoholType.Beer),
+        genderPreference: Gender.Male,
+        agePreference: AgePreference(from: 18, to: 99),
+        alcoholPreference: AlcoholType.Beer,
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.png",
+        location: Location(latitude: 50.44, longtitude: 56.78),
+        friends: null),
+  ]);
 }

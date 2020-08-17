@@ -1,4 +1,6 @@
+import 'package:bimber/ui/common/utils.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
+import 'package:bimber/ui/group_details/group_details.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -39,26 +41,27 @@ class HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size(screenSize.width, 30),
-          child: TabBar(
-            controller: _tabController,
-            tabs: <Widget>[
-              _tabBarIcon(icon: Icons.account_circle, index: 0),
-              _tabBarIcon(icon: Icons.local_bar, index: 1),
-              _tabBarIcon(icon: Icons.message, index: 2),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          physics: new NeverScrollableScrollPhysics(),
-          controller: _tabController,
-          children: <Widget>[
-            Text("Moje konto"),
-            DiscoverScreen(),
-            Text("Wiadomosci")
-          ],
-        ));
+    return GroupDetails(group: getGroup(), like: () => null, dislike: () => null);
+//    return Scaffold(
+//        appBar: PreferredSize(
+//          preferredSize: Size(screenSize.width, 30),
+//          child: TabBar(
+//            controller: _tabController,
+//            tabs: <Widget>[
+//              _tabBarIcon(icon: Icons.account_circle, index: 0),
+//              _tabBarIcon(icon: Icons.local_bar, index: 1),
+//              _tabBarIcon(icon: Icons.message, index: 2),
+//            ],
+//          ),
+//        ),
+//        body: TabBarView(
+//          physics: new NeverScrollableScrollPhysics(),
+//          controller: _tabController,
+//          children: <Widget>[
+//            Text("Moje konto"),
+//            DiscoverScreen(),
+//            Text("Wiadomosci")
+//          ],
+//        ));
   }
 }
