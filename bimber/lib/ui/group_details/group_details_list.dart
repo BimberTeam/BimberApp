@@ -1,4 +1,5 @@
 import 'package:bimber/models/user.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class GroupDetailsList extends StatelessWidget{
@@ -27,6 +28,67 @@ class GroupDetailsList extends StatelessWidget{
       ],
     );
   }
+  
+  _membersList(List<User> members, Color color){
+    return GridView.count(
+        mainAxisSpacing: 10.0,
+        crossAxisSpacing: 40.0,
+        childAspectRatio: 110/125,
+        padding: EdgeInsets.only(top: 10.0),
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        crossAxisCount: 2,
+        children: members.map((e) => _memberAvatar(e, color)).toList()
+    );
+  }
+  
+  Widget _memberAvatar(User user, Color color){
+    return Column(
+        children: <Widget>[
+          CachedNetworkImage(
+            imageUrl: user.imageUrl,
+            imageBuilder: (context, image) {
+              return Container(
+                width: 110.0,
+                height: 110.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      image: image, fit: BoxFit.cover),
+                ),
+              );
+            },
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                Container(
+                  width: 110.0,
+                  height: 110.0,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child:  FittedBox(
+                      fit: BoxFit.contain,
+                      child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 1,)),
+                ),
+            errorWidget: (context, url, error) =>
+                Container(
+                  width: 110.0,
+                  height: 110.0,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: FittedBox(
+                      fit: BoxFit.cover,
+                      child:Icon(Icons.error, color: Colors.red)),
+                )
+          ),
+          Text("${user.name}", style: TextStyle(
+              color: color,
+              fontSize: 15,
+              fontWeight: FontWeight.w900,
+              fontFamily: 'Baloo'),),
+        ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +97,7 @@ class GroupDetailsList extends StatelessWidget{
     return SliverList(
       delegate: SliverChildListDelegate(<Widget>[
         Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 35.0),
+            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: containerHeight),
               child: Column(
@@ -50,8 +112,8 @@ class GroupDetailsList extends StatelessWidget{
                     indent: 0,
                     endIndent: 0,
                   ),
-                 //todo user list
-                ],
+                  _membersList(members, textColor)
+                ] ,
               ),
             )
         ),

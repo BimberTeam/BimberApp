@@ -42,7 +42,7 @@ class HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    return GroupDetails(group: getGroup(), like: () => null, dislike: () => null);
+    return GroupDetails(group: getGroup());
 //    return Scaffold(
 //        appBar: PreferredSize(
 //          preferredSize: Size(screenSize.width, 30),

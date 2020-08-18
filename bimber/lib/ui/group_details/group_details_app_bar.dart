@@ -35,7 +35,7 @@ class GroupDetailsAppBar extends StatelessWidget{
       progressIndicatorBuilder: (context, url, downloadProgress) =>
           FittedBox(
               fit: BoxFit.contain,
-              child: CircularProgressIndicator(value: downloadProgress.progress)),
+              child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 1,)),
       errorWidget: (context, url, error) =>
         FittedBox(
           fit: BoxFit.contain,
@@ -46,20 +46,12 @@ class GroupDetailsAppBar extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      leading: IconButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        icon: Icon(
-          Icons.arrow_back,
-          size: 30.0,
-        ),
-      ),
       expandedHeight: appBarHeight,
       pinned: true,
       floating: false,
       snap: false,
       flexibleSpace: FlexibleSpaceBar(
+          centerTitle: true,
           title: LayoutBuilder(
             builder: ((BuildContext context, BoxConstraints constraints) {
               if(constraints.biggest.height < 85){
