@@ -72,20 +72,23 @@ class GroupDetailsState extends State<GroupDetails>{
     );
   }
 
-  _bottomBar(BuildContext context){
-    if(widget.like == null || widget.dislike == null) return  Container();
-    return Container(
-      padding: EdgeInsets.all(10),
-      height: 100,
-      child: Row(
-        mainAxisAlignment:
-        MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          _swipeButton(Icons.clear, Colors.red, widget.dislike, context),
-          _swipeButton(Icons.check, Colors.green, widget.like, context)
-        ],
-      ),
-    );
+  List<Widget> _bottomBar(BuildContext context){
+    if(widget.like == null || widget.dislike == null) return  List<Widget>();
+    return [
+      _animatedOpacity(Container(height: 55, color: Theme.of(context).colorScheme.primary)),
+      _animatedOpacity(Container(
+        padding: EdgeInsets.all(10),
+        height: 100,
+        child: Row(
+          mainAxisAlignment:
+          MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            _swipeButton(Icons.clear, Colors.red, widget.dislike, context),
+            _swipeButton(Icons.check, Colors.green, widget.like, context)
+          ],
+        ),
+      )),
+    ];
   }
 
   _animatedOpacity(Widget child){
@@ -115,9 +118,7 @@ class GroupDetailsState extends State<GroupDetails>{
                   members: widget.group.members,)
               ],
             ),
-            _animatedOpacity(Container(height: 55, color: Theme.of(context).colorScheme.primary)),
-            _animatedOpacity(_bottomBar(context))
-          ],
+          ] + _bottomBar(context),
         ),
       ),
     );

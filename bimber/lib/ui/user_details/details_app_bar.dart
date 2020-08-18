@@ -20,11 +20,13 @@ class DetailsAppBar extends StatelessWidget{
         );
       },
       progressIndicatorBuilder: (context, url, downloadProgress) =>
-          SizedBox(
-              height: height,
+          FittedBox(
+              fit: BoxFit.contain,
               child: CircularProgressIndicator(value: downloadProgress.progress)),
       errorWidget: (context, url, error) =>
-          Icon(Icons.error, color: Colors.red, size: 150),
+        FittedBox(
+          fit: BoxFit.contain,
+          child: Icon(Icons.error, color: Colors.red, size: 150)),
     );
   }
 
