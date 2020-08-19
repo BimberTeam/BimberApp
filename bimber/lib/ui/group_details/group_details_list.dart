@@ -1,6 +1,8 @@
 import 'package:bimber/models/user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 class GroupDetailsList extends StatelessWidget{
   final int age;
@@ -29,64 +31,55 @@ class GroupDetailsList extends StatelessWidget{
     );
   }
   
-  _membersList(List<User> members, Color color){
+  _membersList(List<User> members, Color color, double size){
     return GridView.count(
         mainAxisSpacing: 10.0,
-        crossAxisSpacing: 40.0,
-        childAspectRatio: 110/125,
+        crossAxisSpacing: 15.0,
+        childAspectRatio: size/(size + 15),
         padding: EdgeInsets.only(top: 10.0),
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         crossAxisCount: 2,
-        children: members.map((e) => _memberAvatar(e, color)).toList()
+        children: members.map((e) => _memberAvatar(e, color,size)).toList()
     );
   }
   
-  Widget _memberAvatar(User user, Color color){
+  Widget _memberAvatar(User user, Color color, double size){
     return Column(
         children: <Widget>[
-          CachedNetworkImage(
-            imageUrl: user.imageUrl,
-            imageBuilder: (context, image) {
-              return Container(
-                width: 110.0,
-                height: 110.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: image, fit: BoxFit.cover),
-                ),
-              );
-            },
-            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                Container(
-                  width: 110.0,
-                  height: 110.0,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
+        Container(
+            width: size,
+            height: size,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: CachedNetworkImage(
+              imageUrl: user.imageUrl,
+              imageBuilder: (context, image) {
+                return FittedBox(
+                  fit: BoxFit.cover,
+                  child: Image(image: image),
+                );
+              },
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  FittedBox(
+                        fit: BoxFit.contain,
+                        child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 1,),
                   ),
-                  child:  FittedBox(
-                      fit: BoxFit.contain,
-                      child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 1,)),
-                ),
-            errorWidget: (context, url, error) =>
-                Container(
-                  width: 110.0,
-                  height: 110.0,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: FittedBox(
-                      fit: BoxFit.cover,
-                      child:Icon(Icons.error, color: Colors.red)),
-                )
-          ),
-          Text("${user.name}", style: TextStyle(
-              color: color,
-              fontSize: 15,
-              fontWeight: FontWeight.w900,
-              fontFamily: 'Baloo'),),
-        ],
+              errorWidget: (context, url, error) =>
+                  FittedBox(
+                        fit: BoxFit.cover,
+                        child:Icon(Icons.error, color: Colors.red),
+                  )
+            )
+      ),
+      Text("${user.name}", style: TextStyle(
+          color: color,
+          fontSize: 15,
+          fontWeight: FontWeight.w900,
+          fontFamily: 'Baloo'),),
+      ],
     );
   }
 
@@ -94,6 +87,7 @@ class GroupDetailsList extends StatelessWidget{
   Widget build(BuildContext context) {
     Color textColor= Theme.of(context).colorScheme.secondary;
     double containerHeight = MediaQuery.of(context).size.height - 100;
+    double circleAvatarWidth = (MediaQuery.of(context).size.width - 100)/2;
     return SliverList(
       delegate: SliverChildListDelegate(<Widget>[
         Padding(
@@ -112,7 +106,7 @@ class GroupDetailsList extends StatelessWidget{
                     indent: 0,
                     endIndent: 0,
                   ),
-                  _membersList(members, textColor)
+                  _membersList(members, textColor, circleAvatarWidth)
                 ] ,
               ),
             )

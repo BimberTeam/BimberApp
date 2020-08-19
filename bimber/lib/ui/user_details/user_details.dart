@@ -9,13 +9,9 @@ import 'package:geolocator/geolocator.dart';
 
 class UserDetails extends StatefulWidget {
   final User user;
-  final Function like;
-  final Function dislike;
 
   UserDetails({
-    @required this.user,
-    this.like,
-    this.dislike});
+    @required this.user});
 
   @override
   State<StatefulWidget> createState() => _UserDetailsState();
@@ -23,28 +19,11 @@ class UserDetails extends StatefulWidget {
 
 class _UserDetailsState extends State<UserDetails>{
   ScrollController _scrollController;
-  double _opacity;
   int _distance = -1;
 
   @override
   void initState() {
     super.initState();
-    _opacity = 1.0;
-    _scrollController = ScrollController();
-    _scrollController.addListener(() {
-      if (_scrollController.position.userScrollDirection == ScrollDirection.reverse &&
-          _scrollController.offset > 50) {
-        setState(() {
-          _opacity = 0.0;
-        });
-      }
-      if (_scrollController.position.userScrollDirection == ScrollDirection.forward &&
-          _scrollController.offset < 50) {
-        setState(() {
-          _opacity = 1.0;
-        });
-      }
-    });
     _initCurrentLocation();
   }
 
@@ -59,46 +38,6 @@ class _UserDetailsState extends State<UserDetails>{
       });
     } catch(e){}
 
-  }
-
-  _swipeButton(IconData icon, Color iconColor, Function onTap, BuildContext context){
-    return  ClipOval(
-      child: Material(
-        color: Theme.of(context).colorScheme.primaryVariant, // button color
-        child: InkWell(
-          splashColor: Theme.of(context).accentColor, // inkwell color
-          child: Icon(icon, color: iconColor, size: 50),
-          onTap: onTap,
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _bottomBar(BuildContext context){
-    if(widget.like == null || widget.dislike == null) return  List<Widget>();
-    return [
-      _animatedOpacity(Container(height: 55, color: Theme.of(context).colorScheme.primary)),
-      _animatedOpacity(Container(
-        padding: EdgeInsets.all(10),
-        height: 100,
-        child: Row(
-          mainAxisAlignment:
-          MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            _swipeButton(Icons.clear, Colors.red, widget.dislike, context),
-            _swipeButton(Icons.check, Colors.green, widget.like, context)
-          ],
-        ),
-      )),
-    ];
-  }
-
-  _animatedOpacity(Widget child){
-    return AnimatedOpacity(
-        duration: Duration(milliseconds: 200),
-        opacity: _opacity,
-        child: child,
-    );
   }
 
   @override
@@ -124,7 +63,7 @@ class _UserDetailsState extends State<UserDetails>{
                   description: widget.user.description,)
               ],
             ),
-          ] +  _bottomBar(context),
+          ],
         ),
       ),
     );
