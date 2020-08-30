@@ -53,8 +53,8 @@ class _UserDetailsState extends State<UserDetails>{
               shrinkWrap: false,
               slivers: <Widget>[
                 DetailsAppBar(appBarHeight: _appBarHeight,
-                  userName: widget.user.name,
-                  imageUrl: widget.user.imageUrl,),
+                  user: widget.user,
+                ),
                 DetailsList(userName: widget.user.name,
                   age: widget.user.age,
                   favouriteAlcohol: widget.user.favouriteAlcohol,

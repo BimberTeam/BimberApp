@@ -1,33 +1,16 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:bimber/models/user.dart';
+import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:flutter/material.dart';
 
 class DetailsAppBar extends StatelessWidget{
   final double appBarHeight;
-  final String userName;
-  final String imageUrl;
+  final User user;
   DetailsAppBar({
   @required this.appBarHeight,
-  @required this.userName,
-  @required this.imageUrl});
+  @required this.user});
 
-  _backgroundImage(double height){
-    return  CachedNetworkImage(
-      imageUrl: imageUrl,
-      imageBuilder: (context, image) {
-        return FittedBox(
-          fit: BoxFit.cover,
-          child: Image(image: image),
-        );
-      },
-      progressIndicatorBuilder: (context, url, downloadProgress) =>
-          FittedBox(
-              fit: BoxFit.contain,
-              child: CircularProgressIndicator(value: downloadProgress.progress)),
-      errorWidget: (context, url, error) =>
-        FittedBox(
-          fit: BoxFit.contain,
-          child: Icon(Icons.error, color: Colors.red, size: 150)),
-    );
+  _backgroundImage(double width){
+    return UserImageHero(user: user, width: width, height: appBarHeight,);
   }
 
   @override
@@ -50,13 +33,13 @@ class DetailsAppBar extends StatelessWidget{
          title: LayoutBuilder(
            builder: ((BuildContext context, BoxConstraints constraints) {
              if(constraints.biggest.height < 85){
-               return Text("${userName}");
+               return Text("${user.name}");
              } else{
                return Container();
              }
            }),
          ),
-         background: _backgroundImage(appBarHeight)
+         background: _backgroundImage(MediaQuery.of(context).size.width)
      ),
    );
   }

@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'dart:math' as math;
-
 import 'package:bimber/models/age_preference.dart';
 import 'package:bimber/models/alcohol.dart';
 import 'package:bimber/models/alcohol_type.dart';
@@ -50,7 +49,7 @@ Color randomColor() {
 
 Group getGroup(){
   return Group(id: null, averageAge: 20, averageLocation: Location(latitude: 50.44, longtitude: 56.78), members: [
-    User(id: null,
+    User(id: 'aaa',
       name: "Harnas",
       email: null,
       gender: Gender.Male,
@@ -63,7 +62,7 @@ Group getGroup(){
       imageUrl: "https://wygraland.pl/wp-content/uploads/2017/02/harnas-1.jpg",
       location: Location(latitude: 50.44, longtitude: 56.78),
       friends: null),
-    User(id: null,
+    User(id: 'bbb',
         name: "Harnas",
         email: null,
         gender: Gender.Male,
@@ -76,7 +75,7 @@ Group getGroup(){
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.png",
         location: Location(latitude: 50.44, longtitude: 56.78),
         friends: null),
-    User(id: null,
+    User(id: 'ccc',
         name: "Harnas",
         email: null,
         gender: Gender.Male,
@@ -89,7 +88,7 @@ Group getGroup(){
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.pg",
         location: Location(latitude: 50.44, longtitude: 56.78),
         friends: null),
-    User(id: null,
+    User(id: 'ddd',
         name: "Harnas",
         email: null,
         gender: Gender.Male,
@@ -102,7 +101,7 @@ Group getGroup(){
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
         location: Location(latitude: 50.44, longtitude: 56.78),
         friends: null),
-    User(id: null,
+    User(id: 'eee',
         name: "Harnas",
         email: null,
         gender: Gender.Male,
@@ -115,7 +114,7 @@ Group getGroup(){
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
         location: Location(latitude: 50.44, longtitude: 56.78),
         friends: null),
-    User(id: null,
+    User(id: 'fff',
         name: "Harnas",
         email: null,
         gender: Gender.Male,
@@ -128,7 +127,7 @@ Group getGroup(){
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
         location: Location(latitude: 50.44, longtitude: 56.78),
         friends: null),
-    User(id: null,
+    User(id: 'ggg',
         name: "Harnas",
         email: null,
         gender: Gender.Male,

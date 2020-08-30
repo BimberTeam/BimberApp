@@ -1,8 +1,8 @@
 import 'package:bimber/models/user.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:bimber/ui/group_details/user_image_hero.dart';
+import 'package:bimber/ui/user_details/user_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 class GroupDetailsList extends StatelessWidget{
   final int age;
@@ -31,7 +31,7 @@ class GroupDetailsList extends StatelessWidget{
     );
   }
   
-  _membersList(List<User> members, Color color, double size){
+  _membersList(BuildContext context, List<User> members, Color color, double size){
     return GridView.count(
         mainAxisSpacing: 10.0,
         crossAxisSpacing: 15.0,
@@ -40,39 +40,30 @@ class GroupDetailsList extends StatelessWidget{
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         crossAxisCount: 2,
-        children: members.map((e) => _memberAvatar(e, color,size)).toList()
+        children: members.map((e) => _memberAvatar(context, e, color,size)).toList()
     );
   }
   
-  Widget _memberAvatar(User user, Color color, double size){
+  Widget _memberAvatar(BuildContext context, User user, Color color, double size){
     return Column(
         children: <Widget>[
-        Container(
-            width: size,
-            height: size,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: CachedNetworkImage(
-              imageUrl: user.imageUrl,
-              imageBuilder: (context, image) {
-                return FittedBox(
-                  fit: BoxFit.cover,
-                  child: Image(image: image),
-                );
-              },
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  FittedBox(
-                        fit: BoxFit.contain,
-                        child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 1,),
-                  ),
-              errorWidget: (context, url, error) =>
-                  FittedBox(
-                        fit: BoxFit.cover,
-                        child:Icon(Icons.error, color: Colors.red),
-                  )
-            )
+      ClipRRect(
+        borderRadius: BorderRadius.circular(15.0),
+        child: UserImageHero(user:  user, width: size, height: size, onTap: () {
+          Navigator.of(context).push(
+              PageRouteBuilder(
+                transitionDuration: Duration(milliseconds: 700),
+                pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+                  return UserDetails(user: user);
+                },
+                transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
+                },
+              ));
+        }),
       ),
       Text("${user.name}", style: TextStyle(
           color: color,
@@ -87,7 +78,7 @@ class GroupDetailsList extends StatelessWidget{
   Widget build(BuildContext context) {
     Color textColor= Theme.of(context).colorScheme.secondary;
     double containerHeight = MediaQuery.of(context).size.height - 100;
-    double circleAvatarWidth = (MediaQuery.of(context).size.width - 100)/2;
+    double avatarSize = (MediaQuery.of(context).size.width - 100)/2;
     return SliverList(
       delegate: SliverChildListDelegate(<Widget>[
         Padding(
@@ -106,7 +97,7 @@ class GroupDetailsList extends StatelessWidget{
                     indent: 0,
                     endIndent: 0,
                   ),
-                  _membersList(members, textColor, circleAvatarWidth)
+                  _membersList(context, members, textColor, avatarSize)
                 ] ,
               ),
             )
