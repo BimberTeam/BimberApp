@@ -1,11 +1,10 @@
-import 'package:bimber/models/location.dart';
 import 'package:bimber/models/user.dart';
+import 'package:bimber/ui/common/utils.dart';
 import 'package:bimber/ui/user_details/details_app_bar.dart';
 import 'package:bimber/ui/user_details/details_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:geolocator/geolocator.dart';
 
 class UserDetails extends StatefulWidget {
   final User user;
@@ -24,25 +23,18 @@ class _UserDetailsState extends State<UserDetails>{
   @override
   void initState() {
     super.initState();
-    _initCurrentLocation();
-  }
-
-  _initCurrentLocation() async {
-    final Location location = widget.user.location;
-    try{
-      Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
-      double distanceInMeters = await Geolocator()
-          .distanceBetween(position.latitude, position.longitude, location.latitude, location.longtitude);
+    initCurrentLocation(widget.user.location, (distanceInMeters) {
       setState(() {
         _distance = distanceInMeters~/1000;
       });
-    } catch(e){}
-
+    });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
-    double _appBarHeight = MediaQuery.of(context).size.height*0.7;
+    double _appBarHeight = MediaQuery.of(context).size.height * 0.7;
     return Scaffold(
       body: Container(
         child: Stack(
@@ -55,12 +47,8 @@ class _UserDetailsState extends State<UserDetails>{
                 DetailsAppBar(appBarHeight: _appBarHeight,
                   user: widget.user,
                 ),
-                DetailsList(userName: widget.user.name,
-                  age: widget.user.age,
-                  favouriteAlcohol: widget.user.favouriteAlcohol,
-                  distance: _distance,
-                  gender: widget.user.gender,
-                  description: widget.user.description,)
+                DetailsList(user: widget.user,
+                  distance: _distance,)
               ],
             ),
           ],

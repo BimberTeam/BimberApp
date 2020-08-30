@@ -1,23 +1,14 @@
-import 'package:bimber/models/alcohol.dart';
-import 'package:bimber/models/gender.dart';
+import 'package:bimber/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:bimber/ui/common/language_utils.dart';
 
 class DetailsList extends StatelessWidget{
-  final String userName;
-  final int age;
-  final Alcohol favouriteAlcohol;
+  final User user;
   final int distance;
-  final String description;
-  final Gender gender;
 
    DetailsList({
-     @required this.userName,
-     @required this.age,
-     @required this.favouriteAlcohol,
-     @required this.distance,
-     @required this.description,
-     @required this.gender
+     @required this.user,
+     @required this.distance
     });
 
   _description(String text, Color color){
@@ -38,7 +29,7 @@ class DetailsList extends StatelessWidget{
   _name(Color color){
     return Row(
         children: <Widget>[
-          Text("${userName}, ${age}", style: TextStyle(
+          Text("${user.name}, ${user.age}", style: TextStyle(
               color: color,
               fontSize: 30,
               fontWeight: FontWeight.w900,
@@ -77,16 +68,14 @@ class DetailsList extends StatelessWidget{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   _name(textColor),
-                  _iconText(Icons.person, gender.readable(), textColor),
-                  _iconText(Icons.local_bar, "${favouriteAlcohol.type.readable()}: ${favouriteAlcohol.name}", textColor),
+                  _iconText(Icons.person, user.gender.readable(), textColor),
+                  _iconText(Icons.local_bar, "${user.favouriteAlcohol.type.readable()}: ${user.favouriteAlcohol.name}", textColor),
                   distance>=0 ? _iconText(Icons.location_on, "${distance}km", textColor) : Container(),
                   Divider(
                     height: 20,
                     thickness: 2,
-                    indent: 0,
-                    endIndent: 0,
                   ),
-                  _description(description, textColor),
+                  _description(user.description, textColor),
                 ],
               ),
             )

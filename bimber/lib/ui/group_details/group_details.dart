@@ -1,10 +1,9 @@
 import 'package:bimber/models/group.dart';
-import 'package:bimber/models/location.dart';
+import 'package:bimber/ui/common/utils.dart';
 import 'package:bimber/ui/group_details/group_details_app_bar.dart';
 import 'package:bimber/ui/group_details/group_details_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:geolocator/geolocator.dart';
 
 class GroupDetails extends StatefulWidget{
   final Group group;
@@ -21,26 +20,17 @@ class GroupDetailsState extends State<GroupDetails>{
   @override
   void initState() {
     super.initState();
-    _initCurrentLocation();
-  }
-
-  _initCurrentLocation() async {
-    final Location location = widget.group.averageLocation;
-    try{
-      Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
-      double distanceInMeters = await Geolocator()
-          .distanceBetween(position.latitude, position.longitude, location.latitude, location.longtitude);
+    initCurrentLocation(widget.group.averageLocation, (distanceInMeters) {
       setState(() {
         _distance = distanceInMeters~/1000;
       });
-    } catch(e){}
-
+    });
   }
 
 
   @override
   Widget build(BuildContext context) {
-    double _appBarHeight = MediaQuery.of(context).size.height*0.7;
+    double _appBarHeight = MediaQuery.of(context).size.height * 0.7;
     return Scaffold(
       body: Container(
         child: Stack(

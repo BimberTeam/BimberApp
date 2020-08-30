@@ -1,4 +1,5 @@
 import 'package:bimber/models/user.dart';
+import 'package:bimber/ui/common/cache_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -10,37 +11,18 @@ class GroupDetailsAppBar extends StatelessWidget{
     @required this.appBarHeight,
     @required this.members});
 
-  _backgroundImage(List<String> imageUrls, double height, double width){
+  _backgroundImage(List<User> members, double height, double width){
+      List<String> imageUrls = members.map((e) => e.imageUrl).toList();
       int crossAxisCount = sqrt(imageUrls.length).ceil();
       return GridView.count(
           physics: NeverScrollableScrollPhysics(),
           crossAxisCount: crossAxisCount,
-          childAspectRatio: (width/height),
+          childAspectRatio: (width / height),
           children: imageUrls.map((String url) {
             return GridTile(
-                child: _cachedImage(url));
+                child: CustomCacheImage(imageUrl: url,));
           }).toList()
       );
-  }
-
-  _cachedImage(String imageUrl){
-    return  CachedNetworkImage(
-      imageUrl: imageUrl,
-      imageBuilder: (context, image) {
-        return FittedBox(
-          fit: BoxFit.cover,
-          child: Image(image: image),
-        );
-      },
-      progressIndicatorBuilder: (context, url, downloadProgress) =>
-          FittedBox(
-              fit: BoxFit.contain,
-              child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 1,)),
-      errorWidget: (context, url, error) =>
-        FittedBox(
-          fit: BoxFit.contain,
-          child:Icon(Icons.error, color: Colors.red)),
-    );
   }
 
   @override
@@ -61,7 +43,7 @@ class GroupDetailsAppBar extends StatelessWidget{
               }
             }),
           ),
-          background: _backgroundImage(members.map((e) => e.imageUrl).toList(), appBarHeight, MediaQuery.of(context).size.width)
+          background: _backgroundImage(members, appBarHeight, MediaQuery.of(context).size.width)
       ),
     );
   }

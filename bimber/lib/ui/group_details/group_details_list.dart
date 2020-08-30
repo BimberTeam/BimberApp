@@ -40,7 +40,7 @@ class GroupDetailsList extends StatelessWidget{
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         crossAxisCount: 2,
-        children: members.map((e) => _memberAvatar(context, e, color,size)).toList()
+        children: members.map((e) => _memberAvatar(context, e, color, size)).toList()
     );
   }
   
@@ -53,10 +53,10 @@ class GroupDetailsList extends StatelessWidget{
           Navigator.of(context).push(
               PageRouteBuilder(
                 transitionDuration: Duration(milliseconds: 700),
-                pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+                pageBuilder: (_, __, ___) {
                   return UserDetails(user: user);
                 },
-                transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+                transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
                   return FadeTransition(
                     opacity: animation,
                     child: child,
@@ -90,12 +90,10 @@ class GroupDetailsList extends StatelessWidget{
                 children: <Widget>[
                   _iconText(Icons.group, "Liczba osób: ${members.length}", textColor),
                   _iconText(Icons.calendar_today, "Średni wiek: ${age}", textColor),
-                  distance>=0 ? _iconText(Icons.location_on, "${distance}km", textColor) : Container(),
+                  distance >= 0 ? _iconText(Icons.location_on, "${distance}km", textColor) : Container(),
                   Divider(
                     height: 20,
                     thickness: 2,
-                    indent: 0,
-                    endIndent: 0,
                   ),
                   _membersList(context, members, textColor, avatarSize)
                 ] ,
