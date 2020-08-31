@@ -42,11 +42,16 @@ Color randomColor() {
       255, random.nextInt(255), random.nextInt(255), random.nextInt(255));
 }
 
-initCurrentLocation(Location location, Function callback) async {
-  try{
-    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
-    double distanceInMeters = await Geolocator()
-        .distanceBetween(position.latitude, position.longitude, location.latitude, location.longtitude);
-    callback(distanceInMeters);
-  } catch(e){}
+void calculateCurrentDistanceFrom(
+    Location location, void Function(double) onGetDistance) async {
+  try {
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
+    double distanceInMeters = await Geolocator().distanceBetween(
+        position.latitude,
+        position.longitude,
+        location.latitude,
+        location.longtitude);
+    onGetDistance(distanceInMeters);
+  } catch (e) {}
 }

@@ -9,28 +9,25 @@ import 'package:flutter/widgets.dart';
 class UserDetails extends StatefulWidget {
   final User user;
 
-  UserDetails({
-    @required this.user});
+  UserDetails({@required this.user});
 
   @override
   State<StatefulWidget> createState() => _UserDetailsState();
 }
 
-class _UserDetailsState extends State<UserDetails>{
+class _UserDetailsState extends State<UserDetails> {
   ScrollController _scrollController;
   int _distance = -1;
 
   @override
   void initState() {
     super.initState();
-    initCurrentLocation(widget.user.location, (distanceInMeters) {
+    calculateCurrentDistanceFrom(widget.user.location, (distanceInMeters) {
       setState(() {
-        _distance = distanceInMeters~/1000;
+        _distance = distanceInMeters ~/ 1000;
       });
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +41,11 @@ class _UserDetailsState extends State<UserDetails>{
               controller: _scrollController,
               shrinkWrap: false,
               slivers: <Widget>[
-                DetailsAppBar(appBarHeight: _appBarHeight,
+                DetailsAppBar(
+                  appBarHeight: _appBarHeight,
                   user: widget.user,
                 ),
-                DetailsList(user: widget.user,
-                  distance: _distance,)
+                DetailsList(user: widget.user, distance: _distance)
               ],
             ),
           ],
@@ -56,6 +53,4 @@ class _UserDetailsState extends State<UserDetails>{
       ),
     );
   }
-
-  
 }

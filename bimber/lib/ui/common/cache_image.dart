@@ -1,11 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class CustomCacheImage extends StatelessWidget{
+class CustomCachedImage extends StatelessWidget {
   final String imageUrl;
-  CustomCacheImage({
-    @required this.imageUrl
-  });
+
+  CustomCachedImage({@required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +16,16 @@ class CustomCacheImage extends StatelessWidget{
             child: Image(image: image),
           );
         },
-        progressIndicatorBuilder: (context, url, downloadProgress) =>
-            FittedBox(
+        progressIndicatorBuilder: (context, url, downloadProgress) => FittedBox(
               fit: BoxFit.contain,
-              child: CircularProgressIndicator(value: downloadProgress.progress, strokeWidth: 1,),
+              child: CircularProgressIndicator(
+                value: downloadProgress.progress,
+                strokeWidth: 1,
+              ),
             ),
-        errorWidget: (context, url, error) =>
-            FittedBox(
+        errorWidget: (context, url, error) => FittedBox(
               fit: BoxFit.contain,
-              child:Icon(Icons.error, color: Colors.red),
-            )
-    );
+              child: Icon(Icons.error, color: Colors.red),
+            ));
   }
-
 }

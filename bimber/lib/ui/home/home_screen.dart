@@ -43,26 +43,27 @@ class HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size(screenSize.width, 30),
-          child: TabBar(
-            controller: _tabController,
-            tabs: <Widget>[
-              _tabBarIcon(icon: Icons.account_circle, index: 0),
-              _tabBarIcon(icon: Icons.local_bar, index: 1),
-              _tabBarIcon(icon: Icons.message, index: 2),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          physics: new NeverScrollableScrollPhysics(),
-          controller: _tabController,
-          children: <Widget>[
-            Text("Moje konto"),
-            DiscoverScreen(),
-            Text("Wiadomosci")
-          ],
-        ));
+    return GroupDetails(group: Fixtures.getGroup());
+//    return Scaffold(
+//        appBar: PreferredSize(
+//          preferredSize: Size(screenSize.width, 30),
+//          child: TabBar(
+//            controller: _tabController,
+//            tabs: <Widget>[
+//              _tabBarIcon(icon: Icons.account_circle, index: 0),
+//              _tabBarIcon(icon: Icons.local_bar, index: 1),
+//              _tabBarIcon(icon: Icons.message, index: 2),
+//            ],
+//          ),
+//        ),
+//        body: TabBarView(
+//          physics: NeverScrollableScrollPhysics(),
+//          controller: _tabController,
+//          children: <Widget>[
+//            Text("Moje konto"),
+//            DiscoverScreen(),
+//            Text("Wiadomosci")
+//          ],
+//        ));
   }
 }
