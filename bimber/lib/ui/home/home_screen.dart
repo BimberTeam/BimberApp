@@ -1,4 +1,8 @@
+import 'package:bimber/ui/common/fixtures.dart';
+import 'package:bimber/ui/common/utils.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
+import 'package:bimber/ui/group_details/group_details.dart';
+import 'package:bimber/ui/user_details/user_details.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -52,7 +56,7 @@ class HomeScreenState extends State<HomeScreen>
           ),
         ),
         body: TabBarView(
-          physics: new NeverScrollableScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           controller: _tabController,
           children: <Widget>[
             Text("Moje konto"),
