@@ -1,5 +1,6 @@
 import 'package:bimber/models/user.dart';
 import 'package:bimber/ui/common/cache_image.dart';
+import 'package:bimber/ui/common/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -36,7 +37,7 @@ class GroupDetailsAppBar extends StatelessWidget {
           centerTitle: true,
           title: LayoutBuilder(
             builder: ((BuildContext context, BoxConstraints constraints) {
-              if (constraints.biggest.height < 85) {
+              if (constraints.biggest.height < (silverAppBarHeight + 5)) {
                 return Text("Grupa");
               } else {
                 return Container();

@@ -1,0 +1,1 @@
+const silverAppBarHeight = 80;

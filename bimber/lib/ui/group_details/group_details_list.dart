@@ -3,6 +3,7 @@ import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:bimber/ui/user_details/user_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:build_context/build_context.dart';
 
 class GroupDetailsList extends StatelessWidget {
   final int age;
@@ -60,19 +61,7 @@ class GroupDetailsList extends StatelessWidget {
               width: size,
               height: size,
               onTap: () {
-                Navigator.of(context).push(PageRouteBuilder(
-                  transitionDuration: Duration(milliseconds: 700),
-                  pageBuilder: (_, __, ___) {
-                    return UserDetails(user: user);
-                  },
-                  transitionsBuilder:
-                      (_, Animation<double> animation, __, Widget child) {
-                    return FadeTransition(
-                      opacity: animation,
-                      child: child,
-                    );
-                  },
-                ));
+                context.pushNamed("/user-details", arguments: user);
               }),
         ),
         Text(

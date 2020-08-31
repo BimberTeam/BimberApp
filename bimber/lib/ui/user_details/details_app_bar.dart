@@ -1,4 +1,5 @@
 import 'package:bimber/models/user.dart';
+import 'package:bimber/ui/common/constants.dart';
 import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,7 @@ class DetailsAppBar extends StatelessWidget {
       flexibleSpace: FlexibleSpaceBar(
           title: LayoutBuilder(
             builder: ((BuildContext context, BoxConstraints constraints) {
-              if (constraints.biggest.height < 85) {
+              if (constraints.biggest.height < (silverAppBarHeight + 5)) {
                 return Text("${user.name}");
               } else {
                 return Container();
