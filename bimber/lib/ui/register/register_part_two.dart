@@ -1,16 +1,14 @@
 import 'package:bimber/bloc/register/register_bloc.dart';
 import 'package:bimber/models/age_preference.dart';
 import 'package:bimber/models/alcohol.dart';
-import 'package:bimber/models/alcohol_type.dart';
-import 'package:bimber/models/gender.dart';
 import 'package:bimber/models/register_account_data.dart';
+import 'package:bimber/ui/common/account_form_fields.dart';
 import 'package:bimber/ui/common/theme.dart';
 import 'package:bimber/ui/common/themed_primary_button.dart';
 import 'package:bimber/ui/register/register_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:bimber/ui/common/language_utils.dart';
 import 'package:build_context/build_context.dart';
 
 typedef AlcoholTypeValidator = String Function(dynamic);
@@ -90,24 +88,7 @@ class _RegisterPartTwoState extends State<RegisterPartTwo> {
                     },
                     child: Column(
                       children: <Widget>[
-                        FormBuilderTextField(
-                          minLines: 3,
-                          maxLines: 5,
-                          attribute: "description",
-                          maxLength: 300,
-                          decoration: InputDecoration(
-                              border: new OutlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: orangeSoda)),
-                              labelText: "Opis",
-                              hintText: placeholder),
-                          validators: [
-                            FormBuilderValidators.minLength(10,
-                                errorText: "Na prawdę? Minimum 10 znaków!"),
-                            FormBuilderValidators.maxLength(300,
-                                errorText: "Wow, to trochę za dużo!")
-                          ],
-                        ),
+                        AccountFormField.descriptionField,
                         SizedBox(height: 15),
                         Text(
                             agePreferenceText +
@@ -127,50 +108,9 @@ class _RegisterPartTwoState extends State<RegisterPartTwo> {
                             });
                           },
                         ),
-                        FormBuilderDropdown<Gender>(
-                          attribute: "genderPreference",
-                          decoration: InputDecoration(
-                              labelText: "Preferowana płeć",
-                              icon: Icon(Icons.wc)),
-                          hint: Text("Z kim chcesz balować?"),
-                          items: Gender.values
-                              .map((gender) => DropdownMenuItem<Gender>(
-                                  value: gender,
-                                  child: Text(gender.readable())))
-                              .toList()
-                                ..add(DropdownMenuItem<Gender>(
-                                    value: null, child: Text("Ktokolwiek"))),
-                        ),
-                        FormBuilderDropdown<AlcoholType>(
-                            attribute: "alcoholPreference",
-                            decoration: InputDecoration(
-                                labelText: "Ulubiony rodzaj alkoholu",
-                                icon: Icon(Icons.local_bar)),
-                            hint: Text("Wybierz rozsądnie"),
-                            items: AlcoholType.values
-                                .map((type) => DropdownMenuItem<AlcoholType>(
-                                    value: type, child: Text(type.readable())))
-                                .toList(),
-                            validators: <AlcoholTypeValidator>[
-                              FormBuilderValidators.required(
-                                  errorText: "Nic nie pijesz?")
-                            ]),
-                        FormBuilderTextField(
-                          attribute: "alcoholName",
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                              hintText: "Twój ulubiony trunek",
-                              labelText: "Napój Bogów",
-                              icon: Icon(Icons.local_bar)),
-                          validators: [
-                            FormBuilderValidators.required(
-                                errorText: "Pochawl się!"),
-                            FormBuilderValidators.minLength(3,
-                                errorText: "Czy coś takiego w ogóle istnieje?"),
-                            FormBuilderValidators.maxLength(30,
-                                errorText: "Komu chce się to czyta��?"),
-                          ],
-                        ),
+                        AccountFormField.genderPreferenceField,
+                        AccountFormField.alcoholPreferenceField,
+                        AccountFormField.alcoholNameField,
                         SizedBox(height: 15),
                         SizedBox(
                           width: double.infinity,
