@@ -1,8 +1,10 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:bimber/ui/common/fixtures.dart';
 import 'package:bimber/ui/discover/discover_card.dart';
 import 'package:bimber/ui/discover/discover_swipe.dart';
+import 'package:bimber/ui/discover/discover_card_content.dart';
 import 'package:flutter/material.dart';
 
 class DiscoverStack extends StatefulWidget {
@@ -23,7 +25,6 @@ class _DiscoverStackState extends State<DiscoverStack> {
     super.initState();
 
     cards = [
-      Colors.white,
       Colors.lightGreen,
       Colors.purple,
       Colors.grey,
@@ -31,9 +32,9 @@ class _DiscoverStackState extends State<DiscoverStack> {
     ]
         .map((color) => DiscoverCard(
             size: widget.size,
-            child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30), color: color))))
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: DiscoverCardContent(group: Fixtures.getGroup(), size: widget.size))))
         .toList();
 
     currentCard = cards.removeLast();
