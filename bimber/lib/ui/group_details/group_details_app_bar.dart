@@ -1,7 +1,6 @@
 import 'package:bimber/models/user.dart';
 import 'package:bimber/ui/common/cache_image.dart';
 import 'package:bimber/ui/common/constants.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 

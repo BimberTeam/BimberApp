@@ -1,5 +1,6 @@
 import 'package:bimber/models/group.dart';
 import 'package:bimber/models/user.dart';
+import 'package:bimber/ui/group_details/group_image_hero.dart';
 import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:flutter/material.dart';
 
@@ -15,12 +16,14 @@ class DiscoverCardContent extends StatelessWidget {
     if(onlyUser != null){
       return UserImageHero(user: onlyUser, height: size.height, width: size.width, onTap: () {});
     }
-    return Container();
+    return GroupImageHero(group: this.group, width: size.width, height: size.height);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Container(
+      color: Theme.of(context).colorScheme.secondary,
+      child: Stack(
         children: <Widget>[
           Positioned(bottom: 0, child: buildHero()),
           Positioned(
@@ -54,6 +57,7 @@ class DiscoverCardContent extends StatelessWidget {
                     )),
               ))
         ],
+      )
     );
   }
 }
