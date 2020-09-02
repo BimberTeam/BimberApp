@@ -6,7 +6,7 @@ class DiscoverScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = sizeWithoutAppBar(context);
-    final stackSize = size * 0.9;
+    final stackSize = Size(size.width, size.height*0.9);
     final footerSize = size * 0.1;
     return Column(
       children: <Widget>[
