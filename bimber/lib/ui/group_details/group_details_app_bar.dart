@@ -1,29 +1,16 @@
+import 'package:bimber/models/group.dart';
 import 'package:bimber/models/user.dart';
 import 'package:bimber/ui/common/cache_image.dart';
 import 'package:bimber/ui/common/constants.dart';
+import 'package:bimber/ui/group_details/group_image_hero.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
 class GroupDetailsAppBar extends StatelessWidget {
   final double appBarHeight;
-  final List<User> members;
+  final Group group;
 
-  GroupDetailsAppBar({@required this.appBarHeight, @required this.members});
-
-  _backgroundImage(List<User> members, double height, double width) {
-    List<String> imageUrls = members.map((e) => e.imageUrl).toList();
-    int crossAxisCount = sqrt(imageUrls.length).ceil();
-    return GridView.count(
-        physics: NeverScrollableScrollPhysics(),
-        crossAxisCount: crossAxisCount,
-        childAspectRatio: (width / height),
-        children: imageUrls.map((String url) {
-          return GridTile(
-              child: CustomCachedImage(
-            imageUrl: url,
-          ));
-        }).toList());
-  }
+  GroupDetailsAppBar({@required this.appBarHeight, @required this.group});
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +30,10 @@ class GroupDetailsAppBar extends StatelessWidget {
               }
             }),
           ),
-          background: _backgroundImage(
-              members, appBarHeight, MediaQuery.of(context).size.width)),
+          background: GroupImageHero(
+              group: group,
+              height: appBarHeight,
+              width: MediaQuery.of(context).size.width)),
     );
   }
 }

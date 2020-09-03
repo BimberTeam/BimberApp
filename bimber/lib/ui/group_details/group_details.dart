@@ -41,7 +41,7 @@ class GroupDetailsState extends State<GroupDetails> {
               slivers: <Widget>[
                 GroupDetailsAppBar(
                   appBarHeight: _appBarHeight,
-                  members: widget.group.members,
+                  group: widget.group,
                 ),
                 GroupDetailsList(
                   age: widget.group.averageAge,

@@ -18,25 +18,26 @@ class GroupImageHero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int crossAxisCount = sqrt(group.members.length).ceil();
-    return Hero(
-        tag: group.id,
-        createRectTween: (Rect begin, Rect end) {
-          return MaterialRectCenterArcTween(begin: begin, end: end);
-        },
-        child: SizedBox(
-            height: height,
-            width: width,
-            child: GridView.count(
-                padding: EdgeInsets.all(0),
-                physics: NeverScrollableScrollPhysics(),
-                crossAxisCount: crossAxisCount,
-                childAspectRatio: (width / height),
-                children: group.members.map((User member) {
-                  final url = member.imageUrl;
-                  return GridTile(
-                      child: CustomCachedImage(
-                    imageUrl: url,
-                  ));
-                }).toList())));
+    return Container(
+        color: Theme.of(context).colorScheme.secondary,
+        child: Hero(
+            tag: group.id,
+            createRectTween: (Rect begin, Rect end) {
+              return MaterialRectCenterArcTween(begin: begin, end: end);
+            },
+            child: SizedBox(
+                height: height,
+                width: width,
+                child: GridView.count(
+                    physics: NeverScrollableScrollPhysics(),
+                    crossAxisCount: crossAxisCount,
+                    childAspectRatio: (width / height),
+                    children: group.members.map((User member) {
+                      final url = member.imageUrl;
+                      return GridTile(
+                          child: CustomCachedImage(
+                        imageUrl: url,
+                      ));
+                    }).toList()))));
   }
 }

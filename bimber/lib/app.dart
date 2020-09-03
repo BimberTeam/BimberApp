@@ -1,6 +1,7 @@
 import 'package:bimber/bloc/auth/authentication_bloc.dart';
 import 'package:bimber/resources/account_repository.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
+import 'package:bimber/ui/group_details/group_details.dart';
 import 'package:bimber/ui/home/home_screen.dart';
 import 'package:bimber/ui/login/login_screen.dart';
 import 'package:bimber/ui/common/theme.dart';
@@ -57,7 +58,7 @@ class App extends StatelessWidget {
                 case "/home":
                   {
                     return PageTransition(
-                        type: PageTransitionType.downToUp, child: HomeScreen());
+                        type: PageTransitionType.fade, child: HomeScreen());
                   }
                 case "/discover":
                   {
@@ -69,8 +70,15 @@ class App extends StatelessWidget {
                   {
                     return PageTransition(
                         type: PageTransitionType.fade,
-                        duration: Duration(milliseconds: 700),
+                        duration: Duration(milliseconds: 500),
                         child: UserDetails(user: settings.arguments));
+                  }
+                case "/group-details":
+                  {
+                    return PageTransition(
+                        type: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 500),
+                        child: GroupDetails(group: settings.arguments));
                   }
                 default:
                   {
