@@ -14,6 +14,7 @@ class GroupDetailsAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double silverPadding = 0.0375 * MediaQuery.of(context).size.height;
     return SliverAppBar(
       expandedHeight: appBarHeight,
       pinned: true,
@@ -32,7 +33,7 @@ class GroupDetailsAppBar extends StatelessWidget {
           ),
           background: GroupImageHero(
               group: group,
-              height: appBarHeight,
+              height: appBarHeight + silverPadding,
               width: MediaQuery.of(context).size.width)),
     );
   }

@@ -4,6 +4,8 @@ import 'package:bimber/ui/common/cache_image.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:flutter/painting.dart';
+
 class GroupImageHero extends StatelessWidget {
   final Group group;
   final double height;
@@ -29,6 +31,7 @@ class GroupImageHero extends StatelessWidget {
                 height: height,
                 width: width,
                 child: GridView.count(
+                    padding: EdgeInsets.all(0),
                     physics: NeverScrollableScrollPhysics(),
                     crossAxisCount: crossAxisCount,
                     childAspectRatio: (width / height),

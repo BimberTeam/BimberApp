@@ -18,11 +18,8 @@ class DiscoverCardContent extends StatelessWidget {
       return UserImageHero(
           user: onlyUser, height: size.height, width: size.width, onTap: () {});
     }
-    return MediaQuery.removePadding(
-        context: context,
-        removeTop: true,
-        child: GroupImageHero(
-            group: this.group, width: size.width, height: size.height));
+    return GroupImageHero(
+        group: this.group, width: size.width, height: size.height);
   }
 
   _navigateToDetails(BuildContext context) {

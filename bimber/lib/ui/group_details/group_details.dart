@@ -4,6 +4,7 @@ import 'package:bimber/ui/group_details/group_details_app_bar.dart';
 import 'package:bimber/ui/group_details/group_details_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:build_context/build_context.dart';
 
 class GroupDetails extends StatefulWidget {
   final Group group;
@@ -32,27 +33,36 @@ class GroupDetailsState extends State<GroupDetails> {
   Widget build(BuildContext context) {
     double _appBarHeight = MediaQuery.of(context).size.height * 0.7;
     return Scaffold(
-      body: Container(
-        child: Stack(
-          alignment: AlignmentDirectional.bottomCenter,
-          children: <Widget>[
-            CustomScrollView(
-              shrinkWrap: false,
-              slivers: <Widget>[
-                GroupDetailsAppBar(
-                  appBarHeight: _appBarHeight,
-                  group: widget.group,
-                ),
-                GroupDetailsList(
-                  age: widget.group.averageAge,
-                  distance: _distance,
-                  members: widget.group.members,
-                )
-              ],
-            ),
-          ],
+        body: Container(
+          child: Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: <Widget>[
+              CustomScrollView(
+                shrinkWrap: false,
+                slivers: <Widget>[
+                  GroupDetailsAppBar(
+                    appBarHeight: _appBarHeight,
+                    group: widget.group,
+                  ),
+                  GroupDetailsList(
+                    age: widget.group.averageAge,
+                    distance: _distance,
+                    members: widget.group.members,
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+        floatingActionButton: SizedBox(
+          width: 70,
+          height: 70,
+          child: FloatingActionButton(
+            onPressed: () {
+              context.pop();
+            },
+            child: Icon(Icons.arrow_downward, size: 40),
+          ),
+        ));
   }
 }

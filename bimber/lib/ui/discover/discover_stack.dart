@@ -33,7 +33,10 @@ class _DiscoverStackState extends State<DiscoverStack> {
             size: widget.size,
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
-                child: DiscoverCardContent(group: Fixtures.getGroup(), size: widget.size))))
+                child: DiscoverCardContent(
+                    group: Fixtures.getGroup(),
+                    size: Size(
+                        widget.size.width - 10, widget.size.height - 10)))))
         .toList();
 
     currentCard = cards.removeLast();
