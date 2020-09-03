@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'dart:ui';
-
 import 'package:bimber/ui/common/fixtures.dart';
 import 'package:bimber/ui/discover/discover_card.dart';
 import 'package:bimber/ui/discover/discover_swipe.dart';
@@ -25,9 +24,9 @@ class _DiscoverStackState extends State<DiscoverStack> {
     super.initState();
 
     cards = [
-      Colors.lightGreen,
-      Colors.purple,
-      Colors.grey,
+//      Colors.lightGreen,
+//      Colors.purple,
+//      Colors.grey,
       Colors.yellowAccent
     ]
         .map((color) => DiscoverCard(
