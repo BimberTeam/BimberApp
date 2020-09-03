@@ -13,10 +13,6 @@ class DiscoverCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-      ),
       height: size.height,
       width: size.height,
       child: child,

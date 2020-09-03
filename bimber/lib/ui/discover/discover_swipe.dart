@@ -154,9 +154,7 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
 
       return Positioned(
           height: widget.card.size.height,
-          // TODO: fix that
-          // I have no idea why this '36' have to be here. It stays here for now.
-          width: widget.card.size.width + 36,
+          width: widget.card.size.width,
           top: (translateY?.value ?? 0) + offset.dy + _currentDragPosition.top,
           left:
               (translateX?.value ?? 0) + offset.dx + _currentDragPosition.left,
