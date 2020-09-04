@@ -24,20 +24,14 @@ class _DiscoverStackState extends State<DiscoverStack> {
     super.initState();
 
     cards = [
-//      Colors.lightGreen,
-//      Colors.purple,
-//      Colors.grey,
-      Colors.yellowAccent
-    ]
-        .map((color) => DiscoverCard(
-            size: widget.size,
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(15.0),
-                child: DiscoverCardContent(
-                    group: Fixtures.getGroup(),
-                    size: Size(
-                        widget.size.width - 10, widget.size.height - 10)))))
-        .toList();
+      DiscoverCard(
+          size: widget.size,
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(15.0),
+              child: DiscoverCardContent(
+                  group: Fixtures.getGroup(),
+                  size: Size(widget.size.width - 10, widget.size.height - 10))))
+    ];
 
     currentCard = cards.removeLast();
   }

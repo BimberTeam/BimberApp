@@ -23,17 +23,16 @@ class DiscoverCardContent extends StatelessWidget {
   }
 
   _navigateToDetails(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (onlyUser != null) {
-        context.pushNamed("/user-details", arguments: onlyUser);
-      } else {
-        context.pushNamed("/group-details", arguments: group);
-      }
-    });
+    if (onlyUser != null) {
+      context.pushNamed("/user-details", arguments: onlyUser);
+    } else {
+      context.pushNamed("/group-details", arguments: group);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (group.members.length == 0) return Container();
     return Stack(
       children: <Widget>[
         Positioned(bottom: 0, child: _hero(context)),
@@ -52,7 +51,7 @@ class DiscoverCardContent extends StatelessWidget {
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          colors: [Color(0x00000000), Color(0xff000000)],
+                          colors: [Colors.transparent, Colors.black],
                           tileMode: TileMode.clamp,
                         ),
                       ),
