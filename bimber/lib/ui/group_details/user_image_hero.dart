@@ -16,20 +16,22 @@ class UserImageHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-        tag: user.id,
-        createRectTween: (Rect begin, Rect end) {
-          return MaterialRectCenterArcTween(begin: begin, end: end);
-        },
-        child: SizedBox(
-            height: height,
-            width: width,
-            child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                    onTap: onTap,
-                    child: CustomCachedImage(
-                      imageUrl: user.imageUrl,
-                    )))));
+    return Container(
+        color: Theme.of(context).colorScheme.secondary,
+        child: Hero(
+            tag: user.id,
+            createRectTween: (Rect begin, Rect end) {
+              return MaterialRectCenterArcTween(begin: begin, end: end);
+            },
+            child: SizedBox(
+                height: height,
+                width: width,
+                child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                        onTap: onTap,
+                        child: CustomCachedImage(
+                          imageUrl: user.imageUrl,
+                        ))))));
   }
 }

@@ -5,6 +5,7 @@ import 'package:bimber/ui/user_details/details_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:build_context/build_context.dart';
 
 class UserDetails extends StatefulWidget {
   final User user;
@@ -33,24 +34,33 @@ class _UserDetailsState extends State<UserDetails> {
   Widget build(BuildContext context) {
     double _appBarHeight = MediaQuery.of(context).size.height * 0.7;
     return Scaffold(
-      body: Container(
-        child: Stack(
-          alignment: AlignmentDirectional.bottomCenter,
-          children: <Widget>[
-            CustomScrollView(
-              controller: _scrollController,
-              shrinkWrap: false,
-              slivers: <Widget>[
-                DetailsAppBar(
-                  appBarHeight: _appBarHeight,
-                  user: widget.user,
-                ),
-                DetailsList(user: widget.user, distance: _distance)
-              ],
-            ),
-          ],
+        body: Container(
+          child: Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: <Widget>[
+              CustomScrollView(
+                controller: _scrollController,
+                shrinkWrap: false,
+                slivers: <Widget>[
+                  DetailsAppBar(
+                    appBarHeight: _appBarHeight,
+                    user: widget.user,
+                  ),
+                  DetailsList(user: widget.user, distance: _distance)
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+        floatingActionButton: SizedBox(
+          width: 70,
+          height: 70,
+          child: FloatingActionButton(
+            onPressed: () {
+              context.pop();
+            },
+            child: Icon(Icons.arrow_downward, size: 40),
+          ),
+        ));
   }
 }

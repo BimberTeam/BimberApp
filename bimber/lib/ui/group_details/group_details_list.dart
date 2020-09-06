@@ -1,6 +1,5 @@
 import 'package:bimber/models/user.dart';
 import 'package:bimber/ui/group_details/user_image_hero.dart';
-import 'package:bimber/ui/user_details/user_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';

@@ -2,6 +2,7 @@ import 'package:bimber/ui/common/position.dart';
 import 'package:bimber/ui/common/utils.dart';
 import 'package:bimber/ui/discover/discover_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sprung/sprung.dart';
 
 class DiscoverSwipe extends StatefulWidget {
@@ -236,6 +237,7 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onPanStart: _onPanStart,
         onPanUpdate: _onPanUpdate,
         onPanEnd: _onPanEnd,
