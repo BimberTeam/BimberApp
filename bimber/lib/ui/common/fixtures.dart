@@ -123,7 +123,7 @@ class Fixtures {
 
   static User getUser() {
     return User(
-        id: null,
+        id: 'user',
         name: "Harnas",
         email: null,
         gender: Gender.Male,

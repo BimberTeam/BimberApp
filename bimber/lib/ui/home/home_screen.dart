@@ -1,3 +1,4 @@
+import 'package:bimber/ui/chat_list/chat_list_screen.dart';
 import 'package:bimber/ui/common/fixtures.dart';
 import 'package:bimber/ui/common/utils.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
@@ -61,7 +62,7 @@ class HomeScreenState extends State<HomeScreen>
           children: <Widget>[
             Text("Moje konto"),
             DiscoverScreen(),
-            Text("Wiadomosci")
+            ChatListScreen()
           ],
         ));
   }
