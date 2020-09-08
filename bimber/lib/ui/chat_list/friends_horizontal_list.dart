@@ -5,34 +5,32 @@ import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
 
 class FriendsHorizontalList extends StatelessWidget {
-
   Widget _memberAvatar(
       BuildContext context, User user, Color color, double size) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      child: Column(
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(15.0),
-            child: UserImageHero(
-                user: user,
-                width: size,
-                height: size,
-                onTap: () {
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15.0),
+              child: UserImageHero(
+                  user: user,
+                  width: size,
+                  height: size,
+                  onTap: () {
 //                context.pushNamed("/user-details", arguments: user);
-                }),
-          ),
-          Text(
-            "${user.name}",
-            style: TextStyle(
-                color: color,
-                fontSize: 15,
-                fontWeight: FontWeight.w900,
-                fontFamily: 'Baloo'),
-          ),
-        ],
-      )
-    );
+                  }),
+            ),
+            Text(
+              "${user.name}",
+              style: TextStyle(
+                  color: color,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'Baloo'),
+            ),
+          ],
+        ));
   }
 
   @override
@@ -51,7 +49,7 @@ class FriendsHorizontalList extends StatelessWidget {
                   child: Text(
                     "Znajomi",
                     style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Colors.white,
                         fontSize: 15,
                         fontWeight: FontWeight.w900,
                         fontFamily: 'Baloo'),
@@ -60,7 +58,8 @@ class FriendsHorizontalList extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: PopupMenuButton(
-                      icon: Icon(Icons.more_horiz),
+                      icon: Icon(Icons.more_horiz, color: Colors.white),
+                      color: Theme.of(context).colorScheme.secondary,
                       itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                             PopupMenuItem(
                               child: Text('Pokaż wszystkich'),
@@ -74,19 +73,19 @@ class FriendsHorizontalList extends StatelessWidget {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(left: 4.0),
-            height: 90,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                _memberAvatar(context, Fixtures.getUser(), Theme.of(context).colorScheme.secondary, 60),
-                _memberAvatar(context, Fixtures.getUser(), Theme.of(context).colorScheme.secondary, 60),
-                _memberAvatar(context, Fixtures.getUser(), Theme.of(context).colorScheme.secondary, 60),
-                _memberAvatar(context, Fixtures.getUser(), Theme.of(context).colorScheme.secondary, 60),
-                _memberAvatar(context, Fixtures.getUser(), Theme.of(context).colorScheme.secondary, 60),
-                _memberAvatar(context, Fixtures.getUser(), Theme.of(context).colorScheme.secondary, 60),
-              ],
-            ))
+              padding: EdgeInsets.only(left: 4.0),
+              height: 90,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  _memberAvatar(context, Fixtures.getUser(), Colors.white, 60),
+                  _memberAvatar(context, Fixtures.getUser(), Colors.white, 60),
+                  _memberAvatar(context, Fixtures.getUser(), Colors.white, 60),
+                  _memberAvatar(context, Fixtures.getUser(), Colors.white, 60),
+                  _memberAvatar(context, Fixtures.getUser(), Colors.white, 60),
+                  _memberAvatar(context, Fixtures.getUser(), Colors.white, 60),
+                ],
+              ))
         ],
       ),
     );
