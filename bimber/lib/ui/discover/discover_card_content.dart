@@ -43,50 +43,41 @@ class DiscoverCardContent extends StatelessWidget {
               child: InkWell(
                   splashColor: Colors.transparent,
                   onTap: () => _navigateToDetails(context),
-                  child: Container(
-                      padding: EdgeInsets.all(0),
-                      width: size.width,
-                      height: size.height * 0.2,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [Colors.transparent, Colors.black],
-                          tileMode: TileMode.clamp,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text(
-                                    onlyUser != null
-                                        ? onlyUser.name +
-                                            ", " +
-                                            onlyUser.age.toString()
-                                        : "Grupa",
-                                    style: TextStyle(
-                                        fontSize: 40,
-                                        fontWeight: FontWeight.w900,
-                                        fontFamily: 'Baloo',
-                                        color: Colors.white,
-                                        decoration: TextDecoration.none)),
-                              )),
-                          Align(
-                              alignment: Alignment.bottomRight,
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 20, bottom: 20),
-                                child: Icon(
-                                  Icons.info,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
-                              ))
-                        ],
-                      ))),
+                  child: SizedBox(
+                    width: size.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text(
+                                  onlyUser != null
+                                      ? onlyUser.name +
+                                          ", " +
+                                          onlyUser.age.toString()
+                                      : "Grupa",
+                                  style: TextStyle(
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Baloo',
+                                      color: Colors.white,
+                                      decoration: TextDecoration.none)),
+                            )),
+                        Align(
+                            alignment: Alignment.bottomRight,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 20, bottom: 20),
+                              child: Icon(
+                                Icons.info,
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                            ))
+                      ],
+                    ),
+                  )),
             ))
       ],
     );
