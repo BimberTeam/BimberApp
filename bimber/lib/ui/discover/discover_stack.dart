@@ -26,11 +26,10 @@ class _DiscoverStackState extends State<DiscoverStack> {
     cards = [
       DiscoverCard(
           size: widget.size,
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(15.0),
-              child: DiscoverCardContent(
-                  group: Fixtures.getGroup(),
-                  size: Size(widget.size.width - 10, widget.size.height - 10))))
+          child: LayoutBuilder(builder: (context, constraints) {
+            return DiscoverCardContent(
+                group: Fixtures.getGroup(), size: constraints.smallest);
+          }))
     ];
 
     currentCard = cards.removeLast();

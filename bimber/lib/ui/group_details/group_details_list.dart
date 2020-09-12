@@ -53,15 +53,24 @@ class GroupDetailsList extends StatelessWidget {
       BuildContext context, User user, Color color, double size) {
     return Column(
       children: <Widget>[
-        ClipRRect(
-          borderRadius: BorderRadius.circular(15.0),
-          child: UserImageHero(
-              user: user,
-              width: size,
-              height: size,
-              onTap: () {
-                context.pushNamed("/user-details", arguments: user);
-              }),
+        Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.0),
+              boxShadow: [
+                BoxShadow(
+                    blurRadius: 3,
+                    offset: Offset(5, -5),
+                    color: Colors.black.withOpacity(0.4))
+              ]),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15.0),
+            child: UserImageHero(
+                user: user,
+                size: Size(size, size),
+                onTap: () {
+                  context.pushNamed("/user-details", arguments: user);
+                }),
+          ),
         ),
         Text(
           "${user.name}",
@@ -83,7 +92,7 @@ class GroupDetailsList extends StatelessWidget {
     return SliverList(
       delegate: SliverChildListDelegate(<Widget>[
         Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: containerHeight),
               child: Column(
@@ -92,9 +101,9 @@ class GroupDetailsList extends StatelessWidget {
                   _iconText(
                       Icons.group, "Liczba osób: ${members.length}", textColor),
                   _iconText(
-                      Icons.calendar_today, "Średni wiek: ${age}", textColor),
+                      Icons.calendar_today, "Średni wiek: $age", textColor),
                   distance >= 0
-                      ? _iconText(Icons.location_on, "${distance}km", textColor)
+                      ? _iconText(Icons.location_on, "$distance km", textColor)
                       : Container(),
                   Divider(
                     height: 20,

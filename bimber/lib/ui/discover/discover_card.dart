@@ -13,9 +13,15 @@ class DiscoverCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+            blurRadius: 15,
+            offset: Offset(5, 5),
+            color: Colors.black.withOpacity(0.4))
+      ]),
       height: size.height,
       width: size.width,
-      padding: EdgeInsets.all(5),
+      margin: EdgeInsets.only(top: 20, left: 12, right: 12, bottom: 10),
       child: child,
     );
   }

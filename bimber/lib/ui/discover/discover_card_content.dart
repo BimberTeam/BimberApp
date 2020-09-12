@@ -9,18 +9,13 @@ class DiscoverCardContent extends StatelessWidget {
   final Group group;
   final Size size;
   final User onlyUser;
+  final Widget hero;
 
   DiscoverCardContent({@required this.group, @required this.size})
-      : onlyUser = group.members.length == 1 ? group.members.first : null;
-
-  _hero(BuildContext context) {
-    if (onlyUser != null) {
-      return UserImageHero(
-          user: onlyUser, height: size.height, width: size.width, onTap: () {});
-    }
-    return GroupImageHero(
-        group: this.group, width: size.width, height: size.height);
-  }
+      : onlyUser = group.members.length == 1 ? group.members.first : null,
+        hero = group.members.length == 1
+            ? UserImageHero(user: group.members.first, size: size)
+            : GroupImageHero(group: group, size: size);
 
   _navigateToDetails(BuildContext context) {
     if (onlyUser != null) {
@@ -33,62 +28,49 @@ class DiscoverCardContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (group.members.length == 0) return Container();
-    return Stack(
-      children: <Widget>[
-        Positioned(bottom: 0, child: _hero(context)),
-        Positioned(
-            bottom: 0,
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                  splashColor: Colors.transparent,
-                  onTap: () => _navigateToDetails(context),
-                  child: Container(
-                      padding: EdgeInsets.all(0),
-                      width: size.width,
-                      height: size.height * 0.2,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [Colors.transparent, Colors.black],
-                          tileMode: TileMode.clamp,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text(
-                                    onlyUser != null
-                                        ? onlyUser.name +
-                                            ", " +
-                                            onlyUser.age.toString()
-                                        : "Grupa",
-                                    style: TextStyle(
-                                        fontSize: 40,
-                                        fontWeight: FontWeight.w900,
-                                        fontFamily: 'Baloo',
-                                        color: Colors.white,
-                                        decoration: TextDecoration.none)),
-                              )),
-                          Align(
-                              alignment: Alignment.bottomRight,
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 20, bottom: 20),
-                                child: Icon(
-                                  Icons.info,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
-                              ))
-                        ],
-                      ))),
-            ))
-      ],
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(15.0),
+      child: Stack(
+        children: <Widget>[
+          Positioned(bottom: 0, child: hero),
+          Positioned(left: 0, bottom: 0, child: _name()),
+          Positioned(right: 0, bottom: 0, child: _info(context)),
+        ],
+      ),
+    );
+  }
+
+  _name() {
+    return Align(
+        alignment: Alignment.bottomLeft,
+        child: Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Text(
+              onlyUser != null
+                  ? onlyUser.name + ", " + onlyUser.age.toString()
+                  : "Grupa",
+              style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'Baloo',
+                  color: Colors.white,
+                  decoration: TextDecoration.none)),
+        ));
+  }
+
+  _info(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _navigateToDetails(context),
+      child: Align(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: EdgeInsets.only(right: 30, bottom: 20),
+            child: Icon(
+              Icons.info,
+              color: Colors.white,
+              size: 30,
+            ),
+          )),
     );
   }
 }
