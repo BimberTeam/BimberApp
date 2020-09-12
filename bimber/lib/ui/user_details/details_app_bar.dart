@@ -12,8 +12,7 @@ class DetailsAppBar extends StatelessWidget {
   _backgroundImage(double width) {
     return UserImageHero(
       user: user,
-      width: width,
-      height: appBarHeight,
+      size: Size(width, appBarHeight),
     );
   }
 

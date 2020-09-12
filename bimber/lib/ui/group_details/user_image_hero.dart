@@ -5,15 +5,10 @@ import 'package:flutter/material.dart';
 
 class UserImageHero extends StatelessWidget {
   final User user;
-  final double height;
-  final double width;
+  final Size size;
   final Function onTap;
 
-  UserImageHero(
-      {@required this.user,
-      @required this.height,
-      @required this.width,
-      this.onTap});
+  UserImageHero({@required this.user, @required this.size, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +27,8 @@ class UserImageHero extends StatelessWidget {
                   tileMode: TileMode.clamp,
                   stops: [0.7, 1.0]),
             ),
-            height: height,
-            width: width,
+            height: size.height,
+            width: size.width,
             child: Material(
                 color: Colors.transparent,
                 child: InkWell(

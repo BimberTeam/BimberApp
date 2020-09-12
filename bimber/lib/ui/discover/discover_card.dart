@@ -15,7 +15,7 @@ class DiscoverCard extends StatelessWidget {
     return Container(
       height: size.height,
       width: size.width,
-      padding: EdgeInsets.all(5),
+      margin: EdgeInsets.only(top: 20, left: 12, right: 12, bottom: 10),
       child: child,
     );
   }

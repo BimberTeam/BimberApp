@@ -57,8 +57,7 @@ class GroupDetailsList extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
           child: UserImageHero(
               user: user,
-              width: size,
-              height: size,
+              size: Size(size, size),
               onTap: () {
                 context.pushNamed("/user-details", arguments: user);
               }),
@@ -92,9 +91,9 @@ class GroupDetailsList extends StatelessWidget {
                   _iconText(
                       Icons.group, "Liczba osób: ${members.length}", textColor),
                   _iconText(
-                      Icons.calendar_today, "Średni wiek: ${age}", textColor),
+                      Icons.calendar_today, "Średni wiek: $age", textColor),
                   distance >= 0
-                      ? _iconText(Icons.location_on, "${distance}km", textColor)
+                      ? _iconText(Icons.location_on, "$distance km", textColor)
                       : Container(),
                   Divider(
                     height: 20,

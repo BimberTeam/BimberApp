@@ -9,14 +9,9 @@ import 'package:flutter/painting.dart';
 
 class GroupImageHero extends StatelessWidget {
   final Group group;
-  final double height;
-  final double width;
+  final Size size;
 
-  GroupImageHero({
-    @required this.group,
-    @required this.height,
-    @required this.width,
-  });
+  GroupImageHero({@required this.group, @required this.size});
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +30,13 @@ class GroupImageHero extends StatelessWidget {
                     colors: [Colors.transparent, Colors.black],
                     tileMode: TileMode.clamp,
                     stops: [0.7, 1.0])),
-            height: height,
-            width: width,
+            height: size.height,
+            width: size.width,
             child: GridView.count(
                 padding: EdgeInsets.all(0),
                 physics: NeverScrollableScrollPhysics(),
                 crossAxisCount: crossAxisCount,
-                childAspectRatio: (width / height),
+                childAspectRatio: (size.width / size.height),
                 children: group.members.map((User member) {
                   final url = member.imageUrl;
                   return GridTile(
