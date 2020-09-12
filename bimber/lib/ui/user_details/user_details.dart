@@ -59,7 +59,7 @@ class _UserDetailsState extends State<UserDetails> {
             onPressed: () {
               context.pop();
             },
-            child: Icon(Icons.arrow_downward, size: 40),
+            child: Icon(Icons.close, size: 40),
           ),
         ));
   }
