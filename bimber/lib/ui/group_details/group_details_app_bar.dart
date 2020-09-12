@@ -13,21 +13,12 @@ class GroupDetailsAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     double silverPadding = 0.0375 * MediaQuery.of(context).size.height;
     return SliverAppBar(
+      automaticallyImplyLeading: false,
       expandedHeight: appBarHeight,
       pinned: true,
       floating: false,
       snap: false,
       flexibleSpace: FlexibleSpaceBar(
-          centerTitle: true,
-          title: LayoutBuilder(
-            builder: ((BuildContext context, BoxConstraints constraints) {
-              if (constraints.biggest.height < (silverAppBarHeight + 5)) {
-                return Text("Grupa");
-              } else {
-                return Container();
-              }
-            }),
-          ),
           background: GroupImageHero(
               group: group,
               size: Size(MediaQuery.of(context).size.width,
