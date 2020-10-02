@@ -1,5 +1,6 @@
 import 'package:bimber/bloc/auth/authentication_bloc.dart';
 import 'package:bimber/resources/account_repository.dart';
+import 'package:bimber/ui/chat_list/friend_holder_menu.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:bimber/ui/group_details/group_details.dart';
 import 'package:bimber/ui/home/home_screen.dart';
@@ -79,6 +80,19 @@ class App extends StatelessWidget {
                         type: PageTransitionType.fade,
                         duration: Duration(milliseconds: 500),
                         child: GroupDetails(group: settings.arguments));
+                  }
+                case "/friend-menu":
+                  {
+                    FriendMenuArguments args = settings.arguments;
+                    return PageRouteBuilder(
+                        opaque: false, // set to false
+                        pageBuilder: (_, __, ___) => FriendMenu(
+                              child: args.child,
+                              menuContent: args.menuContent,
+                              childOffset: args.childOffset,
+                              childSize: args.childSize,
+                            ),
+                        transitionDuration: Duration(seconds: 0));
                   }
                 default:
                   {
