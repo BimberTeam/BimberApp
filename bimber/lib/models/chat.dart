@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import "package:bimber/models/message.dart";
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Chat extends Equatable {
   bool get stringify => true;
@@ -53,5 +54,21 @@ class Chat extends Equatable {
         avatarId: json["avatarId"] as int,
         name: json["name"],
         lastMessage: Message.fromJson(json["lastMessage"]));
+  }
+
+  Future<bool> checkIfRead() async {
+    if (lastMessage == null) return true;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String value = prefs.getString(this.id);
+    if (value != null) {
+      DateTime lastRead = DateTime.parse(value);
+      if (lastRead.isAfter(this.lastMessage.date)) return true;
+    }
+    return false;
+  }
+
+  markAsRead() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(this.id, DateTime.now().toIso8601String());
   }
 }

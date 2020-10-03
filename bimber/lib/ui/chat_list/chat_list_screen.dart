@@ -17,7 +17,7 @@ class ChatListScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             FriendsHorizontalList(friends: Fixtures.getUsersList()),
-            GroupChatList()
+            GroupChatList(chatList: Fixtures.getChatLists())
           ],
         ));
   }

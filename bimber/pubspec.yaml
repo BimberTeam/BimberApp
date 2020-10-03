@@ -28,6 +28,7 @@ dependencies:
   provider: ^4.3.2
   sprung: ^2.0.0+12
   flutter_chips_input: ^1.9.0-dev.1
+  shared_preferences: ^0.5.12
 
 dev_dependencies:
   flutter_test:
