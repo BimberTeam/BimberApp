@@ -6,8 +6,30 @@ import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
 
 class FriendsHorizontalList extends StatelessWidget {
-  Widget _memberAvatar(
-      BuildContext context, User user, Color color, double size) {
+  final List<User> friends;
+
+  FriendsHorizontalList({@required this.friends});
+
+  _menuItem(Function onTap, String text, IconData iconData, Color color) {
+    return ListTile(
+      onTap: onTap,
+      leading: Text(
+        text,
+        style: TextStyle(
+            color: color,
+            fontSize: 15,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Baloo'),
+      ),
+      trailing: Icon(
+        iconData,
+        color: color,
+        size: 15,
+      ),
+    );
+  }
+
+  Widget _memberAvatar(BuildContext context, User user) {
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 10),
         child: Column(
@@ -17,53 +39,25 @@ class FriendsHorizontalList extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15.0),
                 child: UserImageHero(
                     user: user,
-                    width: size,
-                    height: size,
+                    width: 60,
+                    height: 60,
                     onTap: () {
-//                context.pushNamed("/user-details", arguments: user);
+                      context.pushNamed("/user-details", arguments: user);
                     }),
               ),
               menuContent: Column(
                 children: [
-                  ListTile(
-                    onTap: () {},
-                    leading: Text(
-                      "Dodaj do grupy",
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w900,
-                          fontFamily: 'Baloo'),
-                    ),
-                    trailing: Icon(
-                      Icons.add,
-                      color: Theme.of(context).colorScheme.secondary,
-                      size: 15,
-                    ),
-                  ),
-                  ListTile(
-                    onTap: () {},
-                    leading: Text(
-                      "Usuń ze znajomych",
-                      style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w900,
-                          fontFamily: 'Baloo'),
-                    ),
-                    trailing: Icon(
-                      Icons.delete,
-                      color: Colors.red,
-                      size: 15,
-                    ),
-                  )
+                  _menuItem(() => {}, "Dodaj do grupy", Icons.add,
+                      Theme.of(context).colorScheme.secondary),
+                  _menuItem(
+                      () => {}, "Usuń ze znajomych", Icons.delete, Colors.red),
                 ],
               ),
             ),
             Text(
               "${user.name}",
               style: TextStyle(
-                  color: color,
+                  color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.w900,
                   fontFamily: 'Baloo'),
@@ -101,47 +95,17 @@ class FriendsHorizontalList extends StatelessWidget {
                       color: Theme.of(context).colorScheme.primary,
                       itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                             PopupMenuItem(
-                              child: ListTile(
-                                onTap: () {},
-                                leading: Text(
-                                  "Stwórz grupę",
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w900,
-                                      fontFamily: 'Baloo'),
-                                ),
-                                trailing: Icon(
-                                  Icons.create,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  size: 15,
-                                ),
-                              ),
-                            ),
+                                child: _menuItem(
+                                    () => {},
+                                    "Stwórz grupę",
+                                    Icons.create,
+                                    Theme.of(context).colorScheme.secondary)),
                             PopupMenuItem(
-                              child: ListTile(
-                                onTap: () {},
-                                leading: Text(
-                                  "Zaproszenia",
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w900,
-                                      fontFamily: 'Baloo'),
-                                ),
-                                trailing: Icon(
-                                  Icons.people_outline,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  size: 15,
-                                ),
-                              ),
-                            ),
+                                child: _menuItem(
+                                    () => {},
+                                    "Zaproszenia",
+                                    Icons.people_outline,
+                                    Theme.of(context).colorScheme.secondary)),
                           ]),
                 )
               ],
@@ -151,16 +115,10 @@ class FriendsHorizontalList extends StatelessWidget {
               padding: EdgeInsets.only(left: 4.0),
               height: 90,
               child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  _memberAvatar(context, Fixtures.getUser(), Colors.white, 60),
-                  // _memberAvatar(context, Fixtures.getUser(), Colors.white, 60),
-                  // _memberAvatar(context, Fixtures.getUser(), Colors.white, 60),
-                  // _memberAvatar(context, Fixtures.getUser(), Colors.white, 60),
-                  // _memberAvatar(context, Fixtures.getUser(), Colors.white, 60),
-                  // _memberAvatar(context, Fixtures.getUser(), Colors.white, 60),
-                ],
-              ))
+                  scrollDirection: Axis.horizontal,
+                  children: friends
+                      .map((user) => _memberAvatar(context, user))
+                      .toList()))
         ],
       ),
     );

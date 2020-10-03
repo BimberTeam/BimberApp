@@ -1,5 +1,6 @@
 import 'package:bimber/ui/chat_list/friends_horizontal_list.dart';
 import 'package:bimber/ui/chat_list/group_list.dart';
+import 'package:bimber/ui/common/fixtures.dart';
 import 'package:flutter/material.dart';
 
 class ChatListScreen extends StatelessWidget {
@@ -14,7 +15,10 @@ class ChatListScreen extends StatelessWidget {
               topRight: Radius.circular(50.0),
             )),
         child: Column(
-          children: <Widget>[FriendsHorizontalList(), GroupChatList()],
+          children: <Widget>[
+            FriendsHorizontalList(friends: Fixtures.getUsersList()),
+            GroupChatList()
+          ],
         ));
   }
 }

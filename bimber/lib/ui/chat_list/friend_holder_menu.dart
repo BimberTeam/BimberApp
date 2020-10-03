@@ -33,7 +33,7 @@ class FriendMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    final maxMenuWidth = size.width * 0.70;
+    final maxMenuWidth = size.width * 0.5;
     final maxMenuHeight = size.height * 0.35;
     final leftOffset = (childOffset.dx + maxMenuWidth) < size.width
         ? childOffset.dx
