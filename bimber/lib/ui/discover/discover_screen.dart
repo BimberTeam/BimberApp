@@ -12,7 +12,6 @@ class DiscoverScreen extends StatelessWidget {
         Container(
             height: stackSize.height, child: DiscoverStack(size: stackSize)),
         Expanded(
-          flex: 1,
           child: Container(
             padding: EdgeInsets.only(bottom: 5),
             child: Row(
