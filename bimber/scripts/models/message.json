@@ -1,0 +1,8 @@
+{
+  "__class__": "Message",
+  "id": {"type":  "String"},
+  "groupId": {"type":  "String"},
+  "date": {"type":  "DateTime"},
+  "text": {"type":  "String"},
+  "sender": {"type":  "String"}
+}

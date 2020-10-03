@@ -1,0 +1,8 @@
+{
+  "__class__": "Chat",
+  "id": {"type":  "String"},
+  "groupId": {"type":  "String"},
+  "avatarId": {"type":  "int"},
+  "name": {"type":  "String"},
+  "lastMessage": {"type":  "Message"}
+}
