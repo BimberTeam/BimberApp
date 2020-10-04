@@ -1,5 +1,7 @@
 import 'package:bimber/bloc/auth/authentication_bloc.dart';
 import 'package:bimber/resources/account_repository.dart';
+import 'package:bimber/resources/chat_repositry.dart';
+import 'package:bimber/resources/friend_repository.dart';
 import 'package:bimber/ui/chat_list/friend_holder_menu.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:bimber/ui/group_details/group_details.dart';
@@ -21,6 +23,12 @@ class App extends StatelessWidget {
         providers: [
           RepositoryProvider<AccountRepository>(
             create: (context) => MockAccountRepository(),
+          ),
+          RepositoryProvider<FriendRepository>(
+            create: (context) => MockFriendRepository(),
+          ),
+          RepositoryProvider<ChatRepository>(
+            create: (context) => MockChatRepository(),
           )
         ],
         child: BlocProvider<AuthenticationBloc>(

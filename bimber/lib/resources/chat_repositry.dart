@@ -8,6 +8,6 @@ abstract class ChatRepository {
 class MockChatRepository extends ChatRepository {
   @override
   Future<List<Chat>> fetchChatList() {
-    return Future.value(Fixtures.getChatLists());
+    return Future.delayed(Duration(seconds: 1), () => Fixtures.getChatLists());
   }
 }

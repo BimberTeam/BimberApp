@@ -1,9 +1,11 @@
 import 'package:bimber/models/user.dart';
 import 'package:bimber/ui/chat_list/friend_holder.dart';
-import 'package:bimber/ui/common/fixtures.dart';
 import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
+import 'package:bimber/bloc/chat_list/chat_list_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 class FriendsHorizontalList extends StatelessWidget {
   final List<User> friends;
@@ -50,7 +52,10 @@ class FriendsHorizontalList extends StatelessWidget {
                   _menuItem(() => {}, "Dodaj do grupy", Icons.add,
                       Theme.of(context).colorScheme.secondary),
                   _menuItem(
-                      () => {}, "Usuń ze znajomych", Icons.delete, Colors.red),
+                      () {
+                        Navigator.pop(context);
+                        context.bloc<ChatListBloc>().add(DeleteFriend(friendId: user.id));
+                      }, "Usuń ze znajomych", Icons.delete, Colors.red),
                 ],
               ),
             ),

@@ -13,23 +13,13 @@ abstract class ChatListEvent extends Equatable {
 
 class InitChatList extends ChatListEvent {}
 
-class RefreshChatList extends ChatListEvent {
-  final List<User> friends;
-  final List<Chat> chats;
-
-  RefreshChatList({@required this.friends, @required this.chats});
-
-  @override
-  List<Object> get props => [friends, chats];
-}
+class RefreshChatList extends ChatListEvent {}
 
 class DeleteFriend extends ChatListEvent {
-  final List<User> friends;
-  final List<Chat> chats;
   final String friendId;
 
-  DeleteFriend({@required this.friends, @required this.chats, @required this.friendId});
+  DeleteFriend({ @required this.friendId});
 
   @override
-  List<Object> get props => [friends, chats, friendId];
+  List<Object> get props => [friendId];
 }

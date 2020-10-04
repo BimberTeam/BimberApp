@@ -23,7 +23,7 @@ class MockFriendRepository extends FriendRepository{
 
   @override
   Future<bool> deleteFriend(String friendId) {
-    return Future.value(true);
+    return Future.value(false);
   }
 
   @override

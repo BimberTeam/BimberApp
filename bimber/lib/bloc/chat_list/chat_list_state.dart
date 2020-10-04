@@ -1,5 +1,12 @@
 part of 'chat_list_bloc.dart';
 
+abstract class FetchedFriendsAndChats{
+  final List<User> friends;
+  final List<Chat> chats;
+
+  FetchedFriendsAndChats(this.friends, this.chats);
+}
+
 @immutable
 abstract class ChatListState extends Equatable {
   const ChatListState();
@@ -22,7 +29,7 @@ class ChatListError extends ChatListState {
   List<Object> get props => [message];
 }
 
-class ChatListFetched extends ChatListState {
+class ChatListFetched extends ChatListState implements FetchedFriendsAndChats{
   final List<User> friends;
   final List<Chat> chats;
 
@@ -32,7 +39,7 @@ class ChatListFetched extends ChatListState {
   List<Object> get props => [friends, chats];
 }
 
-class ChatListLoading extends ChatListState {
+class ChatListLoading extends ChatListState implements FetchedFriendsAndChats{
   final List<User> friends;
   final List<Chat> chats;
 
@@ -42,7 +49,7 @@ class ChatListLoading extends ChatListState {
   List<Object> get props => [friends, chats];
 }
 
-class ChatListDeleteSuccess extends ChatListState {
+class ChatListDeleteSuccess extends ChatListState implements FetchedFriendsAndChats{
   final List<User> friends;
   final List<Chat> chats;
 
@@ -52,7 +59,7 @@ class ChatListDeleteSuccess extends ChatListState {
   List<Object> get props => [friends, chats];
 }
 
-class ChatListDeleteFailure extends ChatListState {
+class ChatListDeleteFailure extends ChatListState implements FetchedFriendsAndChats{
   final List<User> friends;
   final List<Chat> chats;
 
