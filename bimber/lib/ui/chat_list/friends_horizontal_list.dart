@@ -41,8 +41,7 @@ class FriendsHorizontalList extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15.0),
                 child: UserImageHero(
                     user: user,
-                    width: 60,
-                    height: 60,
+                    size: Size(60, 60),
                     onTap: () {
                       context.pushNamed("/user-details", arguments: user);
                     }),

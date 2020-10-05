@@ -46,3 +46,6 @@ flutter:
 
   uses-material-design: true
 
+dependency_overrides:
+  flutter_chips_input: ^1.9.0-dev.1
+

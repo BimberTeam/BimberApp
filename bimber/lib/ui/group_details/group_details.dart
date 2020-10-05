@@ -61,7 +61,7 @@ class GroupDetailsState extends State<GroupDetails> {
             onPressed: () {
               context.pop();
             },
-            child: Icon(Icons.arrow_downward, size: 40),
+            child: Icon(Icons.contacts, size: 40),
           ),
         ));
   }
