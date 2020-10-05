@@ -3,6 +3,7 @@ import 'package:bimber/resources/account_repository.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:bimber/ui/group_details/group_details.dart';
 import 'package:bimber/ui/home/home_screen.dart';
+import 'package:bimber/ui/invitations/invitations_screen.dart';
 import 'package:bimber/ui/login/login_screen.dart';
 import 'package:bimber/ui/common/theme.dart';
 import 'package:bimber/ui/login/starting_screen.dart';
@@ -80,6 +81,13 @@ class App extends StatelessWidget {
                         duration: Duration(milliseconds: 500),
                         child: GroupDetails(group: settings.arguments));
                   }
+                case "/invitations":
+                  {
+                    return PageTransition(
+                        type: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 500),
+                        child: InvitationsScreen());
+                  }
                 default:
                   {
                     // this should not happen
@@ -88,7 +96,7 @@ class App extends StatelessWidget {
                   }
               }
             },
-            initialRoute: "/home",
+            initialRoute: "/invitations",
           ),
         ));
   }
