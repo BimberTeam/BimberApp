@@ -1,3 +1,5 @@
+import 'package:bimber/ui/common/fixtures.dart';
+import 'package:bimber/ui/invitations/friend_request_list.dart';
 import 'package:flutter/material.dart';
 
 class InvitationsScreen extends StatefulWidget {
@@ -24,28 +26,31 @@ class InvitationsScreenState extends State<InvitationsScreen>
   }
 
   Widget _tabBar({int index, IconData icon, String text}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(text, style: TextStyle(
-              color: _tabController.index == index
-                  ? Theme.of(context).accentColor
-                  : Theme.of(context).colorScheme.primaryVariant,
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-              fontFamily: 'Baloo'),)),
-        Align(
-            alignment: Alignment.centerRight,
-            child: Icon(
-              icon,
-              color: _tabController.index == index
-                  ? Theme.of(context).accentColor
-                  : Theme.of(context).colorScheme.primaryVariant,
-              size: 30.0,
-            )),
-      ],
+    return Padding(
+      padding: EdgeInsets.all(5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Align(
+              alignment: Alignment.centerLeft,
+              child: Text(text, style: TextStyle(
+                  color: _tabController.index == index
+                      ? Theme.of(context).accentColor
+                      : Theme.of(context).colorScheme.primaryVariant,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'Baloo'),)),
+          Align(
+              alignment: Alignment.centerRight,
+              child: Icon(
+                icon,
+                color: _tabController.index == index
+                    ? Theme.of(context).accentColor
+                    : Theme.of(context).colorScheme.primaryVariant,
+                size: 30.0,
+              )),
+        ],
+      )
     );
   }
 
@@ -70,7 +75,7 @@ class InvitationsScreenState extends State<InvitationsScreen>
           physics: NeverScrollableScrollPhysics(),
           controller: _tabController,
           children: <Widget>[
-            Text("Znajomi"),
+            FriendRequestList(users: Fixtures.getUsersList(),),
             Text("Grupy")
           ],
         ));
