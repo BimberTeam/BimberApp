@@ -1,5 +1,6 @@
 import 'package:bimber/ui/common/fixtures.dart';
 import 'package:bimber/ui/invitations/friend_request_list.dart';
+import 'package:bimber/ui/invitations/group_request_list.dart';
 import 'package:flutter/material.dart';
 
 class InvitationsScreen extends StatefulWidget {
@@ -58,6 +59,7 @@ class InvitationsScreenState extends State<InvitationsScreen>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text("Zaproszenia", style: TextStyle(
               color: Theme.of(context).colorScheme.primaryVariant,
               fontSize: 20,
@@ -76,7 +78,7 @@ class InvitationsScreenState extends State<InvitationsScreen>
           controller: _tabController,
           children: <Widget>[
             FriendRequestList(users: Fixtures.getUsersList(),),
-            Text("Grupy")
+            GroupRequestList(groups: Fixtures.getGroups())
           ],
         ));
   }

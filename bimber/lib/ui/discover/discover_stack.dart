@@ -28,7 +28,7 @@ class _DiscoverStackState extends State<DiscoverStack> {
           size: widget.size,
           child: LayoutBuilder(builder: (context, constraints) {
             return DiscoverCardContent(
-                group: Fixtures.getGroup(), size: constraints.smallest);
+                group: Fixtures.getGroup("bjdsa"), size: constraints.smallest);
           }))
     ];
 

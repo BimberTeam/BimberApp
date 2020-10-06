@@ -1,27 +1,31 @@
-import 'package:bimber/models/user.dart';
-import 'package:bimber/ui/group_details/user_image_hero.dart';
+import 'package:bimber/models/group.dart';
+import 'package:bimber/ui/group_details/group_image_hero.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
 
-class FriendRequestList extends StatelessWidget {
-  final List<User> users;
+class GroupRequestList extends StatelessWidget {
+  final List<Group> groups;
 
-  FriendRequestList({@required this.users});
+  GroupRequestList({@required this.groups});
 
-  Widget _friendRequest(User user, BuildContext context) {
+  Widget _friendRequest(Group group, BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
-      color: Theme.of(context).colorScheme.primaryVariant,boxShadow: [
+          color: Theme.of(context).colorScheme.primaryVariant,boxShadow: [
             BoxShadow(
                 blurRadius: 3,
                 offset: Offset(3, 3),
                 color: Colors.black.withOpacity(0.4))
-      ]),
+          ]),
       child: ListTile(
-          contentPadding: EdgeInsets.all(5),
-          leading:  Container(
+        contentPadding: EdgeInsets.all(5),
+        leading: GestureDetector(
+          onTap: (){
+            context.pushNamed("/group-details", arguments: group);
+          },
+          child: Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.0),
                 boxShadow: [
@@ -31,34 +35,30 @@ class FriendRequestList extends StatelessWidget {
                       color: Colors.black.withOpacity(0.4))
                 ]),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(15.0),
-              child: UserImageHero(
-                  user: user,
-                  size: Size(60, 60),
-                  onTap: () {
-                    context.pushNamed("/user-details", arguments: user);
-                  }),
+                borderRadius: BorderRadius.circular(15.0),
+                child: GroupImageHero(group: group, size: Size(60, 60))
             ),
           ),
-          title: Text(
-            user.name,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.secondaryVariant,
-                fontSize: 20,
-                fontWeight: FontWeight.w900,
-                fontFamily: 'Baloo'),
-          ),
-          subtitle: Text(
-            user.age.toString(),
-            style: TextStyle(
-                color: Colors.grey,
-                fontSize: 15,
-                fontWeight: FontWeight.w900,
-                fontFamily: 'Baloo'),
-          ),
-          trailing: Container(
+        ),
+        title: Text(
+          "Grupa",
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.secondaryVariant,
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
+              fontFamily: 'Baloo'),
+        ),
+        subtitle: Text(
+          "${group.members.length.toString()} osób",
+          style: TextStyle(
+              color: Colors.grey,
+              fontSize: 15,
+              fontWeight: FontWeight.w900,
+              fontFamily: 'Baloo'),
+        ),
+        trailing: Container(
             width: MediaQuery.of(context).size.width*0.3,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -89,7 +89,7 @@ class FriendRequestList extends StatelessWidget {
                 )
               ],
             )),
-          ),
+      ),
     );
   }
 
@@ -97,7 +97,7 @@ class FriendRequestList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: ListView(
-        children: users.map((user) => _friendRequest(user, context)).toList(),
+        children: groups.map((group) => _friendRequest(group, context)).toList(),
       ),
     );
   }

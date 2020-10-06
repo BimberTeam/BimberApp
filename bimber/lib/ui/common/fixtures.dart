@@ -7,9 +7,9 @@ import 'package:bimber/models/location.dart';
 import 'package:bimber/models/user.dart';
 
 class Fixtures {
-  static Group getGroup() {
+  static Group getGroup(String id) {
     return Group(
-        id: 'grupa',
+        id: id,
         averageAge: 20,
         averageLocation: Location(latitude: 50.44, longtitude: 56.78),
         members: [
@@ -247,6 +247,10 @@ class Fixtures {
           location: Location(latitude: 50.44, longtitude: 56.78),
           friends: null)
     ];
+  }
+
+  static List<Group> getGroups(){
+    return [getGroup("aadsa"), getGroup("bda")];
   }
 
 }
