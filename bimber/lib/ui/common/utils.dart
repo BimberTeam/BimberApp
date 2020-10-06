@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'dart:math' as math;
+import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:bimber/models/location.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
