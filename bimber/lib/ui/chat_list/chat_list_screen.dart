@@ -54,7 +54,7 @@ class ChatListScreen extends StatelessWidget {
               } else {
                 return ChatListView(
                   friends: (state as ChatListResources).getFriends(),
-                  chats: (state as ChatListResources).getChats(),
+                  chatThumbnails: (state as ChatListResources).getChats(),
                 );
               }
             },
@@ -65,9 +65,9 @@ class ChatListScreen extends StatelessWidget {
 
 class ChatListView extends StatelessWidget {
   final List<User> friends;
-  final List<ChatThumbnail> chats;
+  final List<ChatThumbnail> chatThumbnails;
 
-  ChatListView({@required this.chats, @required this.friends});
+  ChatListView({@required this.chatThumbnails, @required this.friends});
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,7 @@ class ChatListView extends StatelessWidget {
         child: Column(
           children: <Widget>[
             FriendsHorizontalList(friends: friends),
-            GroupChatList(chatList: chats)
+            GroupChatList(chatThumbnails: chatThumbnails)
           ],
         ));
   }

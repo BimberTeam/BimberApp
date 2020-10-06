@@ -251,7 +251,7 @@ class Fixtures {
     ];
   }
 
-  static List<ChatThumbnail> getChatLists() {
+  static List<ChatThumbnail> getChatThumbnailLists() {
     List<ChatThumbnail> chats = List.generate(6, (index) =>  ChatThumbnail(
         id: "aaa",
         groupId: "aaa",

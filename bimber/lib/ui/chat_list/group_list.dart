@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:bimber/ui/common/extensions.dart';
 
 class GroupChatList extends StatelessWidget {
-  final List<ChatThumbnail> chatList;
+  final List<ChatThumbnail> chatThumbnails;
 
-  GroupChatList({@required this.chatList});
+  GroupChatList({@required this.chatThumbnails});
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +30,8 @@ class GroupChatList extends StatelessWidget {
               padding: EdgeInsets.only(left: 4.0),
               child: ListView(
                   scrollDirection: Axis.vertical,
-                  children: chatList
-                      .map((chat) => ChatOverview(chat: chat))
+                  children: chatThumbnails
+                      .map((chat) => ChatOverview(chatThumbnail: chat))
                       .toList())),
         )
       ],
@@ -40,9 +40,9 @@ class GroupChatList extends StatelessWidget {
 }
 
 class ChatOverview extends StatefulWidget {
-  final ChatThumbnail chat;
+  final ChatThumbnail chatThumbnail;
 
-  ChatOverview({@required this.chat});
+  ChatOverview({@required this.chatThumbnail});
 
   @override
   State<StatefulWidget> createState() => ChatOverviewState();
@@ -58,7 +58,7 @@ class ChatOverviewState extends State<ChatOverview> {
   }
 
   _init() {
-    widget.chat.checkIfRead().then((value) => setState(() {
+    widget.chatThumbnail.checkIfRead().then((value) => setState(() {
           read = value;
         }));
   }
@@ -73,7 +73,7 @@ class ChatOverviewState extends State<ChatOverview> {
           radius: 30,
         ),
         title: Text(
-          widget.chat.name,
+          widget.chatThumbnail.name,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
           style: TextStyle(
@@ -83,7 +83,7 @@ class ChatOverviewState extends State<ChatOverview> {
               fontFamily: 'Baloo'),
         ),
         subtitle: Text(
-          widget.chat.lastMessage?.text ?? "Zacznij konwersacje",
+          widget.chatThumbnail.lastMessage?.text ?? "Zacznij konwersacje",
           style: TextStyle(
               color: Colors.grey,
               fontSize: 10,
@@ -93,8 +93,8 @@ class ChatOverviewState extends State<ChatOverview> {
         trailing: Column(
           children: <Widget>[
             Text(
-              widget.chat.lastMessage != null
-                  ? DateFormat('kk:mm').format(widget.chat.lastMessage.date)
+              widget.chatThumbnail.lastMessage != null
+                  ? DateFormat('kk:mm').format(widget.chatThumbnail.lastMessage.date)
                   : "",
               style: TextStyle(
                   color: Colors.white,

@@ -29,16 +29,16 @@ class ChatListError extends ChatListState {
 
 class ChatListFetched extends ChatListState implements ChatListResources{
   final List<User> friends;
-  final List<ChatThumbnail> chats;
+  final List<ChatThumbnail> chatThumbnails;
 
-  ChatListFetched({@required this.friends, @required this.chats});
+  ChatListFetched({@required this.friends, @required this.chatThumbnails});
 
   @override
-  List<Object> get props => [friends, chats];
+  List<Object> get props => [friends, chatThumbnails];
 
   @override
   List<ChatThumbnail> getChats() {
-    return chats;
+    return chatThumbnails;
   }
 
   @override
@@ -49,16 +49,16 @@ class ChatListFetched extends ChatListState implements ChatListResources{
 
 class ChatListLoading extends ChatListState implements ChatListResources{
   final List<User> friends;
-  final List<ChatThumbnail> chats;
+  final List<ChatThumbnail> chatThumbnails;
 
-  ChatListLoading({@required this.friends, @required this.chats});
+  ChatListLoading({@required this.friends, @required this.chatThumbnails});
 
   @override
-  List<Object> get props => [friends, chats];
+  List<Object> get props => [friends, chatThumbnails];
 
   @override
   List<ChatThumbnail> getChats() {
-    return chats;
+    return chatThumbnails;
   }
 
   @override
@@ -69,16 +69,16 @@ class ChatListLoading extends ChatListState implements ChatListResources{
 
 class ChatListDeleteSuccess extends ChatListState implements ChatListResources{
   final List<User> friends;
-  final List<ChatThumbnail> chats;
+  final List<ChatThumbnail> chatThumbnails;
 
-  ChatListDeleteSuccess({@required this.friends, @required this.chats});
+  ChatListDeleteSuccess({@required this.friends, @required this.chatThumbnails});
 
   @override
-  List<Object> get props => [friends, chats];
+  List<Object> get props => [friends, chatThumbnails];
 
   @override
   List<ChatThumbnail> getChats() {
-    return chats;
+    return chatThumbnails;
   }
 
   @override
@@ -89,16 +89,16 @@ class ChatListDeleteSuccess extends ChatListState implements ChatListResources{
 
 class ChatListDeleteFailure extends ChatListState implements ChatListResources{
   final List<User> friends;
-  final List<ChatThumbnail> chats;
+  final List<ChatThumbnail> chatThumbnails;
 
-  ChatListDeleteFailure({@required this.friends, @required this.chats});
+  ChatListDeleteFailure({@required this.friends, @required this.chatThumbnails});
 
   @override
-  List<Object> get props => [friends, chats];
+  List<Object> get props => [friends, chatThumbnails];
 
   @override
   List<ChatThumbnail> getChats() {
-    return chats;
+    return chatThumbnails;
   }
 
   @override
