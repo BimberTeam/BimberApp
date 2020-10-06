@@ -1,31 +1,30 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import "package:bimber/models/message.dart";
-import 'package:shared_preferences/shared_preferences.dart';
+import "package:bimber/models/chat_message.dart";
 
-class Chat extends Equatable {
+class ChatThumbnail extends Equatable {
   bool get stringify => true;
 
   final String id;
   final String groupId;
   final int avatarId;
   final String name;
-  final Message lastMessage;
+  final ChatMessage lastMessage;
 
-  Chat(
+  ChatThumbnail(
       {@required this.id,
       @required this.groupId,
       @required this.avatarId,
       @required this.name,
       @required this.lastMessage});
 
-  Chat copyWith(
+  ChatThumbnail copyWith(
       {String id,
       String groupId,
       int avatarId,
       String name,
-      Message lastMessage}) {
-    return Chat(
+      ChatMessage lastMessage}) {
+    return ChatThumbnail(
         id: id ?? this.id,
         groupId: groupId ?? this.groupId,
         avatarId: avatarId ?? this.avatarId,
@@ -46,29 +45,13 @@ class Chat extends Equatable {
     };
   }
 
-  factory Chat.fromJson(dynamic json) {
+  factory ChatThumbnail.fromJson(dynamic json) {
     if (json == null) return null;
-    return Chat(
+    return ChatThumbnail(
         id: json["id"],
         groupId: json["groupId"],
         avatarId: json["avatarId"] as int,
         name: json["name"],
-        lastMessage: Message.fromJson(json["lastMessage"]));
-  }
-
-  Future<bool> checkIfRead() async {
-    if (lastMessage == null) return true;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String value = prefs.getString(this.id);
-    if (value != null) {
-      DateTime lastRead = DateTime.parse(value);
-      if (lastRead.isAfter(this.lastMessage.date)) return true;
-    }
-    return false;
-  }
-
-  markAsRead() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(this.id, DateTime.now().toIso8601String());
+        lastMessage: ChatMessage.fromJson(json["lastMessage"]));
   }
 }

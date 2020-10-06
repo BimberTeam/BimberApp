@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'dart:math' as math;
+import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:bimber/models/location.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -54,4 +55,22 @@ void calculateCurrentDistanceFrom(
         location.longtitude);
     onGetDistance(distanceInMeters);
   } catch (e) {}
+}
+
+void sortChats(List<ChatThumbnail> chats){
+  //sorts chats with following rules:
+  // 1. Chats without any message are placed first
+  // 2. Chats with newer last message are placed before rest
+  chats.sort((a, b) {
+    if (a.lastMessage == null) {
+      return -1;
+    }
+    else if (b.lastMessage == null) {
+      return 1;
+    }
+    else if (a.lastMessage.date.isAfter(b.lastMessage.date)) {
+      return -1;
+    }
+    return 1;
+  });
 }

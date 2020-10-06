@@ -18,7 +18,7 @@ class RefreshChatList extends ChatListEvent {}
 class DeleteFriend extends ChatListEvent {
   final String friendId;
 
-  DeleteFriend({ @required this.friendId});
+  DeleteFriend({@required this.friendId});
 
   @override
   List<Object> get props => [friendId];

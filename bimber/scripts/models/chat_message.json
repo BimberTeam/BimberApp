@@ -1,5 +1,5 @@
 {
-  "__class__": "Message",
+  "__class__": "ChatMessage",
   "id": {"type":  "String"},
   "groupId": {"type":  "String"},
   "date": {"type":  "DateTime"},

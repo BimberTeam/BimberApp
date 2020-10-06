@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-class Message extends Equatable {
+class ChatMessage extends Equatable {
   bool get stringify => true;
 
   final String id;
@@ -10,16 +10,16 @@ class Message extends Equatable {
   final String text;
   final String sender;
 
-  Message(
+  ChatMessage(
       {@required this.id,
       @required this.groupId,
       @required this.date,
       @required this.text,
       @required this.sender});
 
-  Message copyWith(
+  ChatMessage copyWith(
       {String id, String groupId, DateTime date, String text, String sender}) {
-    return Message(
+    return ChatMessage(
         id: id ?? this.id,
         groupId: groupId ?? this.groupId,
         date: date ?? this.date,
@@ -40,9 +40,9 @@ class Message extends Equatable {
     };
   }
 
-  factory Message.fromJson(dynamic json) {
+  factory ChatMessage.fromJson(dynamic json) {
     if (json == null) return null;
-    return Message(
+    return ChatMessage(
         id: json["id"],
         groupId: json["groupId"],
         date: json["date"] != null ? DateTime.parse(json["date"]) : null,

@@ -1,18 +1,18 @@
-import 'package:bimber/ui/chat_list/friend_holder_menu.dart';
+import 'package:bimber/ui/chat_list/friend_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
 
-class FriendHolder extends StatefulWidget {
-  final Widget child, menuContent;
+class FriendPressDetector extends StatefulWidget {
+  final Widget child;
+  final Widget menuContent;
 
-  const FriendHolder(
+  const FriendPressDetector(
       {Key key, @required this.child, @required this.menuContent});
 
-  @override
-  _FriendHolderState createState() => _FriendHolderState();
+  State<FriendPressDetector> createState() => _FriendPressDetectorState();
 }
 
-class _FriendHolderState extends State<FriendHolder> {
+class _FriendPressDetectorState extends State<FriendPressDetector> {
   GlobalKey containerKey = GlobalKey();
   Offset childOffset = Offset(0, 0);
   Size childSize;

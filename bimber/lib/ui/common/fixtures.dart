@@ -1,11 +1,11 @@
-import 'package:bimber/models/chat.dart';
+import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:bimber/models/group.dart';
 import 'package:bimber/models/age_preference.dart';
 import 'package:bimber/models/alcohol.dart';
 import 'package:bimber/models/alcohol_type.dart';
 import 'package:bimber/models/gender.dart';
 import 'package:bimber/models/location.dart';
-import 'package:bimber/models/message.dart';
+import 'package:bimber/models/chat_message.dart';
 import 'package:bimber/models/user.dart';
 
 class Fixtures {
@@ -251,102 +251,24 @@ class Fixtures {
     ];
   }
 
-  static List<Chat> getChatLists() {
-    return [
-      Chat(
-          id: "aaa",
-          groupId: "aaa",
-          avatarId: null,
-          name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
-          lastMessage: Message(
-              id: "aaa",
-              groupId: "aaa",
-              date: DateTime.now(),
-              text: "siema",
-              sender: "aaa")),
-      Chat(
-          id: "aaa",
-          groupId: "aaa",
-          avatarId: null,
-          name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
-          lastMessage: null),
-      Chat(
-          id: "aaa",
-          groupId: "aaa",
-          avatarId: null,
-          name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
-          lastMessage: Message(
-              id: "aaa",
-              groupId: "aaa",
-              date: DateTime.now(),
-              text: "halo",
-              sender: "aaa")),
-      Chat(
-          id: "aaa",
-          groupId: "aaa",
-          avatarId: null,
-          name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
-          lastMessage: Message(
-              id: "aaa",
-              groupId: "aaa",
-              date: DateTime.now(),
-              text: "siema",
-              sender: "aaa")),
-      Chat(
-          id: "aaa",
-          groupId: "aaa",
-          avatarId: null,
-          name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
-          lastMessage: Message(
-              id: "aaa",
-              groupId: "aaa",
-              date: DateTime.now(),
-              text: "siema",
-              sender: "aaa")),
-      Chat(
-          id: "aaa",
-          groupId: "aaa",
-          avatarId: null,
-          name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
-          lastMessage: Message(
-              id: "aaa",
-              groupId: "aaa",
-              date: DateTime.now(),
-              text: "siema",
-              sender: "aaa")),
-      Chat(
-          id: "aaa",
-          groupId: "aaa",
-          avatarId: null,
-          name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
-          lastMessage: Message(
-              id: "aaa",
-              groupId: "aaa",
-              date: DateTime.now(),
-              text: "siema",
-              sender: "aaa")),
-      Chat(
-          id: "aaa",
-          groupId: "aaa",
-          avatarId: null,
-          name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
-          lastMessage: Message(
-              id: "aaa",
-              groupId: "aaa",
-              date: DateTime.now(),
-              text: "siema",
-              sender: "aaa")),
-      Chat(
-          id: "aaa",
-          groupId: "aaa",
-          avatarId: null,
-          name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
-          lastMessage: Message(
-              id: "aaa",
-              groupId: "aaa",
-              date: DateTime.now(),
-              text: "siema",
-              sender: "aaa"))
-    ];
+  static List<ChatThumbnail> getChatLists() {
+    List<ChatThumbnail> chats = List.generate(6, (index) =>  ChatThumbnail(
+        id: "aaa",
+        groupId: "aaa",
+        avatarId: null,
+        name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
+        lastMessage: ChatMessage(
+            id: "aaa",
+            groupId: "aaa",
+            date: DateTime.now(),
+            text: "siema" + index.toString(),
+            sender: "aaa")));
+    chats.add(ChatThumbnail(
+        id: "aaa",
+        groupId: "aaa",
+        avatarId: null,
+        name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
+        lastMessage: null));
+    return chats;
   }
 }

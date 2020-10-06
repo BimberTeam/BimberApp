@@ -1,5 +1,5 @@
 import 'package:bimber/bloc/chat_list/chat_list_bloc.dart';
-import 'package:bimber/models/chat.dart';
+import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:bimber/models/user.dart';
 import 'package:bimber/resources/chat_repositry.dart';
 import 'package:bimber/resources/friend_repository.dart';
@@ -52,9 +52,9 @@ class ChatListScreen extends StatelessWidget {
               } else if (state is ChatListError) {
                 return Container(); //TODO error message
               } else {
-                return ChatListScreenFetched(
-                  friends: (state as FetchedFriendsAndChats).friends,
-                  chats: (state as FetchedFriendsAndChats).chats,
+                return ChatListView(
+                  friends: (state as ChatListResources).getFriends(),
+                  chats: (state as ChatListResources).getChats(),
                 );
               }
             },
@@ -63,11 +63,11 @@ class ChatListScreen extends StatelessWidget {
   }
 }
 
-class ChatListScreenFetched extends StatelessWidget {
+class ChatListView extends StatelessWidget {
   final List<User> friends;
-  final List<Chat> chats;
+  final List<ChatThumbnail> chats;
 
-  ChatListScreenFetched({@required this.chats, @required this.friends});
+  ChatListView({@required this.chats, @required this.friends});
 
   @override
   Widget build(BuildContext context) {

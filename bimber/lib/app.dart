@@ -2,7 +2,9 @@ import 'package:bimber/bloc/auth/authentication_bloc.dart';
 import 'package:bimber/resources/account_repository.dart';
 import 'package:bimber/resources/chat_repositry.dart';
 import 'package:bimber/resources/friend_repository.dart';
-import 'package:bimber/ui/chat_list/friend_holder_menu.dart';
+import 'package:bimber/resources/mocks/mock_chat_repository.dart';
+import 'package:bimber/resources/mocks/mock_friend_repository.dart';
+import 'package:bimber/ui/chat_list/friend_menu.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:bimber/ui/group_details/group_details.dart';
 import 'package:bimber/ui/home/home_screen.dart';
@@ -100,7 +102,7 @@ class App extends StatelessWidget {
                               childOffset: args.childOffset,
                               childSize: args.childSize,
                             ),
-                        transitionDuration: Duration(seconds: 0));
+                        transitionDuration: Duration(milliseconds: 100));
                   }
                 default:
                   {

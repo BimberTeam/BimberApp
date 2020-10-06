@@ -1,5 +1,5 @@
 import 'package:bimber/models/user.dart';
-import 'package:bimber/ui/chat_list/friend_holder.dart';
+import 'package:bimber/ui/chat_list/friend_press_detector.dart';
 import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
@@ -12,7 +12,7 @@ class FriendsHorizontalList extends StatelessWidget {
 
   FriendsHorizontalList({@required this.friends});
 
-  _menuItem(Function onTap, String text, IconData iconData, Color color) {
+  Widget _menuItem(Function onTap, String text, IconData iconData, Color color) {
     return ListTile(
       onTap: onTap,
       leading: Text(
@@ -36,7 +36,7 @@ class FriendsHorizontalList extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: <Widget>[
-            FriendHolder(
+            FriendPressDetector(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
                 child: UserImageHero(
@@ -52,7 +52,7 @@ class FriendsHorizontalList extends StatelessWidget {
                       Theme.of(context).colorScheme.secondary),
                   _menuItem(
                       () {
-                        Navigator.pop(context);
+                        context.pop();
                         context.bloc<ChatListBloc>().add(DeleteFriend(friendId: user.id));
                       }, "Usuń ze znajomych", Icons.delete, Colors.red),
                 ],

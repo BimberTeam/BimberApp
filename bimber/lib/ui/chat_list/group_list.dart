@@ -1,9 +1,10 @@
-import 'package:bimber/models/chat.dart';
+import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:bimber/ui/common/extensions.dart';
 
 class GroupChatList extends StatelessWidget {
-  final List<Chat> chatList;
+  final List<ChatThumbnail> chatList;
 
   GroupChatList({@required this.chatList});
 
@@ -39,7 +40,7 @@ class GroupChatList extends StatelessWidget {
 }
 
 class ChatOverview extends StatefulWidget {
-  final Chat chat;
+  final ChatThumbnail chat;
 
   ChatOverview({@required this.chat});
 
@@ -82,9 +83,7 @@ class ChatOverviewState extends State<ChatOverview> {
               fontFamily: 'Baloo'),
         ),
         subtitle: Text(
-          widget.chat.lastMessage != null
-              ? widget.chat.lastMessage.text
-              : "Zacznij konwersacje!",
+          widget.chat.lastMessage?.text ?? "Zacznij konwersacje",
           style: TextStyle(
               color: Colors.grey,
               fontSize: 10,

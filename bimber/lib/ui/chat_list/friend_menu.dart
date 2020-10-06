@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:build_context/build_context.dart';
 
 class FriendMenuArguments {
   final Offset childOffset;
@@ -50,7 +51,7 @@ class FriendMenu extends StatelessWidget {
           children: <Widget>[
             GestureDetector(
                 onTap: () {
-                  Navigator.pop(context);
+                 context.pop();
                 },
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),

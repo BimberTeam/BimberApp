@@ -1,8 +1,8 @@
 {
-  "__class__": "Chat",
+  "__class__": "ChatThumbnail",
   "id": {"type":  "String"},
   "groupId": {"type":  "String"},
   "avatarId": {"type":  "int"},
   "name": {"type":  "String"},
-  "lastMessage": {"type":  "Message"}
+  "lastMessage": {"type":  "ChatMessage"}
 }
