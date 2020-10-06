@@ -1,5 +1,10 @@
 import 'package:bimber/bloc/auth/authentication_bloc.dart';
 import 'package:bimber/resources/account_repository.dart';
+import 'package:bimber/resources/chat_repositry.dart';
+import 'package:bimber/resources/friend_repository.dart';
+import 'package:bimber/resources/mocks/mock_chat_repository.dart';
+import 'package:bimber/resources/mocks/mock_friend_repository.dart';
+import 'package:bimber/ui/chat_list/friend_menu.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:bimber/ui/group_details/group_details.dart';
 import 'package:bimber/ui/home/home_screen.dart';
@@ -21,6 +26,12 @@ class App extends StatelessWidget {
         providers: [
           RepositoryProvider<AccountRepository>(
             create: (context) => MockAccountRepository(),
+          ),
+          RepositoryProvider<FriendRepository>(
+            create: (context) => MockFriendRepository(),
+          ),
+          RepositoryProvider<ChatRepository>(
+            create: (context) => MockChatRepository(),
           )
         ],
         child: BlocProvider<AuthenticationBloc>(
@@ -88,6 +99,19 @@ class App extends StatelessWidget {
                         duration: Duration(milliseconds: 500),
                         child: InvitationsScreen());
                   }
+                case "/friend-menu":
+                  {
+                    FriendMenuArguments args = settings.arguments;
+                    return PageRouteBuilder(
+                        opaque: false, // set to false
+                        pageBuilder: (_, __, ___) => FriendMenu(
+                              child: args.child,
+                              menuContent: args.menuContent,
+                              childOffset: args.childOffset,
+                              childSize: args.childSize,
+                            ),
+                        transitionDuration: Duration(milliseconds: 100));
+                  }
                 default:
                   {
                     // this should not happen
@@ -96,7 +120,7 @@ class App extends StatelessWidget {
                   }
               }
             },
-            initialRoute: "/invitations",
+            initialRoute: "/home",
           ),
         ));
   }

@@ -1,9 +1,11 @@
+import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:bimber/models/group.dart';
 import 'package:bimber/models/age_preference.dart';
 import 'package:bimber/models/alcohol.dart';
 import 'package:bimber/models/alcohol_type.dart';
 import 'package:bimber/models/gender.dart';
 import 'package:bimber/models/location.dart';
+import 'package:bimber/models/chat_message.dart';
 import 'package:bimber/models/user.dart';
 
 class Fixtures {
@@ -123,7 +125,7 @@ class Fixtures {
 
   static User getUser() {
     return User(
-        id: null,
+        id: 'user',
         name: "Harnas",
         email: null,
         gender: Gender.Male,
@@ -153,7 +155,7 @@ class Fixtures {
           agePreference: AgePreference(from: 18, to: 99),
           alcoholPreference: AlcoholType.Beer,
           imageUrl:
-          "https://wygraland.pl/wp-content/uploads/2017/02/harnas-1.jpg",
+              "https://wygraland.pl/wp-content/uploads/2017/02/harnas-1.jpg",
           location: Location(latitude: 50.44, longtitude: 56.78),
           friends: null),
       User(
@@ -168,7 +170,7 @@ class Fixtures {
           agePreference: AgePreference(from: 18, to: 99),
           alcoholPreference: AlcoholType.Beer,
           imageUrl:
-          "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.png",
+              "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.png",
           location: Location(latitude: 50.44, longtitude: 56.78),
           friends: null),
       User(
@@ -183,7 +185,7 @@ class Fixtures {
           agePreference: AgePreference(from: 18, to: 99),
           alcoholPreference: AlcoholType.Beer,
           imageUrl:
-          "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.pg",
+              "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.pg",
           location: Location(latitude: 50.44, longtitude: 56.78),
           friends: null),
       User(
@@ -198,7 +200,7 @@ class Fixtures {
           agePreference: AgePreference(from: 18, to: 99),
           alcoholPreference: AlcoholType.Beer,
           imageUrl:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
           location: Location(latitude: 50.44, longtitude: 56.78),
           friends: null),
       User(
@@ -213,7 +215,7 @@ class Fixtures {
           agePreference: AgePreference(from: 18, to: 99),
           alcoholPreference: AlcoholType.Beer,
           imageUrl:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
           location: Location(latitude: 50.44, longtitude: 56.78),
           friends: null),
       User(
@@ -228,7 +230,7 @@ class Fixtures {
           agePreference: AgePreference(from: 18, to: 99),
           alcoholPreference: AlcoholType.Beer,
           imageUrl:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
           location: Location(latitude: 50.44, longtitude: 56.78),
           friends: null),
       User(
@@ -243,14 +245,35 @@ class Fixtures {
           agePreference: AgePreference(from: 18, to: 99),
           alcoholPreference: AlcoholType.Beer,
           imageUrl:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
           location: Location(latitude: 50.44, longtitude: 56.78),
           friends: null)
     ];
   }
 
+
   static List<Group> getGroups(){
     return [getGroup("aadsa"), getGroup("bda")];
   }
 
+  static List<ChatThumbnail> getChatThumbnailLists() {
+    List<ChatThumbnail> chats = List.generate(6, (index) =>  ChatThumbnail(
+        id: "aaa",
+        groupId: "aaa",
+        avatarId: null,
+        name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
+        lastMessage: ChatMessage(
+            id: "aaa",
+            groupId: "aaa",
+            date: DateTime.now(),
+            text: "siema" + index.toString(),
+            sender: "aaa")));
+    chats.add(ChatThumbnail(
+        id: "aaa",
+        groupId: "aaa",
+        avatarId: null,
+        name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
+        lastMessage: null));
+    return chats;
+  }
 }

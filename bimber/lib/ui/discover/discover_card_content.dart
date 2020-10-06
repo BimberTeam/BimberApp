@@ -11,11 +11,14 @@ class DiscoverCardContent extends StatelessWidget {
   final User onlyUser;
   final Widget hero;
 
+  static const heroBorderRadius = const BorderRadius.all(Radius.circular(15));
+
   DiscoverCardContent({@required this.group, @required this.size})
       : onlyUser = group.members.length == 1 ? group.members.first : null,
         hero = group.members.length == 1
             ? UserImageHero(user: group.members.first, size: size)
-            : GroupImageHero(group: group, size: size);
+            : GroupImageHero(
+                group: group, size: size, radius: heroBorderRadius);
 
   _navigateToDetails(BuildContext context) {
     if (onlyUser != null) {
@@ -29,7 +32,7 @@ class DiscoverCardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     if (group.members.length == 0) return Container();
     return ClipRRect(
-      borderRadius: BorderRadius.circular(15.0),
+      borderRadius: heroBorderRadius,
       child: Stack(
         children: <Widget>[
           Positioned(bottom: 0, child: hero),
