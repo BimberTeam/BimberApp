@@ -1,8 +1,10 @@
+import 'package:bimber/bloc/friend_requests/friend_requests_bloc.dart';
 import 'package:bimber/models/user.dart';
 import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FriendRequestList extends StatelessWidget {
   final List<User> users;
@@ -65,7 +67,10 @@ class FriendRequestList extends StatelessWidget {
               children: <Widget>[
                 MaterialButton(
                   minWidth: 50,
-                  onPressed: () {},
+                  onPressed: () {
+                    context.bloc<FriendRequestsBloc>().add(CancelFriend(friendId: user.id));
+                    users.remove(user);
+                  },
                   color: Theme.of(context).colorScheme.primary,
                   child: Icon(
                     Icons.clear,
@@ -77,7 +82,10 @@ class FriendRequestList extends StatelessWidget {
                 ),
                 MaterialButton(
                   minWidth: 50,
-                  onPressed: () {},
+                  onPressed: () {
+                    context.bloc<FriendRequestsBloc>().add(AcceptFriend(friendId: user.id));
+                    users.remove(user);
+                  },
                   color: Theme.of(context).colorScheme.secondary,
                   child: Icon(
                     Icons.check,
@@ -96,9 +104,15 @@ class FriendRequestList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView(
-        children: users.map((user) => _friendRequest(user, context)).toList(),
-      ),
+      child: RefreshIndicator(
+        onRefresh: (){
+          context.bloc<FriendRequestsBloc>().add(RefreshFriendRequests());
+          return Future.delayed(Duration(seconds: 1));
+        },
+        child: ListView(
+          children: users.map((user) => _friendRequest(user, context)).toList(),
+        ),
+      )
     );
   }
 }

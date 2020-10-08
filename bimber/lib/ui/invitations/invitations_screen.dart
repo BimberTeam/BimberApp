@@ -1,4 +1,5 @@
 import 'package:bimber/ui/common/fixtures.dart';
+import 'package:bimber/ui/invitations/friend_request_bloc_widget.dart';
 import 'package:bimber/ui/invitations/friend_request_list.dart';
 import 'package:bimber/ui/invitations/group_request_list.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +78,7 @@ class InvitationsScreenState extends State<InvitationsScreen>
           physics: NeverScrollableScrollPhysics(),
           controller: _tabController,
           children: <Widget>[
-            FriendRequestList(users: Fixtures.getUsersList(),),
+            FriendRequestBlocWidget(),
             GroupRequestList(groups: Fixtures.getGroups())
           ],
         ));

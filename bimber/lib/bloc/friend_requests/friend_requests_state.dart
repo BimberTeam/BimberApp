@@ -1,7 +1,7 @@
 part of 'friend_requests_bloc.dart';
 
 abstract class FriendRequestsResources{
-  List<User> getRequests();
+  List<User> getFriendRequests();
 }
 
 @immutable
@@ -35,7 +35,7 @@ class FriendRequestsFetched extends FriendRequestsState implements FriendRequest
   List<Object> get props => [requests];
 
   @override
-  List<User> getRequests() {
+  List<User> getFriendRequests() {
    return requests;
   }
 }
@@ -49,7 +49,7 @@ class FriendRequestsLoading extends FriendRequestsState implements FriendRequest
   List<Object> get props => [requests];
 
   @override
-  List<User> getRequests() {
+  List<User> getFriendRequests() {
     return requests;
   }
 
@@ -64,7 +64,7 @@ class FriendRequestsCancelSuccess extends FriendRequestsState implements FriendR
   List<Object> get props => [requests];
 
   @override
-  List<User> getRequests() {
+  List<User> getFriendRequests() {
     return requests;
   }
 
@@ -79,7 +79,7 @@ class FriendRequestsCancelError extends FriendRequestsState implements FriendReq
   List<Object> get props => [requests];
 
   @override
-  List<User> getRequests() {
+  List<User> getFriendRequests() {
     return requests;
   }
 }
@@ -93,7 +93,7 @@ class FriendRequestsAcceptSuccess extends FriendRequestsState implements FriendR
   List<Object> get props => [requests];
 
   @override
-  List<User> getRequests() {
+  List<User> getFriendRequests() {
   return requests;
   }
 }
@@ -107,7 +107,7 @@ class FriendRequestsAcceptError extends FriendRequestsState implements FriendReq
   List<Object> get props => [requests];
 
   @override
-  List<User> getRequests() {
+  List<User> getFriendRequests() {
     return requests;
   }
 }
