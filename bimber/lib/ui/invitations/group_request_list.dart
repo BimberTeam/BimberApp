@@ -3,6 +3,8 @@ import 'package:bimber/ui/group_details/group_image_hero.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bimber/bloc/group_requests/group_requests_bloc.dart';
 
 class GroupRequestList extends StatelessWidget {
   final List<Group> groups;
@@ -12,8 +14,10 @@ class GroupRequestList extends StatelessWidget {
   Widget _friendRequest(Group group, BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
-          color: Theme.of(context).colorScheme.primaryVariant,boxShadow: [
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Theme.of(context).colorScheme.primaryVariant,
+          boxShadow: [
             BoxShadow(
                 blurRadius: 3,
                 offset: Offset(3, 3),
@@ -22,7 +26,7 @@ class GroupRequestList extends StatelessWidget {
       child: ListTile(
         contentPadding: EdgeInsets.all(5),
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             context.pushNamed("/group-details", arguments: group);
           },
           child: Container(
@@ -36,8 +40,7 @@ class GroupRequestList extends StatelessWidget {
                 ]),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
-                child: GroupImageHero(group: group, size: Size(60, 60))
-            ),
+                child: GroupImageHero(group: group, size: Size(60, 60))),
           ),
         ),
         title: Text(
@@ -59,13 +62,16 @@ class GroupRequestList extends StatelessWidget {
               fontFamily: 'Baloo'),
         ),
         trailing: Container(
-            width: MediaQuery.of(context).size.width*0.3,
+            width: MediaQuery.of(context).size.width * 0.3,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 MaterialButton(
                   minWidth: 50,
-                  onPressed: () {},
+                  onPressed: () {
+                    context.bloc<GroupRequestsBloc>().add(CancelGroupInvitation(groupId: group.id));
+                    groups.remove(group);
+                  },
                   color: Theme.of(context).colorScheme.primary,
                   child: Icon(
                     Icons.clear,
@@ -77,7 +83,10 @@ class GroupRequestList extends StatelessWidget {
                 ),
                 MaterialButton(
                   minWidth: 50,
-                  onPressed: () {},
+                  onPressed: () {
+                    context.bloc<GroupRequestsBloc>().add(AcceptGroupInvitation(groupId: group.id));
+                    groups.remove(group);
+                  },
                   color: Theme.of(context).colorScheme.secondary,
                   child: Icon(
                     Icons.check,
@@ -96,9 +105,15 @@ class GroupRequestList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView(
-        children: groups.map((group) => _friendRequest(group, context)).toList(),
-      ),
-    );
+      child: RefreshIndicator(
+        onRefresh: () {
+          context.bloc<GroupRequestsBloc>().add(RefreshGroupRequests());
+          return Future.delayed(Duration(seconds: 1));
+        },
+        child: ListView(
+          children:
+              groups.map((group) => _friendRequest(group, context)).toList(),
+        ),
+    ));
   }
 }

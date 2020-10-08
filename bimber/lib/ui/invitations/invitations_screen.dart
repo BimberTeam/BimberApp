@@ -2,6 +2,7 @@ import 'package:bimber/ui/common/fixtures.dart';
 import 'package:bimber/ui/invitations/friend_request_bloc_widget.dart';
 import 'package:bimber/ui/invitations/friend_request_list.dart';
 import 'package:bimber/ui/invitations/group_request_list.dart';
+import 'package:bimber/ui/invitations/group_requests_bloc_widget.dart';
 import 'package:flutter/material.dart';
 
 class InvitationsScreen extends StatefulWidget {
@@ -79,7 +80,7 @@ class InvitationsScreenState extends State<InvitationsScreen>
           controller: _tabController,
           children: <Widget>[
             FriendRequestBlocWidget(),
-            GroupRequestList(groups: Fixtures.getGroups())
+            GroupRequestsBlocWidget()
           ],
         ));
   }
