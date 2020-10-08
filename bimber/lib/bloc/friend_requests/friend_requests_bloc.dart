@@ -4,7 +4,7 @@ import 'package:bimber/models/user.dart';
 import 'package:bimber/resources/friend_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 part 'friend_requests_event.dart';
 part 'friend_requests_state.dart';
