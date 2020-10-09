@@ -18,8 +18,8 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
 
   @override
   Stream<FriendRequestState> mapEventToState(
-      FriendRequestEvent event,
-      ) async* {
+    FriendRequestEvent event,
+  ) async* {
     if (event is InitFriendRequests) {
       yield* _fetchFriendsRequests();
     }
@@ -27,19 +27,23 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
       yield* _mapRefreshFriendRequestsToState(event);
     }
     if (event is DeclineFriendRequest) {
-      yield* _mapToState(() async*{
-        bool canceledFriend = await friendRepository.cancelInvitation(event.friendId);
-        List<User> requests = await friendRepository.fetchFriendInvitationList();
+      yield* _mapToState(() async* {
+        bool canceledFriend =
+            await friendRepository.cancelInvitation(event.friendId);
+        List<User> requests =
+            await friendRepository.fetchFriendInvitationList();
         _cachedRequests = requests;
         yield canceledFriend
-        ? FriendRequestsDeclineSuccess(requests: requests)
+            ? FriendRequestsDeclineSuccess(requests: requests)
             : FriendRequestsDeclineError(requests: requests);
       });
     }
-    if(event is AcceptFriendRequest){
-      yield* _mapToState(() async*{
-        bool acceptedFriend = await friendRepository.acceptInvitation(event.friendId);
-        List<User> requests = await friendRepository.fetchFriendInvitationList();
+    if (event is AcceptFriendRequest) {
+      yield* _mapToState(() async* {
+        bool acceptedFriend =
+            await friendRepository.acceptInvitation(event.friendId);
+        List<User> requests =
+            await friendRepository.fetchFriendInvitationList();
         _cachedRequests = requests;
         yield acceptedFriend
             ? FriendRequestsAcceptSuccess(requests: requests)
@@ -62,11 +66,11 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
       if (exception is TimeoutException)
         yield FriendRequestsError(
             message:
-            "Serwer nie odpowiada, sprawdź swoję połączenię internetowe i spróbuj ponownie.");
+                "Serwer nie odpowiada, sprawdź swoję połączenię internetowe i spróbuj ponownie.");
       else
         yield FriendRequestsError(
             message:
-            "Coś poszło nie tak, pracujemy nad rozwiązaniem problemu.");
+                "Coś poszło nie tak, pracujemy nad rozwiązaniem problemu.");
     }
   }
 
@@ -79,12 +83,11 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
       if (exception is TimeoutException)
         yield FriendRequestsError(
             message:
-            "Serwer nie odpowiada, sprawdź swoję połączenię internetowe i spróbuj ponownie.");
+                "Serwer nie odpowiada, sprawdź swoję połączenię internetowe i spróbuj ponownie.");
       else
         yield FriendRequestsError(
             message:
-            "Coś poszło nie tak, pracujemy nad rozwiązaniem problemu.");
+                "Coś poszło nie tak, pracujemy nad rozwiązaniem problemu.");
     }
   }
-
 }

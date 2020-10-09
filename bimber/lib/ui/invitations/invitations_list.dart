@@ -71,7 +71,7 @@ class InvitationsList<T> extends StatelessWidget {
               children: <Widget>[
                 MaterialButton(
                   minWidth: 50,
-                  onPressed: (){
+                  onPressed: () {
                     onDecline(element);
                     list.remove(element);
                   },
@@ -86,7 +86,7 @@ class InvitationsList<T> extends StatelessWidget {
                 ),
                 MaterialButton(
                   minWidth: 50,
-                  onPressed: (){
+                  onPressed: () {
                     onAccept(element);
                     list.remove(element);
                   },

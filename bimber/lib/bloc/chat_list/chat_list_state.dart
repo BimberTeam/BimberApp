@@ -1,6 +1,6 @@
 part of 'chat_list_bloc.dart';
 
-abstract class ChatListResources{
+abstract class ChatListResources {
   List<User> getFriends();
   List<ChatThumbnail> getChats();
 }
@@ -27,7 +27,7 @@ class ChatListError extends ChatListState {
   List<Object> get props => [message];
 }
 
-class ChatListFetched extends ChatListState implements ChatListResources{
+class ChatListFetched extends ChatListState implements ChatListResources {
   final List<User> friends;
   final List<ChatThumbnail> chatThumbnails;
 
@@ -47,7 +47,7 @@ class ChatListFetched extends ChatListState implements ChatListResources{
   }
 }
 
-class ChatListLoading extends ChatListState implements ChatListResources{
+class ChatListLoading extends ChatListState implements ChatListResources {
   final List<User> friends;
   final List<ChatThumbnail> chatThumbnails;
 
@@ -67,11 +67,12 @@ class ChatListLoading extends ChatListState implements ChatListResources{
   }
 }
 
-class ChatListDeleteSuccess extends ChatListState implements ChatListResources{
+class ChatListDeleteSuccess extends ChatListState implements ChatListResources {
   final List<User> friends;
   final List<ChatThumbnail> chatThumbnails;
 
-  ChatListDeleteSuccess({@required this.friends, @required this.chatThumbnails});
+  ChatListDeleteSuccess(
+      {@required this.friends, @required this.chatThumbnails});
 
   @override
   List<Object> get props => [friends, chatThumbnails];
@@ -87,11 +88,12 @@ class ChatListDeleteSuccess extends ChatListState implements ChatListResources{
   }
 }
 
-class ChatListDeleteFailure extends ChatListState implements ChatListResources{
+class ChatListDeleteFailure extends ChatListState implements ChatListResources {
   final List<User> friends;
   final List<ChatThumbnail> chatThumbnails;
 
-  ChatListDeleteFailure({@required this.friends, @required this.chatThumbnails});
+  ChatListDeleteFailure(
+      {@required this.friends, @required this.chatThumbnails});
 
   @override
   List<Object> get props => [friends, chatThumbnails];

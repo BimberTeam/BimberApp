@@ -1,9 +1,8 @@
-
 import 'package:bimber/models/group.dart';
 import 'package:bimber/resources/group_repository.dart';
 import 'package:bimber/ui/common/fixtures.dart';
 
-class MockGroupRepository extends GroupRepository{
+class MockGroupRepository extends GroupRepository {
   @override
   Future<bool> acceptGroupInvitation(String groupId) {
     return Future.value(true);
@@ -23,5 +22,4 @@ class MockGroupRepository extends GroupRepository{
   Future<List<Group>> fetchGroupList() {
     return Future.delayed(Duration(seconds: 1), () => Fixtures.getGroups());
   }
-
 }

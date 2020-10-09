@@ -6,5 +6,3 @@ abstract class GroupRepository {
   Future<bool> acceptGroupInvitation(String groupId);
   Future<bool> cancelGroupInvitation(String groupId);
 }
-
-

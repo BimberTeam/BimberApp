@@ -22,7 +22,7 @@ class GroupRequestsError extends GroupRequestState {
   List<Object> get props => [message];
 }
 
-class GroupRequestResources extends GroupRequestState{
+class GroupRequestResources extends GroupRequestState {
   final List<Group> requests;
 
   GroupRequestResources({@required this.requests});
@@ -35,27 +35,26 @@ class GroupRequestResources extends GroupRequestState{
   }
 }
 
-class GroupRequestsFetched extends GroupRequestResources{
+class GroupRequestsFetched extends GroupRequestResources {
   GroupRequestsFetched({@required requests}) : super(requests: requests);
 }
 
-class GroupRequestsLoading extends GroupRequestResources{
+class GroupRequestsLoading extends GroupRequestResources {
   GroupRequestsLoading({@required requests}) : super(requests: requests);
 }
 
-class GroupRequestDeclineSuccess extends GroupRequestResources{
+class GroupRequestDeclineSuccess extends GroupRequestResources {
   GroupRequestDeclineSuccess({@required requests}) : super(requests: requests);
 }
 
-class GroupRequestDeclineError extends GroupRequestResources{
+class GroupRequestDeclineError extends GroupRequestResources {
   GroupRequestDeclineError({@required requests}) : super(requests: requests);
 }
 
-class GroupRequestAcceptSuccess extends GroupRequestResources{
+class GroupRequestAcceptSuccess extends GroupRequestResources {
   GroupRequestAcceptSuccess({@required requests}) : super(requests: requests);
 }
 
-class GroupRequestAcceptError extends GroupRequestResources{
+class GroupRequestAcceptError extends GroupRequestResources {
   GroupRequestAcceptError({@required requests}) : super(requests: requests);
 }
-

@@ -251,23 +251,24 @@ class Fixtures {
     ];
   }
 
-
-  static List<Group> getGroups(){
+  static List<Group> getGroups() {
     return [getGroup("aadsa"), getGroup("bda")];
   }
 
   static List<ChatThumbnail> getChatThumbnailLists() {
-    List<ChatThumbnail> chats = List.generate(6, (index) =>  ChatThumbnail(
-        id: "aaa",
-        groupId: "aaa",
-        avatarId: null,
-        name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
-        lastMessage: ChatMessage(
+    List<ChatThumbnail> chats = List.generate(
+        6,
+        (index) => ChatThumbnail(
             id: "aaa",
             groupId: "aaa",
-            date: DateTime.now(),
-            text: "siema" + index.toString(),
-            sender: "aaa")));
+            avatarId: null,
+            name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
+            lastMessage: ChatMessage(
+                id: "aaa",
+                groupId: "aaa",
+                date: DateTime.now(),
+                text: "siema" + index.toString(),
+                sender: "aaa")));
     chats.add(ChatThumbnail(
         id: "aaa",
         groupId: "aaa",

@@ -20,7 +20,7 @@ class FriendRequestsError extends FriendRequestState {
   List<Object> get props => [message];
 }
 
-class FriendRequestResources extends FriendRequestState{
+class FriendRequestResources extends FriendRequestState {
   final List<User> requests;
 
   FriendRequestResources({@required this.requests});
@@ -28,33 +28,32 @@ class FriendRequestResources extends FriendRequestState{
   @override
   List<Object> get props => [requests];
 
-  List<User> getFriendRequests(){
+  List<User> getFriendRequests() {
     return this.requests;
   }
 }
 
-
-class FriendRequestsFetched extends FriendRequestResources{
+class FriendRequestsFetched extends FriendRequestResources {
   FriendRequestsFetched({@required requests}) : super(requests: requests);
 }
 
-class FriendRequestsLoading extends FriendRequestResources{
+class FriendRequestsLoading extends FriendRequestResources {
   FriendRequestsLoading({@required requests}) : super(requests: requests);
 }
 
-class FriendRequestsDeclineSuccess extends FriendRequestResources{
-  FriendRequestsDeclineSuccess({@required requests}) : super(requests: requests);
+class FriendRequestsDeclineSuccess extends FriendRequestResources {
+  FriendRequestsDeclineSuccess({@required requests})
+      : super(requests: requests);
 }
 
-class FriendRequestsDeclineError extends FriendRequestResources{
+class FriendRequestsDeclineError extends FriendRequestResources {
   FriendRequestsDeclineError({@required requests}) : super(requests: requests);
 }
 
-class FriendRequestsAcceptSuccess extends FriendRequestResources{
+class FriendRequestsAcceptSuccess extends FriendRequestResources {
   FriendRequestsAcceptSuccess({@required requests}) : super(requests: requests);
 }
 
-class FriendRequestsAcceptError extends FriendRequestResources{
+class FriendRequestsAcceptError extends FriendRequestResources {
   FriendRequestsAcceptError({@required requests}) : super(requests: requests);
 }
-

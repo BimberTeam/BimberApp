@@ -30,27 +30,29 @@ class _InvitationsScreenState extends State<InvitationsScreen>
         ? Theme.of(context).accentColor
         : Theme.of(context).colorScheme.primaryVariant;
     return Padding(
-      padding: EdgeInsets.all(5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Align(
-              alignment: Alignment.centerLeft,
-              child: Text(text, style: TextStyle(
+        padding: EdgeInsets.all(5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                      color: currentColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      fontFamily: 'Baloo'),
+                )),
+            Align(
+                alignment: Alignment.centerRight,
+                child: Icon(
+                  icon,
                   color: currentColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w900,
-                  fontFamily: 'Baloo'),)),
-          Align(
-              alignment: Alignment.centerRight,
-              child: Icon(
-                icon,
-                color: currentColor,
-                size: 30.0,
-              )),
-        ],
-      )
-    );
+                  size: 30.0,
+                )),
+          ],
+        ));
   }
 
   @override
@@ -58,11 +60,12 @@ class _InvitationsScreenState extends State<InvitationsScreen>
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text("Zaproszenia", style: TextStyle(
-              color: Theme.of(context).colorScheme.primaryVariant,
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-              fontFamily: 'Baloo')),
+          title: Text("Zaproszenia",
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.primaryVariant,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'Baloo')),
           bottom: TabBar(
             controller: _tabController,
             tabs: <Widget>[

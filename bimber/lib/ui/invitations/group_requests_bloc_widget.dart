@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:build_context/build_context.dart';
 
-class GroupRequestsBlocWidget extends StatelessWidget{
+class GroupRequestsBlocWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return  BlocProvider<GroupRequestsBloc>(
+    return BlocProvider<GroupRequestsBloc>(
       create: (context) => GroupRequestsBloc(
           groupRepository: context.repository<GroupRepository>())
         ..add(InitGroupRequests()),
@@ -29,7 +29,8 @@ class GroupRequestsBlocWidget extends StatelessWidget{
           } else if (state is GroupRequestDeclineSuccess) {
             showSuccessSnackbar(context, message: "Usunięto zaproszenie");
           } else if (state is GroupRequestAcceptSuccess) {
-            showSuccessSnackbar(context, message: "Zaakaceptowano zaproszenie do grupy");
+            showSuccessSnackbar(context,
+                message: "Zaakaceptowano zaproszenie do grupy");
           }
         },
         builder: (context, state) {
@@ -40,8 +41,7 @@ class GroupRequestsBlocWidget extends StatelessWidget{
                   height: 50,
                   width: 50,
                   child: CircularProgressIndicator(
-                      valueColor:
-                      AlwaysStoppedAnimation<Color>(indigoDye),
+                      valueColor: AlwaysStoppedAnimation<Color>(indigoDye),
                       strokeWidth: 3.0)),
             );
           } else if (state is GroupRequestsError) {
@@ -54,21 +54,27 @@ class GroupRequestsBlocWidget extends StatelessWidget{
                 return Future.delayed(Duration(seconds: 1));
               },
               createLeadingWidget: (Group group) => GestureDetector(
-                onTap: () {
-                context.pushNamed("/group-details", arguments: group);
-                },
-                  child:GroupImageHero(group: group, size: Size(60, 60))), createTitle: (Group group) => "Grupa",
-              createSubtitle: (Group group) => "${group.members.length.toString()} osób",
-              onDecline: (Group group){
-                context.bloc<GroupRequestsBloc>().add(DeclineGroupRequest(groupId: group.id));
-              }, onAccept: (Group group){
-              context.bloc<GroupRequestsBloc>().add(AcceptGroupRequest(groupId: group.id));
-            },
+                  onTap: () {
+                    context.pushNamed("/group-details", arguments: group);
+                  },
+                  child: GroupImageHero(group: group, size: Size(60, 60))),
+              createTitle: (Group group) => "Grupa",
+              createSubtitle: (Group group) =>
+                  "${group.members.length.toString()} osób",
+              onDecline: (Group group) {
+                context
+                    .bloc<GroupRequestsBloc>()
+                    .add(DeclineGroupRequest(groupId: group.id));
+              },
+              onAccept: (Group group) {
+                context
+                    .bloc<GroupRequestsBloc>()
+                    .add(AcceptGroupRequest(groupId: group.id));
+              },
             );
           }
         },
       ),
     );
   }
-
 }

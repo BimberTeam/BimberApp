@@ -18,8 +18,8 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
 
   @override
   Stream<GroupRequestState> mapEventToState(
-      GroupRequestsEvent event,
-      ) async* {
+    GroupRequestsEvent event,
+  ) async* {
     if (event is InitGroupRequests) {
       yield* _fetchFriendsRequests();
     }
@@ -27,8 +27,9 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
       yield* _mapRefreshGroupRequestsToState(event);
     }
     if (event is DeclineGroupRequest) {
-      yield* _mapToState(() async*{
-        bool canceledGroup = await groupRepository.cancelGroupInvitation(event.groupId);
+      yield* _mapToState(() async* {
+        bool canceledGroup =
+            await groupRepository.cancelGroupInvitation(event.groupId);
         List<Group> requests = await groupRepository.fetchGroupInvitationList();
         _cachedRequests = requests;
         yield canceledGroup
@@ -36,9 +37,10 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
             : GroupRequestDeclineError(requests: requests);
       });
     }
-    if(event is AcceptGroupRequest){
-      yield* _mapToState(() async*{
-        bool acceptedGroup = await groupRepository.acceptGroupInvitation(event.groupId);
+    if (event is AcceptGroupRequest) {
+      yield* _mapToState(() async* {
+        bool acceptedGroup =
+            await groupRepository.acceptGroupInvitation(event.groupId);
         List<Group> requests = await groupRepository.fetchGroupInvitationList();
         _cachedRequests = requests;
         yield acceptedGroup
@@ -57,16 +59,16 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
   Stream<GroupRequestState> _mapToState(Function yieldCode) async* {
     yield GroupRequestsLoading(requests: _cachedRequests);
     try {
-     yield* yieldCode();
+      yield* yieldCode();
     } catch (exception) {
       if (exception is TimeoutException)
         yield GroupRequestsError(
             message:
-            "Serwer nie odpowiada, sprawdź swoję połączenię internetowe i spróbuj ponownie.");
+                "Serwer nie odpowiada, sprawdź swoję połączenię internetowe i spróbuj ponownie.");
       else
         yield GroupRequestsError(
             message:
-            "Coś poszło nie tak, pracujemy nad rozwiązaniem problemu.");
+                "Coś poszło nie tak, pracujemy nad rozwiązaniem problemu.");
     }
   }
 
@@ -79,12 +81,11 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
       if (exception is TimeoutException)
         yield GroupRequestsError(
             message:
-            "Serwer nie odpowiada, sprawdź swoję połączenię internetowe i spróbuj ponownie.");
+                "Serwer nie odpowiada, sprawdź swoję połączenię internetowe i spróbuj ponownie.");
       else
         yield GroupRequestsError(
             message:
-            "Coś poszło nie tak, pracujemy nad rozwiązaniem problemu.");
+                "Coś poszło nie tak, pracujemy nad rozwiązaniem problemu.");
     }
   }
-
 }

@@ -73,7 +73,7 @@ class ChatListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
         onRefresh: () {
-         context.bloc<ChatListBloc>().add(RefreshChatList());
+          context.bloc<ChatListBloc>().add(RefreshChatList());
           return Future.delayed(Duration(seconds: 1));
         },
         child: Column(

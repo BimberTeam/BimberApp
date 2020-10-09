@@ -53,11 +53,11 @@ class FriendRequestBlocWidget extends StatelessWidget {
                 return Future.delayed(Duration(seconds: 1));
               },
               createLeadingWidget: (User user) => UserImageHero(
-                    user: user,
-                    size: Size(60, 60),
-                    onTap: () {
-                      context.pushNamed("/user-details", arguments: user);
-                    }),
+                  user: user,
+                  size: Size(60, 60),
+                  onTap: () {
+                    context.pushNamed("/user-details", arguments: user);
+                  }),
               createTitle: (User user) => user.name,
               createSubtitle: (User user) => user.age.toString(),
               onAccept: (User user) {

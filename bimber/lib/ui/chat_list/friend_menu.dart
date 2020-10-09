@@ -51,7 +51,7 @@ class FriendMenu extends StatelessWidget {
           children: <Widget>[
             GestureDetector(
                 onTap: () {
-                 context.pop();
+                  context.pop();
                 },
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),

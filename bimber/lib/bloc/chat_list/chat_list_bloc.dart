@@ -42,12 +42,14 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
 
   Stream<ChatListState> _mapRefreshChatListToState(
       RefreshChatList event) async* {
-    yield ChatListLoading(friends: _cachedFriends, chatThumbnails: _cachedChatThumbnails);
+    yield ChatListLoading(
+        friends: _cachedFriends, chatThumbnails: _cachedChatThumbnails);
     yield* _fetchFriendsAndChats();
   }
 
   Stream<ChatListState> _mapDeleteFriendToState(DeleteFriend event) async* {
-    yield ChatListLoading(friends: _cachedFriends, chatThumbnails: _cachedChatThumbnails);
+    yield ChatListLoading(
+        friends: _cachedFriends, chatThumbnails: _cachedChatThumbnails);
     try {
       bool deletedFriends = await friendRepository.deleteFriend(event.friendId);
       List<User> friends = await friendRepository.fetchFriendsList();
@@ -90,18 +92,16 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
     }
   }
 
-  void sortChats(List<ChatThumbnail> chats){
+  void sortChats(List<ChatThumbnail> chats) {
     //sorts chats with following rules:
     // 1. Chat thumbnails without any messages are placed first
     // 2. Chat thumbnails with most recent messages are placed first
     chats.sort((a, b) {
       if (a.lastMessage == null) {
         return -1;
-      }
-      else if (b.lastMessage == null) {
+      } else if (b.lastMessage == null) {
         return 1;
-      }
-      else if (a.lastMessage.date.isAfter(b.lastMessage.date)) {
+      } else if (a.lastMessage.date.isAfter(b.lastMessage.date)) {
         return -1;
       }
       return 1;

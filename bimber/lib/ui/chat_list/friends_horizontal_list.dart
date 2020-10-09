@@ -6,13 +6,13 @@ import 'package:build_context/build_context.dart';
 import 'package:bimber/bloc/chat_list/chat_list_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class FriendsHorizontalList extends StatelessWidget {
   final List<User> friends;
 
   FriendsHorizontalList({@required this.friends});
 
-  Widget _menuItem(Function onTap, String text, IconData iconData, Color color) {
+  Widget _menuItem(
+      Function onTap, String text, IconData iconData, Color color) {
     return ListTile(
       onTap: onTap,
       leading: Text(
@@ -50,11 +50,12 @@ class FriendsHorizontalList extends StatelessWidget {
                 children: [
                   _menuItem(() => {}, "Dodaj do grupy", Icons.add,
                       Theme.of(context).colorScheme.secondary),
-                  _menuItem(
-                      () {
-                        context.pop();
-                        context.bloc<ChatListBloc>().add(DeleteFriend(friendId: user.id));
-                      }, "Usuń ze znajomych", Icons.delete, Colors.red),
+                  _menuItem(() {
+                    context.pop();
+                    context
+                        .bloc<ChatListBloc>()
+                        .add(DeleteFriend(friendId: user.id));
+                  }, "Usuń ze znajomych", Icons.delete, Colors.red),
                 ],
               ),
             ),
@@ -106,9 +107,7 @@ class FriendsHorizontalList extends StatelessWidget {
                                     Theme.of(context).colorScheme.secondary)),
                             PopupMenuItem(
                                 child: _menuItem(
-                                    () => {
-                                      context.pushNamed("/invitations")
-                                    },
+                                    () => {context.pushNamed("/invitations")},
                                     "Zaproszenia",
                                     Icons.people_outline,
                                     Theme.of(context).colorScheme.secondary)),

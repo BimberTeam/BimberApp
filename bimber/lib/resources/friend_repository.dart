@@ -8,5 +8,3 @@ abstract class FriendRepository {
   Future<bool> acceptInvitation(String friendId);
   Future<bool> cancelInvitation(String friendId);
 }
-
-
