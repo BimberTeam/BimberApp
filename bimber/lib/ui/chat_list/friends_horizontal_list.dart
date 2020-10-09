@@ -37,15 +37,13 @@ class FriendsHorizontalList extends StatelessWidget {
         child: Column(
           children: <Widget>[
             FriendPressDetector(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15.0),
-                child: UserImageHero(
-                    user: user,
-                    size: Size(60, 60),
-                    onTap: () {
-                      context.pushNamed("/user-details", arguments: user);
-                    }),
-              ),
+              child: UserImageHero(
+                  user: user,
+                  size: Size(60, 60),
+                  radius: BorderRadius.circular(15.0),
+                  onTap: () {
+                    context.pushNamed("/user-details", arguments: user);
+                  }),
               menuContent: Column(
                 children: [
                   _menuItem(() => {}, "Dodaj do grupy", Icons.add,
@@ -101,7 +99,7 @@ class FriendsHorizontalList extends StatelessWidget {
                       itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                             PopupMenuItem(
                                 child: _menuItem(
-                                    () => {},
+                                    () => {context.pushNamed("/group-create")},
                                     "Stwórz grupę",
                                     Icons.create,
                                     Theme.of(context).colorScheme.secondary)),

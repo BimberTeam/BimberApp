@@ -42,9 +42,7 @@ class InvitationsList<T> extends StatelessWidget {
                     offset: Offset(3, -3),
                     color: Colors.black.withOpacity(0.4))
               ]),
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(15.0),
-              child: createLeadingWidget(element)),
+          child: createLeadingWidget(element),
         ),
         title: Text(
           createTitle(element),

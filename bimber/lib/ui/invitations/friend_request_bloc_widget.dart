@@ -55,6 +55,7 @@ class FriendRequestBlocWidget extends StatelessWidget {
               createLeadingWidget: (User user) => UserImageHero(
                   user: user,
                   size: Size(60, 60),
+                  radius: BorderRadius.circular(15.0),
                   onTap: () {
                     context.pushNamed("/user-details", arguments: user);
                   }),

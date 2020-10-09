@@ -8,6 +8,7 @@ import 'package:bimber/resources/mocks/mock_friend_repository.dart';
 import 'package:bimber/resources/mocks/mock_group_repository.dart';
 import 'package:bimber/ui/chat_list/friend_menu.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
+import 'package:bimber/ui/group_create/group_create_screen.dart';
 import 'package:bimber/ui/group_details/group_details.dart';
 import 'package:bimber/ui/home/home_screen.dart';
 import 'package:bimber/ui/invitations/invitations_screen.dart';
@@ -116,6 +117,13 @@ class App extends StatelessWidget {
                               childSize: args.childSize,
                             ),
                         transitionDuration: Duration(milliseconds: 100));
+                  }
+                case "/group-create":
+                  {
+                    return PageTransition(
+                        type: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 500),
+                        child: GroupCreateScreen());
                   }
                 default:
                   {
