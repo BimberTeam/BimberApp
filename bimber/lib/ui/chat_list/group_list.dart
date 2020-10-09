@@ -11,7 +11,7 @@ class GroupChatList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Column(
+        child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
@@ -94,7 +94,8 @@ class ChatOverviewState extends State<ChatOverview> {
           children: <Widget>[
             Text(
               widget.chatThumbnail.lastMessage != null
-                  ? DateFormat('kk:mm').format(widget.chatThumbnail.lastMessage.date)
+                  ? DateFormat('kk:mm')
+                      .format(widget.chatThumbnail.lastMessage.date)
                   : "",
               style: TextStyle(
                   color: Colors.white,

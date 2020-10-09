@@ -9,9 +9,9 @@ import 'package:bimber/models/chat_message.dart';
 import 'package:bimber/models/user.dart';
 
 class Fixtures {
-  static Group getGroup() {
+  static Group getGroup(String id) {
     return Group(
-        id: 'grupa',
+        id: id,
         averageAge: 20,
         averageLocation: Location(latitude: 50.44, longtitude: 56.78),
         members: [
@@ -251,18 +251,24 @@ class Fixtures {
     ];
   }
 
+  static List<Group> getGroups() {
+    return [getGroup("aadsa"), getGroup("bda")];
+  }
+
   static List<ChatThumbnail> getChatThumbnailLists() {
-    List<ChatThumbnail> chats = List.generate(6, (index) =>  ChatThumbnail(
-        id: "aaa",
-        groupId: "aaa",
-        avatarId: null,
-        name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
-        lastMessage: ChatMessage(
+    List<ChatThumbnail> chats = List.generate(
+        6,
+        (index) => ChatThumbnail(
             id: "aaa",
             groupId: "aaa",
-            date: DateTime.now(),
-            text: "siema" + index.toString(),
-            sender: "aaa")));
+            avatarId: null,
+            name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
+            lastMessage: ChatMessage(
+                id: "aaa",
+                groupId: "aaa",
+                date: DateTime.now(),
+                text: "siema" + index.toString(),
+                sender: "aaa")));
     chats.add(ChatThumbnail(
         id: "aaa",
         groupId: "aaa",

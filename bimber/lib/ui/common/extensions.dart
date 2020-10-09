@@ -1,7 +1,7 @@
 import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-extension ChatThumbnailExtension on ChatThumbnail{
+extension ChatThumbnailExtension on ChatThumbnail {
   Future<bool> checkIfRead() async {
     if (lastMessage == null) return true;
     SharedPreferences prefs = await SharedPreferences.getInstance();

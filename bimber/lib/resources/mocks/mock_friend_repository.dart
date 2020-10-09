@@ -2,7 +2,7 @@ import 'package:bimber/models/user.dart';
 import 'package:bimber/resources/friend_repository.dart';
 import 'package:bimber/ui/common/fixtures.dart';
 
-class MockFriendRepository extends FriendRepository{
+class MockFriendRepository extends FriendRepository {
   @override
   Future<bool> acceptInvitation(String friendId) {
     return Future.value(true);
@@ -20,7 +20,7 @@ class MockFriendRepository extends FriendRepository{
 
   @override
   Future<List<User>> fetchFriendInvitationList() {
-    return Future.value(Fixtures.getUsersList());
+    return Future.delayed(Duration(seconds: 1), () => Fixtures.getUsersList());
   }
 
   @override
@@ -32,5 +32,4 @@ class MockFriendRepository extends FriendRepository{
   Future<bool> cancelInvitation(String friendId) {
     return Future.value(true);
   }
-
 }
