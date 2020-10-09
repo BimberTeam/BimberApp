@@ -1,8 +1,8 @@
 part of 'friend_requests_bloc.dart';
 
 @immutable
-abstract class FriendRequestsEvent extends Equatable {
-  const FriendRequestsEvent();
+abstract class FriendRequestEvent extends Equatable {
+  const FriendRequestEvent();
 
   @override
   List<Object> get props => [];
@@ -11,23 +11,23 @@ abstract class FriendRequestsEvent extends Equatable {
   bool get stringify => true;
 }
 
-class InitFriendRequests extends FriendRequestsEvent {}
+class InitFriendRequests extends FriendRequestEvent {}
 
-class RefreshFriendRequests extends FriendRequestsEvent {}
+class RefetchFriendRequests extends FriendRequestEvent {}
 
-class CancelFriend extends FriendRequestsEvent {
+class DeclineFriendRequest extends FriendRequestEvent {
   final String friendId;
 
-  CancelFriend({@required this.friendId});
+  DeclineFriendRequest({@required this.friendId});
 
   @override
   List<Object> get props => [friendId];
 }
 
-class AcceptFriend extends FriendRequestsEvent {
+class AcceptFriendRequest extends FriendRequestEvent {
   final String friendId;
 
-  AcceptFriend({@required this.friendId});
+  AcceptFriendRequest({@required this.friendId});
 
   @override
   List<Object> get props => [friendId];

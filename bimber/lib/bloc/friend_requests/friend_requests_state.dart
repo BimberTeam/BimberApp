@@ -1,13 +1,7 @@
 part of 'friend_requests_bloc.dart';
 
-abstract class FriendRequestsResources{
-  List<User> getFriendRequests();
-}
-
 @immutable
-abstract class FriendRequestsState extends Equatable {
-  const FriendRequestsState();
-
+abstract class FriendRequestState extends Equatable {
   @override
   List<Object> get props => [];
 
@@ -15,9 +9,9 @@ abstract class FriendRequestsState extends Equatable {
   bool get stringify => true;
 }
 
-class FriendRequestsInitial extends FriendRequestsState {}
+class FriendRequestsInitial extends FriendRequestState {}
 
-class FriendRequestsError extends FriendRequestsState {
+class FriendRequestsError extends FriendRequestState {
   final String message;
 
   FriendRequestsError({@required this.message});
@@ -26,89 +20,41 @@ class FriendRequestsError extends FriendRequestsState {
   List<Object> get props => [message];
 }
 
-class FriendRequestsFetched extends FriendRequestsState implements FriendRequestsResources{
+class FriendRequestResources extends FriendRequestState{
   final List<User> requests;
 
-  FriendRequestsFetched({@required this.requests});
+  FriendRequestResources({@required this.requests});
 
   @override
   List<Object> get props => [requests];
 
-  @override
-  List<User> getFriendRequests() {
-   return requests;
+  List<User> getFriendRequests(){
+    return this.requests;
   }
 }
 
-class FriendRequestsLoading extends FriendRequestsState implements FriendRequestsResources{
-  final List<User> requests;
 
-  FriendRequestsLoading({@required this.requests});
-
-  @override
-  List<Object> get props => [requests];
-
-  @override
-  List<User> getFriendRequests() {
-    return requests;
-  }
-
+class FriendRequestsFetched extends FriendRequestResources{
+  FriendRequestsFetched({@required requests}) : super(requests: requests);
 }
 
-class FriendRequestsCancelSuccess extends FriendRequestsState implements FriendRequestsResources{
-  final List<User> requests;
-
-  FriendRequestsCancelSuccess({@required this.requests});
-
-  @override
-  List<Object> get props => [requests];
-
-  @override
-  List<User> getFriendRequests() {
-    return requests;
-  }
-
+class FriendRequestsLoading extends FriendRequestResources{
+  FriendRequestsLoading({@required requests}) : super(requests: requests);
 }
 
-class FriendRequestsCancelError extends FriendRequestsState implements FriendRequestsResources{
-  final List<User> requests;
-
-  FriendRequestsCancelError({@required this.requests});
-
-  @override
-  List<Object> get props => [requests];
-
-  @override
-  List<User> getFriendRequests() {
-    return requests;
-  }
+class FriendRequestsDeclineSuccess extends FriendRequestResources{
+  FriendRequestsDeclineSuccess({@required requests}) : super(requests: requests);
 }
 
-class FriendRequestsAcceptSuccess extends FriendRequestsState implements FriendRequestsResources{
-  final List<User> requests;
-
-  FriendRequestsAcceptSuccess({@required this.requests});
-
-  @override
-  List<Object> get props => [requests];
-
-  @override
-  List<User> getFriendRequests() {
-  return requests;
-  }
+class FriendRequestsDeclineError extends FriendRequestResources{
+  FriendRequestsDeclineError({@required requests}) : super(requests: requests);
 }
 
-class FriendRequestsAcceptError extends FriendRequestsState implements FriendRequestsResources{
-  final List<User> requests;
+class FriendRequestsAcceptSuccess extends FriendRequestResources{
+  FriendRequestsAcceptSuccess({@required requests}) : super(requests: requests);
+}
 
-  FriendRequestsAcceptError({@required this.requests});
-
-  @override
-  List<Object> get props => [requests];
-
-  @override
-  List<User> getFriendRequests() {
-    return requests;
-  }
+class FriendRequestsAcceptError extends FriendRequestResources{
+  FriendRequestsAcceptError({@required requests}) : super(requests: requests);
 }
 

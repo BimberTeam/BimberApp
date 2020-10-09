@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 part 'group_requests_state.dart';
 part 'group_requests_event.dart';
 
-class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestsState> {
+class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
   final GroupRepository groupRepository;
   List<Group> _cachedRequests;
 
@@ -17,42 +17,47 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestsState> {
       : super(GroupRequestsInitial());
 
   @override
-  Stream<GroupRequestsState> mapEventToState(
+  Stream<GroupRequestState> mapEventToState(
       GroupRequestsEvent event,
       ) async* {
     if (event is InitGroupRequests) {
-      yield* _mapInitGroupRequestsToState(event);
+      yield* _fetchFriendsRequests();
     }
-    if (event is RefreshGroupRequests) {
+    if (event is RefetchGroupRequests) {
       yield* _mapRefreshGroupRequestsToState(event);
     }
-    if (event is CancelGroupInvitation) {
-      yield* _mapCancelFriendToState(event);
+    if (event is DeclineGroupRequest) {
+      yield* _mapToState(() async*{
+        bool canceledGroup = await groupRepository.cancelGroupInvitation(event.groupId);
+        List<Group> requests = await groupRepository.fetchGroupInvitationList();
+        _cachedRequests = requests;
+        yield canceledGroup
+            ? GroupRequestDeclineSuccess(requests: requests)
+            : GroupRequestDeclineError(requests: requests);
+      });
     }
-    if(event is AcceptGroupInvitation){
-      yield* _mapAcceptFriendToState(event);
+    if(event is AcceptGroupRequest){
+      yield* _mapToState(() async*{
+        bool acceptedGroup = await groupRepository.acceptGroupInvitation(event.groupId);
+        List<Group> requests = await groupRepository.fetchGroupInvitationList();
+        _cachedRequests = requests;
+        yield acceptedGroup
+            ? GroupRequestAcceptSuccess(requests: requests)
+            : GroupRequestAcceptError(requests: requests);
+      });
     }
   }
 
-  Stream<GroupRequestsState> _mapInitGroupRequestsToState(InitGroupRequests event) async* {
-    yield* _fetchFriendsRequests();
-  }
-
-  Stream<GroupRequestsState> _mapRefreshGroupRequestsToState(
-      RefreshGroupRequests event) async* {
+  Stream<GroupRequestState> _mapRefreshGroupRequestsToState(
+      RefetchGroupRequests event) async* {
     yield GroupRequestsLoading(requests: _cachedRequests);
     yield* _fetchFriendsRequests();
   }
 
-  Stream<GroupRequestsState> _mapCancelFriendToState(CancelGroupInvitation event) async* {
+  Stream<GroupRequestState> _mapToState(Function yieldCode) async* {
     yield GroupRequestsLoading(requests: _cachedRequests);
     try {
-      bool canceledGroup = await groupRepository.cancelGroupInvitation(event.groupId);
-      List<Group> requests = await groupRepository.fetchGroupInvitationList();
-      _cachedRequests = requests;
-      yield canceledGroup
-          ? GroupRequestsCancelSuccess(requests: requests)
-          : GroupRequestsCancelError(requests: requests);
+     yield* yieldCode();
     } catch (exception) {
       if (exception is TimeoutException)
         yield GroupRequestsError(
@@ -65,28 +70,7 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestsState> {
     }
   }
 
-  Stream<GroupRequestsState> _mapAcceptFriendToState(AcceptGroupInvitation event) async* {
-    yield GroupRequestsLoading(requests: _cachedRequests);
-    try {
-      bool acceptedGroup = await groupRepository.acceptGroupInvitation(event.groupId);
-      List<Group> requests = await groupRepository.fetchGroupInvitationList();
-      _cachedRequests = requests;
-      yield acceptedGroup
-          ? GroupRequestsAcceptSuccess(requests: requests)
-          : GroupRequestsAcceptError(requests: requests);
-    } catch (exception) {
-      if (exception is TimeoutException)
-        yield GroupRequestsError(
-            message:
-            "Serwer nie odpowiada, sprawdź swoję połączenię internetowe i spróbuj ponownie.");
-      else
-        yield GroupRequestsError(
-            message:
-            "Coś poszło nie tak, pracujemy nad rozwiązaniem problemu.");
-    }
-  }
-
-  Stream<GroupRequestsState> _fetchFriendsRequests() async* {
+  Stream<GroupRequestState> _fetchFriendsRequests() async* {
     try {
       List<Group> requests = await groupRepository.fetchGroupInvitationList();
       _cachedRequests = requests;

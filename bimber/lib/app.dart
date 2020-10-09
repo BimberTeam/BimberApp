@@ -108,7 +108,7 @@ class App extends StatelessWidget {
                   {
                     FriendMenuArguments args = settings.arguments;
                     return PageRouteBuilder(
-                        opaque: false, // set to false
+                        opaque: false,
                         pageBuilder: (_, __, ___) => FriendMenu(
                               child: args.child,
                               menuContent: args.menuContent,

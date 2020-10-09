@@ -1,16 +1,13 @@
-import 'package:bimber/ui/common/fixtures.dart';
 import 'package:bimber/ui/invitations/friend_request_bloc_widget.dart';
-import 'package:bimber/ui/invitations/friend_request_list.dart';
-import 'package:bimber/ui/invitations/group_request_list.dart';
 import 'package:bimber/ui/invitations/group_requests_bloc_widget.dart';
 import 'package:flutter/material.dart';
 
 class InvitationsScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => InvitationsScreenState();
+  State<StatefulWidget> createState() => _InvitationsScreenState();
 }
 
-class InvitationsScreenState extends State<InvitationsScreen>
+class _InvitationsScreenState extends State<InvitationsScreen>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
 
@@ -29,6 +26,9 @@ class InvitationsScreenState extends State<InvitationsScreen>
   }
 
   Widget _tabBar({int index, IconData icon, String text}) {
+    Color currentColor = _tabController.index == index
+        ? Theme.of(context).accentColor
+        : Theme.of(context).colorScheme.primaryVariant;
     return Padding(
       padding: EdgeInsets.all(5),
       child: Row(
@@ -37,9 +37,7 @@ class InvitationsScreenState extends State<InvitationsScreen>
           Align(
               alignment: Alignment.centerLeft,
               child: Text(text, style: TextStyle(
-                  color: _tabController.index == index
-                      ? Theme.of(context).accentColor
-                      : Theme.of(context).colorScheme.primaryVariant,
+                  color: currentColor,
                   fontSize: 20,
                   fontWeight: FontWeight.w900,
                   fontFamily: 'Baloo'),)),
@@ -47,9 +45,7 @@ class InvitationsScreenState extends State<InvitationsScreen>
               alignment: Alignment.centerRight,
               child: Icon(
                 icon,
-                color: _tabController.index == index
-                    ? Theme.of(context).accentColor
-                    : Theme.of(context).colorScheme.primaryVariant,
+                color: currentColor,
                 size: 30.0,
               )),
         ],

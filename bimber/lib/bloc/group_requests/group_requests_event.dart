@@ -13,21 +13,21 @@ abstract class GroupRequestsEvent extends Equatable {
 
 class InitGroupRequests extends GroupRequestsEvent {}
 
-class RefreshGroupRequests extends GroupRequestsEvent {}
+class RefetchGroupRequests extends GroupRequestsEvent {}
 
-class CancelGroupInvitation extends GroupRequestsEvent {
+class DeclineGroupRequest extends GroupRequestsEvent {
   final String groupId;
 
-  CancelGroupInvitation({@required this.groupId});
+  DeclineGroupRequest({@required this.groupId});
 
   @override
   List<Object> get props => [groupId];
 }
 
-class AcceptGroupInvitation extends GroupRequestsEvent {
+class AcceptGroupRequest extends GroupRequestsEvent {
   final String groupId;
 
-  AcceptGroupInvitation({@required this.groupId});
+  AcceptGroupRequest({@required this.groupId});
 
   @override
   List<Object> get props => [groupId];

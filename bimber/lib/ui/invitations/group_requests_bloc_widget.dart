@@ -1,10 +1,13 @@
 import 'package:bimber/bloc/group_requests/group_requests_bloc.dart';
+import 'package:bimber/models/group.dart';
 import 'package:bimber/resources/group_repository.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
 import 'package:bimber/ui/common/theme.dart';
-import 'package:bimber/ui/invitations/group_request_list.dart';
+import 'package:bimber/ui/group_details/group_image_hero.dart';
+import 'package:bimber/ui/invitations/invitations_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:build_context/build_context.dart';
 
 class GroupRequestsBlocWidget extends StatelessWidget{
   @override
@@ -13,19 +16,19 @@ class GroupRequestsBlocWidget extends StatelessWidget{
       create: (context) => GroupRequestsBloc(
           groupRepository: context.repository<GroupRepository>())
         ..add(InitGroupRequests()),
-      child: BlocConsumer<GroupRequestsBloc, GroupRequestsState>(
+      child: BlocConsumer<GroupRequestsBloc, GroupRequestState>(
         listener: (context, state) {
           if (state is GroupRequestsLoading) {
-            showLoadingSnackbar(context, message: "");
-          } else if (state is GroupRequestsCancelError) {
+            showLoadingSnackbar(context, message: "Ładowanie zaproszeń...");
+          } else if (state is GroupRequestDeclineError) {
             showErrorSnackbar(context,
                 message: "Nie udało się usunąć zaproszenia");
-          } else if (state is GroupRequestsAcceptError) {
+          } else if (state is GroupRequestAcceptError) {
             showErrorSnackbar(context,
                 message: "Nie udało się zaakceptować zaproszenia");
-          } else if (state is GroupRequestsCancelSuccess) {
+          } else if (state is GroupRequestDeclineSuccess) {
             showSuccessSnackbar(context, message: "Usunięto zaproszenie");
-          } else if (state is GroupRequestsAcceptSuccess) {
+          } else if (state is GroupRequestAcceptSuccess) {
             showSuccessSnackbar(context, message: "Zaakaceptowano zaproszenie do grupy");
           }
         },
@@ -44,7 +47,24 @@ class GroupRequestsBlocWidget extends StatelessWidget{
           } else if (state is GroupRequestsError) {
             return Container(); //TODO error message
           } else {
-            return GroupRequestList(groups: (state as GroupRequestsResources).getGroupRequests());
+            return InvitationsList<Group>(
+              list: (state as GroupRequestResources).getGroupRequests(),
+              onRefresh: () {
+                context.bloc<GroupRequestsBloc>().add(RefetchGroupRequests());
+                return Future.delayed(Duration(seconds: 1));
+              },
+              createLeadingWidget: (Group group) => GestureDetector(
+                onTap: () {
+                context.pushNamed("/group-details", arguments: group);
+                },
+                  child:GroupImageHero(group: group, size: Size(60, 60))), createTitle: (Group group) => "Grupa",
+              createSubtitle: (Group group) => "${group.members.length.toString()} osób",
+              onDecline: (Group group){
+                context.bloc<GroupRequestsBloc>().add(DeclineGroupRequest(groupId: group.id));
+              }, onAccept: (Group group){
+              context.bloc<GroupRequestsBloc>().add(AcceptGroupRequest(groupId: group.id));
+            },
+            );
           }
         },
       ),

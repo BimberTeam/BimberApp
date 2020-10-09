@@ -1,12 +1,8 @@
 part of 'group_requests_bloc.dart';
 
-abstract class GroupRequestsResources{
-  List<Group> getGroupRequests();
-}
-
 @immutable
-abstract class GroupRequestsState extends Equatable {
-  const GroupRequestsState();
+abstract class GroupRequestState extends Equatable {
+  const GroupRequestState();
 
   @override
   List<Object> get props => [];
@@ -15,9 +11,9 @@ abstract class GroupRequestsState extends Equatable {
   bool get stringify => true;
 }
 
-class GroupRequestsInitial extends GroupRequestsState {}
+class GroupRequestsInitial extends GroupRequestState {}
 
-class GroupRequestsError extends GroupRequestsState {
+class GroupRequestsError extends GroupRequestState {
   final String message;
 
   GroupRequestsError({@required this.message});
@@ -26,89 +22,40 @@ class GroupRequestsError extends GroupRequestsState {
   List<Object> get props => [message];
 }
 
-class GroupRequestsFetched extends GroupRequestsState implements GroupRequestsResources{
+class GroupRequestResources extends GroupRequestState{
   final List<Group> requests;
 
-  GroupRequestsFetched({@required this.requests});
+  GroupRequestResources({@required this.requests});
 
   @override
   List<Object> get props => [requests];
 
-  @override
   List<Group> getGroupRequests() {
     return requests;
   }
 }
 
-class GroupRequestsLoading extends GroupRequestsState implements GroupRequestsResources{
-  final List<Group> requests;
-
-  GroupRequestsLoading({@required this.requests});
-
-  @override
-  List<Object> get props => [requests];
-
-  @override
-  List<Group> getGroupRequests() {
-    return requests;
-  }
-
+class GroupRequestsFetched extends GroupRequestResources{
+  GroupRequestsFetched({@required requests}) : super(requests: requests);
 }
 
-class GroupRequestsCancelSuccess extends GroupRequestsState implements GroupRequestsResources{
-  final List<Group> requests;
-
-  GroupRequestsCancelSuccess({@required this.requests});
-
-  @override
-  List<Object> get props => [requests];
-
-  @override
-  List<Group> getGroupRequests() {
-    return requests;
-  }
-
+class GroupRequestsLoading extends GroupRequestResources{
+  GroupRequestsLoading({@required requests}) : super(requests: requests);
 }
 
-class GroupRequestsCancelError extends GroupRequestsState implements GroupRequestsResources{
-  final List<Group> requests;
-
-  GroupRequestsCancelError({@required this.requests});
-
-  @override
-  List<Object> get props => [requests];
-
-  @override
-  List<Group> getGroupRequests() {
-    return requests;
-  }
+class GroupRequestDeclineSuccess extends GroupRequestResources{
+  GroupRequestDeclineSuccess({@required requests}) : super(requests: requests);
 }
 
-class GroupRequestsAcceptSuccess extends GroupRequestsState implements GroupRequestsResources{
-  final List<Group> requests;
-
-  GroupRequestsAcceptSuccess({@required this.requests});
-
-  @override
-  List<Object> get props => [requests];
-
-  @override
-  List<Group> getGroupRequests() {
-    return requests;
-  }
+class GroupRequestDeclineError extends GroupRequestResources{
+  GroupRequestDeclineError({@required requests}) : super(requests: requests);
 }
 
-class GroupRequestsAcceptError extends GroupRequestsState implements GroupRequestsResources{
-  final List<Group> requests;
+class GroupRequestAcceptSuccess extends GroupRequestResources{
+  GroupRequestAcceptSuccess({@required requests}) : super(requests: requests);
+}
 
-  GroupRequestsAcceptError({@required this.requests});
-
-  @override
-  List<Object> get props => [requests];
-
-  @override
-  List<Group> getGroupRequests() {
-    return requests;
-  }
+class GroupRequestAcceptError extends GroupRequestResources{
+  GroupRequestAcceptError({@required requests}) : super(requests: requests);
 }
 
