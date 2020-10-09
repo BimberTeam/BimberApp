@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bimber/models/group.dart';
 import 'package:bimber/resources/group_repository.dart';
+import 'package:bimber/ui/common/constants.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -56,19 +57,16 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
     yield* _fetchFriendsRequests();
   }
 
-  Stream<GroupRequestState> _mapToState(Function yieldCode) async* {
+  Stream<GroupRequestState> _mapToState(
+      Stream<GroupRequestState> Function() yieldCode) async* {
     yield GroupRequestsLoading(requests: _cachedRequests);
     try {
       yield* yieldCode();
     } catch (exception) {
       if (exception is TimeoutException)
-        yield GroupRequestsError(
-            message:
-                "Serwer nie odpowiada, sprawdź swoję połączenię internetowe i spróbuj ponownie.");
+        yield GroupRequestsError(message: timeoutExceptionMessage);
       else
-        yield GroupRequestsError(
-            message:
-                "Coś poszło nie tak, pracujemy nad rozwiązaniem problemu.");
+        yield GroupRequestsError(message: defaultErrorMessage);
     }
   }
 
@@ -79,13 +77,9 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
       yield GroupRequestsFetched(requests: requests);
     } catch (exception) {
       if (exception is TimeoutException)
-        yield GroupRequestsError(
-            message:
-                "Serwer nie odpowiada, sprawdź swoję połączenię internetowe i spróbuj ponownie.");
+        yield GroupRequestsError(message: timeoutExceptionMessage);
       else
-        yield GroupRequestsError(
-            message:
-                "Coś poszło nie tak, pracujemy nad rozwiązaniem problemu.");
+        yield GroupRequestsError(message: defaultErrorMessage);
     }
   }
 }

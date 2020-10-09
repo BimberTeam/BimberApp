@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bimber/models/user.dart';
 import 'package:bimber/resources/friend_repository.dart';
+import 'package:bimber/ui/common/constants.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -58,19 +59,16 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
     yield* _fetchFriendsRequests();
   }
 
-  Stream<FriendRequestState> _mapToState(Function yieldCode) async* {
+  Stream<FriendRequestState> _mapToState(
+      Stream<FriendRequestState> Function() yieldCode) async* {
     yield FriendRequestsLoading(requests: _cachedRequests);
     try {
       yield* yieldCode();
     } catch (exception) {
       if (exception is TimeoutException)
-        yield FriendRequestsError(
-            message:
-                "Serwer nie odpowiada, sprawdź swoję połączenię internetowe i spróbuj ponownie.");
+        yield FriendRequestsError(message: timeoutExceptionMessage);
       else
-        yield FriendRequestsError(
-            message:
-                "Coś poszło nie tak, pracujemy nad rozwiązaniem problemu.");
+        yield FriendRequestsError(message: defaultErrorMessage);
     }
   }
 
@@ -81,13 +79,9 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
       yield FriendRequestsFetched(requests: requests);
     } catch (exception) {
       if (exception is TimeoutException)
-        yield FriendRequestsError(
-            message:
-                "Serwer nie odpowiada, sprawdź swoję połączenię internetowe i spróbuj ponownie.");
+        yield FriendRequestsError(message: timeoutExceptionMessage);
       else
-        yield FriendRequestsError(
-            message:
-                "Coś poszło nie tak, pracujemy nad rozwiązaniem problemu.");
+        yield FriendRequestsError(message: defaultErrorMessage);
     }
   }
 }
