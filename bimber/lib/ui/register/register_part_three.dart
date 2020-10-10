@@ -38,7 +38,7 @@ class RegisterPartThree extends StatelessWidget {
                         Text("Dodaj zdjęcie profilowe",
                             style: textTheme.headline5
                                 .copyWith(fontWeight: FontWeight.w600)),
-                        AccountFormField.imagePicker(data?.imagePath, size),
+                        AccountFormField.imagePicker(size),
                         SizedBox(
                             width: double.infinity,
                             child: ThemedPrimaryButton(

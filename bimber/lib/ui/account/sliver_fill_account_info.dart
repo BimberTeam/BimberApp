@@ -2,7 +2,6 @@ import 'package:bimber/models/account_data.dart';
 import 'package:bimber/ui/account/info_card.dart';
 import 'package:flutter/material.dart';
 import 'package:bimber/ui/common/language_utils.dart';
-import 'package:sprung/sprung.dart';
 
 class SliverFillAccountInfo extends StatefulWidget {
   final AccountData accountData;
@@ -114,7 +113,6 @@ class _SliverFillAccountInfoState extends State<SliverFillAccountInfo> {
         child: ListWheelScrollView(
           physics: NeverScrollableScrollPhysics(),
           controller: controller,
-          clipToSize: true,
           itemExtent: 300,
           children: <Widget>[
             _description(),

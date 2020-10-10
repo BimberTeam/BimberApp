@@ -3,6 +3,7 @@ import 'package:bimber/models/age_preference.dart';
 import 'package:bimber/models/alcohol.dart';
 import 'package:bimber/models/register_account_data.dart';
 import 'package:bimber/ui/common/account_form_fields.dart';
+import 'package:bimber/ui/common/age_preference_slider.dart';
 import 'package:bimber/ui/common/theme.dart';
 import 'package:bimber/ui/common/themed_primary_button.dart';
 import 'package:bimber/ui/register/register_scaffold.dart';
@@ -19,7 +20,8 @@ class RegisterPartTwo extends StatefulWidget {
 
 class _RegisterPartTwoState extends State<RegisterPartTwo> {
   final _fbKey = GlobalKey<FormBuilderState>();
-  var _agePreference;
+
+  AgePreference _agePreference = AgePreference(from: 18, to: 99);
 
   final encouragement = """
   Przedstaw się! 
@@ -28,27 +30,6 @@ class _RegisterPartTwoState extends State<RegisterPartTwo> {
   Dobry opis zwiększa twoją szansę na znalezienie bratnich dusz do picia! 
   Nie zapominaj, niestosowny opis grozi banem.
   """;
-  final agePreferenceText = "Preferencje wiekowe: ";
-
-  _toAgePreferenceModel() {
-    return AgePreference(
-        from: _agePreference?.start?.toInt() ?? 18,
-        to: _agePreference?.end?.toInt() ?? 99);
-  }
-
-  _fromAgePreferenceModel(RegisterAccountData data) {
-    // only data is set
-    if (data?.agePreference != null && _agePreference == null) {
-      return RangeValues(
-          data.agePreference.from.toDouble(), data.agePreference.to.toDouble());
-    }
-
-    // first load so return default
-    if (data?.agePreference == null && _agePreference == null)
-      return RangeValues(18, 99);
-
-    return _agePreference;
-  }
 
   // TODO: add favorite drink type (not preference), for now it's null
   _continue(BuildContext context, RegisterAccountData data,
@@ -58,7 +39,7 @@ class _RegisterPartTwoState extends State<RegisterPartTwo> {
         genderPreference: values["genderPreference"],
         alcoholPreference: values["alcoholPreference"],
         favoriteAlcohol: Alcohol(name: values["alcoholName"], type: null),
-        agePreference: _toAgePreferenceModel());
+        agePreference: _agePreference);
 
     context.bloc<RegisterBloc>().add(RegisterSaveData(data: newData));
     context.pushNamed("/three");
@@ -90,24 +71,15 @@ class _RegisterPartTwoState extends State<RegisterPartTwo> {
                       children: <Widget>[
                         AccountFormField.descriptionField,
                         SizedBox(height: 15),
-                        Text(
-                            agePreferenceText +
-                                "(${_agePreference?.start?.toInt() ?? 18} - ${_agePreference?.end?.toInt() ?? 99})",
-                            style: textTheme.subtitle1),
-                        RangeSlider(
-                          values: _fromAgePreferenceModel(data),
-                          labels: RangeLabels(
-                              "Wiek od ${_agePreference?.start?.toInt() ?? 18}",
-                              "Wiek do ${_agePreference?.end?.toInt() ?? 99}"),
-                          min: 18,
-                          max: 99,
-                          divisions: 99 - 18,
-                          onChanged: (value) {
-                            setState(() {
-                              _agePreference = value;
-                            });
-                          },
-                        ),
+                        AgePreferenceSlider(
+                            preference: _agePreference,
+                            onChanged: (range) {
+                              setState(() {
+                                _agePreference = AgePreference(
+                                    from: range.start.toInt(),
+                                    to: range.end.toInt());
+                              });
+                            }),
                         AccountFormField.genderPreferenceField,
                         AccountFormField.alcoholPreferenceField,
                         AccountFormField.alcoholNameField,

@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:bimber/models/alcohol_type.dart';
 import 'package:bimber/models/gender.dart';
+import 'package:bimber/ui/common/custom_form_builder_image_picker.dart';
 import 'package:bimber/ui/common/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:bimber/ui/common/language_utils.dart';
@@ -162,9 +161,12 @@ class AccountFormField {
     ],
   );
 
-  static final imagePicker = (String localImagePath, Size size) =>
-      FormBuilderImagePicker(
-        initialValue: localImagePath != null ? [File(localImagePath)] : null,
+  static final imagePicker = (Size size) => CustomFormBuilderImagePicker(
+        imageDecoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+        decoration: InputDecoration(
+            labelText: "Avatar",
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(30))),
         maxImages: 1,
         imageWidth: size.width * 4 / 5,
         imageHeight: size.height * 3 / 5,

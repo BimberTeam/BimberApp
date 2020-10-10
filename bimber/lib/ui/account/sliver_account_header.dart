@@ -6,7 +6,12 @@ class SliverAccountHeader extends StatelessWidget {
   final String email;
   final String imageUrl;
 
-  SliverAccountHeader({this.name, this.email, this.imageUrl});
+  final Function onEditAccount;
+
+  static const editButtonColor = const Color.fromRGBO(40, 30, 50, 1.0);
+
+  SliverAccountHeader(
+      {this.name, this.email, this.imageUrl, this.onEditAccount});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,7 @@ class SliverAccountHeader extends StatelessWidget {
 
   Widget _avatar(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(30),
+      padding: EdgeInsets.symmetric(vertical: 30),
       child: Column(
         children: <Widget>[
           CachedNetworkImage(
@@ -59,12 +64,27 @@ class SliverAccountHeader extends StatelessWidget {
                   color: Colors.black,
                   fontSize: 30)),
           SizedBox(height: 10),
-          Text(email,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontFamily: "Baloo", color: Colors.grey, fontSize: 20))
+          _editButton(),
         ],
       ),
+    );
+  }
+
+  _editButton() {
+    return RaisedButton.icon(
+      padding: EdgeInsets.symmetric(horizontal: 30),
+      icon: Icon(Icons.perm_identity, color: Colors.white),
+      onPressed: onEditAccount,
+      color: editButtonColor,
+      elevation: 5,
+      label: Text("EDYTUJ",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Montserrat',
+              fontSize: 15.0,
+              fontWeight: FontWeight.bold)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
     );
   }
 }

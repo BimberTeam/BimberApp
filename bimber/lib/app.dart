@@ -1,5 +1,7 @@
 import 'package:bimber/bloc/auth/authentication_bloc.dart';
+import 'package:bimber/models/account_data.dart';
 import 'package:bimber/resources/account_repository.dart';
+import 'package:bimber/ui/account/account_edit_screen.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:bimber/ui/home/home_screen.dart';
 import 'package:bimber/ui/login/login_screen.dart';
@@ -52,6 +54,13 @@ class App extends StatelessWidget {
                         type: PageTransitionType.fade,
                         duration: Duration(milliseconds: 200),
                         child: RegisterScreen());
+                  }
+                case "/edit-account":
+                  {
+                    return PageTransition(
+                        type: PageTransitionType.downToUp,
+                        child: AccountEditScreen(
+                            accountData: settings.arguments as AccountData));
                   }
                 case "/home":
                   {

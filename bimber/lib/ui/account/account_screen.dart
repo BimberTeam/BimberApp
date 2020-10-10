@@ -3,9 +3,10 @@ import 'package:bimber/models/age_preference.dart';
 import 'package:bimber/models/alcohol.dart';
 import 'package:bimber/models/alcohol_type.dart';
 import 'package:bimber/models/gender.dart';
-import 'package:bimber/ui/account/sliver_account_avatar.dart';
+import 'package:bimber/ui/account/sliver_account_header.dart';
 import 'package:bimber/ui/account/sliver_fill_account_info.dart';
 import 'package:flutter/material.dart';
+import 'package:build_context/build_context.dart';
 
 class AccountScreen extends StatefulWidget {
   @override
@@ -36,7 +37,7 @@ class _AccountScreenState extends State<AccountScreen> {
     This might be a lengthy description and that is due to testing needs of myself.
     Here we go with another line of no interesting facts about me.
     I like to party like no one, literally no one, I hate this shit.
-    Get used to this, no one likes boring people, and I might be one of them.
+    Get used to this, no one likes people, and I might be one of them.
     """,
       email: "duperka@gmail.com",
       imageUrl: "https://m.media-amazon.com/images/I/81v6uFs25CL._SS500_.jpg",
@@ -54,7 +55,10 @@ class _AccountScreenState extends State<AccountScreen> {
         SliverAccountHeader(
             name: accountData.name,
             email: accountData.email,
-            imageUrl: accountData.imageUrl),
+            imageUrl: accountData.imageUrl,
+            onEditAccount: () {
+              context.pushNamed("/edit-account", arguments: accountData);
+            }),
         SliverFillAccountInfo(
             infoOpacity: bottomSheetOpacity, accountData: accountData)
       ],

@@ -26,6 +26,8 @@ dependencies:
   provider: ^4.3.2
   sprung: ^2.0.0+12
   cached_network_image: ^2.2.0+1
+  flutter_chips_input: ^1.9.4
+  flutter_cache_manager: ^1.4.2
 
 dev_dependencies:
   flutter_test:
