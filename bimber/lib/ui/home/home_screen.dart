@@ -1,3 +1,4 @@
+import 'package:bimber/ui/account/account_screen.dart';
 import 'package:bimber/ui/chat_list/chat_list_screen.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +57,7 @@ class HomeScreenState extends State<HomeScreen>
           physics: NeverScrollableScrollPhysics(),
           controller: _tabController,
           children: <Widget>[
-            Text("Moje konto"),
+            AccountScreen(),
             DiscoverScreen(),
             ChatListScreen()
           ],

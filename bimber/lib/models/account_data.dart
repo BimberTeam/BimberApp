@@ -1,11 +1,11 @@
+import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
+import "package:bimber/models/gender.dart";
 import "package:bimber/models/age_preference.dart";
 import "package:bimber/models/alcohol.dart";
 import "package:bimber/models/alcohol_type.dart";
-import "package:bimber/models/gender.dart";
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
-class RegisterAccountData extends Equatable {
+class AccountData extends Equatable {
   bool get stringify => true;
 
   final String name;
@@ -17,10 +17,9 @@ class RegisterAccountData extends Equatable {
   final Gender genderPreference;
   final AgePreference agePreference;
   final AlcoholType alcoholPreference;
-  final String password;
-  final String imagePath;
+  final String imageUrl;
 
-  RegisterAccountData(
+  AccountData(
       {@required this.name,
       @required this.email,
       @required this.gender,
@@ -30,10 +29,9 @@ class RegisterAccountData extends Equatable {
       @required this.genderPreference,
       @required this.agePreference,
       @required this.alcoholPreference,
-      @required this.password,
-      @required this.imagePath});
+      @required this.imageUrl});
 
-  RegisterAccountData copyWith(
+  AccountData copyWith(
       {String name,
       String email,
       Gender gender,
@@ -43,9 +41,8 @@ class RegisterAccountData extends Equatable {
       Gender genderPreference,
       AgePreference agePreference,
       AlcoholType alcoholPreference,
-      String password,
-      String imagePath}) {
-    return RegisterAccountData(
+      String imageUrl}) {
+    return AccountData(
         name: name ?? this.name,
         email: email ?? this.email,
         gender: gender ?? this.gender,
@@ -55,8 +52,7 @@ class RegisterAccountData extends Equatable {
         genderPreference: genderPreference ?? this.genderPreference,
         agePreference: agePreference ?? this.agePreference,
         alcoholPreference: alcoholPreference ?? this.alcoholPreference,
-        password: password ?? this.password,
-        imagePath: imagePath ?? this.imagePath);
+        imageUrl: imageUrl ?? this.imageUrl);
   }
 
   @override
@@ -70,8 +66,7 @@ class RegisterAccountData extends Equatable {
         genderPreference,
         agePreference,
         alcoholPreference,
-        password,
-        imagePath
+        imageUrl
       ];
 
   Map<String, dynamic> toJson() {
@@ -85,14 +80,13 @@ class RegisterAccountData extends Equatable {
       "genderPreference": genderPreference?.toJson(),
       "agePreference": agePreference?.toJson(),
       "alcoholPreference": alcoholPreference?.toJson(),
-      "password": password,
-      "imagePath": imagePath
+      "imageUrl": imageUrl
     };
   }
 
-  factory RegisterAccountData.fromJson(dynamic json) {
+  factory AccountData.fromJson(dynamic json) {
     if (json == null) return null;
-    return RegisterAccountData(
+    return AccountData(
         name: json["name"],
         email: json["email"],
         gender: GenderExtension.fromJson(json["gender"]),
@@ -103,7 +97,6 @@ class RegisterAccountData extends Equatable {
         agePreference: AgePreference.fromJson(json["agePreference"]),
         alcoholPreference:
             AlcoholTypeExtension.fromJson(json["alcoholPreference"]),
-        password: json["password"],
-        imagePath: json["imagePath"]);
+        imageUrl: json["imageUrl"]);
   }
 }

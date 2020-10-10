@@ -1,5 +1,4 @@
 import 'package:bimber/models/user.dart';
-import 'package:bimber/ui/common/constants.dart';
 import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:flutter/material.dart';
 

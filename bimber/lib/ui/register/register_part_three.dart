@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bimber/bloc/register/register_bloc.dart';
 import 'package:bimber/models/register_account_data.dart';
+import 'package:bimber/ui/common/account_form_fields.dart';
 import 'package:bimber/ui/common/theme.dart';
 import 'package:bimber/ui/common/themed_primary_button.dart';
 import 'package:bimber/ui/register/register_scaffold.dart';
@@ -37,21 +38,7 @@ class RegisterPartThree extends StatelessWidget {
                         Text("Dodaj zdjęcie profilowe",
                             style: textTheme.headline5
                                 .copyWith(fontWeight: FontWeight.w600)),
-                        FormBuilderImagePicker(
-                          initialValue: data?.imagePath != null
-                              ? [File(data?.imagePath)]
-                              : null,
-                          maxImages: 1,
-                          imageWidth: size.width * 4 / 5,
-                          imageHeight: size.height * 3 / 5,
-                          attribute: "imageUrl",
-                          cameraIcon: Icon(Icons.camera_alt),
-                          iconColor: Colors.black,
-                          validators: [
-                            FormBuilderValidators.required(
-                                errorText: "Bez zdjęcie nie ma konta!")
-                          ],
-                        ),
+                        AccountFormField.imagePicker(size),
                         SizedBox(
                             width: double.infinity,
                             child: ThemedPrimaryButton(

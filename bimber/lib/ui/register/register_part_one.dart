@@ -1,12 +1,12 @@
 import 'package:bimber/bloc/register/register_bloc.dart';
 import 'package:bimber/models/gender.dart';
 import 'package:bimber/models/register_account_data.dart';
+import 'package:bimber/ui/common/account_form_fields.dart';
 import 'package:bimber/ui/common/themed_primary_button.dart';
 import 'package:bimber/ui/register/register_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:bimber/ui/common/language_utils.dart';
 import 'package:build_context/build_context.dart';
 
 typedef GenderValidator = String Function(dynamic);
@@ -53,102 +53,16 @@ class RegisterPartOne extends StatelessWidget {
                 },
                 child: Column(
                   children: <Widget>[
-                    FormBuilderTextField(
-                      maxLines: 1,
-                      attribute: "email",
-                      decoration: InputDecoration(
-                          labelText: "Email", icon: Icon(Icons.email)),
-                      validators: [
-                        FormBuilderValidators.email(
-                            errorText: "Nieprawidłowy format email"),
-                      ],
-                    ),
+                    AccountFormField.emailField,
                     SizedBox(height: 15),
-                    FormBuilderTextField(
-                      attribute: "name",
-                      maxLines: 1,
-                      decoration: InputDecoration(
-                          labelText: "Nazwa",
-                          hintText: "Nazwa pod jaką cię widać",
-                          icon: Icon(Icons.person_outline)),
-                      validators: [
-                        FormBuilderValidators.pattern("[a-zA-Z ]",
-                            errorText:
-                                "Twoja nazwa może skłądać się tylko z liter"),
-                        FormBuilderValidators.minLength(3,
-                            errorText:
-                                "Prawdzia osoba zaczyna się od 3 znaków"),
-                        FormBuilderValidators.maxLength(15,
-                            errorText: "Myślisz, że komuś chce się to czytać?"),
-                      ],
-                    ),
-                    FormBuilderTextField(
-                      attribute: "password",
-                      maxLines: 1,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          labelText: "Hasło",
-                          hintText: "Wybierz dobrze",
-                          icon: Icon(Icons.lock_outline)),
-                      validators: [
-                        FormBuilderValidators.minLength(6,
-                            errorText: "Użyj conajmniej 6 znaków"),
-                        FormBuilderValidators.maxLength(30,
-                            errorText: "Na pewno zapamiętasz tyle znkaów?"),
-                      ],
-                    ),
+                    AccountFormField.nameField,
+                    AccountFormField.passwordField,
                     SizedBox(height: 15),
-                    FormBuilderTextField(
-                      attribute: "confirmPassword",
-                      maxLines: 1,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          labelText: "Powtórz hasło",
-                          hintText: "Musi być takie samo",
-                          icon: Icon(Icons.lock_outline)),
-                      validators: [
-                        (value) {
-                          if (value !=
-                              _fbKey.currentState.fields['password']
-                                  .currentState.value) {
-                            return "Hasła się nie zgadzają";
-                          }
-                          return null;
-                        }
-                      ],
-                    ),
+                    AccountFormField.confirmPassowrdField(_fbKey),
                     SizedBox(height: 15),
-                    FormBuilderDropdown<Gender>(
-                        attribute: "gender",
-                        decoration: InputDecoration(
-                            labelText: "Płeć", icon: Icon(Icons.wc)),
-                        hint: Text('Określ swoją płeć'),
-                        items: Gender.values
-                            .map((gender) => DropdownMenuItem<Gender>(
-                                value: gender, child: Text(gender.readable())))
-                            .toList(),
-                        validators: <GenderValidator>[
-                          FormBuilderValidators.required(
-                              errorText: "Podaj płeć")
-                        ]),
+                    AccountFormField.genderField,
                     SizedBox(height: 15),
-                    FormBuilderTextField(
-                      attribute: "age",
-                      keyboardType: TextInputType.number,
-                      maxLines: 1,
-                      decoration: InputDecoration(
-                          labelText: "Wiek", icon: Icon(Icons.calendar_today)),
-                      validators: [
-                        FormBuilderValidators.required(
-                            errorText: "Zapomniałeś o czymś?"),
-                        FormBuilderValidators.numeric(),
-                        FormBuilderValidators.min(18,
-                            errorText: "Musisz być pełnoletni!"),
-                        FormBuilderValidators.max(99,
-                            errorText:
-                                "Przy takim wieku może lepiej zostać w domu?"),
-                      ],
-                    ),
+                    AccountFormField.ageField,
                     SizedBox(height: 15),
                     SizedBox(
                       width: double.infinity,
