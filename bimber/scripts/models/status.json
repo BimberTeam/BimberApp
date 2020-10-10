@@ -1,0 +1,7 @@
+
+{
+    "__class__": "Status",
+    "__enum__": true,
+    "OK": null,
+    "ERROR": null
+}

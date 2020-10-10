@@ -1,4 +1,3 @@
-
 {
   "__class__": "User",
   "id": {"type":  "String"},
@@ -7,9 +6,10 @@
   "gender": {"type": "Gender", "enum": true},
   "age": {"type": "int"},
   "description": {"type": "String"},
-  "favouriteAlcohol": {"type": "Alcohol"},
+  "favoriteAlcohol": {"type": "Alcohol"},
   "genderPreference": {"type": "Gender", "enum": true},
-  "agePreference": {"type": "AgePreference"},
+  "agePreferenceFrom": {"type": "int"},
+  "agePreferenceTo": {"type": "int"},
   "alcoholPreference": {"type": "AlcoholType", "enum": true},
   "imageUrl": {"type": "String"},
   "location": {"type": "Location"},

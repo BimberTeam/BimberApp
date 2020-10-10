@@ -1,10 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import "package:bimber/models/gender.dart";
 import "package:bimber/models/location.dart";
 import "package:bimber/models/alcohol.dart";
-import "package:bimber/models/age_preference.dart";
 import "package:bimber/models/alcohol_type.dart";
+import "package:bimber/models/gender.dart";
 
 class User extends Equatable {
   bool get stringify => true;
@@ -15,9 +14,10 @@ class User extends Equatable {
   final Gender gender;
   final int age;
   final String description;
-  final Alcohol favouriteAlcohol;
+  final Alcohol favoriteAlcohol;
   final Gender genderPreference;
-  final AgePreference agePreference;
+  final int agePreferenceFrom;
+  final int agePreferenceTo;
   final AlcoholType alcoholPreference;
   final String imageUrl;
   final Location location;
@@ -30,9 +30,10 @@ class User extends Equatable {
       @required this.gender,
       @required this.age,
       @required this.description,
-      @required this.favouriteAlcohol,
+      @required this.favoriteAlcohol,
       @required this.genderPreference,
-      @required this.agePreference,
+      @required this.agePreferenceFrom,
+      @required this.agePreferenceTo,
       @required this.alcoholPreference,
       @required this.imageUrl,
       @required this.location,
@@ -45,9 +46,10 @@ class User extends Equatable {
       Gender gender,
       int age,
       String description,
-      Alcohol favouriteAlcohol,
+      Alcohol favoriteAlcohol,
       Gender genderPreference,
-      AgePreference agePreference,
+      int agePreferenceFrom,
+      int agePreferenceTo,
       AlcoholType alcoholPreference,
       String imageUrl,
       Location location,
@@ -59,9 +61,10 @@ class User extends Equatable {
         gender: gender ?? this.gender,
         age: age ?? this.age,
         description: description ?? this.description,
-        favouriteAlcohol: favouriteAlcohol ?? this.favouriteAlcohol,
+        favoriteAlcohol: favoriteAlcohol ?? this.favoriteAlcohol,
         genderPreference: genderPreference ?? this.genderPreference,
-        agePreference: agePreference ?? this.agePreference,
+        agePreferenceFrom: agePreferenceFrom ?? this.agePreferenceFrom,
+        agePreferenceTo: agePreferenceTo ?? this.agePreferenceTo,
         alcoholPreference: alcoholPreference ?? this.alcoholPreference,
         imageUrl: imageUrl ?? this.imageUrl,
         location: location ?? this.location,
@@ -76,9 +79,10 @@ class User extends Equatable {
         gender,
         age,
         description,
-        favouriteAlcohol,
+        favoriteAlcohol,
         genderPreference,
-        agePreference,
+        agePreferenceFrom,
+        agePreferenceTo,
         alcoholPreference,
         imageUrl,
         location,
@@ -93,9 +97,10 @@ class User extends Equatable {
       "gender": gender?.toJson(),
       "age": age,
       "description": description,
-      "favouriteAlcohol": favouriteAlcohol?.toJson(),
+      "favoriteAlcohol": favoriteAlcohol?.toJson(),
       "genderPreference": genderPreference?.toJson(),
-      "agePreference": agePreference?.toJson(),
+      "agePreferenceFrom": agePreferenceFrom,
+      "agePreferenceTo": agePreferenceTo,
       "alcoholPreference": alcoholPreference?.toJson(),
       "imageUrl": imageUrl,
       "location": location?.toJson(),
@@ -112,9 +117,10 @@ class User extends Equatable {
         gender: GenderExtension.fromJson(json["gender"]),
         age: json["age"] as int,
         description: json["description"],
-        favouriteAlcohol: Alcohol.fromJson(json["favouriteAlcohol"]),
+        favoriteAlcohol: Alcohol.fromJson(json["favoriteAlcohol"]),
         genderPreference: GenderExtension.fromJson(json["genderPreference"]),
-        agePreference: AgePreference.fromJson(json["agePreference"]),
+        agePreferenceFrom: json["agePreferenceFrom"] as int,
+        agePreferenceTo: json["agePreferenceTo"] as int,
         alcoholPreference:
             AlcoholTypeExtension.fromJson(json["alcoholPreference"]),
         imageUrl: json["imageUrl"],

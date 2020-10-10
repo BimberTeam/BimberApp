@@ -1,10 +1,10 @@
 def generate_enum_names(keys):
-    return ",\n".join([name.lower().capitalize() for name in keys])
+    return ",\n".join([name.upper() for name in keys])
 
 
 def generate_to_json_enum_switch(classname, keys):
     cases = "\n".join(
-        [f'case {classname}.{name.lower().capitalize()}: return "{name.lower()}";' for name in keys])
+        [f'case {classname}.{name.upper()}: return "{name.lower().capitalize()}";' for name in keys])
 
     formatted = f"""
     switch(this) {{
@@ -19,7 +19,7 @@ def generate_to_json_enum_switch(classname, keys):
 
 def generate_from_json_enum_switch(classname, keys):
     cases = "\n".join(
-        [f'case "{name.lower()}": return {classname}.{name.lower().capitalize()};' for name in keys])
+        [f'case "{name.upper()}": return {classname}.{name.upper()};' for name in keys])
 
     formatted = f"""
     switch(name) {{
