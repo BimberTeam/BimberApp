@@ -99,13 +99,19 @@ class FriendsHorizontalList extends StatelessWidget {
                       itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                             PopupMenuItem(
                                 child: _menuItem(
-                                    () => {context.pushNamed("/group-create")},
+                                    () {
+                                      context.pop();
+                                      context.pushNamed("/group-create");
+                                    },
                                     "Stwórz grupę",
                                     Icons.create,
                                     Theme.of(context).colorScheme.secondary)),
                             PopupMenuItem(
                                 child: _menuItem(
-                                    () => {context.pushNamed("/invitations")},
+                                    () {
+                                      context.pop();
+                                      context.pushNamed("/invitations");
+                                    },
                                     "Zaproszenia",
                                     Icons.people_outline,
                                     Theme.of(context).colorScheme.secondary)),
