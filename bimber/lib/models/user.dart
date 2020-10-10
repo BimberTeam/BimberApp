@@ -1,109 +1,124 @@
-import "package:bimber/models/age_preference.dart";
-import "package:bimber/models/alcohol.dart";
-import "package:bimber/models/alcohol_type.dart";
-import "package:bimber/models/gender.dart";
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import "package:bimber/models/gender.dart";
+import "package:bimber/models/location.dart";
+import "package:bimber/models/alcohol.dart";
+import "package:bimber/models/age_preference.dart";
+import "package:bimber/models/alcohol_type.dart";
 
-class RegisterAccountData extends Equatable {
+class User extends Equatable {
   bool get stringify => true;
 
+  final String id;
   final String name;
   final String email;
   final Gender gender;
   final int age;
   final String description;
-  final Alcohol favoriteAlcohol;
+  final Alcohol favouriteAlcohol;
   final Gender genderPreference;
   final AgePreference agePreference;
   final AlcoholType alcoholPreference;
-  final String password;
-  final String imagePath;
+  final String imageUrl;
+  final Location location;
+  final List<User> friends;
 
-  RegisterAccountData(
-      {@required this.name,
+  User(
+      {@required this.id,
+      @required this.name,
       @required this.email,
       @required this.gender,
       @required this.age,
       @required this.description,
-      @required this.favoriteAlcohol,
+      @required this.favouriteAlcohol,
       @required this.genderPreference,
       @required this.agePreference,
       @required this.alcoholPreference,
-      @required this.password,
-      @required this.imagePath});
+      @required this.imageUrl,
+      @required this.location,
+      @required this.friends});
 
-  RegisterAccountData copyWith(
-      {String name,
+  User copyWith(
+      {String id,
+      String name,
       String email,
       Gender gender,
       int age,
       String description,
-      Alcohol favoriteAlcohol,
+      Alcohol favouriteAlcohol,
       Gender genderPreference,
       AgePreference agePreference,
       AlcoholType alcoholPreference,
-      String password,
-      String imagePath}) {
-    return RegisterAccountData(
+      String imageUrl,
+      Location location,
+      List<User> friends}) {
+    return User(
+        id: id ?? this.id,
         name: name ?? this.name,
         email: email ?? this.email,
         gender: gender ?? this.gender,
         age: age ?? this.age,
         description: description ?? this.description,
-        favoriteAlcohol: favoriteAlcohol ?? this.favoriteAlcohol,
+        favouriteAlcohol: favouriteAlcohol ?? this.favouriteAlcohol,
         genderPreference: genderPreference ?? this.genderPreference,
         agePreference: agePreference ?? this.agePreference,
         alcoholPreference: alcoholPreference ?? this.alcoholPreference,
-        password: password ?? this.password,
-        imagePath: imagePath ?? this.imagePath);
+        imageUrl: imageUrl ?? this.imageUrl,
+        location: location ?? this.location,
+        friends: friends ?? this.friends);
   }
 
   @override
   List get props => [
+        id,
         name,
         email,
         gender,
         age,
         description,
-        favoriteAlcohol,
+        favouriteAlcohol,
         genderPreference,
         agePreference,
         alcoholPreference,
-        password,
-        imagePath
+        imageUrl,
+        location,
+        friends
       ];
 
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "name": name,
       "email": email,
       "gender": gender?.toJson(),
       "age": age,
       "description": description,
-      "favoriteAlcohol": favoriteAlcohol?.toJson(),
+      "favouriteAlcohol": favouriteAlcohol?.toJson(),
       "genderPreference": genderPreference?.toJson(),
       "agePreference": agePreference?.toJson(),
       "alcoholPreference": alcoholPreference?.toJson(),
-      "password": password,
-      "imagePath": imagePath
+      "imageUrl": imageUrl,
+      "location": location?.toJson(),
+      "friends": friends.map((e) => e?.toJson())
     };
   }
 
-  factory RegisterAccountData.fromJson(dynamic json) {
+  factory User.fromJson(dynamic json) {
     if (json == null) return null;
-    return RegisterAccountData(
+    return User(
+        id: json["id"],
         name: json["name"],
         email: json["email"],
         gender: GenderExtension.fromJson(json["gender"]),
         age: json["age"] as int,
         description: json["description"],
-        favoriteAlcohol: Alcohol.fromJson(json["favoriteAlcohol"]),
+        favouriteAlcohol: Alcohol.fromJson(json["favouriteAlcohol"]),
         genderPreference: GenderExtension.fromJson(json["genderPreference"]),
         agePreference: AgePreference.fromJson(json["agePreference"]),
         alcoholPreference:
             AlcoholTypeExtension.fromJson(json["alcoholPreference"]),
-        password: json["password"],
-        imagePath: json["imagePath"]);
+        imageUrl: json["imageUrl"],
+        location: Location.fromJson(json["location"]),
+        friends: json["friends"].map((e) => User.fromJson(e)).toList());
   }
 }

@@ -2,6 +2,7 @@ import 'package:bimber/ui/common/position.dart';
 import 'package:bimber/ui/common/utils.dart';
 import 'package:bimber/ui/discover/discover_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sprung/sprung.dart';
 
 class DiscoverSwipe extends StatefulWidget {
@@ -154,9 +155,7 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
 
       return Positioned(
           height: widget.card.size.height,
-          // TODO: fix that
-          // I have no idea why this '36' have to be here. It stays here for now.
-          width: widget.card.size.width + 36,
+          width: widget.card.size.width,
           top: (translateY?.value ?? 0) + offset.dy + _currentDragPosition.top,
           left:
               (translateX?.value ?? 0) + offset.dx + _currentDragPosition.left,
@@ -238,6 +237,7 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onPanStart: _onPanStart,
         onPanUpdate: _onPanUpdate,
         onPanEnd: _onPanEnd,

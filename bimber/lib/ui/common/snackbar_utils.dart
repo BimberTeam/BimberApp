@@ -22,6 +22,27 @@ void showErrorSnackbar(BuildContext context,
     );
 }
 
+void showSuccessSnackbar(BuildContext context,
+    {String message, Duration duration = const Duration(seconds: 2)}) {
+  Scaffold.of(context)
+    ..removeCurrentSnackBar()
+    ..showSnackBar(
+      SnackBar(
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(message,
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w700)),
+            Icon(Icons.check_circle)
+          ],
+        ),
+        backgroundColor: Colors.green,
+        duration: duration,
+      ),
+    );
+}
+
 final indicator = SizedBox(
     height: 20,
     width: 20,

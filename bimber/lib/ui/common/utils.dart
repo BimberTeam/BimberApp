@@ -1,7 +1,8 @@
 import 'dart:ui';
 import 'dart:math' as math;
-
+import 'package:bimber/models/location.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 Size sizeWithoutAppBar(BuildContext context) {
   // final height = MediaQuery.of(context).size.height — MediaQuery.of(context).padding.top — kToolbarHeight;
@@ -39,4 +40,18 @@ Color randomColor() {
   var random = new math.Random();
   return Color.fromARGB(
       255, random.nextInt(255), random.nextInt(255), random.nextInt(255));
+}
+
+void calculateCurrentDistanceFrom(
+    Location location, void Function(double) onGetDistance) async {
+  try {
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
+    double distanceInMeters = await Geolocator().distanceBetween(
+        position.latitude,
+        position.longitude,
+        location.latitude,
+        location.longtitude);
+    onGetDistance(distanceInMeters);
+  } catch (e) {}
 }
