@@ -30,6 +30,9 @@ dependencies:
   flutter_chips_input: ^1.9.4
   flutter_cache_manager: ^1.4.2
   shared_preferences: ^0.5.12
+  graphql_flutter: ^4.0.0-beta.1
+  dio: ^3.0.10
+  flutter_dotenv: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -38,6 +41,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
+    - assets/env/.env_dev
   fonts:
   - family: Baloo
     fonts:

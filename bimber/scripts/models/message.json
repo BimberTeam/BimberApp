@@ -1,0 +1,5 @@
+{
+  "__class__": "Message",
+  "status": {"type":  "Status", "enum": true},
+  "message": {"type": "String"}
+}

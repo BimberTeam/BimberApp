@@ -1,5 +1,10 @@
 import 'package:bimber/bloc/login/login_bloc.dart';
-import 'package:bimber/resources/account_repository.dart';
+import 'package:bimber/bloc/register/register_bloc.dart';
+import 'package:bimber/models/age_preference.dart';
+import 'package:bimber/models/alcohol_type.dart';
+import 'package:bimber/models/gender.dart';
+import 'package:bimber/models/register_account_data.dart';
+import 'package:bimber/resources/repositories/account_repository.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
 import 'package:bimber/ui/common/theme.dart';
 import 'package:bimber/ui/login/login_form.dart';
@@ -26,26 +31,29 @@ class LoginScreenState extends State<LoginScreen>
   @override
   Widget build(BuildContext context) {
     return BlocProvider<LoginBloc>(
-        create: (BuildContext context) =>
-            LoginBloc(context.repository<AccountRepository>()),
+        create: (BuildContext context) => LoginBloc(
+            accountRepository: context.repository<AccountRepository>()),
         child: Scaffold(
             body: BlocListener<LoginBloc, LoginState>(
                 listener: (context, state) {
                   context.hideCurrentSnackBar();
                   if (state is LoginEmailExists) {
                     _controller.forward();
+                  } else if (state is LoginEmailNotExists) {
+                    context.pushNamed("/register",
+                        arguments: {"email": state.email});
                   } else if (state is LoginFailed) {
-                    showErrorSnackbar(context, message: "Nieprawidłowe hasło");
+                    showErrorSnackbar(context, message: "Błąd serwera!");
                   } else if (state is LoginSucceed) {
                     Navigator.of(context).pushReplacementNamed("/home");
                   } else if (state is LoginLoading) {
                     showLoadingSnackbar(context,
                         message: "Poszukiwanie danych bimbrownika...");
-                  } else if (state is LoginEmailNotExists) {
-                    context.pushNamed("/register",
-                        arguments: {"email": state.email});
                   } else if (state is LoginInitial) {
                     _controller.reset();
+                  } else if (state is LoginServerNotResponding) {
+                    showErrorSnackbar(context,
+                        message: "Serwer nie odpowiada!");
                   } else {
                     context.pushNamed("/splash");
                   }

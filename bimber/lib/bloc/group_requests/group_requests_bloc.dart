@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bimber/models/group.dart';
-import 'package:bimber/resources/group_repository.dart';
+import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/ui/common/constants.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';

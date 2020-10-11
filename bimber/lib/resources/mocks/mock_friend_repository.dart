@@ -1,5 +1,5 @@
 import 'package:bimber/models/user.dart';
-import 'package:bimber/resources/friend_repository.dart';
+import 'package:bimber/resources/repositories/friend_repository.dart';
 import 'package:bimber/ui/common/fixtures.dart';
 
 class MockFriendRepository extends FriendRepository {

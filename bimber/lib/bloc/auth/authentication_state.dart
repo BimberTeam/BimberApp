@@ -15,4 +15,4 @@ class Authenticated extends AuthenticationState {}
 
 class Unauthenticated extends AuthenticationState {}
 
-class ServerNotResponding extends AuthenticationState {}
+class AuthServerNotResponding extends AuthenticationState {}

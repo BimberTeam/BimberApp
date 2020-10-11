@@ -31,14 +31,13 @@ class _RegisterPartTwoState extends State<RegisterPartTwo> {
   Nie zapominaj, niestosowny opis grozi banem.
   """;
 
-  // TODO: add favorite drink type (not preference), for now it's null
   _continue(BuildContext context, RegisterAccountData data,
       Map<String, dynamic> values) {
     var newData = data.copyWith(
         description: values["description"],
         genderPreference: values["genderPreference"],
         alcoholPreference: values["alcoholPreference"],
-        favoriteAlcohol: Alcohol(name: values["alcoholName"], type: null),
+        favoriteAlcoholName: values["alcoholName"],
         agePreference: _agePreference);
 
     context.bloc<RegisterBloc>().add(RegisterSaveData(data: newData));
@@ -65,7 +64,7 @@ class _RegisterPartTwoState extends State<RegisterPartTwo> {
                       "description": data?.description,
                       "genderPreference": data?.genderPreference,
                       "alcoholPreference": data?.alcoholPreference,
-                      "alcoholName": data?.favoriteAlcohol?.name,
+                      "alcoholName": data?.favoriteAlcoholName,
                     },
                     child: Column(
                       children: <Widget>[

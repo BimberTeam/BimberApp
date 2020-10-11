@@ -75,7 +75,7 @@ class DetailsList extends StatelessWidget {
                   _iconText(Icons.person, user.gender.readable(), textColor),
                   _iconText(
                       Icons.local_bar,
-                      "${user.favouriteAlcohol.type.readable()}: ${user.favouriteAlcohol.name}",
+                      "${user.favoriteAlcoholType.readable()}: ${user.favoriteAlcoholName}",
                       textColor),
                   distance >= 0
                       ? _iconText(Icons.location_on, "${distance}km", textColor)

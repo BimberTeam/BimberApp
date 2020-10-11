@@ -25,7 +25,9 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
   @override
   void initState() {
     super.initState();
-    _agePreference = widget.accountData.agePreference;
+    _agePreference = AgePreference(
+        from: widget.accountData.agePreferenceFrom,
+        to: widget.accountData.agePreferenceTo);
   }
 
   Future<String> _getAvatarLocalPath(String imageUrl) async {
@@ -49,6 +51,8 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
         onPressed: () {
           // TODO: edditing bloc
 
+          // TODO: remember to put _agePreference back to AccountData
+
           context.pop();
         },
       ),
@@ -68,8 +72,8 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
                 "age": widget.accountData.age.toString(),
                 "description": widget.accountData.description,
                 "alcoholPreference": widget.accountData.alcoholPreference,
-                "alcoholName": widget.accountData.favoriteAlcohol.name,
-                "agePreference": widget.accountData.agePreference,
+                "alcoholName": widget.accountData.favoriteAlcoholName,
+                "agePreference": _agePreference
               },
               child: SingleChildScrollView(
                 child: Column(

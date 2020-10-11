@@ -1,5 +1,5 @@
 import 'package:bimber/models/group.dart';
-import 'package:bimber/resources/group_repository.dart';
+import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/ui/common/fixtures.dart';
 
 class MockGroupRepository extends GroupRepository {
