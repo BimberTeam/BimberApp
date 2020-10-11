@@ -65,3 +65,8 @@ class RegisterSuccess extends RegisterState {
   @override
   List<Object> get props => [data];
 }
+
+class RegisterNavigateToLogin extends RegisterState {
+  @override
+  RegisterAccountData get data => null;
+}

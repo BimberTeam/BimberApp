@@ -1,5 +1,6 @@
 {
     "__class__": "AccountData",
+    "id": {"type": "String"},
     "name": {"type": "String"},
     "email": {"type": "String"},
     "gender": {"type": "Gender", "enum": true},

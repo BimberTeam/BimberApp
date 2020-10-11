@@ -25,9 +25,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       try {
         yield RegisterLoading();
         final registered = await repository.register(event.data);
-        // TODO: do the image uploading here
         yield RegisterSuccess(account: registered);
+        await Future.delayed(Duration(seconds: 2));
+        yield RegisterNavigateToLogin();
       } catch (e) {
+        print(e);
         yield (e is GraphqlConnectionError
             ? RegisterServerNotResponding()
             : RegisterError(

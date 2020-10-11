@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import "package:bimber/models/location.dart";
 import "package:bimber/models/user.dart";
+import "package:bimber/models/location.dart";
 
 class Group extends Equatable {
   bool get stringify => true;

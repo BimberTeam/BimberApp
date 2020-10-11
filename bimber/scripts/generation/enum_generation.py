@@ -4,7 +4,7 @@ def generate_enum_names(keys):
 
 def generate_to_json_enum_switch(classname, keys):
     cases = "\n".join(
-        [f'case {classname}.{name.upper()}: return "{name.lower().capitalize()}";' for name in keys])
+        [f'case {classname}.{name.upper()}: return "{name.upper()}";' for name in keys])
 
     formatted = f"""
     switch(this) {{

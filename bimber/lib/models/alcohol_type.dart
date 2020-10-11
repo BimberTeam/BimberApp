@@ -4,13 +4,13 @@ extension AlcoholTypeExtension on AlcoholType {
   String toJson() {
     switch (this) {
       case AlcoholType.BEER:
-        return "Beer";
+        return "BEER";
       case AlcoholType.WINE:
-        return "Wine";
+        return "WINE";
       case AlcoholType.VODKA:
-        return "Vodka";
+        return "VODKA";
       case AlcoholType.OTHER:
-        return "Other";
+        return "OTHER";
       default:
         return null;
     }

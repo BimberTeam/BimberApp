@@ -4,9 +4,9 @@ extension StatusExtension on Status {
   String toJson() {
     switch (this) {
       case Status.OK:
-        return "Ok";
+        return "OK";
       case Status.ERROR:
-        return "Error";
+        return "ERROR";
       default:
         return null;
     }

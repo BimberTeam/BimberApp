@@ -6,6 +6,7 @@ import "package:bimber/models/alcohol_type.dart";
 class AccountData extends Equatable {
   bool get stringify => true;
 
+  final String id;
   final String name;
   final String email;
   final Gender gender;
@@ -20,7 +21,8 @@ class AccountData extends Equatable {
   final String imageUrl;
 
   AccountData(
-      {@required this.name,
+      {@required this.id,
+      @required this.name,
       @required this.email,
       @required this.gender,
       @required this.age,
@@ -34,7 +36,8 @@ class AccountData extends Equatable {
       @required this.imageUrl});
 
   AccountData copyWith(
-      {String name,
+      {String id,
+      String name,
       String email,
       Gender gender,
       int age,
@@ -47,6 +50,7 @@ class AccountData extends Equatable {
       AlcoholType alcoholPreference,
       String imageUrl}) {
     return AccountData(
+        id: id ?? this.id,
         name: name ?? this.name,
         email: email ?? this.email,
         gender: gender ?? this.gender,
@@ -63,6 +67,7 @@ class AccountData extends Equatable {
 
   @override
   List get props => [
+        id,
         name,
         email,
         gender,
@@ -79,6 +84,7 @@ class AccountData extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "name": name,
       "email": email,
       "gender": gender?.toJson(),
@@ -97,6 +103,7 @@ class AccountData extends Equatable {
   factory AccountData.fromJson(dynamic json) {
     if (json == null) return null;
     return AccountData(
+        id: json["id"],
         name: json["name"],
         email: json["email"],
         gender: GenderExtension.fromJson(json["gender"]),

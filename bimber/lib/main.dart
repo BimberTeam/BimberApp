@@ -8,6 +8,7 @@ import 'package:flare_flutter/flare_cache_asset.dart';
 import 'package:flare_flutter/provider/asset_flare.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 Future<void> preloadFlare() async {
@@ -26,17 +27,20 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await preloadFlare();
 
+  await DotEnv().load("assets/env/.env_dev");
+
   Bloc.observer = SimpleBlocObserver();
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
 
-  final HttpLink httpLink = HttpLink(String.fromEnvironment("GRAPHQL_URL"));
+  final url = DotEnv().env["GRAPHQL_URL"];
+  final HttpLink httpLink = HttpLink(url);
 
   final AuthLink authLink = AuthLink(getToken: () async {
     final token = await TokenService.getToken();
-    return 'Bearer $token';
+    return '$token';
   });
 
   final Link link = authLink.concat(httpLink);

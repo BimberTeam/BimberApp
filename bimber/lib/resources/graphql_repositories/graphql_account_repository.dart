@@ -19,6 +19,7 @@ class GraphqlAccountRepository extends AccountRepository {
     final WatchQueryOptions options = WatchQueryOptions(
         document: query.accountExists,
         fetchResults: true,
+        fetchPolicy: FetchPolicy.networkOnly,
         variables: {"email": email});
 
     final queryResult = await client.value.query(options);

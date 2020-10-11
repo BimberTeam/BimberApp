@@ -4,9 +4,9 @@ extension GenderExtension on Gender {
   String toJson() {
     switch (this) {
       case Gender.MALE:
-        return "Male";
+        return "MALE";
       case Gender.FEMALE:
-        return "Female";
+        return "FEMALE";
       default:
         return null;
     }

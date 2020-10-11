@@ -5,9 +5,7 @@ mutation Register(
   $name: String!,
   $email: String!,
   $password: String!,
-  $imageUrl: String,
   $age: Int!,
-  $latestLocation: Point,
   $favoriteAlcoholName: String!,
   $favoriteAlcoholType: AlcoholType!,
   $description: String!,
@@ -17,13 +15,11 @@ mutation Register(
   $agePreferenceFrom: Int!,
   $agePreferenceTo: Int!,
 ) {
-  register(
+  register(user: {
     name: $name,
     email: $email,
     password: $password,
-    imageUrl: $imageUrl,
     age: $age,
-    latestLocation: $latestLocation,
     favoriteAlcoholName: $favoriteAlcoholName,
     favoriteAlcoholType: $favoriteAlcoholType,
     description: $description,
@@ -32,7 +28,8 @@ mutation Register(
     alcoholPreference: $alcoholPreference,
     agePreferenceFrom: $agePreferenceFrom,
     agePreferenceTo: $agePreferenceTo,
-  ) {
+    latestLocation: {longitude: 0, latitude: 0}
+  }) {
     id
   }
 }

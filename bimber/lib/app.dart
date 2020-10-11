@@ -1,4 +1,5 @@
 import 'package:bimber/bloc/auth/authentication_bloc.dart';
+import 'package:bimber/resources/graphql_repositories/graphql_account_repository.dart';
 import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:bimber/resources/mocks/mocks.dart';
 import 'package:bimber/models/account_data.dart';
@@ -17,7 +18,6 @@ import 'package:bimber/ui/splash/splash_screen.dart';
 import 'package:bimber/ui/user_details/user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:page_transition/page_transition.dart';
 
 class App extends StatelessWidget {
@@ -26,7 +26,8 @@ class App extends StatelessWidget {
     return MultiRepositoryProvider(
         providers: [
           RepositoryProvider<AccountRepository>(
-            create: (context) => MockAccountRepository(),
+            create: (context) =>
+                GraphqlAccountRepository(client: GraphqlClientService.client),
           ),
           RepositoryProvider<FriendRepository>(
             create: (context) => MockFriendRepository(),
@@ -131,7 +132,7 @@ class App extends StatelessWidget {
                   }
               }
             },
-            initialRoute: "/home",
+            initialRoute: "/",
           ),
         ));
   }
