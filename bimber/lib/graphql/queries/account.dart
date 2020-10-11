@@ -1,4 +1,6 @@
-final String profile = '''
+import 'package:graphql_flutter/graphql_flutter.dart';
+
+final profile = gql(r'''
 query Me {
   me {
     id
@@ -15,4 +17,10 @@ query Me {
     agePreferenceTo
   }
 }
-''';
+''');
+
+final accountExists = gql(r'''
+query AccountExists($email: String!) {
+  accountExists(email: $email)
+}
+''');

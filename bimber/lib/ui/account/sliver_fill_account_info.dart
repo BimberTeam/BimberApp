@@ -145,7 +145,7 @@ class _SliverFillAccountInfoState extends State<SliverFillAccountInfo> {
       children: <Widget>[
         Text("Ulubiony napój", style: titleStyle),
         SizedBox(height: 10),
-        Text(widget.accountData.favoriteAlcohol.name),
+        Text(widget.accountData.favoriteAlcoholName),
         SizedBox(height: 20),
         Text("Preferowany typ trunku", style: titleStyle),
         SizedBox(height: 10),
@@ -155,7 +155,9 @@ class _SliverFillAccountInfoState extends State<SliverFillAccountInfo> {
   }
 
   Widget _preferences() {
-    final age = widget.accountData.agePreference;
+    final data = widget.accountData;
+    final ageFrom = data.agePreferenceFrom;
+    final ageTo = data.agePreferenceTo;
     return Column(
       children: <Widget>[
         Text("Preferencje płciowe", style: titleStyle),
@@ -164,7 +166,7 @@ class _SliverFillAccountInfoState extends State<SliverFillAccountInfo> {
         SizedBox(height: 20),
         Text("Przedział wiekowy", style: titleStyle),
         SizedBox(height: 10),
-        Text("(${age.from} - ${age.to})"),
+        Text("($ageFrom - $ageTo)"),
       ],
     );
   }

@@ -1,5 +1,5 @@
 import 'package:bimber/bloc/login/login_bloc.dart';
-import 'package:bimber/resources/account_repository.dart';
+import 'package:bimber/resources/repositories/account_repository.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
 import 'package:bimber/ui/common/theme.dart';
 import 'package:bimber/ui/login/login_form.dart';
@@ -26,8 +26,8 @@ class LoginScreenState extends State<LoginScreen>
   @override
   Widget build(BuildContext context) {
     return BlocProvider<LoginBloc>(
-        create: (BuildContext context) =>
-            LoginBloc(context.repository<AccountRepository>()),
+        create: (BuildContext context) => LoginBloc(
+            accountRepository: context.repository<AccountRepository>()),
         child: Scaffold(
             body: BlocListener<LoginBloc, LoginState>(
                 listener: (context, state) {

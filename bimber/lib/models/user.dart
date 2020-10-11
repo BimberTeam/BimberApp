@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import "package:bimber/models/location.dart";
-import "package:bimber/models/alcohol.dart";
 import "package:bimber/models/alcohol_type.dart";
 import "package:bimber/models/gender.dart";
+import "package:bimber/models/location.dart";
+import "package:bimber/models/user.dart";
 
 class User extends Equatable {
   bool get stringify => true;
@@ -14,7 +14,8 @@ class User extends Equatable {
   final Gender gender;
   final int age;
   final String description;
-  final Alcohol favoriteAlcohol;
+  final AlcoholType favoriteAlcoholType;
+  final String favoriteAlcoholName;
   final Gender genderPreference;
   final int agePreferenceFrom;
   final int agePreferenceTo;
@@ -30,7 +31,8 @@ class User extends Equatable {
       @required this.gender,
       @required this.age,
       @required this.description,
-      @required this.favoriteAlcohol,
+      @required this.favoriteAlcoholType,
+      @required this.favoriteAlcoholName,
       @required this.genderPreference,
       @required this.agePreferenceFrom,
       @required this.agePreferenceTo,
@@ -46,7 +48,8 @@ class User extends Equatable {
       Gender gender,
       int age,
       String description,
-      Alcohol favoriteAlcohol,
+      AlcoholType favoriteAlcoholType,
+      String favoriteAlcoholName,
       Gender genderPreference,
       int agePreferenceFrom,
       int agePreferenceTo,
@@ -61,7 +64,8 @@ class User extends Equatable {
         gender: gender ?? this.gender,
         age: age ?? this.age,
         description: description ?? this.description,
-        favoriteAlcohol: favoriteAlcohol ?? this.favoriteAlcohol,
+        favoriteAlcoholType: favoriteAlcoholType ?? this.favoriteAlcoholType,
+        favoriteAlcoholName: favoriteAlcoholName ?? this.favoriteAlcoholName,
         genderPreference: genderPreference ?? this.genderPreference,
         agePreferenceFrom: agePreferenceFrom ?? this.agePreferenceFrom,
         agePreferenceTo: agePreferenceTo ?? this.agePreferenceTo,
@@ -79,7 +83,8 @@ class User extends Equatable {
         gender,
         age,
         description,
-        favoriteAlcohol,
+        favoriteAlcoholType,
+        favoriteAlcoholName,
         genderPreference,
         agePreferenceFrom,
         agePreferenceTo,
@@ -97,7 +102,8 @@ class User extends Equatable {
       "gender": gender?.toJson(),
       "age": age,
       "description": description,
-      "favoriteAlcohol": favoriteAlcohol?.toJson(),
+      "favoriteAlcoholType": favoriteAlcoholType?.toJson(),
+      "favoriteAlcoholName": favoriteAlcoholName,
       "genderPreference": genderPreference?.toJson(),
       "agePreferenceFrom": agePreferenceFrom,
       "agePreferenceTo": agePreferenceTo,
@@ -117,7 +123,9 @@ class User extends Equatable {
         gender: GenderExtension.fromJson(json["gender"]),
         age: json["age"] as int,
         description: json["description"],
-        favoriteAlcohol: Alcohol.fromJson(json["favoriteAlcohol"]),
+        favoriteAlcoholType:
+            AlcoholTypeExtension.fromJson(json["favoriteAlcoholType"]),
+        favoriteAlcoholName: json["favoriteAlcoholName"],
         genderPreference: GenderExtension.fromJson(json["genderPreference"]),
         agePreferenceFrom: json["agePreferenceFrom"] as int,
         agePreferenceTo: json["agePreferenceTo"] as int,

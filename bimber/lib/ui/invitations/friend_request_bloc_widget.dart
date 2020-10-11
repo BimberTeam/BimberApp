@@ -1,6 +1,6 @@
 import 'package:bimber/bloc/friend_requests/friend_requests_bloc.dart';
 import 'package:bimber/models/user.dart';
-import 'package:bimber/resources/friend_repository.dart';
+import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
 import 'package:bimber/ui/common/theme.dart';
 import 'package:bimber/ui/group_details/user_image_hero.dart';

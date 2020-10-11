@@ -17,6 +17,10 @@ class RegisterInitial extends RegisterState {
   RegisterAccountData get data => null;
 }
 
+class RegisterLoading extends RegisterState {
+  RegisterAccountData get data => null;
+}
+
 class RegisterError extends RegisterState {
   final String message;
   final RegisterAccountData data;
@@ -25,6 +29,11 @@ class RegisterError extends RegisterState {
 
   @override
   List<Object> get props => [message, data];
+}
+
+class RegisterServerNotResponding extends RegisterState {
+  @override
+  RegisterAccountData get data => null;
 }
 
 class RegisterEmailTaken extends RegisterState {
@@ -45,11 +54,13 @@ class RegisterSavedData extends RegisterState {
   List<Object> get props => [data];
 }
 
-// TODO: just for tests, no need for data property when registering works
 class RegisterSuccess extends RegisterState {
-  final RegisterAccountData data;
+  final AccountData account;
 
-  RegisterSuccess({@required this.data});
+  RegisterSuccess({@required this.account});
+
+  @override
+  RegisterAccountData get data => null;
 
   @override
   List<Object> get props => [data];

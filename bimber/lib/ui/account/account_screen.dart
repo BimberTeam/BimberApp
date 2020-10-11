@@ -31,7 +31,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
   final AccountData accountData = AccountData(
       name: "Duperka",
-      gender: Gender.Female,
+      gender: Gender.FEMALE,
       age: 20,
       description: """
     This might be a lengthy description and that is due to testing needs of myself.
@@ -41,10 +41,12 @@ class _AccountScreenState extends State<AccountScreen> {
     """,
       email: "duperka@gmail.com",
       imageUrl: "https://m.media-amazon.com/images/I/81v6uFs25CL._SS500_.jpg",
-      genderPreference: Gender.Male,
-      agePreference: AgePreference(from: 18, to: 25),
-      favoriteAlcohol: Alcohol(name: "Harnaś", type: AlcoholType.Beer),
-      alcoholPreference: AlcoholType.Vodka);
+      genderPreference: Gender.MALE,
+      agePreferenceFrom: 18,
+      agePreferenceTo: 25,
+      favoriteAlcoholName: "Harnaś",
+      favoriteAlcoholType: AlcoholType.BEER,
+      alcoholPreference: AlcoholType.VODKA);
 
   @override
   Widget build(BuildContext context) {

@@ -6,9 +6,12 @@
     "gender": {"type": "Gender", "enum": true},
     "age": {"type": "int"},
     "description": {"type": "String"},
-    "favoriteAlcohol": {"type": "Alcohol"},
+    "favoriteAlcoholName": {"type": "String"},
+    "favoriteAlcoholType": {"type": "AlcoholType", "enum": true},
     "genderPreference": {"type": "Gender", "enum": true},
     "agePreference": {"type": "AgePreference"},
+    "agePreferenceFrom": {"type": "int"},
+    "agePreferenceTo": {"type": "int"},
     "alcoholPreference": {"type": "AlcoholType", "enum": true},
     "password": {"type": "String"},
     "imagePath": {"type": "String"}
