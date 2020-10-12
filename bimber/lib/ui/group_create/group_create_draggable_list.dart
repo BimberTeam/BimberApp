@@ -1,4 +1,5 @@
 import 'package:bimber/models/user.dart';
+import 'package:bimber/ui/common/themed_primary_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
@@ -28,7 +29,8 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
     super.initState();
   }
 
-  Widget sizeIt(BuildContext context, User user, int index, animation) {
+  Widget _animatedDraggable(
+      BuildContext context, User user, int index, animation) {
     return SizeTransition(
         axis: Axis.horizontal,
         sizeFactor: CurvedAnimation(
@@ -41,8 +43,10 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
           feedback: _draggableChild(user, context),
           onDragStarted: () {
             userDragged = user;
-            listKey.currentState.removeItem(index,
-                (_, animation) => sizeIt(context, user, index, animation),
+            listKey.currentState.removeItem(
+                index,
+                (_, animation) =>
+                    _animatedDraggable(context, user, index, animation),
                 duration: Duration(milliseconds: 700));
             setState(() {
               friendsAvailable.removeAt(index);
@@ -85,7 +89,9 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
                   radius: BorderRadius.circular(15.0),
                   user: user,
                   size: Size(60, 60),
-                  onTap: () {}),
+                  onTap: () {
+                    context.pushNamed("/user-details", arguments: user);
+                  }),
               Text(
                 user.name,
                 style: TextStyle(
@@ -123,7 +129,9 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
                   radius: BorderRadius.circular(15.0),
                   user: user,
                   size: Size(60, 60),
-                  onTap: () {}),
+                  onTap: () {
+                    context.pushNamed("/user-details", arguments: user);
+                  }),
               title: Text(
                 user.name,
                 overflow: TextOverflow.ellipsis,
@@ -166,27 +174,15 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
     return Column(
       children: [
         Container(
-            height: 180,
-            child: Column(
-              children: [
-                Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    height: 130,
-                    child: AnimatedList(
-                      physics: BouncingScrollPhysics(),
-                      initialItemCount: friendsAvailable.length,
-                      key: listKey,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index, animation) => sizeIt(
-                          context, friendsAvailable[index], index, animation),
-                    )),
-                Text("Wybierz członków",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.primaryVariant,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w900,
-                        fontFamily: 'Baloo')),
-              ],
+            padding: EdgeInsets.symmetric(vertical: 10),
+            height: 130,
+            child: AnimatedList(
+              physics: BouncingScrollPhysics(),
+              initialItemCount: friendsAvailable.length,
+              key: listKey,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index, animation) => _animatedDraggable(
+                  context, friendsAvailable[index], index, animation),
             )),
         Expanded(
           child: Container(
@@ -205,50 +201,68 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
                   borderColor = Colors.grey;
                 else
                   borderColor = Colors.green;
-                return DottedBorder(
-                  radius: Radius.circular(15),
-                  borderType: BorderType.RRect,
-                  color: borderColor,
-                  strokeWidth: 2,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width - 40,
-                    child: Stack(
-                      children: [
-                        Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Przytrzymaj i przeciągnij znajomych",
-                              style: TextStyle(
-                                color: friendsAdded.isEmpty
-                                    ? Theme.of(context)
-                                        .colorScheme
-                                        .secondaryVariant
-                                    : Colors.transparent,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                fontFamily: 'Baloo',
-                              ),
-                              textAlign: TextAlign.center,
-                            )),
-                        Positioned.fill(
-                            child: AnimatedList(
-                          physics: BouncingScrollPhysics(),
-                          initialItemCount: friendsAdded.length,
-                          key: membersListKey,
-                          scrollDirection: Axis.vertical,
-                          itemBuilder:
-                              (context, index, Animation<double> animation) =>
-                                  _animatedListTile(context,
-                                      friendsAdded[index], index, animation),
-                        )),
-                      ],
+                return Column(
+                  children: [
+                    Expanded(
+                      flex: 6,
+                      child: DottedBorder(
+                        radius: Radius.circular(15),
+                        borderType: BorderType.RRect,
+                        color: borderColor,
+                        strokeWidth: 3,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width - 40,
+                          child: Stack(
+                            children: [
+                              Container(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "Przytrzymaj i przeciągnij znajomych",
+                                    style: TextStyle(
+                                      color: friendsAdded.isEmpty
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .secondaryVariant
+                                          : Colors.transparent,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Baloo',
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  )),
+                              Positioned.fill(
+                                  child: AnimatedList(
+                                physics: BouncingScrollPhysics(),
+                                initialItemCount: friendsAdded.length,
+                                key: membersListKey,
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (context, index,
+                                        Animation<double> animation) =>
+                                    _animatedListTile(context,
+                                        friendsAdded[index], index, animation),
+                              )),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.only(top: 20),
+                        child: ThemedPrimaryButton(
+                          label: "Stwórz",
+                          onPressed: () {},
+                        ),
+                      ),
+                    )
+                  ],
                 );
               },
             ),
           ),
-        )
+        ),
       ],
     );
   }
