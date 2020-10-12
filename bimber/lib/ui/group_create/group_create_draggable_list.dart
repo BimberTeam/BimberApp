@@ -31,7 +31,10 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
   Widget sizeIt(BuildContext context, User user, int index, animation) {
     return SizeTransition(
         axis: Axis.horizontal,
-        sizeFactor: animation,
+        sizeFactor: CurvedAnimation(
+            parent: animation,
+            curve: Curves.bounceOut,
+            reverseCurve: Curves.bounceIn),
         child: LongPressDraggable(
           child: _draggableChild(user, context),
           childWhenDragging: _draggableChild(user, context),
@@ -40,60 +43,70 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
             userDragged = user;
             listKey.currentState.removeItem(index,
                 (_, animation) => sizeIt(context, user, index, animation),
-                duration: Duration(milliseconds: 500));
-            friendsAvailable.removeAt(index);
+                duration: Duration(milliseconds: 700));
+            setState(() {
+              friendsAvailable.removeAt(index);
+            });
           },
           onDraggableCanceled: (Velocity velocity, Offset offset) {
             friendsAvailable.insert(index, userDragged);
+            userDragged = null;
             listKey.currentState
-                .insertItem(index, duration: Duration(milliseconds: 500));
+                .insertItem(index, duration: Duration(milliseconds: 700));
           },
           onDragCompleted: () {
             friendsAdded.insert(0, userDragged);
+            userDragged = null;
             membersListKey.currentState
-                .insertItem(0, duration: Duration(milliseconds: 500));
+                .insertItem(0, duration: Duration(milliseconds: 700));
           },
         ));
   }
 
   Widget _draggableChild(User user, BuildContext context) {
-    return Container(
-        margin: EdgeInsets.all(5),
-        padding: EdgeInsets.only(top: 5),
-        width: 90,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Theme.of(context).colorScheme.primaryVariant,
-            boxShadow: [
-              BoxShadow(
-                  blurRadius: 3,
-                  offset: Offset(3, 3),
-                  color: Colors.black.withOpacity(0.4))
-            ]),
-        child: Column(
-          children: [
-            UserImageHero(
-                radius: BorderRadius.circular(15.0),
-                user: user,
-                size: Size(60, 60),
-                onTap: () {}),
-            Text(
-              user.name,
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondaryVariant,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w900,
-                  fontFamily: 'Baloo',
-                  decoration: TextDecoration.none),
-            )
-          ],
-        ));
+    return Opacity(
+      opacity: user == userDragged ? 0 : 1,
+      child: Container(
+          margin: EdgeInsets.all(5),
+          padding: EdgeInsets.only(top: 5),
+          width: 90,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Theme.of(context).colorScheme.primaryVariant,
+              boxShadow: [
+                BoxShadow(
+                    blurRadius: 3,
+                    offset: Offset(3, 3),
+                    color: Colors.black.withOpacity(0.4))
+              ]),
+          child: Column(
+            children: [
+              UserImageHero(
+                  radius: BorderRadius.circular(15.0),
+                  user: user,
+                  size: Size(60, 60),
+                  onTap: () {}),
+              Text(
+                user.name,
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondaryVariant,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    fontFamily: 'Baloo',
+                    decoration: TextDecoration.none),
+              )
+            ],
+          )),
+    );
   }
 
   Widget _animatedListTile(
       BuildContext context, User user, int index, Animation<double> animation) {
     return SizeTransition(
-      sizeFactor: animation,
+      sizeFactor: CurvedAnimation(
+          parent: animation,
+          curve: Curves.bounceOut,
+          reverseCurve: Curves.bounceIn),
       child: Container(
           margin: EdgeInsets.all(10),
           decoration: BoxDecoration(
@@ -133,12 +146,12 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
                 onTap: () {
                   friendsAvailable.insert(0, user);
                   listKey.currentState
-                      .insertItem(0, duration: Duration(milliseconds: 500));
+                      .insertItem(0, duration: Duration(milliseconds: 700));
                   membersListKey.currentState.removeItem(
                       index,
                       (_, animation) =>
                           _animatedListTile(context, user, index, animation),
-                      duration: Duration(milliseconds: 500));
+                      duration: Duration(milliseconds: 700));
                   setState(() {
                     friendsAdded.removeAt(index);
                   });
@@ -160,6 +173,7 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
                     padding: EdgeInsets.symmetric(vertical: 10),
                     height: 130,
                     child: AnimatedList(
+                      physics: BouncingScrollPhysics(),
                       initialItemCount: friendsAvailable.length,
                       key: listKey,
                       scrollDirection: Axis.horizontal,
@@ -218,6 +232,7 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
                             )),
                         Positioned.fill(
                             child: AnimatedList(
+                          physics: BouncingScrollPhysics(),
                           initialItemCount: friendsAdded.length,
                           key: membersListKey,
                           scrollDirection: Axis.vertical,
