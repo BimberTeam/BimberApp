@@ -25,7 +25,7 @@ class MockFriendRepository extends FriendRepository {
 
   @override
   Future<List<User>> fetchFriendsList() {
-    return Future.value(Fixtures.getUsersList());
+    return Future.delayed(Duration(seconds: 1), () => Fixtures.getUsersList());
   }
 
   @override

@@ -22,4 +22,14 @@ class MockGroupRepository extends GroupRepository {
   Future<List<Group>> fetchGroupList() {
     return Future.delayed(Duration(seconds: 1), () => Fixtures.getGroups());
   }
+
+  @override
+  Future<bool> addToGroup(String userId) {
+    return Future.delayed(Duration(seconds: 1), () => true);
+  }
+
+  @override
+  Future<bool> createGroup(List<String> memberIds) {
+    return Future.delayed(Duration(seconds: 1), () => true);
+  }
 }

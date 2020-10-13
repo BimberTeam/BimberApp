@@ -1,8 +1,10 @@
+import 'package:bimber/bloc/group_create/group_create_bloc.dart';
 import 'package:bimber/models/user.dart';
 import 'package:bimber/ui/common/themed_primary_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bimber/ui/group_details/user_image_hero.dart';
 
 class GroupCreateDraggableList extends StatefulWidget {
@@ -253,7 +255,12 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
                         padding: EdgeInsets.only(top: 20),
                         child: ThemedPrimaryButton(
                           label: "Stwórz",
-                          onPressed: () {},
+                          onPressed: () {
+                            context.bloc<GroupCreateBloc>().add(CreateGroup(
+                                memberIds: friendsAdded
+                                    .map((member) => member.id)
+                                    .toList()));
+                          },
                         ),
                       ),
                     )
