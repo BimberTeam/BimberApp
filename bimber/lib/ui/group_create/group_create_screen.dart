@@ -1,9 +1,11 @@
 import 'package:bimber/bloc/group_create/group_create_bloc.dart';
+import 'package:bimber/models/user.dart';
 import 'package:bimber/resources/friend_repository.dart';
 import 'package:bimber/resources/group_repository.dart';
 import 'package:bimber/ui/common/dialog_utils.dart';
 import 'package:bimber/ui/common/themed_primary_button.dart';
-import 'package:bimber/ui/group_create/group_create_draggable_list.dart';
+import 'package:bimber/ui/group_create/draggable_animated_list.dart';
+import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -105,8 +107,54 @@ class GroupCreateScreen extends StatelessWidget {
               } else if (state is GroupCreateError) {
                 return Container(); //TODO error message
               } else {
-                return GroupCreateDraggableList(
-                    friends: (state as GroupCreateResources).getFriends());
+                return DraggableAnimatedList<User>(
+                  elements: (state as GroupCreateResources).getFriends(),
+                  getThumbnail: (User user) => Column(
+                    children: [
+                      UserImageHero(
+                          radius: BorderRadius.circular(15.0),
+                          user: user,
+                          size: Size(60, 60),
+                          onTap: () {
+                            context.pushNamed("/user-details", arguments: user);
+                          }),
+                      Text(
+                        user.name,
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).colorScheme.secondaryVariant,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: 'Baloo',
+                            decoration: TextDecoration.none),
+                      )
+                    ],
+                  ),
+                  getCardLeading: (User user) => UserImageHero(
+                      radius: BorderRadius.circular(15.0),
+                      user: user,
+                      size: Size(60, 60),
+                      onTap: () {
+                        context.pushNamed("/user-details", arguments: user);
+                      }),
+                  getCardTitleText: (User user) => user.name,
+                  getCardSubtitleText: (User user) => user.age.toString(),
+                  listPlaceholder: Text(
+                    "Przytrzymaj i przeciągnij znajomych",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondaryVariant,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      fontFamily: 'Baloo',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  onPressed: (List<User> friendsAdded) {
+                    context.bloc<GroupCreateBloc>().add(CreateGroup(
+                        memberIds:
+                            friendsAdded.map((member) => member.id).toList()));
+                  },
+                );
               }
             })));
   }

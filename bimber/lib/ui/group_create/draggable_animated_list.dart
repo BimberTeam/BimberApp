@@ -1,38 +1,47 @@
-import 'package:bimber/bloc/group_create/group_create_bloc.dart';
-import 'package:bimber/models/user.dart';
 import 'package:bimber/ui/common/themed_primary_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:build_context/build_context.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bimber/ui/group_details/user_image_hero.dart';
 
-class GroupCreateDraggableList extends StatefulWidget {
-  final List<User> friends;
+class DraggableAnimatedList<T> extends StatefulWidget {
+  final List<T> elements;
+  final Function getThumbnail;
+  final Function getCardLeading;
+  final Function getCardTitleText;
+  final Function getCardSubtitleText;
+  final Widget listPlaceholder;
+  final Function onPressed;
 
-  GroupCreateDraggableList({@required this.friends});
+  DraggableAnimatedList(
+      {@required this.elements,
+      @required this.getThumbnail,
+      @required this.getCardLeading,
+      @required this.getCardSubtitleText,
+      @required this.getCardTitleText,
+      @required this.listPlaceholder,
+      @required this.onPressed});
 
   @override
-  State<StatefulWidget> createState() => _GroupCreateDraggableListState();
+  State<StatefulWidget> createState() => _DraggableAnimatedListState<T>();
 }
 
-class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
-  List<User> friendsAvailable;
-  List<User> friendsAdded;
-  User userDragged;
-  final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
-  final GlobalKey<AnimatedListState> membersListKey =
+class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
+  List<T> available;
+  List<T> added;
+  T currentlyDragged;
+  final GlobalKey<AnimatedListState> availableListKey =
+      GlobalKey<AnimatedListState>();
+  final GlobalKey<AnimatedListState> addedListKey =
       GlobalKey<AnimatedListState>();
 
   @override
   void initState() {
-    friendsAvailable = widget.friends;
-    friendsAdded = [];
+    available = widget.elements;
+    added = [];
     super.initState();
   }
 
   Widget _animatedDraggable(
-      BuildContext context, User user, int index, animation) {
+      BuildContext context, T element, int index, animation) {
     return SizeTransition(
         axis: Axis.horizontal,
         sizeFactor: CurvedAnimation(
@@ -40,38 +49,38 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
             curve: Curves.bounceOut,
             reverseCurve: Curves.bounceIn),
         child: LongPressDraggable(
-          child: _draggableChild(user, context),
-          childWhenDragging: _draggableChild(user, context),
-          feedback: _draggableChild(user, context),
+          child: _draggableChild(element, context),
+          childWhenDragging: _draggableChild(element, context),
+          feedback: _draggableChild(element, context),
           onDragStarted: () {
-            userDragged = user;
-            listKey.currentState.removeItem(
+            currentlyDragged = element;
+            availableListKey.currentState.removeItem(
                 index,
                 (_, animation) =>
-                    _animatedDraggable(context, user, index, animation),
+                    _animatedDraggable(context, element, index, animation),
                 duration: Duration(milliseconds: 700));
             setState(() {
-              friendsAvailable.removeAt(index);
+              available.removeAt(index);
             });
           },
-          onDraggableCanceled: (Velocity velocity, Offset offset) {
-            friendsAvailable.insert(index, userDragged);
-            userDragged = null;
-            listKey.currentState
+          onDraggableCanceled: (_, __) {
+            available.insert(index, currentlyDragged);
+            currentlyDragged = null;
+            availableListKey.currentState
                 .insertItem(index, duration: Duration(milliseconds: 700));
           },
           onDragCompleted: () {
-            friendsAdded.insert(0, userDragged);
-            userDragged = null;
-            membersListKey.currentState
+            added.insert(0, currentlyDragged);
+            currentlyDragged = null;
+            addedListKey.currentState
                 .insertItem(0, duration: Duration(milliseconds: 700));
           },
         ));
   }
 
-  Widget _draggableChild(User user, BuildContext context) {
+  Widget _draggableChild(T element, BuildContext context) {
     return Opacity(
-      opacity: user == userDragged ? 0 : 1,
+      opacity: element == currentlyDragged ? 0 : 1,
       child: Container(
           margin: EdgeInsets.all(5),
           padding: EdgeInsets.only(top: 5),
@@ -85,31 +94,12 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
                     offset: Offset(3, 3),
                     color: Colors.black.withOpacity(0.4))
               ]),
-          child: Column(
-            children: [
-              UserImageHero(
-                  radius: BorderRadius.circular(15.0),
-                  user: user,
-                  size: Size(60, 60),
-                  onTap: () {
-                    context.pushNamed("/user-details", arguments: user);
-                  }),
-              Text(
-                user.name,
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondaryVariant,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
-                    fontFamily: 'Baloo',
-                    decoration: TextDecoration.none),
-              )
-            ],
-          )),
+          child: widget.getThumbnail(element)),
     );
   }
 
   Widget _animatedListTile(
-      BuildContext context, User user, int index, Animation<double> animation) {
+      BuildContext context, T element, int index, Animation<double> animation) {
     return SizeTransition(
       sizeFactor: CurvedAnimation(
           parent: animation,
@@ -127,15 +117,9 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
                     color: Colors.black.withOpacity(0.4))
               ]),
           child: ListTile(
-              leading: UserImageHero(
-                  radius: BorderRadius.circular(15.0),
-                  user: user,
-                  size: Size(60, 60),
-                  onTap: () {
-                    context.pushNamed("/user-details", arguments: user);
-                  }),
+              leading: widget.getCardLeading(element),
               title: Text(
-                user.name,
+                widget.getCardTitleText(element),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: TextStyle(
@@ -145,7 +129,7 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
                     fontFamily: 'Baloo'),
               ),
               subtitle: Text(
-                user.age.toString(),
+                widget.getCardSubtitleText(element),
                 style: TextStyle(
                     color: Colors.grey,
                     fontSize: 15,
@@ -154,16 +138,16 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
               ),
               trailing: GestureDetector(
                 onTap: () {
-                  friendsAvailable.insert(0, user);
-                  listKey.currentState
+                  available.insert(0, element);
+                  availableListKey.currentState
                       .insertItem(0, duration: Duration(milliseconds: 700));
-                  membersListKey.currentState.removeItem(
+                  addedListKey.currentState.removeItem(
                       index,
                       (_, animation) =>
-                          _animatedListTile(context, user, index, animation),
+                          _animatedListTile(context, element, index, animation),
                       duration: Duration(milliseconds: 700));
                   setState(() {
-                    friendsAdded.removeAt(index);
+                    added.removeAt(index);
                   });
                 },
                 child: Icon(Icons.delete, color: Colors.red, size: 25),
@@ -180,11 +164,11 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
             height: 130,
             child: AnimatedList(
               physics: BouncingScrollPhysics(),
-              initialItemCount: friendsAvailable.length,
-              key: listKey,
+              initialItemCount: available.length,
+              key: availableListKey,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index, animation) => _animatedDraggable(
-                  context, friendsAvailable[index], index, animation),
+                  context, available[index], index, animation),
             )),
         Expanded(
           child: Container(
@@ -216,32 +200,22 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
                           width: MediaQuery.of(context).size.width - 40,
                           child: Stack(
                             children: [
-                              Container(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "Przytrzymaj i przeciągnij znajomych",
-                                    style: TextStyle(
-                                      color: friendsAdded.isEmpty
-                                          ? Theme.of(context)
-                                              .colorScheme
-                                              .secondaryVariant
-                                          : Colors.transparent,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w900,
-                                      fontFamily: 'Baloo',
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  )),
+                              Opacity(
+                                opacity: added.isEmpty ? 1 : 0,
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    child: widget.listPlaceholder),
+                              ),
                               Positioned.fill(
                                   child: AnimatedList(
                                 physics: BouncingScrollPhysics(),
-                                initialItemCount: friendsAdded.length,
-                                key: membersListKey,
+                                initialItemCount: added.length,
+                                key: addedListKey,
                                 scrollDirection: Axis.vertical,
                                 itemBuilder: (context, index,
                                         Animation<double> animation) =>
-                                    _animatedListTile(context,
-                                        friendsAdded[index], index, animation),
+                                    _animatedListTile(context, added[index],
+                                        index, animation),
                               )),
                             ],
                           ),
@@ -256,10 +230,7 @@ class _GroupCreateDraggableListState extends State<GroupCreateDraggableList> {
                         child: ThemedPrimaryButton(
                           label: "Stwórz",
                           onPressed: () {
-                            context.bloc<GroupCreateBloc>().add(CreateGroup(
-                                memberIds: friendsAdded
-                                    .map((member) => member.id)
-                                    .toList()));
+                            widget.onPressed(added);
                           },
                         ),
                       ),
