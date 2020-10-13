@@ -30,6 +30,7 @@ class MockGroupRepository extends GroupRepository {
 
   @override
   Future<bool> createGroup(List<String> memberIds) {
-    return Future.delayed(Duration(seconds: 1), () => true);
+    return Future.delayed(
+        Duration(seconds: 1), () => memberIds.length > 3 ? true : false);
   }
 }

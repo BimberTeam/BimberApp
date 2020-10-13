@@ -118,6 +118,7 @@ class FriendsHorizontalList extends StatelessWidget {
               padding: EdgeInsets.only(left: 4.0),
               height: 90,
               child: ListView(
+                  physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   children: friends
                       .map((user) => _memberAvatar(context, user))

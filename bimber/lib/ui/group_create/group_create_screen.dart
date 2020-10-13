@@ -1,12 +1,13 @@
 import 'package:bimber/bloc/group_create/group_create_bloc.dart';
 import 'package:bimber/resources/friend_repository.dart';
 import 'package:bimber/resources/group_repository.dart';
-import 'package:bimber/ui/common/snackbar_utils.dart';
+import 'package:bimber/ui/common/dialog_utils.dart';
 import 'package:bimber/ui/common/themed_primary_button.dart';
 import 'package:bimber/ui/group_create/group_create_draggable_list.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:build_context/build_context.dart';
 
 class GroupCreateScreen extends StatelessWidget {
   @override
@@ -32,13 +33,23 @@ class GroupCreateScreen extends StatelessWidget {
             child: BlocConsumer<GroupCreateBloc, GroupCreateState>(
                 listener: (context, state) {
               if (state is GroupCreateLoading) {
-                showLoadingSnackbar(context, message: "Ładowanie...");
+                DialogBuilder(context).showLoadingIndicator("Ładowanie...");
               } else if (state is GroupCreateFailure) {
-                showErrorSnackbar(context,
-                    message: "Nie udało się stworzyć grupy");
+                DialogBuilder(context).hideOpenDialog();
+                DialogBuilder(context).showIconDialog(
+                    Icons.error, Colors.red, "Nie udało się stworzyć grupy");
+                Future.delayed(Duration(milliseconds: 1500), () {
+                  DialogBuilder(context).hideOpenDialog();
+                  context.pop();
+                });
               } else if (state is GroupCreateSuccess) {
-                showSuccessSnackbar(context,
-                    message: "Wysłano zaproszenia do grupy");
+                DialogBuilder(context).hideOpenDialog();
+                DialogBuilder(context).showIconDialog(Icons.check_circle,
+                    Colors.green, "Wysłano zaproszenia do grupy");
+                Future.delayed(Duration(milliseconds: 1500), () {
+                  DialogBuilder(context).hideOpenDialog();
+                  context.pop();
+                });
               }
             }, builder: (context, state) {
               if (state is GroupCreateInitial) {

@@ -109,6 +109,7 @@ class InvitationsList<T> extends StatelessWidget {
         child: RefreshIndicator(
       onRefresh: onRefresh,
       child: ListView(
+        physics: BouncingScrollPhysics(),
         children: list
             .map((element) => _invitationListTile(element, context))
             .toList(),
