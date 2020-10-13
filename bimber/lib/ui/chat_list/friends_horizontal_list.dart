@@ -46,7 +46,10 @@ class FriendsHorizontalList extends StatelessWidget {
                   }),
               menuContent: Column(
                 children: [
-                  _menuItem(() => {}, "Zaproś do grupy", Icons.add,
+                  _menuItem(() {
+                    context.pop();
+                    context.pushNamed("/group-add", arguments: user);
+                  }, "Zaproś do grupy", Icons.add,
                       Theme.of(context).colorScheme.secondary),
                   _menuItem(() {
                     context.pop();

@@ -10,6 +10,7 @@ class DraggableAnimatedList<T> extends StatefulWidget {
   final Function getCardSubtitleText;
   final Widget listPlaceholder;
   final Function onPressed;
+  final String buttonLabel;
 
   DraggableAnimatedList(
       {@required this.elements,
@@ -18,7 +19,8 @@ class DraggableAnimatedList<T> extends StatefulWidget {
       @required this.getCardSubtitleText,
       @required this.getCardTitleText,
       @required this.listPlaceholder,
-      @required this.onPressed});
+      @required this.onPressed,
+      @required this.buttonLabel});
 
   @override
   State<StatefulWidget> createState() => _DraggableAnimatedListState<T>();
@@ -228,7 +230,7 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
                         width: double.infinity,
                         padding: EdgeInsets.only(top: 20),
                         child: ThemedPrimaryButton(
-                          label: "Stwórz",
+                          label: widget.buttonLabel,
                           onPressed: () {
                             widget.onPressed(added);
                           },
