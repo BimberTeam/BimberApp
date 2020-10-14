@@ -1,8 +1,7 @@
 import 'package:bimber/bloc/chat_list/chat_list_bloc.dart';
 import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:bimber/models/user.dart';
-import 'package:bimber/resources/chat_repositry.dart';
-import 'package:bimber/resources/friend_repository.dart';
+import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:bimber/ui/chat_list/friends_horizontal_list.dart';
 import 'package:bimber/ui/chat_list/group_list.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';

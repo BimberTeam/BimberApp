@@ -4,9 +4,9 @@ import 'package:bimber/models/gender.dart';
 extension ReadableGender on Gender {
   String readable() {
     switch (this) {
-      case Gender.Male:
+      case Gender.MALE:
         return "Mężczyzna";
-      case Gender.Female:
+      case Gender.FEMALE:
         return "Kobieta";
       default:
         return "Blip Bloop!";
@@ -17,13 +17,13 @@ extension ReadableGender on Gender {
 extension ReadableAlcoholType on AlcoholType {
   String readable() {
     switch (this) {
-      case AlcoholType.Beer:
+      case AlcoholType.BEER:
         return "Piwo";
-      case AlcoholType.Wine:
+      case AlcoholType.WINE:
         return "Wino";
-      case AlcoholType.Vodka:
+      case AlcoholType.VODKA:
         return "Wódka";
-      case AlcoholType.Other:
+      case AlcoholType.OTHER:
         return "Inne";
       default:
         return "Blip Bloop!";

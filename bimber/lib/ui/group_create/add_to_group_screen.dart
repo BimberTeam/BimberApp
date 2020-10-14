@@ -1,7 +1,7 @@
 import 'package:bimber/bloc/group_add/group_add_bloc.dart';
 import 'package:bimber/models/group.dart';
 import 'package:bimber/models/user.dart';
-import 'package:bimber/resources/group_repository.dart';
+import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/ui/common/dialog_utils.dart';
 import 'package:bimber/ui/common/fixtures.dart';
 import 'package:bimber/ui/common/themed_primary_button.dart';
@@ -149,7 +149,7 @@ class AddToGroupScreen extends StatelessWidget {
                         )),
                     getCardSubtitleText: (Group group) =>
                         "${group.members.length.toString()} osób",
-                    getCardTitleText: (Group group) => "Groupa",
+                    getCardTitleText: (Group group) => "Grupa",
                     listPlaceholder: Text(
                       "Przytrzymaj i przeciągnij grupy do których chcesz zaprosić ${friend.name}",
                       style: TextStyle(

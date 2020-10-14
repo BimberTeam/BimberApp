@@ -1,6 +1,6 @@
 import 'package:bimber/bloc/group_requests/group_requests_bloc.dart';
 import 'package:bimber/models/group.dart';
-import 'package:bimber/resources/group_repository.dart';
+import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
 import 'package:bimber/ui/common/theme.dart';
 import 'package:bimber/ui/group_details/group_image_hero.dart';

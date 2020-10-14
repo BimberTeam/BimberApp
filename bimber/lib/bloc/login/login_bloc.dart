@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:bimber/resources/account_repository.dart';
+import 'package:bimber/resources/graphql_repositories/common.dart';
+import 'package:bimber/resources/repositories/account_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
@@ -8,8 +9,8 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final AccountRepository _accountRepository;
-  LoginBloc(this._accountRepository) : super(LoginInitial());
+  final AccountRepository accountRepository;
+  LoginBloc({@required this.accountRepository}) : super(LoginInitial());
 
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
@@ -26,13 +27,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     yield LoginLoading();
     try {
       bool emailExists =
-          await _accountRepository.checkIfEmailExists(event.email);
+          await accountRepository.checkIfEmailExists(event.email);
 
       yield (emailExists
           ? LoginEmailExists(email: event.email)
           : LoginEmailNotExists(email: event.email));
     } catch (exception) {
-      yield (exception is TimeoutException
+      yield (exception is GraphqlConnectionError
           ? LoginServerNotResponding()
           : LoginFailed());
     }
@@ -42,11 +43,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     yield LoginLoading();
     try {
       bool loginSucceed =
-          await _accountRepository.login(event.email, event.password);
+          await accountRepository.login(event.email, event.password);
 
       yield (loginSucceed ? LoginSucceed() : LoginFailed());
     } catch (exception) {
-      yield (exception is TimeoutException
+      yield (exception is GraphqlConnectionError
           ? LoginServerNotResponding()
           : LoginFailed());
     }

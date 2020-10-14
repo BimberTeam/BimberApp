@@ -1,12 +1,12 @@
-enum Gender { Male, Female }
+enum Gender { MALE, FEMALE }
 
 extension GenderExtension on Gender {
   String toJson() {
     switch (this) {
-      case Gender.Male:
-        return "male";
-      case Gender.Female:
-        return "female";
+      case Gender.MALE:
+        return "MALE";
+      case Gender.FEMALE:
+        return "FEMALE";
       default:
         return null;
     }
@@ -14,10 +14,10 @@ extension GenderExtension on Gender {
 
   static Gender fromJson(String name) {
     switch (name) {
-      case "male":
-        return Gender.Male;
-      case "female":
-        return Gender.Female;
+      case "MALE":
+        return Gender.MALE;
+      case "FEMALE":
+        return Gender.FEMALE;
       default:
         return null;
     }

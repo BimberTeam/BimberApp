@@ -17,7 +17,7 @@ dependencies:
   flutter_bloc: ^5.0.1
   equatable: ^1.2.1
   flare_flutter: ^2.0.5
-  page_transition: "^1.1.5"
+  page_transition: ^1.1.7+2
   tinycolor: ^1.0.2
   meta: ^1.1.8
   build_context: ^2.0.2
@@ -30,9 +30,13 @@ dependencies:
   cached_network_image: ^2.2.0+1
   provider: ^4.3.2
   sprung: ^2.0.0+12
-  flutter_chips_input: ^1.9.0-dev.1
+  flutter_chips_input: ^1.9.4
+  flutter_cache_manager: ^1.4.2
   shared_preferences: ^0.5.12
   dotted_border: ^1.0.6
+  graphql_flutter: ^4.0.0-beta.1
+  dio: ^3.0.10
+  flutter_dotenv: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -41,6 +45,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
+    - assets/env/.env_dev
   fonts:
   - family: Baloo
     fonts:
@@ -52,4 +57,3 @@ flutter:
 
 dependency_overrides:
   flutter_chips_input: ^1.9.0-dev.1
-

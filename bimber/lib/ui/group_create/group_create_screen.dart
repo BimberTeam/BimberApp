@@ -1,7 +1,7 @@
 import 'package:bimber/bloc/group_create/group_create_bloc.dart';
 import 'package:bimber/models/user.dart';
-import 'package:bimber/resources/friend_repository.dart';
-import 'package:bimber/resources/group_repository.dart';
+import 'package:bimber/resources/repositories/friend_repository.dart';
+import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/ui/common/dialog_utils.dart';
 import 'package:bimber/ui/common/themed_primary_button.dart';
 import 'package:bimber/ui/group_create/draggable_animated_list.dart';

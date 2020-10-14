@@ -1,11 +1,10 @@
 import 'package:bimber/bloc/auth/authentication_bloc.dart';
-import 'package:bimber/resources/account_repository.dart';
-import 'package:bimber/resources/chat_repositry.dart';
-import 'package:bimber/resources/friend_repository.dart';
-import 'package:bimber/resources/group_repository.dart';
-import 'package:bimber/resources/mocks/mock_chat_repository.dart';
-import 'package:bimber/resources/mocks/mock_friend_repository.dart';
-import 'package:bimber/resources/mocks/mock_group_repository.dart';
+import 'package:bimber/resources/graphql_repositories/graphql_account_repository.dart';
+import 'package:bimber/resources/repositories/repositories.dart';
+import 'package:bimber/resources/mocks/mocks.dart';
+import 'package:bimber/models/account_data.dart';
+import 'package:bimber/resources/services/graphql_service.dart';
+import 'package:bimber/ui/account/account_edit_screen.dart';
 import 'package:bimber/ui/chat_list/friend_menu.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:bimber/ui/group_create/add_to_group_screen.dart';
@@ -29,7 +28,8 @@ class App extends StatelessWidget {
     return MultiRepositoryProvider(
         providers: [
           RepositoryProvider<AccountRepository>(
-            create: (context) => MockAccountRepository(),
+            create: (context) =>
+                GraphqlAccountRepository(client: GraphqlClientService.client),
           ),
           RepositoryProvider<FriendRepository>(
             create: (context) => MockFriendRepository(),
@@ -63,7 +63,7 @@ class App extends StatelessWidget {
                 case "/login":
                   {
                     return PageTransition(
-                        type: PageTransitionType.downToUp,
+                        type: PageTransitionType.bottomToTop,
                         child: LoginScreen());
                   }
                 case "/register":
@@ -73,6 +73,13 @@ class App extends StatelessWidget {
                         type: PageTransitionType.fade,
                         duration: Duration(milliseconds: 200),
                         child: RegisterScreen());
+                  }
+                case "/edit-account":
+                  {
+                    return PageTransition(
+                        type: PageTransitionType.bottomToTop,
+                        child: AccountEditScreen(
+                            accountData: settings.arguments as AccountData));
                   }
                 case "/home":
                   {

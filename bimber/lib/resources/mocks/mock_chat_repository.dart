@@ -1,5 +1,5 @@
 import 'package:bimber/models/chat_thumbnail.dart';
-import 'package:bimber/resources/chat_repositry.dart';
+import 'package:bimber/resources/repositories/chat_repositry.dart';
 import 'package:bimber/ui/common/fixtures.dart';
 
 class MockChatRepository extends ChatRepository {
