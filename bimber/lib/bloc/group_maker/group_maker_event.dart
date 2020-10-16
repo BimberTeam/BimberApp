@@ -1,8 +1,8 @@
-part of 'group_create_bloc.dart';
+part of 'group_maker_bloc.dart';
 
 @immutable
-abstract class GroupCreateEvent extends Equatable {
-  const GroupCreateEvent();
+abstract class GroupMakerEvent extends Equatable {
+  const GroupMakerEvent();
 
   @override
   List<Object> get props => [];
@@ -11,9 +11,9 @@ abstract class GroupCreateEvent extends Equatable {
   bool get stringify => true;
 }
 
-class InitGroupCreate extends GroupCreateEvent {}
+class InitGroupMaker extends GroupMakerEvent {}
 
-class CreateGroup extends GroupCreateEvent {
+class CreateGroup extends GroupMakerEvent {
   final List<String> memberIds;
 
   CreateGroup({@required this.memberIds});

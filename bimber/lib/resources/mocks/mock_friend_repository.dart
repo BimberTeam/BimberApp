@@ -3,6 +3,8 @@ import 'package:bimber/resources/repositories/friend_repository.dart';
 import 'package:bimber/ui/common/fixtures.dart';
 
 class MockFriendRepository extends FriendRepository {
+  List<User> _cachedFriends;
+
   @override
   Future<bool> acceptInvitation(String friendId) {
     return Future.value(true);
@@ -24,17 +26,17 @@ class MockFriendRepository extends FriendRepository {
   }
 
   @override
-  Future<List<User>> fetchFriendsList() {
-    return Future.delayed(Duration(seconds: 1), () => Fixtures.getUsersList());
+  Future<List<User>> fetchFriendsList({bool fetchCache = false}) {
+    if (fetchCache && _cachedFriends != null)
+      return Future.value(_cachedFriends);
+    return Future.delayed(Duration(seconds: 1), () {
+      _cachedFriends = Fixtures.getUsersList();
+      return _cachedFriends;
+    });
   }
 
   @override
   Future<bool> cancelInvitation(String friendId) {
     return Future.value(true);
-  }
-
-  @override
-  List<User> getCachedFriendsList() {
-    return Fixtures.getUsersList();
   }
 }

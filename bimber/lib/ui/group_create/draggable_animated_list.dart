@@ -157,7 +157,7 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
     );
   }
 
-  Widget _createDragTargetChild(Color borderColor){
+  Widget _itemsVerticalList(Color borderColor) {
     return Column(
       children: [
         Expanded(
@@ -179,15 +179,15 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
                   ),
                   Positioned.fill(
                       child: AnimatedList(
-                        physics: BouncingScrollPhysics(),
-                        initialItemCount: added.length,
-                        key: addedListKey,
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (context, index,
-                            Animation<double> animation) =>
-                            _animatedListTile(context, added[index],
-                                index, animation),
-                      )),
+                    physics: BouncingScrollPhysics(),
+                    initialItemCount: added.length,
+                    key: addedListKey,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder:
+                        (context, index, Animation<double> animation) =>
+                            _animatedListTile(
+                                context, added[index], index, animation),
+                  )),
                 ],
               ),
             ),
@@ -242,7 +242,7 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
                   borderColor = Colors.grey;
                 else
                   borderColor = Colors.green;
-                return _createDragTargetChild(borderColor);
+                return _itemsVerticalList(borderColor);
               },
             ),
           ),

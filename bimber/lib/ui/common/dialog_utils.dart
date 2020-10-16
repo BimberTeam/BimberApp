@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
 
-
-void showLoadingIndicator(String text, BuildContext context) {
+void showLoadingIndicatorDialog(String text, BuildContext context) {
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -30,9 +29,8 @@ void showLoadingIndicator(String text, BuildContext context) {
                         Text(
                           text,
                           style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primaryVariant,
+                              color:
+                                  Theme.of(context).colorScheme.primaryVariant,
                               fontSize: 20,
                               fontWeight: FontWeight.w900,
                               fontFamily: 'Baloo'),
@@ -43,7 +41,8 @@ void showLoadingIndicator(String text, BuildContext context) {
   );
 }
 
-void showIconDialog(IconData icon, Color color, String text, BuildContext context) {
+void showIconDialog(
+    IconData icon, Color color, String text, BuildContext context) {
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -71,9 +70,8 @@ void showIconDialog(IconData icon, Color color, String text, BuildContext contex
                         Text(
                           text,
                           style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primaryVariant,
+                              color:
+                                  Theme.of(context).colorScheme.primaryVariant,
                               fontSize: 20,
                               fontWeight: FontWeight.w900,
                               fontFamily: 'Baloo'),

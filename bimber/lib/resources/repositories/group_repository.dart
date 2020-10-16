@@ -1,7 +1,6 @@
 import 'package:bimber/models/group.dart';
 
 abstract class GroupRepository {
-  List<Group> getCachedGroupList();
   Future<List<Group>> fetchGroupList();
   Future<List<Group>> fetchGroupInvitationList();
   Future<bool> acceptGroupInvitation(String groupId);

@@ -44,21 +44,12 @@ class FriendsHorizontalList extends StatelessWidget {
                   onTap: () {
                     context.pushNamed("/user-details", arguments: user);
                   }),
-              menuContent: Column(
-                children: [
-                  _menuItem(() {
-                    context.pop();
-                    context.pushNamed("/group-add", arguments: user);
-                  }, "Zaproś do grupy", Icons.add,
-                      Theme.of(context).colorScheme.secondary),
-                  _menuItem(() {
-                    context.pop();
-                    context
-                        .bloc<ChatListBloc>()
-                        .add(DeleteFriend(friendId: user.id));
-                  }, "Usuń ze znajomych", Icons.delete, Colors.red),
-                ],
-              ),
+              menuContent: _menuItem(() {
+                context.pop();
+                context
+                    .bloc<ChatListBloc>()
+                    .add(DeleteFriend(friendId: user.id));
+              }, "Usuń ze znajomych", Icons.delete, Colors.red),
             ),
             Text(
               "${user.name}",
@@ -72,26 +63,26 @@ class FriendsHorizontalList extends StatelessWidget {
         ));
   }
 
-  Widget _createPopupMenu(BuildContext context){
-    return  Align(
+  Widget _createPopupMenu(BuildContext context) {
+    return Align(
       alignment: Alignment.centerRight,
       child: PopupMenuButton(
           icon: Icon(Icons.more_horiz, color: Colors.white),
           color: Theme.of(context).colorScheme.primary,
           itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-            PopupMenuItem(
-                child: _menuItem(() {
+                PopupMenuItem(
+                    child: _menuItem(() {
                   context.pop();
                   context.pushNamed("/group-create");
                 }, "Stwórz grupę", Icons.create,
-                    Theme.of(context).colorScheme.secondary)),
-            PopupMenuItem(
-                child: _menuItem(() {
+                        Theme.of(context).colorScheme.secondary)),
+                PopupMenuItem(
+                    child: _menuItem(() {
                   context.pop();
                   context.pushNamed("/invitations");
                 }, "Zaproszenia", Icons.people_outline,
-                    Theme.of(context).colorScheme.secondary)),
-          ]),
+                        Theme.of(context).colorScheme.secondary)),
+              ]),
     );
   }
 
@@ -117,7 +108,7 @@ class FriendsHorizontalList extends StatelessWidget {
                         fontFamily: 'Baloo'),
                   ),
                 ),
-               _createPopupMenu(context)
+                _createPopupMenu(context)
               ],
             ),
           ),

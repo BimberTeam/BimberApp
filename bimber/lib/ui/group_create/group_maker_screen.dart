@@ -1,4 +1,4 @@
-import 'package:bimber/bloc/group_create/group_create_bloc.dart';
+import 'package:bimber/bloc/group_maker/group_maker_bloc.dart';
 import 'package:bimber/models/user.dart';
 import 'package:bimber/resources/repositories/friend_repository.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
@@ -11,9 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:build_context/build_context.dart';
 
-class GroupCreateScreen extends StatelessWidget {
-
-  Widget _createDraggableAnimatedList(BuildContext context, List<User> friends){
+class GroupMakerScreen extends StatelessWidget {
+  Widget _draggableAnimatedList(BuildContext context, List<User> friends) {
     return DraggableAnimatedList<User>(
       elements: friends,
       itemThumbnail: (User user) => Column(
@@ -28,8 +27,7 @@ class GroupCreateScreen extends StatelessWidget {
           Text(
             user.name,
             style: TextStyle(
-                color:
-                Theme.of(context).colorScheme.secondaryVariant,
+                color: Theme.of(context).colorScheme.secondaryVariant,
                 fontSize: 20,
                 fontWeight: FontWeight.w900,
                 fontFamily: 'Baloo',
@@ -57,15 +55,14 @@ class GroupCreateScreen extends StatelessWidget {
         textAlign: TextAlign.center,
       ),
       onPressed: (List<User> friendsAdded) {
-        context.bloc<GroupCreateBloc>().add(CreateGroup(
-            memberIds:
-            friendsAdded.map((member) => member.id).toList()));
+        context.bloc<GroupMakerBloc>().add(CreateGroup(
+            memberIds: friendsAdded.map((member) => member.id).toList()));
       },
       buttonLabel: "Stwórz",
     );
   }
 
-  Widget _createInitialScreen(BuildContext context){
+  Widget _initialScreen(BuildContext context) {
     return Column(children: [
       Container(
         padding: EdgeInsets.symmetric(vertical: 10),
@@ -87,8 +84,7 @@ class GroupCreateScreen extends StatelessWidget {
                     topLeft: Radius.circular(50.0),
                     topRight: Radius.circular(50.0),
                   )),
-              padding: EdgeInsets.symmetric(
-                  vertical: 20.0, horizontal: 20.0),
+              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
               child: Column(children: [
                 Expanded(
                     flex: 6,
@@ -98,9 +94,7 @@ class GroupCreateScreen extends StatelessWidget {
                         color: Colors.grey,
                         strokeWidth: 3,
                         child: Container(
-                            width:
-                            MediaQuery.of(context).size.width -
-                                40))),
+                            width: MediaQuery.of(context).size.width - 40))),
                 Expanded(
                   flex: 1,
                   child: Container(
@@ -115,7 +109,6 @@ class GroupCreateScreen extends StatelessWidget {
               ])))
     ]);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -132,44 +125,48 @@ class GroupCreateScreen extends StatelessWidget {
                   fontWeight: FontWeight.w900,
                   fontFamily: 'Baloo')),
         ),
-        body: BlocProvider<GroupCreateBloc>(
-            create: (context) => GroupCreateBloc(
+        body: BlocProvider<GroupMakerBloc>(
+            create: (context) => GroupMakerBloc(
                 groupRepository: context.repository<GroupRepository>(),
                 friendRepository: context.repository<FriendRepository>())
-              ..add(InitGroupCreate()),
-            child: BlocConsumer<GroupCreateBloc, GroupCreateState>(
+              ..add(InitGroupMaker()),
+            child: BlocConsumer<GroupMakerBloc, GroupMakerState>(
                 listener: (context, state) {
-              if (state is GroupCreateLoading) {
-                showLoadingIndicator("Ładowanie...", context);
-              } else if (state is GroupCreateFailure) {
+              if (state is GroupMakerLoading) {
+                showLoadingIndicatorDialog("Ładowanie...", context);
+              } else if (state is GroupMakerFailure) {
                 hideDialog(context);
-                showIconDialog(
-                    Icons.error, Colors.red, "Nie udało się stworzyć grupy", context);
+                showIconDialog(Icons.error, Colors.red,
+                    "Nie udało się stworzyć grupy", context);
                 Future.delayed(Duration(milliseconds: 1500), () {
                   hideDialog(context);
                   context.pop();
                 });
-              } else if (state is GroupCreateSuccess) {
+              } else if (state is GroupMakerSuccess) {
                 hideDialog(context);
-                showIconDialog(Icons.check_circle,
-                    Colors.green, "Wysłano zaproszenia do grupy", context);
+                showIconDialog(Icons.check_circle, Colors.green,
+                    "Wysłano zaproszenia do grupy", context);
                 Future.delayed(Duration(milliseconds: 1500), () {
                   hideDialog(context);
                   context.pop();
                 });
               }
             }, builder: (context, state) {
-              if (state is GroupCreateInitial) return _createInitialScreen(context);
-              else if (state is GroupCreateError) {
+              if (state is GroupMakerInitial)
+                return _initialScreen(context);
+              else if (state is GroupMakerError) {
                 return Container(
                     alignment: Alignment.center,
-                    child: Text(state.message, textAlign: TextAlign.center, style: TextStyle(
-                        color: Theme.of(context).colorScheme.primaryVariant,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w900,
-                        fontFamily: 'Baloo'))
-                );
-              } else return _createDraggableAnimatedList(context, (state as GroupCreateResources).getFriends());
+                    child: Text(state.message,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primaryVariant,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: 'Baloo')));
+              } else
+                return _draggableAnimatedList(
+                    context, (state as GroupMakerResources).getFriends());
             })));
   }
 }

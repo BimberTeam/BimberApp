@@ -7,55 +7,56 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-part 'group_create_state.dart';
-part 'group_create_event.dart';
+part 'group_maker_state.dart';
+part 'group_maker_event.dart';
 
-class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
+class GroupMakerBloc extends Bloc<GroupMakerEvent, GroupMakerState> {
   final GroupRepository groupRepository;
   final FriendRepository friendRepository;
 
-  GroupCreateBloc(
+  GroupMakerBloc(
       {@required this.groupRepository, @required this.friendRepository})
-      : super(GroupCreateInitial());
+      : super(GroupMakerInitial());
 
   @override
-  Stream<GroupCreateState> mapEventToState(
-    GroupCreateEvent event,
+  Stream<GroupMakerState> mapEventToState(
+    GroupMakerEvent event,
   ) async* {
-    if (event is InitGroupCreate) {
-      yield* _mapInitGroupCreateToState();
+    if (event is InitGroupMaker) {
+      yield* _mapInitGroupMakerToState();
     }
     if (event is CreateGroup) {
       yield* _mapCreateGroupToState(event.memberIds);
     }
   }
 
-  Stream<GroupCreateState> _mapCreateGroupToState(
+  Stream<GroupMakerState> _mapCreateGroupToState(
       List<String> memberIds) async* {
-    yield GroupCreateLoading(friends: friendRepository.getCachedFriendsList());
+    yield GroupMakerLoading(
+        friends: await friendRepository.fetchFriendsList(fetchCache: true));
     try {
       bool result = await groupRepository.createGroup(memberIds);
       List<User> friends = await friendRepository.fetchFriendsList();
       yield result
-          ? GroupCreateSuccess(friends: friends)
-          : GroupCreateFailure(friends: friends);
+          ? GroupMakerSuccess(friends: friends)
+          : GroupMakerFailure(friends: friends);
     } catch (exception) {
       if (exception is TimeoutException)
-        yield GroupCreateError(message: timeoutExceptionMessage);
+        yield GroupMakerError(message: timeoutExceptionMessage);
       else
-        yield GroupCreateError(message: defaultErrorMessage);
+        yield GroupMakerError(message: defaultErrorMessage);
     }
   }
 
-  Stream<GroupCreateState> _mapInitGroupCreateToState() async* {
+  Stream<GroupMakerState> _mapInitGroupMakerToState() async* {
     try {
       List<User> friends = await friendRepository.fetchFriendsList();
-      yield GroupCreateFetched(friends: friends);
+      yield GroupMakerFetched(friends: friends);
     } catch (exception) {
       if (exception is TimeoutException)
-        yield GroupCreateError(message: timeoutExceptionMessage);
+        yield GroupMakerError(message: timeoutExceptionMessage);
       else
-        yield GroupCreateError(message: defaultErrorMessage);
+        yield GroupMakerError(message: defaultErrorMessage);
     }
   }
 }
