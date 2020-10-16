@@ -72,6 +72,29 @@ class FriendsHorizontalList extends StatelessWidget {
         ));
   }
 
+  Widget _createPopupMenu(BuildContext context){
+    return  Align(
+      alignment: Alignment.centerRight,
+      child: PopupMenuButton(
+          icon: Icon(Icons.more_horiz, color: Colors.white),
+          color: Theme.of(context).colorScheme.primary,
+          itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+            PopupMenuItem(
+                child: _menuItem(() {
+                  context.pop();
+                  context.pushNamed("/group-create");
+                }, "Stwórz grupę", Icons.create,
+                    Theme.of(context).colorScheme.secondary)),
+            PopupMenuItem(
+                child: _menuItem(() {
+                  context.pop();
+                  context.pushNamed("/invitations");
+                }, "Zaproszenia", Icons.people_outline,
+                    Theme.of(context).colorScheme.secondary)),
+          ]),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -94,26 +117,7 @@ class FriendsHorizontalList extends StatelessWidget {
                         fontFamily: 'Baloo'),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: PopupMenuButton(
-                      icon: Icon(Icons.more_horiz, color: Colors.white),
-                      color: Theme.of(context).colorScheme.primary,
-                      itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                            PopupMenuItem(
-                                child: _menuItem(() {
-                              context.pop();
-                              context.pushNamed("/group-create");
-                            }, "Stwórz grupę", Icons.create,
-                                    Theme.of(context).colorScheme.secondary)),
-                            PopupMenuItem(
-                                child: _menuItem(() {
-                              context.pop();
-                              context.pushNamed("/invitations");
-                            }, "Zaproszenia", Icons.people_outline,
-                                    Theme.of(context).colorScheme.secondary)),
-                          ]),
-                )
+               _createPopupMenu(context)
               ],
             ),
           ),

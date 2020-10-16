@@ -12,6 +12,111 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:build_context/build_context.dart';
 
 class GroupCreateScreen extends StatelessWidget {
+
+  Widget _createDraggableAnimatedList(BuildContext context, List<User> friends){
+    return DraggableAnimatedList<User>(
+      elements: friends,
+      itemThumbnail: (User user) => Column(
+        children: [
+          UserImageHero(
+              radius: BorderRadius.circular(15.0),
+              user: user,
+              size: Size(60, 60),
+              onTap: () {
+                context.pushNamed("/user-details", arguments: user);
+              }),
+          Text(
+            user.name,
+            style: TextStyle(
+                color:
+                Theme.of(context).colorScheme.secondaryVariant,
+                fontSize: 20,
+                fontWeight: FontWeight.w900,
+                fontFamily: 'Baloo',
+                decoration: TextDecoration.none),
+          )
+        ],
+      ),
+      itemCardLeading: (User user) => UserImageHero(
+          radius: BorderRadius.circular(15.0),
+          user: user,
+          size: Size(60, 60),
+          onTap: () {
+            context.pushNamed("/user-details", arguments: user);
+          }),
+      itemCardTitleText: (User user) => user.name,
+      itemCardSubtitleText: (User user) => user.age.toString(),
+      listPlaceholder: Text(
+        "Przytrzymaj i przeciągnij znajomych",
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.secondaryVariant,
+          fontSize: 20,
+          fontWeight: FontWeight.w900,
+          fontFamily: 'Baloo',
+        ),
+        textAlign: TextAlign.center,
+      ),
+      onPressed: (List<User> friendsAdded) {
+        context.bloc<GroupCreateBloc>().add(CreateGroup(
+            memberIds:
+            friendsAdded.map((member) => member.id).toList()));
+      },
+      buttonLabel: "Stwórz",
+    );
+  }
+
+  Widget _createInitialScreen(BuildContext context){
+    return Column(children: [
+      Container(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        height: 130,
+        child: Container(
+            alignment: Alignment.center,
+            height: 50,
+            width: 50,
+            child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                    Theme.of(context).colorScheme.primary),
+                strokeWidth: 3.0)),
+      ),
+      Expanded(
+          child: Container(
+              decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(50.0),
+                    topRight: Radius.circular(50.0),
+                  )),
+              padding: EdgeInsets.symmetric(
+                  vertical: 20.0, horizontal: 20.0),
+              child: Column(children: [
+                Expanded(
+                    flex: 6,
+                    child: DottedBorder(
+                        radius: Radius.circular(15),
+                        borderType: BorderType.RRect,
+                        color: Colors.grey,
+                        strokeWidth: 3,
+                        child: Container(
+                            width:
+                            MediaQuery.of(context).size.width -
+                                40))),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.only(top: 20),
+                    child: ThemedPrimaryButton(
+                      label: "Stwórz",
+                      onPressed: () {},
+                    ),
+                  ),
+                )
+              ])))
+    ]);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,128 +140,36 @@ class GroupCreateScreen extends StatelessWidget {
             child: BlocConsumer<GroupCreateBloc, GroupCreateState>(
                 listener: (context, state) {
               if (state is GroupCreateLoading) {
-                DialogBuilder(context).showLoadingIndicator("Ładowanie...");
+                showLoadingIndicator("Ładowanie...", context);
               } else if (state is GroupCreateFailure) {
-                DialogBuilder(context).hideOpenDialog();
-                DialogBuilder(context).showIconDialog(
-                    Icons.error, Colors.red, "Nie udało się stworzyć grupy");
+                hideDialog(context);
+                showIconDialog(
+                    Icons.error, Colors.red, "Nie udało się stworzyć grupy", context);
                 Future.delayed(Duration(milliseconds: 1500), () {
-                  DialogBuilder(context).hideOpenDialog();
+                  hideDialog(context);
                   context.pop();
                 });
               } else if (state is GroupCreateSuccess) {
-                DialogBuilder(context).hideOpenDialog();
-                DialogBuilder(context).showIconDialog(Icons.check_circle,
-                    Colors.green, "Wysłano zaproszenia do grupy");
+                hideDialog(context);
+                showIconDialog(Icons.check_circle,
+                    Colors.green, "Wysłano zaproszenia do grupy", context);
                 Future.delayed(Duration(milliseconds: 1500), () {
-                  DialogBuilder(context).hideOpenDialog();
+                  hideDialog(context);
                   context.pop();
                 });
               }
             }, builder: (context, state) {
-              if (state is GroupCreateInitial) {
-                return Column(children: [
-                  Container(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      height: 130,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: SizedBox(
-                            height: 50,
-                            width: 50,
-                            child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    Theme.of(context).colorScheme.primary),
-                                strokeWidth: 3.0)),
-                      )),
-                  Expanded(
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.primary,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(50.0),
-                                topRight: Radius.circular(50.0),
-                              )),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 20.0, horizontal: 20.0),
-                          child: Column(children: [
-                            Expanded(
-                                flex: 6,
-                                child: DottedBorder(
-                                    radius: Radius.circular(15),
-                                    borderType: BorderType.RRect,
-                                    color: Colors.grey,
-                                    strokeWidth: 3,
-                                    child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                40))),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                width: double.infinity,
-                                padding: EdgeInsets.only(top: 20),
-                                child: ThemedPrimaryButton(
-                                  label: "Stwórz",
-                                  onPressed: () {},
-                                ),
-                              ),
-                            )
-                          ])))
-                ]);
-              } else if (state is GroupCreateError) {
-                return Container(); //TODO error message
-              } else {
-                return DraggableAnimatedList<User>(
-                  elements: (state as GroupCreateResources).getFriends(),
-                  getThumbnail: (User user) => Column(
-                    children: [
-                      UserImageHero(
-                          radius: BorderRadius.circular(15.0),
-                          user: user,
-                          size: Size(60, 60),
-                          onTap: () {
-                            context.pushNamed("/user-details", arguments: user);
-                          }),
-                      Text(
-                        user.name,
-                        style: TextStyle(
-                            color:
-                                Theme.of(context).colorScheme.secondaryVariant,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
-                            fontFamily: 'Baloo',
-                            decoration: TextDecoration.none),
-                      )
-                    ],
-                  ),
-                  getCardLeading: (User user) => UserImageHero(
-                      radius: BorderRadius.circular(15.0),
-                      user: user,
-                      size: Size(60, 60),
-                      onTap: () {
-                        context.pushNamed("/user-details", arguments: user);
-                      }),
-                  getCardTitleText: (User user) => user.name,
-                  getCardSubtitleText: (User user) => user.age.toString(),
-                  listPlaceholder: Text(
-                    "Przytrzymaj i przeciągnij znajomych",
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondaryVariant,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w900,
-                      fontFamily: 'Baloo',
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  onPressed: (List<User> friendsAdded) {
-                    context.bloc<GroupCreateBloc>().add(CreateGroup(
-                        memberIds:
-                            friendsAdded.map((member) => member.id).toList()));
-                  },
-                  buttonLabel: "Stwórz",
+              if (state is GroupCreateInitial) return _createInitialScreen(context);
+              else if (state is GroupCreateError) {
+                return Container(
+                    alignment: Alignment.center,
+                    child: Text(state.message, textAlign: TextAlign.center, style: TextStyle(
+                        color: Theme.of(context).colorScheme.primaryVariant,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: 'Baloo'))
                 );
-              }
+              } else return _createDraggableAnimatedList(context, (state as GroupCreateResources).getFriends());
             })));
   }
 }

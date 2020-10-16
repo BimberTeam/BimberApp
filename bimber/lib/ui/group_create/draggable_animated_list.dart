@@ -4,20 +4,20 @@ import 'package:flutter/material.dart';
 
 class DraggableAnimatedList<T> extends StatefulWidget {
   final List<T> elements;
-  final Function getThumbnail;
-  final Function getCardLeading;
-  final Function getCardTitleText;
-  final Function getCardSubtitleText;
+  final Function itemThumbnail;
+  final Function itemCardLeading;
+  final Function itemCardTitleText;
+  final Function itemCardSubtitleText;
   final Widget listPlaceholder;
   final Function onPressed;
   final String buttonLabel;
 
   DraggableAnimatedList(
       {@required this.elements,
-      @required this.getThumbnail,
-      @required this.getCardLeading,
-      @required this.getCardSubtitleText,
-      @required this.getCardTitleText,
+      @required this.itemThumbnail,
+      @required this.itemCardLeading,
+      @required this.itemCardSubtitleText,
+      @required this.itemCardTitleText,
       @required this.listPlaceholder,
       @required this.onPressed,
       @required this.buttonLabel});
@@ -96,7 +96,7 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
                     offset: Offset(3, 3),
                     color: Colors.black.withOpacity(0.4))
               ]),
-          child: widget.getThumbnail(element)),
+          child: widget.itemThumbnail(element)),
     );
   }
 
@@ -119,9 +119,9 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
                     color: Colors.black.withOpacity(0.4))
               ]),
           child: ListTile(
-              leading: widget.getCardLeading(element),
+              leading: widget.itemCardLeading(element),
               title: Text(
-                widget.getCardTitleText(element),
+                widget.itemCardTitleText(element),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: TextStyle(
@@ -131,7 +131,7 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
                     fontFamily: 'Baloo'),
               ),
               subtitle: Text(
-                widget.getCardSubtitleText(element),
+                widget.itemCardSubtitleText(element),
                 style: TextStyle(
                     color: Colors.grey,
                     fontSize: 15,
@@ -154,6 +154,59 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
                 },
                 child: Icon(Icons.delete, color: Colors.red, size: 25),
               ))),
+    );
+  }
+
+  Widget _createDragTargetChild(Color borderColor){
+    return Column(
+      children: [
+        Expanded(
+          flex: 6,
+          child: DottedBorder(
+            radius: Radius.circular(15),
+            borderType: BorderType.RRect,
+            color: borderColor,
+            strokeWidth: 3,
+            child: Container(
+              width: MediaQuery.of(context).size.width - 40,
+              child: Stack(
+                children: [
+                  Opacity(
+                    opacity: added.isEmpty ? 1 : 0,
+                    child: Container(
+                        alignment: Alignment.center,
+                        child: widget.listPlaceholder),
+                  ),
+                  Positioned.fill(
+                      child: AnimatedList(
+                        physics: BouncingScrollPhysics(),
+                        initialItemCount: added.length,
+                        key: addedListKey,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (context, index,
+                            Animation<double> animation) =>
+                            _animatedListTile(context, added[index],
+                                index, animation),
+                      )),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.only(top: 20),
+            child: ThemedPrimaryButton(
+              label: widget.buttonLabel,
+              onPressed: () {
+                widget.onPressed(added);
+              },
+            ),
+          ),
+        )
+      ],
     );
   }
 
@@ -189,56 +242,7 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
                   borderColor = Colors.grey;
                 else
                   borderColor = Colors.green;
-                return Column(
-                  children: [
-                    Expanded(
-                      flex: 6,
-                      child: DottedBorder(
-                        radius: Radius.circular(15),
-                        borderType: BorderType.RRect,
-                        color: borderColor,
-                        strokeWidth: 3,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width - 40,
-                          child: Stack(
-                            children: [
-                              Opacity(
-                                opacity: added.isEmpty ? 1 : 0,
-                                child: Container(
-                                    alignment: Alignment.center,
-                                    child: widget.listPlaceholder),
-                              ),
-                              Positioned.fill(
-                                  child: AnimatedList(
-                                physics: BouncingScrollPhysics(),
-                                initialItemCount: added.length,
-                                key: addedListKey,
-                                scrollDirection: Axis.vertical,
-                                itemBuilder: (context, index,
-                                        Animation<double> animation) =>
-                                    _animatedListTile(context, added[index],
-                                        index, animation),
-                              )),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.only(top: 20),
-                        child: ThemedPrimaryButton(
-                          label: widget.buttonLabel,
-                          onPressed: () {
-                            widget.onPressed(added);
-                          },
-                        ),
-                      ),
-                    )
-                  ],
-                );
+                return _createDragTargetChild(borderColor);
               },
             ),
           ),

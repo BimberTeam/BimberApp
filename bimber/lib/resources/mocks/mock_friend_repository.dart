@@ -32,4 +32,9 @@ class MockFriendRepository extends FriendRepository {
   Future<bool> cancelInvitation(String friendId) {
     return Future.value(true);
   }
+
+  @override
+  List<User> getCachedFriendsList() {
+    return Fixtures.getUsersList();
+  }
 }
