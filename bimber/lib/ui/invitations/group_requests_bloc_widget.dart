@@ -57,7 +57,11 @@ class GroupRequestsBlocWidget extends StatelessWidget {
                   onTap: () {
                     context.pushNamed("/group-details", arguments: group);
                   },
-                  child: GroupImageHero(group: group, size: Size(60, 60))),
+                  child: GroupImageHero(
+                    group: group,
+                    size: Size(60, 60),
+                    radius: BorderRadius.circular(15.0),
+                  )),
               createTitle: (Group group) => "Grupa",
               createSubtitle: (Group group) =>
                   "${group.members.length.toString()} osób",

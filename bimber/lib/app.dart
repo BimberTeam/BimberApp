@@ -7,6 +7,7 @@ import 'package:bimber/resources/services/graphql_service.dart';
 import 'package:bimber/ui/account/account_edit_screen.dart';
 import 'package:bimber/ui/chat_list/friend_menu.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
+import 'package:bimber/ui/group_create/group_maker_screen.dart';
 import 'package:bimber/ui/group_details/group_details.dart';
 import 'package:bimber/ui/home/home_screen.dart';
 import 'package:bimber/ui/invitations/invitations_screen.dart';
@@ -124,6 +125,13 @@ class App extends StatelessWidget {
                             ),
                         transitionDuration: Duration(milliseconds: 100));
                   }
+                case "/group-create":
+                  {
+                    return PageTransition(
+                        type: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 500),
+                        child: GroupMakerScreen());
+                  }
                 default:
                   {
                     // this should not happen
@@ -132,7 +140,7 @@ class App extends StatelessWidget {
                   }
               }
             },
-            initialRoute: "/",
+            initialRoute: "/home",
           ),
         ));
   }

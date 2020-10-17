@@ -37,27 +37,19 @@ class FriendsHorizontalList extends StatelessWidget {
         child: Column(
           children: <Widget>[
             FriendPressDetector(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15.0),
-                child: UserImageHero(
-                    user: user,
-                    size: Size(60, 60),
-                    onTap: () {
-                      context.pushNamed("/user-details", arguments: user);
-                    }),
-              ),
-              menuContent: Column(
-                children: [
-                  _menuItem(() => {}, "Dodaj do grupy", Icons.add,
-                      Theme.of(context).colorScheme.secondary),
-                  _menuItem(() {
-                    context.pop();
-                    context
-                        .bloc<ChatListBloc>()
-                        .add(DeleteFriend(friendId: user.id));
-                  }, "Usuń ze znajomych", Icons.delete, Colors.red),
-                ],
-              ),
+              child: UserImageHero(
+                  user: user,
+                  size: Size(60, 60),
+                  radius: BorderRadius.circular(15.0),
+                  onTap: () {
+                    context.pushNamed("/user-details", arguments: user);
+                  }),
+              menuContent: _menuItem(() {
+                context.pop();
+                context
+                    .bloc<ChatListBloc>()
+                    .add(DeleteFriend(friendId: user.id));
+              }, "Usuń ze znajomych", Icons.delete, Colors.red),
             ),
             Text(
               "${user.name}",
@@ -69,6 +61,29 @@ class FriendsHorizontalList extends StatelessWidget {
             ),
           ],
         ));
+  }
+
+  Widget _createPopupMenu(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: PopupMenuButton(
+          icon: Icon(Icons.more_horiz, color: Colors.white),
+          color: Theme.of(context).colorScheme.primary,
+          itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                PopupMenuItem(
+                    child: _menuItem(() {
+                  context.pop();
+                  context.pushNamed("/group-create");
+                }, "Stwórz grupę", Icons.create,
+                        Theme.of(context).colorScheme.secondary)),
+                PopupMenuItem(
+                    child: _menuItem(() {
+                  context.pop();
+                  context.pushNamed("/invitations");
+                }, "Zaproszenia", Icons.people_outline,
+                        Theme.of(context).colorScheme.secondary)),
+              ]),
+    );
   }
 
   @override
@@ -93,26 +108,7 @@ class FriendsHorizontalList extends StatelessWidget {
                         fontFamily: 'Baloo'),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: PopupMenuButton(
-                      icon: Icon(Icons.more_horiz, color: Colors.white),
-                      color: Theme.of(context).colorScheme.primary,
-                      itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                            PopupMenuItem(
-                                child: _menuItem(
-                                    () => {},
-                                    "Stwórz grupę",
-                                    Icons.create,
-                                    Theme.of(context).colorScheme.secondary)),
-                            PopupMenuItem(
-                                child: _menuItem(
-                                    () => {context.pushNamed("/invitations")},
-                                    "Zaproszenia",
-                                    Icons.people_outline,
-                                    Theme.of(context).colorScheme.secondary)),
-                          ]),
-                )
+                _createPopupMenu(context)
               ],
             ),
           ),
@@ -120,6 +116,7 @@ class FriendsHorizontalList extends StatelessWidget {
               padding: EdgeInsets.only(left: 4.0),
               height: 90,
               child: ListView(
+                  physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   children: friends
                       .map((user) => _memberAvatar(context, user))
