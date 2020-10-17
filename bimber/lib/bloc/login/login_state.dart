@@ -31,6 +31,10 @@ class LoginEmailNotExists extends LoginState {
 
 class LoginSucceed extends LoginState {}
 
-class LoginFailed extends LoginState {}
+class LoginFailed extends LoginState {
+  final String message;
+
+  LoginFailed({@required this.message});
+}
 
 class LoginServerNotResponding extends LoginState {}

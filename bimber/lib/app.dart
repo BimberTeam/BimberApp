@@ -1,3 +1,4 @@
+import 'package:bimber/bloc/account_bloc/account_bloc.dart';
 import 'package:bimber/bloc/auth/authentication_bloc.dart';
 import 'package:bimber/resources/graphql_repositories/graphql_account_repository.dart';
 import 'package:bimber/resources/repositories/repositories.dart';
@@ -75,10 +76,13 @@ class App extends StatelessWidget {
                   }
                 case "/edit-account":
                   {
+                    final Map<String, dynamic> arguments =
+                        settings.arguments as Map<String, dynamic>;
                     return PageTransition(
                         type: PageTransitionType.bottomToTop,
                         child: AccountEditScreen(
-                            accountData: settings.arguments as AccountData));
+                            bloc: arguments["bloc"] as AccountBloc,
+                            accountData: arguments["account"] as AccountData));
                   }
                 case "/home":
                   {
@@ -140,7 +144,7 @@ class App extends StatelessWidget {
                   }
               }
             },
-            initialRoute: "/home",
+            initialRoute: "/",
           ),
         ));
   }

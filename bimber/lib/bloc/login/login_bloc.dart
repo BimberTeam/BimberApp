@@ -35,7 +35,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } catch (exception) {
       yield (exception is GraphqlConnectionError
           ? LoginServerNotResponding()
-          : LoginFailed());
+          : LoginFailed(message: "Nieznany błąd!"));
     }
   }
 
@@ -45,11 +45,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       bool loginSucceed =
           await accountRepository.login(event.email, event.password);
 
-      yield (loginSucceed ? LoginSucceed() : LoginFailed());
-    } catch (exception) {
-      yield (exception is GraphqlConnectionError
+      yield (loginSucceed
+          ? LoginSucceed()
+          : LoginFailed(message: "Nieprawidłowe hasło!"));
+    } catch (e) {
+      print(e);
+      yield (e is GraphqlConnectionError
           ? LoginServerNotResponding()
-          : LoginFailed());
+          : LoginFailed(message: "Nieznany błąd..."));
     }
   }
 }

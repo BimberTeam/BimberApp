@@ -1,4 +1,5 @@
 import 'package:bimber/models/account_data.dart';
+import 'package:bimber/models/edit_account_data.dart';
 import 'package:bimber/models/register_account_data.dart';
 import 'package:bimber/resources/repositories/account_repository.dart';
 
@@ -26,6 +27,16 @@ class MockAccountRepository extends AccountRepository {
   @override
   Future<void> logout() {
     // TODO: implement logut
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> editAccount(EditAccountData data) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<AccountData> fetchMe() {
     throw UnimplementedError();
   }
 }

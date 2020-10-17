@@ -133,7 +133,7 @@ class GroupMakerScreen extends StatelessWidget {
             child: BlocConsumer<GroupMakerBloc, GroupMakerState>(
                 listener: (context, state) {
               if (state is GroupMakerLoading) {
-                showLoadingIndicatorDialog("Ładowanie...", context);
+                showLoadingIndicatorDialog(context, "Ładowanie...");
               } else if (state is GroupMakerFailure) {
                 hideDialog(context);
                 showIconDialog(Icons.error, Colors.red,

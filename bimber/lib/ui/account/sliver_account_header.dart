@@ -34,7 +34,7 @@ class SliverAccountHeader extends StatelessWidget {
                 height: 150,
                 width: 150,
                 decoration: BoxDecoration(
-                    image: DecorationImage(image: image),
+                    image: DecorationImage(image: image, fit: BoxFit.fill),
                     borderRadius: BorderRadius.circular(30),
                     boxShadow: [
                       BoxShadow(

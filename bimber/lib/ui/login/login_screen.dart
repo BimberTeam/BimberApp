@@ -43,7 +43,7 @@ class LoginScreenState extends State<LoginScreen>
                     context.pushNamed("/register",
                         arguments: {"email": state.email});
                   } else if (state is LoginFailed) {
-                    showErrorSnackbar(context, message: "Błąd serwera!");
+                    showErrorSnackbar(context, message: state.message);
                   } else if (state is LoginSucceed) {
                     Navigator.of(context).pushReplacementNamed("/home");
                   } else if (state is LoginLoading) {

@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import "package:bimber/models/alcohol_type.dart";
-import "package:bimber/models/gender.dart";
 import "package:bimber/models/age_preference.dart";
+import "package:bimber/models/gender.dart";
 
 class RegisterAccountData extends Equatable {
   bool get stringify => true;
