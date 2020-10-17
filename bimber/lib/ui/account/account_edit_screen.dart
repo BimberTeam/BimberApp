@@ -6,6 +6,7 @@ import 'package:bimber/models/account_data.dart';
 import 'package:bimber/models/age_preference.dart';
 import 'package:bimber/models/edit_account_data.dart';
 import 'package:bimber/models/gender.dart';
+import 'package:bimber/resources/repositories/account_repository.dart';
 import 'package:bimber/resources/services/image_service.dart';
 import 'package:bimber/ui/common/account_form_fields.dart';
 import 'package:bimber/ui/common/age_preference_slider.dart';
@@ -21,9 +22,9 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class AccountEditScreen extends StatefulWidget {
   final AccountData accountData;
-  final AccountBloc bloc;
+  final void Function() onAccountUpdate;
 
-  AccountEditScreen({@required this.accountData, @required this.bloc});
+  AccountEditScreen({@required this.accountData, this.onAccountUpdate});
 
   @override
   State<StatefulWidget> createState() => _AccountEditScreenState();
@@ -50,44 +51,48 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return BlocProvider<AccountBloc>(
-      create: (_) => widget.bloc,
+      create: (context) =>
+          AccountBloc(repository: context.repository<AccountRepository>()),
       child: Scaffold(
         appBar: AppBar(
-          // backgroundColor: sandyBrown,
           centerTitle: true,
-
           title: Text("Edycja Konta",
               style:
                   TextStyle(fontFamily: "Baloo", color: orangeYellowCrayola)),
         ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.save, color: orangeYellowCrayola),
-          onPressed: () {
-            if (_fbKey.currentState.saveAndValidate()) {
-              Map<String, dynamic> values = _fbKey.currentState.value;
-              values.update("age", (age) => int.parse(age));
+        floatingActionButton: Builder(
+          builder: (buttonContext) {
+            final bloc = buttonContext.bloc<AccountBloc>();
 
-              final data = EditAccountData(
-                id: widget.accountData.id,
-                imagePath: ((values["imageUrl"] as List).first as File).path,
-                name: values["name"],
-                gender: values["gender"],
-                genderPreference: values["genderPreference"],
-                age: values["age"],
-                description: values["description"],
-                alcoholPreference: values["alcoholPreference"],
-                favoriteAlcoholName: values["alcoholName"],
-                // FIXME this should be a field
-                favoriteAlcoholType: values["alcoholPreference"],
-                agePreferenceFrom: _agePreference.from,
-                agePreferenceTo: _agePreference.to,
-              );
-              print("validating");
-              print(widget.bloc.state);
-              widget.bloc.add(FetchAccount());
-              widget.bloc.add(
-                  EditAccount(data: data, version: Random().nextInt(1000)));
-            }
+            return FloatingActionButton(
+              child: Icon(Icons.save, color: orangeYellowCrayola),
+              onPressed: () {
+                if (_fbKey.currentState.saveAndValidate()) {
+                  Map<String, dynamic> values = _fbKey.currentState.value;
+                  values.update("age", (age) => int.parse(age));
+
+                  final data = EditAccountData(
+                    id: widget.accountData.id,
+                    imagePath:
+                        ((values["imageUrl"] as List).first as File).path,
+                    name: values["name"],
+                    gender: values["gender"],
+                    genderPreference: values["genderPreference"],
+                    age: values["age"],
+                    description: values["description"],
+                    alcoholPreference: values["alcoholPreference"],
+                    favoriteAlcoholName: values["alcoholName"],
+                    // FIXME this should be a field
+                    favoriteAlcoholType: values["alcoholPreference"],
+                    agePreferenceFrom: _agePreference.from,
+                    agePreferenceTo: _agePreference.to,
+                  );
+
+                  bloc.add(
+                      EditAccount(data: data, version: Random().nextInt(1000)));
+                }
+              },
+            );
           },
         ),
         body: BlocConsumer<AccountBloc, AccountState>(
@@ -95,6 +100,8 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
             if (state is EditAccountLoading) {
               showLoadingIndicatorDialog(
                   context, "Trwa aktualizowanie konta...");
+            } else {
+              hideDialog(context);
             }
             if (state is EditAccountError) {
               showErrorSnackbar(context,
@@ -102,6 +109,7 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
             }
             if (state is EditAccountSuccess) {
               // context.bloc<AccountBloc>().add(FetchAccount());
+              widget.onAccountUpdate();
               context.pop();
             }
           },
@@ -171,9 +179,6 @@ class FormFieldCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (child == null) {
-      print("GOT NULL");
-    }
     return Container(
       decoration: BoxDecoration(
           color: TinyColor(lemonMeringue).darken(5).color,

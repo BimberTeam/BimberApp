@@ -69,6 +69,16 @@ mutation EditAccount(
     agePreferenceTo: $agePreferenceTo,
   }) {
     id
+    name
+    age
+    favoriteAlcoholName
+    favoriteAlcoholType
+    description
+    gender
+    genderPreference
+    alcoholPreference
+    agePreferenceFrom
+    agePreferenceTo
   }
 }
 ''');

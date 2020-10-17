@@ -36,7 +36,7 @@ class MockAccountRepository extends AccountRepository {
   }
 
   @override
-  Future<AccountData> fetchMe() {
+  Future<AccountData> fetchMe({bool useCache}) {
     throw UnimplementedError();
   }
 }

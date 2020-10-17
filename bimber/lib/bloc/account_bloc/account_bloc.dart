@@ -34,7 +34,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     yield AccountLoading();
 
     try {
-      final me = await repository.fetchMe();
+      final me = await repository.fetchMe(useCache: event.useCache);
       yield AccountFetched(account: me);
     } catch (e) {
       yield (e is GraphqlConnectionError
@@ -59,7 +59,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       await repository.editAccount(event.data);
 
       yield EditAccountSuccess();
-    } on ImageUploadException {
+    } on ImageUploadException catch (e) {
       yield EditAccountError(
           message:
               "Wystąpił błąd podczas aktualizacji zdjęcia! Spróbuj później...");

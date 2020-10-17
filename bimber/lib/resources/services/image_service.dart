@@ -48,7 +48,7 @@ class ImageService {
     try {
       final options = Options(headers: <String, String>{
         "Authorization": token,
-        "content-type": "image/jpg"
+        "Content-Type": "image/jpeg"
       });
       final response = await dio.post(path, data: formData, options: options);
       if (response.statusCode != 200) {

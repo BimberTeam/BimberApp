@@ -81,7 +81,7 @@ class App extends StatelessWidget {
                     return PageTransition(
                         type: PageTransitionType.bottomToTop,
                         child: AccountEditScreen(
-                            bloc: arguments["bloc"] as AccountBloc,
+                            onAccountUpdate: arguments["onAccountUpdate"],
                             accountData: arguments["account"] as AccountData));
                   }
                 case "/home":

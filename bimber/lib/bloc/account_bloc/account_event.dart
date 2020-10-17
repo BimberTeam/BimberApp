@@ -10,7 +10,13 @@ abstract class AccountEvent extends Equatable {
   bool get stringify => true;
 }
 
-class FetchAccount extends AccountEvent {}
+class FetchAccount extends AccountEvent {
+  final bool useCache;
+
+  @override
+  List<Object> get props => super.props..add(useCache);
+  FetchAccount({bool useCache = false}) : useCache = useCache;
+}
 
 class EditAccount extends AccountEvent {
   final EditAccountData data;

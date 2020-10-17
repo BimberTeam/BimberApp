@@ -34,39 +34,26 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AccountBloc>(
-      create: (context) {
-        print("creating bloc");
-        return AccountBloc(repository: context.repository<AccountRepository>())
-          ..add(FetchAccount());
-      },
-      child:
-          BlocConsumer<AccountBloc, AccountState>(listener: (context, state) {
-        print("HEY" + state.toString());
-
-        if (state is EditAccountSuccess) {
-          context.bloc<AccountBloc>().add(FetchAccount());
-        }
-      }, buildWhen: (previous, current) {
-        return !(current is EditAccountLoading ||
-            current is EditAccountError ||
-            current is EditAccountSuccess ||
-            current is EditAccount);
-      }, builder: (context, state) {
-        if (state is AccountInitial || state is AccountLoading) {
-          return Center(child: CircularProgressIndicator());
-        }
-        if (state is AccountFetched) {
-          print("BUILDING");
-          return _screen(context, state.account);
-        }
-        if (state is AccountError) {
-          return FittedBox(
-            fit: BoxFit.contain,
-            child: Icon(Icons.error, color: Colors.red),
-          );
-        }
-        return Container();
-      }),
+      create: (context) =>
+          AccountBloc(repository: context.repository<AccountRepository>())
+            ..add(FetchAccount()),
+      child: BlocConsumer<AccountBloc, AccountState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            if (state is AccountInitial || state is AccountLoading) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (state is AccountFetched) {
+              return _screen(context, state.account);
+            }
+            if (state is AccountError) {
+              return FittedBox(
+                fit: BoxFit.contain,
+                child: Icon(Icons.error, color: Colors.red),
+              );
+            }
+            return Container();
+          }),
     );
   }
 
@@ -82,7 +69,9 @@ class _AccountScreenState extends State<AccountScreen> {
             onEditAccount: () {
               context.pushNamed("/edit-account", arguments: {
                 "account": account,
-                "bloc": context.bloc<AccountBloc>()
+                "onAccountUpdate": () {
+                  context.bloc<AccountBloc>().add(FetchAccount(useCache: false));
+                }
               });
             }),
         SliverFillAccountInfo(

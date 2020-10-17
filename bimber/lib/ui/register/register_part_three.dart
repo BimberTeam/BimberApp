@@ -51,9 +51,6 @@ class RegisterPartThree extends StatelessWidget {
                   key: _fbKey,
                   child: Column(
                     children: <Widget>[
-                      Text("Dodaj zdjęcie profilowe",
-                          style: textTheme.headline5
-                              .copyWith(fontWeight: FontWeight.w600)),
                       AccountFormField.imagePicker(size),
                       SizedBox(
                           width: double.infinity,

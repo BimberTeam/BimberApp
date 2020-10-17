@@ -31,7 +31,6 @@ class GraphqlAccountRepository extends AccountRepository {
 
   @override
   Future<bool> isLoggedIn() async {
-    return false;
     final hasToken = await TokenService.hasToken();
     if (!hasToken) return false;
 
@@ -103,22 +102,20 @@ class GraphqlAccountRepository extends AccountRepository {
         variables: data.toJson());
 
     final queryResult = await client.value.mutate(options);
-    print(queryResult.data);
-    print(queryResult.exception);
     checkQueryResultForErrors(queryResult);
 
     return;
   }
 
   @override
-  Future<AccountData> fetchMe() async {
-    final WatchQueryOptions options =
-        WatchQueryOptions(document: query.me, fetchResults: true);
+  Future<AccountData> fetchMe({bool useCache = true}) async {
+    final WatchQueryOptions options = WatchQueryOptions(
+        document: query.me,
+        fetchResults: true,
+        fetchPolicy:
+            useCache ? FetchPolicy.cacheFirst : FetchPolicy.networkOnly);
 
     final queryResult = await client.value.query(options);
-    print(queryResult.exception);
-    print(queryResult.data);
-
     checkQueryResultForErrors(queryResult);
 
     return AccountData.fromJson(queryResult.data["me"]);
