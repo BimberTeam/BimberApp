@@ -5,7 +5,6 @@ import 'package:bimber/bloc/account_bloc/account_bloc.dart';
 import 'package:bimber/models/account_data.dart';
 import 'package:bimber/models/age_preference.dart';
 import 'package:bimber/models/edit_account_data.dart';
-import 'package:bimber/models/gender.dart';
 import 'package:bimber/resources/repositories/account_repository.dart';
 import 'package:bimber/resources/services/image_service.dart';
 import 'package:bimber/ui/common/account_form_fields.dart';

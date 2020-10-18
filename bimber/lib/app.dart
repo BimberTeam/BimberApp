@@ -1,4 +1,3 @@
-import 'package:bimber/bloc/account_bloc/account_bloc.dart';
 import 'package:bimber/bloc/auth/authentication_bloc.dart';
 import 'package:bimber/resources/graphql_repositories/graphql_account_repository.dart';
 import 'package:bimber/resources/repositories/repositories.dart';

@@ -59,7 +59,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       await repository.editAccount(event.data);
 
       yield EditAccountSuccess();
-    } on ImageUploadException catch (e) {
+    } on ImageUploadException {
       yield EditAccountError(
           message:
               "Wystąpił błąd podczas aktualizacji zdjęcia! Spróbuj później...");

@@ -2,13 +2,11 @@ import 'package:bimber/bloc/account_bloc/account_bloc.dart';
 import 'package:bimber/models/account_data.dart';
 import 'package:bimber/resources/repositories/account_repository.dart';
 import 'package:bimber/resources/services/image_service.dart';
-import 'package:bimber/ui/account/account_edit_screen.dart';
 import 'package:bimber/ui/account/sliver_account_header.dart';
 import 'package:bimber/ui/account/sliver_fill_account_info.dart';
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:page_transition/page_transition.dart';
 
 class AccountScreen extends StatefulWidget {
   @override
@@ -28,6 +26,7 @@ class _AccountScreenState extends State<AccountScreen> {
         bottomSheetOpacity = position.extentBefore / position.maxScrollExtent;
       });
     });
+
     super.initState();
   }
 
@@ -70,7 +69,9 @@ class _AccountScreenState extends State<AccountScreen> {
               context.pushNamed("/edit-account", arguments: {
                 "account": account,
                 "onAccountUpdate": () {
-                  context.bloc<AccountBloc>().add(FetchAccount(useCache: false));
+                  context
+                      .bloc<AccountBloc>()
+                      .add(FetchAccount(useCache: false));
                 }
               });
             }),

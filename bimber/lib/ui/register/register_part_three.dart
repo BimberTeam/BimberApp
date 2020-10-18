@@ -4,7 +4,6 @@ import 'package:bimber/bloc/register/register_bloc.dart';
 import 'package:bimber/models/register_account_data.dart';
 import 'package:bimber/ui/common/account_form_fields.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
-import 'package:bimber/ui/common/theme.dart';
 import 'package:bimber/ui/common/themed_primary_button.dart';
 import 'package:bimber/ui/register/register_scaffold.dart';
 import 'package:flutter/material.dart';

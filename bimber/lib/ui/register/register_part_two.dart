@@ -1,6 +1,5 @@
 import 'package:bimber/bloc/register/register_bloc.dart';
 import 'package:bimber/models/age_preference.dart';
-import 'package:bimber/models/alcohol.dart';
 import 'package:bimber/models/register_account_data.dart';
 import 'package:bimber/ui/common/account_form_fields.dart';
 import 'package:bimber/ui/common/age_preference_slider.dart';
