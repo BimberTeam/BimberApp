@@ -28,33 +28,36 @@ class SliverAccountHeader extends StatelessWidget {
       child: Column(
         children: <Widget>[
           CachedNetworkImage(
-            imageUrl: imageUrl,
-            imageBuilder: (context, image) {
-              return Container(
-                height: 150,
-                width: 150,
-                decoration: BoxDecoration(
-                    image: DecorationImage(image: image),
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black,
-                        blurRadius: 15,
-                        offset: Offset(5, 5),
-                      )
-                    ],
-                    color: Colors.grey),
-              );
-            },
-            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                SizedBox(
-                    height: 150,
-                    width: 150,
-                    child: CircularProgressIndicator(
-                        value: downloadProgress.progress)),
-            errorWidget: (context, url, error) =>
-                Icon(Icons.error, color: Colors.red, size: 150),
-          ),
+              imageUrl: imageUrl,
+              imageBuilder: (context, image) {
+                print(imageUrl);
+                return Container(
+                  height: 150,
+                  width: 150,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(image: image, fit: BoxFit.fill),
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black,
+                          blurRadius: 15,
+                          offset: Offset(5, 5),
+                        )
+                      ],
+                      color: Colors.grey),
+                );
+              },
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  SizedBox(
+                      height: 150,
+                      width: 150,
+                      child: CircularProgressIndicator(
+                          value: downloadProgress.progress)),
+              errorWidget: (context, url, error) {
+                print(url);
+                print(error);
+                return Icon(Icons.error, color: Colors.red, size: 150);
+              }),
           SizedBox(height: 15),
           Text(name,
               textAlign: TextAlign.center,

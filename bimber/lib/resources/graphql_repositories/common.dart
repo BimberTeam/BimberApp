@@ -15,7 +15,7 @@ class GraphqlException implements Exception {
 
   GraphqlException.fromGraphqlError(List<GraphQLError> errors)
       : message = "Wystąpił nieznany błąd!",
-        errors = errors {}
+        errors = errors;
 }
 
 class GraphqlConnectionError extends GraphqlException {

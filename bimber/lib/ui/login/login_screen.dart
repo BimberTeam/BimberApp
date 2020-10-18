@@ -1,9 +1,4 @@
 import 'package:bimber/bloc/login/login_bloc.dart';
-import 'package:bimber/bloc/register/register_bloc.dart';
-import 'package:bimber/models/age_preference.dart';
-import 'package:bimber/models/alcohol_type.dart';
-import 'package:bimber/models/gender.dart';
-import 'package:bimber/models/register_account_data.dart';
 import 'package:bimber/resources/repositories/account_repository.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
 import 'package:bimber/ui/common/theme.dart';
@@ -43,7 +38,7 @@ class LoginScreenState extends State<LoginScreen>
                     context.pushNamed("/register",
                         arguments: {"email": state.email});
                   } else if (state is LoginFailed) {
-                    showErrorSnackbar(context, message: "Błąd serwera!");
+                    showErrorSnackbar(context, message: state.message);
                   } else if (state is LoginSucceed) {
                     Navigator.of(context).pushReplacementNamed("/home");
                   } else if (state is LoginLoading) {

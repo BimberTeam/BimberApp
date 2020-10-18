@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:bimber/models/account_data.dart';
 import 'package:bimber/models/register_account_data.dart';
 import 'package:bimber/resources/graphql_repositories/common.dart';
 import 'package:bimber/resources/repositories/account_repository.dart';
+import 'package:bimber/resources/services/image_service.dart';
+import 'package:bimber/resources/services/token_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
@@ -26,6 +29,19 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         yield RegisterLoading();
         final registered = await repository.register(event.data);
         yield RegisterSuccess(account: registered);
+
+        final userId = registered.id;
+        final token = await TokenService.getToken();
+        final image = File(event.data.imagePath);
+
+        // FIXEME what to do when image fails to update but we already created the account?
+        try {
+          await ImageService.uploadImage(
+              userId: userId, token: token, image: image);
+        } on ImageUploadException catch (e) {
+          print("Failed to upload image: $e");
+        }
+
         await Future.delayed(Duration(seconds: 2));
         yield RegisterNavigateToLogin();
       } catch (e) {

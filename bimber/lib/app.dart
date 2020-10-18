@@ -75,10 +75,13 @@ class App extends StatelessWidget {
                   }
                 case "/edit-account":
                   {
+                    final Map<String, dynamic> arguments =
+                        settings.arguments as Map<String, dynamic>;
                     return PageTransition(
                         type: PageTransitionType.bottomToTop,
                         child: AccountEditScreen(
-                            accountData: settings.arguments as AccountData));
+                            onAccountUpdate: arguments["onAccountUpdate"],
+                            accountData: arguments["account"] as AccountData));
                   }
                 case "/home":
                   {
@@ -140,7 +143,7 @@ class App extends StatelessWidget {
                   }
               }
             },
-            initialRoute: "/home",
+            initialRoute: "/",
           ),
         ));
   }

@@ -1,7 +1,5 @@
 import 'package:bimber/bloc/register/register_bloc.dart';
-import 'package:bimber/resources/mocks/mock_account_repository.dart';
 import 'package:bimber/resources/repositories/account_repository.dart';
-import 'package:bimber/ui/common/snackbar_utils.dart';
 import 'package:bimber/ui/register/register_part_one.dart';
 import 'package:bimber/ui/register/register_part_three.dart';
 import 'package:bimber/ui/register/register_part_two.dart';

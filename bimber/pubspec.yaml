@@ -21,10 +21,7 @@ dependencies:
   tinycolor: ^1.0.2
   meta: ^1.1.8
   build_context: ^2.0.2
-  flutter_form_builder:
-    git:
-      url: git://github.com/ryanhz/flutter_form_builder.git
-      ref: master
+  flutter_form_builder: ^3.14.0
   intl: ^0.16.1
   geolocator: ^5.3.2+2
   cached_network_image: ^2.2.0+1

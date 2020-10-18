@@ -1,4 +1,5 @@
 import 'package:bimber/models/account_data.dart';
+import 'package:bimber/models/edit_account_data.dart';
 import 'package:bimber/models/register_account_data.dart';
 import 'package:bimber/resources/graphql_repositories/common.dart';
 import 'package:bimber/resources/repositories/account_repository.dart';
@@ -34,7 +35,7 @@ class GraphqlAccountRepository extends AccountRepository {
     if (!hasToken) return false;
 
     final WatchQueryOptions options =
-        WatchQueryOptions(document: query.profile, fetchResults: true);
+        WatchQueryOptions(document: query.me, fetchResults: true);
 
     final queryResult = await client.value.query(options);
 
@@ -91,5 +92,32 @@ class GraphqlAccountRepository extends AccountRepository {
     checkQueryResultForErrors(queryResult);
 
     return AccountData.fromJson(queryResult.data["register"]);
+  }
+
+  @override
+  Future<void> editAccount(EditAccountData data) async {
+    final MutationOptions options = MutationOptions(
+        document: mutation.editAccount,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: data.toJson());
+
+    final queryResult = await client.value.mutate(options);
+    checkQueryResultForErrors(queryResult);
+
+    return;
+  }
+
+  @override
+  Future<AccountData> fetchMe({bool useCache = true}) async {
+    final WatchQueryOptions options = WatchQueryOptions(
+        document: query.me,
+        fetchResults: true,
+        fetchPolicy:
+            useCache ? FetchPolicy.cacheFirst : FetchPolicy.networkOnly);
+
+    final queryResult = await client.value.query(options);
+    checkQueryResultForErrors(queryResult);
+
+    return AccountData.fromJson(queryResult.data["me"]);
   }
 }

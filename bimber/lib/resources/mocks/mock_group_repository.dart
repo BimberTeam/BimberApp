@@ -33,9 +33,4 @@ class MockGroupRepository extends GroupRepository {
     return Future.delayed(
         Duration(seconds: 1), () => memberIds.length > 3 ? true : false);
   }
-
-  @override
-  List<Group> getCachedGroupList() {
-    return Fixtures.getGroups();
-  }
 }

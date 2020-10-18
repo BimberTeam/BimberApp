@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
 
-void showLoadingIndicatorDialog(String text, BuildContext context) {
+void showLoadingIndicatorDialog(BuildContext context, String text) {
   showDialog(
     context: context,
     barrierDismissible: false,

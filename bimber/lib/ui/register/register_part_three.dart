@@ -4,7 +4,6 @@ import 'package:bimber/bloc/register/register_bloc.dart';
 import 'package:bimber/models/register_account_data.dart';
 import 'package:bimber/ui/common/account_form_fields.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
-import 'package:bimber/ui/common/theme.dart';
 import 'package:bimber/ui/common/themed_primary_button.dart';
 import 'package:bimber/ui/register/register_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -51,9 +50,6 @@ class RegisterPartThree extends StatelessWidget {
                   key: _fbKey,
                   child: Column(
                     children: <Widget>[
-                      Text("Dodaj zdjęcie profilowe",
-                          style: textTheme.headline5
-                              .copyWith(fontWeight: FontWeight.w600)),
                       AccountFormField.imagePicker(size),
                       SizedBox(
                           width: double.infinity,

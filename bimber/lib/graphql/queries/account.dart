@@ -1,6 +1,6 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-final profile = gql(r'''
+final me = gql(r'''
 query Me {
   me {
     id
