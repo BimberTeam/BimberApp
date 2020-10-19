@@ -12,7 +12,6 @@ part 'friend_requests_state.dart';
 
 class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
   final FriendRepository friendRepository;
-  List<User> _cachedRequests;
 
   FriendRequestBloc({@required this.friendRepository})
       : super(FriendRequestsInitial());
@@ -22,10 +21,14 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
     FriendRequestEvent event,
   ) async* {
     if (event is InitFriendRequests) {
-      yield* _fetchFriendsRequests();
+      yield* _initFriendsRequests();
     }
     if (event is RefetchFriendRequests) {
-      yield* _mapRefreshFriendRequestsToState(event);
+      yield* _mapToState(() async* {
+        List<User> requests =
+            await friendRepository.fetchFriendInvitationList();
+        yield FriendRequestsFetched(requests: requests);
+      });
     }
     if (event is DeclineFriendRequest) {
       yield* _mapToState(() async* {
@@ -33,7 +36,6 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
             await friendRepository.cancelInvitation(event.friendId);
         List<User> requests =
             await friendRepository.fetchFriendInvitationList();
-        _cachedRequests = requests;
         yield canceledFriend
             ? FriendRequestsDeclineSuccess(requests: requests)
             : FriendRequestsDeclineError(requests: requests);
@@ -45,7 +47,6 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
             await friendRepository.acceptInvitation(event.friendId);
         List<User> requests =
             await friendRepository.fetchFriendInvitationList();
-        _cachedRequests = requests;
         yield acceptedFriend
             ? FriendRequestsAcceptSuccess(requests: requests)
             : FriendRequestsAcceptError(requests: requests);
@@ -53,16 +54,12 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
     }
   }
 
-  Stream<FriendRequestState> _mapRefreshFriendRequestsToState(
-      RefetchFriendRequests event) async* {
-    yield FriendRequestsLoading(requests: _cachedRequests);
-    yield* _fetchFriendsRequests();
-  }
-
   Stream<FriendRequestState> _mapToState(
       Stream<FriendRequestState> Function() yieldCode) async* {
-    yield FriendRequestsLoading(requests: _cachedRequests);
     try {
+      yield FriendRequestsLoading(
+          requests: await friendRepository.fetchFriendInvitationList(
+              fetchCache: true));
       yield* yieldCode();
     } catch (exception) {
       if (exception is TimeoutException)
@@ -72,10 +69,9 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
     }
   }
 
-  Stream<FriendRequestState> _fetchFriendsRequests() async* {
+  Stream<FriendRequestState> _initFriendsRequests() async* {
     try {
       List<User> requests = await friendRepository.fetchFriendInvitationList();
-      _cachedRequests = requests;
       yield FriendRequestsFetched(requests: requests);
     } catch (exception) {
       if (exception is TimeoutException)

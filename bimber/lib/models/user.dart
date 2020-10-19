@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import "package:bimber/models/alcohol_type.dart";
 import "package:bimber/models/gender.dart";
+import "package:bimber/models/alcohol_type.dart";
 import "package:bimber/models/location.dart";
 
 class User extends Equatable {
@@ -19,9 +19,7 @@ class User extends Equatable {
   final int agePreferenceFrom;
   final int agePreferenceTo;
   final AlcoholType alcoholPreference;
-  final String imageUrl;
   final Location location;
-  final List<User> friends;
 
   User(
       {@required this.id,
@@ -36,9 +34,7 @@ class User extends Equatable {
       @required this.agePreferenceFrom,
       @required this.agePreferenceTo,
       @required this.alcoholPreference,
-      @required this.imageUrl,
-      @required this.location,
-      @required this.friends});
+      @required this.location});
 
   User copyWith(
       {String id,
@@ -53,9 +49,7 @@ class User extends Equatable {
       int agePreferenceFrom,
       int agePreferenceTo,
       AlcoholType alcoholPreference,
-      String imageUrl,
-      Location location,
-      List<User> friends}) {
+      Location location}) {
     return User(
         id: id ?? this.id,
         name: name ?? this.name,
@@ -69,9 +63,7 @@ class User extends Equatable {
         agePreferenceFrom: agePreferenceFrom ?? this.agePreferenceFrom,
         agePreferenceTo: agePreferenceTo ?? this.agePreferenceTo,
         alcoholPreference: alcoholPreference ?? this.alcoholPreference,
-        imageUrl: imageUrl ?? this.imageUrl,
-        location: location ?? this.location,
-        friends: friends ?? this.friends);
+        location: location ?? this.location);
   }
 
   @override
@@ -88,9 +80,7 @@ class User extends Equatable {
         agePreferenceFrom,
         agePreferenceTo,
         alcoholPreference,
-        imageUrl,
-        location,
-        friends
+        location
       ];
 
   Map<String, dynamic> toJson() {
@@ -107,9 +97,7 @@ class User extends Equatable {
       "agePreferenceFrom": agePreferenceFrom,
       "agePreferenceTo": agePreferenceTo,
       "alcoholPreference": alcoholPreference?.toJson(),
-      "imageUrl": imageUrl,
-      "location": location?.toJson(),
-      "friends": friends.map((e) => e?.toJson())
+      "location": location?.toJson()
     };
   }
 
@@ -130,8 +118,6 @@ class User extends Equatable {
         agePreferenceTo: json["agePreferenceTo"] as int,
         alcoholPreference:
             AlcoholTypeExtension.fromJson(json["alcoholPreference"]),
-        imageUrl: json["imageUrl"],
-        location: Location.fromJson(json["location"]),
-        friends: json["friends"].map((e) => User.fromJson(e)).toList());
+        location: Location.fromJson(json["location"]));
   }
 }
