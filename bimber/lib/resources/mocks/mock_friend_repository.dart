@@ -37,7 +37,7 @@ class MockFriendRepository extends FriendRepository {
   }
 
   @override
-  Future<bool> cancelInvitation(String friendId) {
+  Future<bool> declineInvitation(String friendId) {
     return Future.value(true);
   }
 }

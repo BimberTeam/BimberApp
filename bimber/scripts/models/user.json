@@ -12,5 +12,5 @@
   "agePreferenceFrom": {"type": "int"},
   "agePreferenceTo": {"type": "int"},
   "alcoholPreference": {"type": "AlcoholType", "enum": true},
-  "location": {"type": "Location"}
+  "latestLocation": {"type": "Location"}
 }

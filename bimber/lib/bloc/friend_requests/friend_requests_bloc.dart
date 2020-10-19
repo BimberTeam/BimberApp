@@ -33,7 +33,7 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
     if (event is DeclineFriendRequest) {
       yield* _mapToState(() async* {
         bool canceledFriend =
-            await friendRepository.cancelInvitation(event.friendId);
+            await friendRepository.declineInvitation(event.friendId);
         List<User> requests =
             await friendRepository.fetchFriendInvitationList();
         yield canceledFriend

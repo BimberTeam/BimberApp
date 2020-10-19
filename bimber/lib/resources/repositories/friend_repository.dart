@@ -6,5 +6,5 @@ abstract class FriendRepository {
   Future<List<User>> fetchFriendsList({bool fetchCache = false});
   Future<List<User>> fetchFriendInvitationList({bool fetchCache = false});
   Future<bool> acceptInvitation(String friendId);
-  Future<bool> cancelInvitation(String friendId);
+  Future<bool> declineInvitation(String friendId);
 }

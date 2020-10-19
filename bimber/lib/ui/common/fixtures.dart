@@ -26,7 +26,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              location: Location(latitude: 50.44, longtitude: 56.78)),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'bbb',
               name: "Harnas",
@@ -40,7 +40,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              location: Location(latitude: 50.44, longtitude: 56.78)),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'ccc',
               name: "Harnas",
@@ -54,7 +54,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              location: Location(latitude: 50.44, longtitude: 56.78)),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'ddd',
               name: "Harnas",
@@ -68,7 +68,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              location: Location(latitude: 50.44, longtitude: 56.78)),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'eee',
               name: "Harnas",
@@ -82,7 +82,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              location: Location(latitude: 50.44, longtitude: 56.78)),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'fff',
               name: "Harnas",
@@ -96,7 +96,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              location: Location(latitude: 50.44, longtitude: 56.78)),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'ggg',
               name: "Harnas",
@@ -110,7 +110,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              location: Location(latitude: 50.44, longtitude: 56.78)),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
         ]);
   }
 
@@ -128,7 +128,7 @@ class Fixtures {
         agePreferenceFrom: 18,
         agePreferenceTo: 99,
         alcoholPreference: AlcoholType.BEER,
-        location: Location(latitude: 50.44, longtitude: 56.78));
+        latestLocation: Location(latitude: 50.44, longtitude: 56.78));
   }
 
   static List<User> getUsersList() {
@@ -146,7 +146,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          location: Location(latitude: 50.44, longtitude: 56.78)),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'bbb',
           name: "Harnas",
@@ -160,7 +160,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          location: Location(latitude: 50.44, longtitude: 56.78)),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'ccc',
           name: "Harnas",
@@ -174,7 +174,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          location: Location(latitude: 50.44, longtitude: 56.78)),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'ddd',
           name: "Harnas",
@@ -188,7 +188,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          location: Location(latitude: 50.44, longtitude: 56.78)),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'eee',
           name: "Harnas",
@@ -202,7 +202,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          location: Location(latitude: 50.44, longtitude: 56.78)),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'fff',
           name: "Harnas",
@@ -216,7 +216,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          location: Location(latitude: 50.44, longtitude: 56.78)),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'ggg',
           name: "Harnas",
@@ -230,7 +230,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          location: Location(latitude: 50.44, longtitude: 56.78))
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78))
     ];
   }
 
