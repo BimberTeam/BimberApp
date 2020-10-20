@@ -74,7 +74,7 @@ class GraphqlFriendRepository extends FriendRepository {
     checkQueryResultForErrors(queryResult);
 
     return (queryResult.data['me']['requestedFriends']
-            as List<Map<String, Object>>)
+            as List)
         .map((json) => User.fromJson(json))
         .toList();
   }
@@ -89,8 +89,9 @@ class GraphqlFriendRepository extends FriendRepository {
 
     final queryResult = await client.value.query(options);
     checkQueryResultForErrors(queryResult);
+    print(queryResult.data);
 
-    return (queryResult.data['me']['friends'] as List<Map<String, Object>>)
+    return (queryResult.data['me']['friends'] as List)
         .map((json) => User.fromJson(json))
         .toList();
   }

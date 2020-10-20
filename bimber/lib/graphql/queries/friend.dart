@@ -22,7 +22,6 @@ query RequestedFriendsList {
         longitude
       }   
     }
-
   }
 }
 ''');
@@ -43,11 +42,11 @@ query FriendsList {
       genderPreference
       alcoholPreference
       agePreferenceFrom
-      agePreferenceTo  
+      agePreferenceTo
       latestLocation {
         latitude
         longitude
-      }   
+      }
     }
 
   }

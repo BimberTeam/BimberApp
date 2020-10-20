@@ -24,48 +24,59 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
       yield* _initFriendsRequests();
     }
     if (event is RefetchFriendRequests) {
-      yield* _mapToState(() async* {
-        List<User> requests =
-            await friendRepository.fetchFriendInvitationList();
-        yield FriendRequestsFetched(requests: requests);
-      });
+      yield* _refetchFriendRequests();
     }
     if (event is DeclineFriendRequest) {
-      yield* _mapToState(() async* {
-        bool canceledFriend =
-            await friendRepository.declineInvitation(event.friendId);
-        List<User> requests =
-            await friendRepository.fetchFriendInvitationList();
-        yield canceledFriend
-            ? FriendRequestsDeclineSuccess(requests: requests)
-            : FriendRequestsDeclineError(requests: requests);
-      });
+      yield* _mapDeclineFriendRequestToState(event);
     }
     if (event is AcceptFriendRequest) {
-      yield* _mapToState(() async* {
-        bool acceptedFriend =
-            await friendRepository.acceptInvitation(event.friendId);
-        List<User> requests =
-            await friendRepository.fetchFriendInvitationList();
-        yield acceptedFriend
-            ? FriendRequestsAcceptSuccess(requests: requests)
-            : FriendRequestsAcceptError(requests: requests);
-      });
+      yield* _acceptFriendRequests(event);
     }
   }
 
-  Stream<FriendRequestState> _mapToState(
-      Stream<FriendRequestState> Function() yieldCode) async* {
+  Stream<FriendRequestState> _mapDeclineFriendRequestToState(DeclineFriendRequest event) async* {
     try {
       yield FriendRequestsLoading(
           requests: await friendRepository.fetchFriendInvitationList(
               fetchCache: true));
-      yield* yieldCode();
+      bool canceledFriend =
+      await friendRepository.declineInvitation(event.friendId);
+      List<User> requests =
+      await friendRepository.fetchFriendInvitationList();
+      yield canceledFriend
+          ? FriendRequestsDeclineSuccess(requests: requests)
+          : FriendRequestsDeclineError(requests: requests);
     } catch (exception) {
-      if (exception is TimeoutException)
-        yield FriendRequestsError(message: timeoutExceptionMessage);
-      else
-        yield FriendRequestsError(message: defaultErrorMessage);
+      yield* _handleException(exception);
+    }
+  }
+
+  Stream<FriendRequestState> _acceptFriendRequests(AcceptFriendRequest event) async* {
+    try {
+      yield FriendRequestsLoading(
+          requests: await friendRepository.fetchFriendInvitationList(
+              fetchCache: true));
+      bool acceptedFriend =
+      await friendRepository.acceptInvitation(event.friendId);
+      List<User> requests =
+      await friendRepository.fetchFriendInvitationList();
+      yield acceptedFriend
+          ? FriendRequestsAcceptSuccess(requests: requests)
+          : FriendRequestsAcceptError(requests: requests);
+    } catch (exception) {
+      yield* _handleException(exception);
+    }
+  }
+
+  Stream<FriendRequestState> _refetchFriendRequests() async* {
+    try {
+      yield FriendRequestsLoading(
+          requests: await friendRepository.fetchFriendInvitationList(
+              fetchCache: true));
+      List<User> requests = await friendRepository.fetchFriendInvitationList();
+      yield FriendRequestsFetched(requests: requests);
+    } catch (exception) {
+      yield * _handleException(exception);
     }
   }
 
@@ -74,10 +85,14 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
       List<User> requests = await friendRepository.fetchFriendInvitationList();
       yield FriendRequestsFetched(requests: requests);
     } catch (exception) {
-      if (exception is TimeoutException)
-        yield FriendRequestsError(message: timeoutExceptionMessage);
-      else
-        yield FriendRequestsError(message: defaultErrorMessage);
+      yield* _handleException(exception);
     }
+  }
+
+  Stream<FriendRequestState> _handleException(Exception exception) async* {
+    if (exception is TimeoutException)
+      yield FriendRequestsError(message: timeoutExceptionMessage);
+    else
+      yield FriendRequestsError(message: defaultErrorMessage);
   }
 }
