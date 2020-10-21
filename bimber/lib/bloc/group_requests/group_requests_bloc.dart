@@ -47,11 +47,12 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
     }
   }
 
-  Stream<GroupRequestState> _mapDeclineGroupRequestToState(DeclineGroupRequest event) async* {
+  Stream<GroupRequestState> _mapDeclineGroupRequestToState(
+      DeclineGroupRequest event) async* {
     try {
       yield GroupRequestsLoading(requests: _cachedRequests);
       bool canceledGroup =
-      await groupRepository.cancelGroupInvitation(event.groupId);
+          await groupRepository.cancelGroupInvitation(event.groupId);
       List<Group> requests = await groupRepository.fetchGroupInvitationList();
       _cachedRequests = requests;
       yield canceledGroup
@@ -62,11 +63,12 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
     }
   }
 
-  Stream<GroupRequestState> _mapAcceptGroupRequestToState(AcceptGroupRequest event) async* {
+  Stream<GroupRequestState> _mapAcceptGroupRequestToState(
+      AcceptGroupRequest event) async* {
     try {
       yield GroupRequestsLoading(requests: _cachedRequests);
       bool acceptedGroup =
-      await groupRepository.acceptGroupInvitation(event.groupId);
+          await groupRepository.acceptGroupInvitation(event.groupId);
       List<Group> requests = await groupRepository.fetchGroupInvitationList();
       _cachedRequests = requests;
       yield acceptedGroup
@@ -86,7 +88,6 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
       yield* _handleException(exception);
     }
   }
-
 
   Stream<GroupRequestState> _handleException(Exception exception) async* {
     if (exception is TimeoutException)

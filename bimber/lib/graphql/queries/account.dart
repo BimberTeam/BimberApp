@@ -3,6 +3,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 final me = gql(r'''
 query Me {
   me {
+    __typename
     id
     email
     name

@@ -32,7 +32,8 @@ class App extends StatelessWidget {
                 GraphqlAccountRepository(client: GraphqlClientService.client),
           ),
           RepositoryProvider<FriendRepository>(
-            create: (context) => GraphqlFriendRepository(client: GraphqlClientService.client),
+            create: (context) =>
+                GraphqlFriendRepository(client: GraphqlClientService.client),
           ),
           RepositoryProvider<ChatRepository>(
             create: (context) => MockChatRepository(),

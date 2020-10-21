@@ -34,15 +34,15 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
     }
   }
 
-  Stream<FriendRequestState> _mapDeclineFriendRequestToState(DeclineFriendRequest event) async* {
+  Stream<FriendRequestState> _mapDeclineFriendRequestToState(
+      DeclineFriendRequest event) async* {
     try {
       yield FriendRequestsLoading(
           requests: await friendRepository.fetchFriendInvitationList(
               fetchCache: true));
       bool canceledFriend =
-      await friendRepository.declineInvitation(event.friendId);
-      List<User> requests =
-      await friendRepository.fetchFriendInvitationList();
+          await friendRepository.declineInvitation(event.friendId);
+      List<User> requests = await friendRepository.fetchFriendInvitationList();
       yield canceledFriend
           ? FriendRequestsDeclineSuccess(requests: requests)
           : FriendRequestsDeclineError(requests: requests);
@@ -51,15 +51,15 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
     }
   }
 
-  Stream<FriendRequestState> _acceptFriendRequests(AcceptFriendRequest event) async* {
+  Stream<FriendRequestState> _acceptFriendRequests(
+      AcceptFriendRequest event) async* {
     try {
       yield FriendRequestsLoading(
           requests: await friendRepository.fetchFriendInvitationList(
               fetchCache: true));
       bool acceptedFriend =
-      await friendRepository.acceptInvitation(event.friendId);
-      List<User> requests =
-      await friendRepository.fetchFriendInvitationList();
+          await friendRepository.acceptInvitation(event.friendId);
+      List<User> requests = await friendRepository.fetchFriendInvitationList();
       yield acceptedFriend
           ? FriendRequestsAcceptSuccess(requests: requests)
           : FriendRequestsAcceptError(requests: requests);
@@ -76,7 +76,7 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
       List<User> requests = await friendRepository.fetchFriendInvitationList();
       yield FriendRequestsFetched(requests: requests);
     } catch (exception) {
-      yield * _handleException(exception);
+      yield* _handleException(exception);
     }
   }
 

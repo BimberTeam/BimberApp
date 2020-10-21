@@ -73,8 +73,7 @@ class GraphqlFriendRepository extends FriendRepository {
     final queryResult = await client.value.query(options);
     checkQueryResultForErrors(queryResult);
 
-    return (queryResult.data['me']['requestedFriends']
-            as List)
+    return (queryResult.data['me']['requestedFriends'] as List)
         .map((json) => User.fromJson(json))
         .toList();
   }
@@ -89,7 +88,6 @@ class GraphqlFriendRepository extends FriendRepository {
 
     final queryResult = await client.value.query(options);
     checkQueryResultForErrors(queryResult);
-    print(queryResult.data);
 
     return (queryResult.data['me']['friends'] as List)
         .map((json) => User.fromJson(json))

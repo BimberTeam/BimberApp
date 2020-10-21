@@ -15,8 +15,6 @@ part 'chat_list_state.dart';
 class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
   final ChatRepository chatRepository;
   final FriendRepository friendRepository;
-  List<User> _cachedFriends;
-  List<ChatThumbnail> _cachedChatThumbnails;
 
   ChatListBloc({@required this.friendRepository, @required this.chatRepository})
       : super(ChatListInitial());
@@ -26,7 +24,7 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
     ChatListEvent event,
   ) async* {
     if (event is InitChatList) {
-      yield* _mapInitChatListToState(event);
+      yield* _initChatList();
     }
     if (event is RefreshChatList) {
       yield* _mapRefreshChatListToState(event);
@@ -36,52 +34,56 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
     }
   }
 
-  Stream<ChatListState> _mapInitChatListToState(InitChatList event) async* {
-    yield* _fetchFriendsAndChats();
-  }
-
   Stream<ChatListState> _mapRefreshChatListToState(
       RefreshChatList event) async* {
-    yield ChatListLoading(
-        friends: _cachedFriends, chatThumbnails: _cachedChatThumbnails);
-    yield* _fetchFriendsAndChats();
+    try {
+      yield ChatListLoading(
+          friends: await friendRepository.fetchFriendsList(fetchCache: true),
+          chatThumbnails:
+              await chatRepository.fetchChatThumbnails(fetchCache: true));
+      List<User> friends = await friendRepository.fetchFriendsList();
+      List<ChatThumbnail> chats = await chatRepository.fetchChatThumbnails();
+      sortChatThumbnails(chats);
+      yield ChatListFetched(friends: friends, chatThumbnails: chats);
+    } catch (exception) {
+      yield* _handleExceptions(exception);
+    }
   }
 
   Stream<ChatListState> _mapDeleteFriendToState(DeleteFriend event) async* {
     yield ChatListLoading(
-        friends: _cachedFriends, chatThumbnails: _cachedChatThumbnails);
+        friends: await friendRepository.fetchFriendsList(fetchCache: true),
+        chatThumbnails:
+            await chatRepository.fetchChatThumbnails(fetchCache: true));
     try {
       bool deletedFriends = await friendRepository.deleteFriend(event.friendId);
       List<User> friends = await friendRepository.fetchFriendsList();
       List<ChatThumbnail> chats = await chatRepository.fetchChatThumbnails();
       sortChatThumbnails(chats);
-      _cachedChatThumbnails = chats;
-      _cachedFriends = friends;
       yield deletedFriends
           ? ChatListDeleteSuccess(friends: friends, chatThumbnails: chats)
           : ChatListDeleteFailure(friends: friends, chatThumbnails: chats);
     } catch (exception) {
-      if (exception is TimeoutException)
-        yield ChatListError(message: timeoutExceptionMessage);
-      else
-        yield ChatListError(message: defaultErrorMessage);
+      yield* _handleExceptions(exception);
     }
   }
 
-  Stream<ChatListState> _fetchFriendsAndChats() async* {
+  Stream<ChatListState> _initChatList() async* {
     try {
       List<User> friends = await friendRepository.fetchFriendsList();
       List<ChatThumbnail> chats = await chatRepository.fetchChatThumbnails();
       sortChatThumbnails(chats);
-      _cachedChatThumbnails = chats;
-      _cachedFriends = friends;
       yield ChatListFetched(friends: friends, chatThumbnails: chats);
     } catch (exception) {
-      if (exception is TimeoutException)
-        yield ChatListError(message: timeoutExceptionMessage);
-      else
-        yield ChatListError(message: defaultErrorMessage);
+      yield* _handleExceptions(exception);
     }
+  }
+
+  Stream<ChatListState> _handleExceptions(Exception exception) async* {
+    if (exception is TimeoutException)
+      yield ChatListError(message: timeoutExceptionMessage);
+    else
+      yield ChatListError(message: defaultErrorMessage);
   }
 
   void sortChatThumbnails(List<ChatThumbnail> chats) {
