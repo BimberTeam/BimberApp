@@ -48,6 +48,8 @@ flutter:
     fonts:
     - asset: fonts/Baloo2-ExtraBold.ttf
       weight: 900
+    - asset: fonts/Baloo2-Regular.ttf
+      weight: 400
 
 
   uses-material-design: true

@@ -2,7 +2,6 @@ import 'package:bimber/models/chat_message.dart';
 import 'package:bimber/ui/chat/chat_input.dart';
 import 'package:bimber/ui/chat/chat_message.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 class ChatScreen extends StatefulWidget {
   final List<ChatMessage> messages;
@@ -37,9 +36,10 @@ class _ChatScreenState extends State<ChatScreen> {
             return ChatMessageWidget(
               message: currentMessages[index],
               isReceived: widget.currentUserId != currentMessages[index].sender,
-              showUser: index == 0  || (
+              showUser: index == currentMessages.length-1  || (
                   (currentMessages[index].sender !=
-                      currentMessages[index - 1].sender)),
+                      currentMessages[index + 1].sender)),
+              showDate: index == currentMessages.length-1 || (currentMessages[index].date.difference(currentMessages[index + 1].date).compareTo(Duration(hours: 1)) > 0),
             );
           },
           itemCount: currentMessages.length,

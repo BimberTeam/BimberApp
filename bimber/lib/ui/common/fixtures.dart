@@ -313,8 +313,9 @@ class Fixtures {
             id: "aaa",
             groupId: "aaa",
             text: "siemahasijdfna sakdfnakjf sdkfna asdfjna" + index.toString(),
-            date: DateTime.now(),
-            sender: "id" + index.toString()));
+            date: DateTime.now().add(Duration(minutes: 70*index)),
+            sender: "id" + index.toString() ));
+    chats.sort((a, b) => b.date.compareTo(a.date));
     return chats;
   }
 }
