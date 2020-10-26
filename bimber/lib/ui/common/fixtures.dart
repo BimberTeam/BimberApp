@@ -305,4 +305,16 @@ class Fixtures {
         lastMessage: null));
     return chats;
   }
+
+  static List<ChatMessage> getChatMessages() {
+    List<ChatMessage> chats = List.generate(
+        10,
+            (index) => ChatMessage(
+            id: "aaa",
+            groupId: "aaa",
+            text: "siemahasijdfna sakdfnakjf sdkfna asdfjna" + index.toString(),
+            date: DateTime.now(),
+            sender: "id" + index.toString()));
+    return chats;
+  }
 }

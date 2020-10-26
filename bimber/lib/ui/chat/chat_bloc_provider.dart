@@ -1,5 +1,6 @@
 import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:bimber/ui/chat/chat_screen.dart';
+import 'package:bimber/ui/common/fixtures.dart';
 import 'package:flutter/material.dart';
 
 class ChatBlocProvider extends StatelessWidget {
@@ -37,7 +38,7 @@ class ChatBlocProvider extends StatelessWidget {
           ),
         ],
       ),
-      body: ChatScreen(), //TODO bloc provider, consumer
+      body: ChatScreen(messages: Fixtures.getChatMessages(), currentUserId: "id3",), //TODO bloc provider, consumer
     );
   }
 }
