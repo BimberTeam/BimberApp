@@ -12,7 +12,6 @@ part 'group_requests_event.dart';
 
 class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
   final GroupRepository groupRepository;
-  List<Group> _cachedRequests;
 
   GroupRequestsBloc({@required this.groupRepository})
       : super(GroupRequestsInitial());
@@ -38,9 +37,10 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
   Stream<GroupRequestState> _mapRefreshGroupRequestsToState(
       RefetchGroupRequests event) async* {
     try {
-      yield GroupRequestsLoading(requests: _cachedRequests);
+      yield GroupRequestsLoading(
+          requests:
+              await groupRepository.fetchGroupInvitationList(fetchCache: true));
       List<Group> requests = await groupRepository.fetchGroupInvitationList();
-      _cachedRequests = requests;
       yield GroupRequestsFetched(requests: requests);
     } catch (exception) {
       yield* _handleException(exception);
@@ -50,11 +50,12 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
   Stream<GroupRequestState> _mapDeclineGroupRequestToState(
       DeclineGroupRequest event) async* {
     try {
-      yield GroupRequestsLoading(requests: _cachedRequests);
+      yield GroupRequestsLoading(
+          requests:
+              await groupRepository.fetchGroupInvitationList(fetchCache: true));
       bool canceledGroup =
           await groupRepository.cancelGroupInvitation(event.groupId);
       List<Group> requests = await groupRepository.fetchGroupInvitationList();
-      _cachedRequests = requests;
       yield canceledGroup
           ? GroupRequestDeclineSuccess(requests: requests)
           : GroupRequestDeclineError(requests: requests);
@@ -66,11 +67,12 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
   Stream<GroupRequestState> _mapAcceptGroupRequestToState(
       AcceptGroupRequest event) async* {
     try {
-      yield GroupRequestsLoading(requests: _cachedRequests);
+      yield GroupRequestsLoading(
+          requests:
+              await groupRepository.fetchGroupInvitationList(fetchCache: true));
       bool acceptedGroup =
           await groupRepository.acceptGroupInvitation(event.groupId);
       List<Group> requests = await groupRepository.fetchGroupInvitationList();
-      _cachedRequests = requests;
       yield acceptedGroup
           ? GroupRequestAcceptSuccess(requests: requests)
           : GroupRequestAcceptError(requests: requests);
@@ -82,7 +84,6 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
   Stream<GroupRequestState> _initFriendsRequests() async* {
     try {
       List<Group> requests = await groupRepository.fetchGroupInvitationList();
-      _cachedRequests = requests;
       yield GroupRequestsFetched(requests: requests);
     } catch (exception) {
       yield* _handleException(exception);

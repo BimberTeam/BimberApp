@@ -8,7 +8,25 @@ query GroupList {
     groups {
       __typename
       id
-      members
+      members{
+         __typename
+        id
+        name
+        email
+        age
+        favoriteAlcoholName
+        favoriteAlcoholType
+        description
+        gender
+        genderPreference
+        alcoholPreference
+        agePreferenceFrom
+        agePreferenceTo  
+        latestLocation {
+          latitude
+          longitude
+        }   
+      }
       averageAge
       averageLocation{
         latitude
@@ -27,7 +45,25 @@ query GroupInvitationsList {
     groupInvitations {
       __typename
       id
-      members
+      members{
+         __typename
+        id
+        name
+        email
+        age
+        favoriteAlcoholName
+        favoriteAlcoholType
+        description
+        gender
+        genderPreference
+        alcoholPreference
+        agePreferenceFrom
+        agePreferenceTo  
+        latestLocation {
+          latitude
+          longitude
+        }   
+      }
       averageAge
       averageLocation{
         latitude

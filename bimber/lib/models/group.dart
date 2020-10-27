@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import "package:bimber/models/location.dart";
 import "package:bimber/models/user.dart";
+import "package:bimber/models/location.dart";
 
 class Group extends Equatable {
   bool get stringify => true;
 
   final String id;
   final List<User> members;
-  final int averageAge;
+  final double averageAge;
   final Location averageLocation;
 
   Group(
@@ -20,7 +20,7 @@ class Group extends Equatable {
   Group copyWith(
       {String id,
       List<User> members,
-      int averageAge,
+      double averageAge,
       Location averageLocation}) {
     return Group(
         id: id ?? this.id,
@@ -45,8 +45,8 @@ class Group extends Equatable {
     if (json == null) return null;
     return Group(
         id: json["id"],
-        members: json["members"].map((e) => User.fromJson(e)).toList(),
-        averageAge: json["averageAge"] as int,
+        members: List<User>.from(json["members"].map((e) => User.fromJson(e))),
+        averageAge: json["averageAge"] as double,
         averageLocation: Location.fromJson(json["averageLocation"]));
   }
 }

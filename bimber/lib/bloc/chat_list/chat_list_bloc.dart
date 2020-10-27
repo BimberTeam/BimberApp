@@ -79,7 +79,7 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
     }
   }
 
-  Stream<ChatListState> _handleExceptions(Exception exception) async* {
+  Stream<ChatListState> _handleExceptions(exception) async* {
     if (exception is TimeoutException)
       yield ChatListError(message: timeoutExceptionMessage);
     else

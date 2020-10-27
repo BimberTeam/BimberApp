@@ -1,6 +1,7 @@
 import 'package:bimber/bloc/auth/authentication_bloc.dart';
 import 'package:bimber/resources/graphql_repositories/graphql_account_repository.dart';
 import 'package:bimber/resources/graphql_repositories/graphql_friend_repository.dart';
+import 'package:bimber/resources/graphql_repositories/graphql_group_repository.dart';
 import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:bimber/resources/mocks/mocks.dart';
 import 'package:bimber/models/account_data.dart';
@@ -39,7 +40,8 @@ class App extends StatelessWidget {
             create: (context) => MockChatRepository(),
           ),
           RepositoryProvider<GroupRepository>(
-            create: (context) => MockGroupRepository(),
+            create: (context) =>
+                GraphqlGroupRepository(client: GraphqlClientService.client),
           )
         ],
         child: BlocProvider<AuthenticationBloc>(

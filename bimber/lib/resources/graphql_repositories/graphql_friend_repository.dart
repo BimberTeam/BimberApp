@@ -32,7 +32,7 @@ class GraphqlFriendRepository extends FriendRepository {
   }
 
   @override
-  Future<bool> addFriend(String friendId) async{
+  Future<bool> addFriend(String friendId) async {
     final MutationOptions options = MutationOptions(
         document: mutation.addFriend,
         fetchPolicy: FetchPolicy.networkOnly,
@@ -57,8 +57,6 @@ class GraphqlFriendRepository extends FriendRepository {
         variables: {"userId": userId});
 
     final queryResult = await client.value.mutate(options);
-    print(queryResult.exception);
-    print(queryResult.data);
     checkQueryResultForErrors(queryResult);
 
     Message message = Message.fromJson(queryResult.data['denyFriendRequest']);
@@ -113,6 +111,8 @@ class GraphqlFriendRepository extends FriendRepository {
 
     final queryResult = await client.value.query(options);
     checkQueryResultForErrors(queryResult);
+
+    print(queryResult.data);
 
     return (queryResult.data['me']['friends'] as List)
         .map((json) => User.fromJson(json))
