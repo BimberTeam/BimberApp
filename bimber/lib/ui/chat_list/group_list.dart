@@ -65,16 +65,32 @@ class ChatOverviewState extends State<ChatOverview> {
         }));
   }
 
+  Color pickColor(String groupId) {
+    List<Color> colors = [
+      Colors.pink,
+      Colors.cyan,
+      Colors.greenAccent,
+      Colors.purple,
+      Colors.black12,
+      Colors.white,
+      Colors.deepOrangeAccent,
+      Colors.lightGreen,
+      Colors.brown,
+      Colors.amber
+    ];
+    int hash = groupId.hashCode;
+    return colors[hash % colors.length];
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: (){
-        context.pushNamed("/chat", arguments: widget.chatThumbnail);
-      },
+        onTap: () {
+          context.pushNamed("/chat", arguments: widget.chatThumbnail);
+        },
         contentPadding: EdgeInsets.all(10),
         leading: CircleAvatar(
-          //TODO avatar based on chat.avatarId
-          backgroundColor: Colors.pink,
+          backgroundColor: pickColor(widget.chatThumbnail.groupId),
           radius: 30,
         ),
         title: Text(

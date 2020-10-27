@@ -8,17 +8,16 @@ class ChatInput extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _ChatInputState();
-
 }
 
 class _ChatInputState extends State<ChatInput> {
-  TextEditingController editingController = TextEditingController();
+  TextEditingController inputController = TextEditingController();
   FocusNode focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    editingController.addListener(() {
+    inputController.addListener(() {
       if (mounted) {
         setState(() {});
       }
@@ -27,61 +26,58 @@ class _ChatInputState extends State<ChatInput> {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Theme
-        .of(context)
-        .colorScheme
-        .primaryVariant;
+    Color color = Theme.of(context).colorScheme.primaryVariant;
     return Row(
       children: <Widget>[
         Expanded(
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
-            decoration: BoxDecoration(border: Border.all(color: color),
-              borderRadius: BorderRadius.circular(32.0),),
+            decoration: BoxDecoration(
+              border: Border.all(color: color),
+              borderRadius: BorderRadius.circular(32.0),
+            ),
             margin: EdgeInsets.all(12.0),
             child: Row(
               children: <Widget>[
-                Expanded(child: TextField(
+                Expanded(
+                    child: TextField(
                   style: TextStyle(
-                      color: Theme
-                          .of(context)
-                          .colorScheme
-                          .primaryVariant,
+                      color: Theme.of(context).colorScheme.primaryVariant,
                       fontSize: 15,
                       fontWeight: FontWeight.w900,
                       fontFamily: 'Baloo'),
                   decoration: InputDecoration(
                     hintStyle: TextStyle(
-                        color: Theme
-                            .of(context)
-                            .colorScheme
-                            .primaryVariant,
+                        color: Theme.of(context).colorScheme.primaryVariant,
                         fontSize: 15,
                         fontWeight: FontWeight.w900,
                         fontFamily: 'Baloo'),
-                    border:InputBorder.none,
+                    border: InputBorder.none,
                     hintText: "Wyślij wiadomość...",
                   ),
                   focusNode: focusNode,
                   textInputAction: TextInputAction.send,
-                  controller: editingController,
+                  controller: inputController,
                   onSubmitted: sendMessage,
                 )),
-                IconButton(icon: Icon(Icons.send), onPressed: () {
-                  sendMessage(editingController.text);
-                }, color: color,),
+                IconButton(
+                  icon: Icon(Icons.send),
+                  onPressed: () {
+                    sendMessage(inputController.text);
+                  },
+                  color: color,
+                ),
               ],
             ),
           ),
         ),
-
       ],
     );
   }
 
   void sendMessage(String message) {
     widget.onSubmitted(message);
-    editingController.text = '';
+    inputController.text = '';
     focusNode.unfocus();
   }
 }

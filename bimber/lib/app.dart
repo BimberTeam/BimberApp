@@ -141,7 +141,9 @@ class App extends StatelessWidget {
                     return PageTransition(
                         type: PageTransitionType.fade,
                         duration: Duration(milliseconds: 500),
-                        child: ChatBlocProvider(chatThumbnail: settings.arguments,));
+                        child: ChatBlocProvider(
+                          chatThumbnail: settings.arguments,
+                        ));
                   }
                 default:
                   {

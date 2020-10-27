@@ -8,7 +8,13 @@ class ChatMessageWidget extends StatelessWidget {
   final bool isReceived;
   final bool showUser;
   final bool showDate;
-  const ChatMessageWidget({Key key,@required this.message,this.isReceived, this.showUser, this.showDate}) : super(key: key);
+  const ChatMessageWidget(
+      {Key key,
+      @required this.message,
+      this.isReceived,
+      this.showUser,
+      this.showDate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,67 +22,88 @@ class ChatMessageWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        showDate? _buildDate(context) : Container(),
-        isReceived?_buildReceivedMessage(context):_buildSentMessage(context),
+        showDate ? _buildDate(context) : Container(),
+        isReceived
+            ? _buildReceivedMessage(context)
+            : _buildSentMessage(context),
       ],
     );
   }
 
-  Widget _buildDate(BuildContext context){
+  Widget _buildDate(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      padding:  EdgeInsets.symmetric(vertical: 5.0),
-      child: Text(DateFormat('dd.MM HH:mm').format(message.date), style:  TextStyle(
-          color: Theme
-              .of(context)
-              .colorScheme
-              .primaryVariant,
-          fontSize: 10,
-          fontWeight: FontWeight.w400,
-          fontFamily: 'Baloo'),),
-    );
-  }
-
-  Widget _buildSentMessage(BuildContext context){
-    return Container(
-      alignment: Alignment.centerRight,
-        constraints: BoxConstraints(maxWidth:MediaQuery.of(context).size.width*3/4 ),
-        margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-        padding:  EdgeInsets.all(12),
-        decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondaryVariant,borderRadius: BorderRadius.circular(25.0),),
-        child: Text(message.text, style:  TextStyle(
-            color: Theme
-                .of(context)
-                .colorScheme
-                .primaryVariant,
-            fontSize: 15,
+      padding: EdgeInsets.symmetric(vertical: 5.0),
+      child: Text(
+        DateFormat('dd.MM HH:mm').format(message.date),
+        style: TextStyle(
+            color: Theme.of(context).colorScheme.primaryVariant,
+            fontSize: 10,
             fontWeight: FontWeight.w400,
-            fontFamily: 'Baloo'),),
+            fontFamily: 'Baloo'),
+      ),
     );
   }
 
-  Widget _buildReceivedMessage(BuildContext context){
-    return Container(
-      alignment: Alignment.centerLeft,
-      padding:  EdgeInsets.symmetric(vertical: 6.0,horizontal: 12.0),
-      child: Row(
-        children: <Widget>[
-          showUser?Padding(
-            padding: EdgeInsets.only(right: 8.0),
-            child: CircleAvatar(backgroundImage: NetworkImage(ImageService.getRandomHarnasUrl(message.sender)),radius: 12.0,),
-          ):Container(width: 32.0,height: 24.0,),
-          Container(
-            constraints: BoxConstraints(maxWidth:MediaQuery.of(context).size.width*3/4 ),
-            padding: EdgeInsets.all(12.0),
-            decoration: BoxDecoration(border: Border.all(color: Theme.of(context).colorScheme.primaryVariant),borderRadius: BorderRadius.circular(25.0),),
-            child: Text(message.text,style:  TextStyle(
-                color: Theme
-                    .of(context)
-                    .colorScheme
-                    .primaryVariant,
+  Widget _buildSentMessage(BuildContext context) {
+    return Align(
+        alignment: Alignment.centerRight,
+        child: Container(
+          constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 3 / 4),
+          margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+          padding: EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.secondaryVariant,
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          child: Text(
+            message.text,
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.primaryVariant,
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
-                fontFamily: 'Baloo'),),
+                fontFamily: 'Baloo'),
+          ),
+        ));
+  }
+
+  Widget _buildReceivedMessage(BuildContext context) {
+    return Container(
+      alignment: Alignment.centerLeft,
+      padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+      child: Row(
+        children: <Widget>[
+          showUser
+              ? Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        ImageService.getRandomHarnasUrl(message.sender)),
+                    radius: 12.0,
+                  ),
+                )
+              : Container(
+                  width: 32.0,
+                  height: 24.0,
+                ),
+          Container(
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 3 / 4),
+            padding: EdgeInsets.all(12.0),
+            decoration: BoxDecoration(
+              border: Border.all(
+                  color: Theme.of(context).colorScheme.primaryVariant),
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+            child: Text(
+              message.text,
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.primaryVariant,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'Baloo'),
+            ),
           ),
         ],
       ),

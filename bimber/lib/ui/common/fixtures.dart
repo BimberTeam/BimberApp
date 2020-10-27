@@ -287,9 +287,7 @@ class Fixtures {
     List<ChatThumbnail> chats = List.generate(
         6,
         (index) => ChatThumbnail(
-            id: "aaa",
-            groupId: "aaa",
-            avatarId: null,
+            groupId: "aaa" + index.toString(),
             name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
             lastMessage: ChatMessage(
                 id: "aaa",
@@ -298,9 +296,7 @@ class Fixtures {
                 text: "siema" + index.toString(),
                 sender: "aaa")));
     chats.add(ChatThumbnail(
-        id: "aaa",
-        groupId: "aaa",
-        avatarId: null,
+        groupId: "bdg",
         name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
         lastMessage: null));
     return chats;
@@ -309,12 +305,12 @@ class Fixtures {
   static List<ChatMessage> getChatMessages() {
     List<ChatMessage> chats = List.generate(
         10,
-            (index) => ChatMessage(
+        (index) => ChatMessage(
             id: "aaa",
             groupId: "aaa",
-            text: "siemahasijdfna sakdfnakjf sdkfna asdfjna" + index.toString(),
-            date: DateTime.now().add(Duration(minutes: 70*index)),
-            sender: "id" + index.toString() ));
+            text: "siema" + index.toString(),
+            date: DateTime.now().subtract(Duration(minutes: 70 * index)),
+            sender: "id" + index.toString()));
     chats.sort((a, b) => b.date.compareTo(a.date));
     return chats;
   }

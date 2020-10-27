@@ -17,20 +17,19 @@ class ChatBlocProvider extends StatelessWidget {
           color: Theme.of(context).colorScheme.primaryVariant,
         ),
         elevation: 1.0,
-        title:
-            Padding(
-              padding: EdgeInsets.only(left: 8.00),
-              child: Text(
-                chatThumbnail.name,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.primaryVariant,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w900,
-                    fontFamily: 'Baloo'),
-              ),
-            ),
+        title: Padding(
+          padding: EdgeInsets.only(left: 8.00),
+          child: Text(
+            chatThumbnail.name,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.primaryVariant,
+                fontSize: 15,
+                fontWeight: FontWeight.w900,
+                fontFamily: 'Baloo'),
+          ),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.info),
@@ -38,7 +37,11 @@ class ChatBlocProvider extends StatelessWidget {
           ),
         ],
       ),
-      body: ChatScreen(messages: Fixtures.getChatMessages(), currentUserId: "id3",), //TODO bloc provider, consumer
+      body: ChatScreen(
+        messages: Fixtures.getChatMessages(),
+        currentUserId: "id3",
+        groupId: chatThumbnail.groupId,
+      ), //TODO bloc provider, consumer
     );
   }
 }
