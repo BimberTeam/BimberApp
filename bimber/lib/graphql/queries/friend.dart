@@ -5,7 +5,7 @@ query RequestedFriendsList {
   me {
     __typename
     id
-    requestedFriends {
+    friendRequests {
       __typename
       id
       name

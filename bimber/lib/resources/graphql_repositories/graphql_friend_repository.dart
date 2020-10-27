@@ -32,19 +32,33 @@ class GraphqlFriendRepository extends FriendRepository {
   }
 
   @override
-  Future<bool> addFriend(String friendId) {
-    // TODO: implement addFriend
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> declineInvitation(String friendId) async {
+  Future<bool> addFriend(String friendId) async{
     final MutationOptions options = MutationOptions(
-        document: mutation.denyFriendRequest,
+        document: mutation.addFriend,
         fetchPolicy: FetchPolicy.networkOnly,
         variables: {"friendId": friendId});
 
     final queryResult = await client.value.mutate(options);
+    checkQueryResultForErrors(queryResult);
+
+    Message message = Message.fromJson(queryResult.data['sendFriendRequest']);
+
+    if (message.status == Status.ERROR)
+      throw GraphqlException(message: message.message);
+
+    return true;
+  }
+
+  @override
+  Future<bool> declineInvitation(String userId) async {
+    final MutationOptions options = MutationOptions(
+        document: mutation.denyFriendRequest,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"userId": userId});
+
+    final queryResult = await client.value.mutate(options);
+    print(queryResult.exception);
+    print(queryResult.data);
     checkQueryResultForErrors(queryResult);
 
     Message message = Message.fromJson(queryResult.data['denyFriendRequest']);
@@ -56,9 +70,21 @@ class GraphqlFriendRepository extends FriendRepository {
   }
 
   @override
-  Future<bool> deleteFriend(String friendId) {
-    // TODO: implement deleteFriend
-    throw UnimplementedError();
+  Future<bool> deleteFriend(String friendId) async {
+    final MutationOptions options = MutationOptions(
+        document: mutation.removeFriend,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"friendId": friendId});
+
+    final queryResult = await client.value.mutate(options);
+    checkQueryResultForErrors(queryResult);
+
+    Message message = Message.fromJson(queryResult.data['removeFriend']);
+
+    if (message.status == Status.ERROR)
+      throw GraphqlException(message: message.message);
+
+    return true;
   }
 
   @override
@@ -69,11 +95,10 @@ class GraphqlFriendRepository extends FriendRepository {
         fetchResults: true,
         fetchPolicy:
             fetchCache ? FetchPolicy.cacheFirst : FetchPolicy.networkOnly);
-
     final queryResult = await client.value.query(options);
     checkQueryResultForErrors(queryResult);
 
-    return (queryResult.data['me']['requestedFriends'] as List)
+    return (queryResult.data['me']['friendRequests'] as List)
         .map((json) => User.fromJson(json))
         .toList();
   }

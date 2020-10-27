@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:bimber/models/user.dart';
-import 'package:bimber/resources/repositories/chat_repositry.dart';
+import 'package:bimber/resources/repositories/chat_repository.dart';
 import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:bimber/ui/common/constants.dart';
 import 'package:bloc/bloc.dart';

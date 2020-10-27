@@ -89,7 +89,7 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
     }
   }
 
-  Stream<GroupRequestState> _handleException(Exception exception) async* {
+  Stream<GroupRequestState> _handleException(exception) async* {
     if (exception is TimeoutException)
       yield GroupRequestsError(message: timeoutExceptionMessage);
     else

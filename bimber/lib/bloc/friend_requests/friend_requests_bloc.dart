@@ -40,13 +40,13 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
       yield FriendRequestsLoading(
           requests: await friendRepository.fetchFriendInvitationList(
               fetchCache: true));
-      bool canceledFriend =
-          await friendRepository.declineInvitation(event.friendId);
+      bool canceledFriend = await friendRepository.declineInvitation(event.friendId);
       List<User> requests = await friendRepository.fetchFriendInvitationList();
       yield canceledFriend
           ? FriendRequestsDeclineSuccess(requests: requests)
           : FriendRequestsDeclineError(requests: requests);
     } catch (exception) {
+      print(exception);
       yield* _handleException(exception);
     }
   }
@@ -85,11 +85,12 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
       List<User> requests = await friendRepository.fetchFriendInvitationList();
       yield FriendRequestsFetched(requests: requests);
     } catch (exception) {
+      print(exception);
       yield* _handleException(exception);
     }
   }
 
-  Stream<FriendRequestState> _handleException(Exception exception) async* {
+  Stream<FriendRequestState> _handleException(exception) async* {
     if (exception is TimeoutException)
       yield FriendRequestsError(message: timeoutExceptionMessage);
     else
