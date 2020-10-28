@@ -27,6 +27,11 @@ class _ChatInputState extends State<ChatInput> {
   @override
   Widget build(BuildContext context) {
     Color color = Theme.of(context).colorScheme.primaryVariant;
+    TextStyle textStyle = TextStyle(
+        color: Theme.of(context).colorScheme.primaryVariant,
+        fontSize: 15,
+        fontWeight: FontWeight.w900,
+        fontFamily: 'Baloo');
     return Row(
       children: <Widget>[
         Expanded(
@@ -41,17 +46,9 @@ class _ChatInputState extends State<ChatInput> {
               children: <Widget>[
                 Expanded(
                     child: TextField(
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.primaryVariant,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w900,
-                      fontFamily: 'Baloo'),
+                  style: textStyle,
                   decoration: InputDecoration(
-                    hintStyle: TextStyle(
-                        color: Theme.of(context).colorScheme.primaryVariant,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w900,
-                        fontFamily: 'Baloo'),
+                    hintStyle: textStyle,
                     border: InputBorder.none,
                     hintText: "Wyślij wiadomość...",
                   ),

@@ -66,20 +66,8 @@ class ChatOverviewState extends State<ChatOverview> {
   }
 
   Color pickColor(String groupId) {
-    List<Color> colors = [
-      Colors.pink,
-      Colors.cyan,
-      Colors.greenAccent,
-      Colors.purple,
-      Colors.black12,
-      Colors.white,
-      Colors.deepOrangeAccent,
-      Colors.lightGreen,
-      Colors.brown,
-      Colors.amber
-    ];
-    int hash = groupId.hashCode;
-    return colors[hash % colors.length];
+    int hash = groupId.hashCode % 0xffffffff;
+    return Color(hash).withOpacity(1.0);
   }
 
   @override

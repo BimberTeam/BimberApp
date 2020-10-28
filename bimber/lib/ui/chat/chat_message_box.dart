@@ -1,14 +1,15 @@
 import 'package:bimber/models/chat_message.dart';
 import 'package:bimber/resources/services/image_service.dart';
+import 'package:bimber/ui/common/fixtures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class ChatMessageWidget extends StatelessWidget {
+class ChatMessageBox extends StatelessWidget {
   final ChatMessage message;
   final bool isReceived;
   final bool showUser;
   final bool showDate;
-  const ChatMessageWidget(
+  const ChatMessageBox(
       {Key key,
       @required this.message,
       this.isReceived,
@@ -22,15 +23,13 @@ class ChatMessageWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        showDate ? _buildDate(context) : Container(),
-        isReceived
-            ? _buildReceivedMessage(context)
-            : _buildSentMessage(context),
+        showDate ? _date(context) : Container(),
+        isReceived ? _receivedMessage(context) : _sentMessage(context),
       ],
     );
   }
 
-  Widget _buildDate(BuildContext context) {
+  Widget _date(BuildContext context) {
     return Container(
       alignment: Alignment.center,
       padding: EdgeInsets.symmetric(vertical: 5.0),
@@ -45,7 +44,7 @@ class ChatMessageWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildSentMessage(BuildContext context) {
+  Widget _sentMessage(BuildContext context) {
     return Align(
         alignment: Alignment.centerRight,
         child: Container(
@@ -68,7 +67,7 @@ class ChatMessageWidget extends StatelessWidget {
         ));
   }
 
-  Widget _buildReceivedMessage(BuildContext context) {
+  Widget _receivedMessage(BuildContext context) {
     return Container(
       alignment: Alignment.centerLeft,
       padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
@@ -79,7 +78,7 @@ class ChatMessageWidget extends StatelessWidget {
                   padding: EdgeInsets.only(right: 8.0),
                   child: CircleAvatar(
                     backgroundImage: NetworkImage(
-                        ImageService.getRandomHarnasUrl(message.sender)),
+                        Fixtures.getRandomHarnasUrl(message.sender)),
                     radius: 12.0,
                   ),
                 )

@@ -314,4 +314,12 @@ class Fixtures {
     chats.sort((a, b) => b.date.compareTo(a.date));
     return chats;
   }
+
+  static String getRandomHarnasUrl(String userId) {
+    final harnasUrls = [
+      "https://wygraland.pl/wp-content/uploads/2017/02/harnas-1.jpg",
+    ];
+    int hash = userId.hashCode;
+    return harnasUrls[hash % 1];
+  }
 }
