@@ -18,7 +18,10 @@ class GroupDetailsList extends StatelessWidget {
   _iconText(IconData icon, String text, Color color) {
     return Row(
       children: <Widget>[
-        Icon(icon),
+        Icon(
+          icon,
+          color: color,
+        ),
         Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
