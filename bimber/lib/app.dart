@@ -7,6 +7,7 @@ import 'package:bimber/resources/mocks/mocks.dart';
 import 'package:bimber/models/account_data.dart';
 import 'package:bimber/resources/services/graphql_service.dart';
 import 'package:bimber/ui/account/account_edit_screen.dart';
+import 'package:bimber/ui/chat/chat_screen.dart';
 import 'package:bimber/ui/chat_list/friend_menu.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:bimber/ui/group_create/group_maker_screen.dart';
@@ -139,6 +140,15 @@ class App extends StatelessWidget {
                         duration: Duration(milliseconds: 500),
                         child: GroupMakerScreen());
                   }
+                case "/chat":
+                  {
+                    return PageTransition(
+                        type: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 500),
+                        child: ChatScreen(
+                          chatThumbnail: settings.arguments,
+                        ));
+                  }
                 default:
                   {
                     // this should not happen
@@ -147,7 +157,7 @@ class App extends StatelessWidget {
                   }
               }
             },
-            initialRoute: "/",
+            initialRoute: "/home",
           ),
         ));
   }

@@ -20,7 +20,7 @@ final colorScheme = ColorScheme(
     onSurface: orangeYellowCrayola,
     onBackground: sandyBrown,
     onError: Colors.white,
-    brightness: Brightness.light);
+    brightness: Brightness.dark);
 
 final textTheme = TextTheme(
   headline1:
@@ -56,7 +56,7 @@ final buttonTheme = ButtonTheme(textTheme: ButtonTextTheme.normal);
 final themeData = ThemeData(
     textTheme: textTheme,
     colorScheme: colorScheme,
-    brightness: Brightness.light,
+    brightness: Brightness.dark,
     visualDensity: VisualDensity.standard,
     primaryColor: indigoDye,
     primaryColorBrightness: Brightness.dark,

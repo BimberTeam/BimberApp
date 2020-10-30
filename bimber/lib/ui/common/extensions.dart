@@ -10,7 +10,7 @@ extension ChatThumbnailExtension on ChatThumbnail {
   Future<bool> checkIfRead() async {
     if (lastMessage == null) return true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String value = prefs.getString(this.id);
+    String value = prefs.getString(this.groupId);
     if (value != null) {
       DateTime lastRead = DateTime.parse(value);
       if (lastRead.isAfter(this.lastMessage.date)) return true;
@@ -20,7 +20,7 @@ extension ChatThumbnailExtension on ChatThumbnail {
 
   markAsRead() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(this.id, DateTime.now().toIso8601String());
+    prefs.setString(this.groupId, DateTime.now().toIso8601String());
   }
 }
 

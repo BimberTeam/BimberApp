@@ -2,6 +2,7 @@ import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:bimber/ui/common/extensions.dart';
+import 'package:build_context/build_context.dart';
 
 class GroupChatList extends StatelessWidget {
   final List<ChatThumbnail> chatThumbnails;
@@ -86,13 +87,20 @@ class ChatOverviewState extends State<ChatOverview> {
         }));
   }
 
+  Color pickColor(String groupId) {
+    int hash = groupId.hashCode % 0xffffffff;
+    return Color(hash).withOpacity(1.0);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
+        onTap: () {
+          context.pushNamed("/chat", arguments: widget.chatThumbnail);
+        },
         contentPadding: EdgeInsets.all(10),
         leading: CircleAvatar(
-          //TODO avatar based on chat.avatarId
-          backgroundColor: Colors.pink,
+          backgroundColor: pickColor(widget.chatThumbnail.groupId),
           radius: 30,
         ),
         title: Text(

@@ -242,9 +242,7 @@ class Fixtures {
     List<ChatThumbnail> chats = List.generate(
         6,
         (index) => ChatThumbnail(
-            id: "aaa",
-            groupId: "aaa",
-            avatarId: null,
+            groupId: "aaa" + index.toString(),
             name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
             lastMessage: ChatMessage(
                 id: "aaa",
@@ -253,11 +251,30 @@ class Fixtures {
                 text: "siema" + index.toString(),
                 sender: "aaa")));
     chats.add(ChatThumbnail(
-        id: "aaa",
-        groupId: "aaa",
-        avatarId: null,
+        groupId: "bdg",
         name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
         lastMessage: null));
     return chats;
+  }
+
+  static List<ChatMessage> getChatMessages() {
+    List<ChatMessage> chats = List.generate(
+        10,
+        (index) => ChatMessage(
+            id: "aaa",
+            groupId: "aaa",
+            text: "siema" + index.toString(),
+            date: DateTime.now().subtract(Duration(minutes: 70 * index)),
+            sender: "id" + index.toString()));
+    chats.sort((a, b) => b.date.compareTo(a.date));
+    return chats;
+  }
+
+  static String getRandomHarnasUrl(String userId) {
+    final harnasUrls = [
+      "https://wygraland.pl/wp-content/uploads/2017/02/harnas-1.jpg",
+    ];
+    int hash = userId.hashCode;
+    return harnasUrls[hash % 1];
   }
 }
