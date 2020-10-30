@@ -9,6 +9,7 @@ import 'package:meta/meta.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:bimber/graphql/queries.dart' as query;
 import 'package:bimber/graphql/mutations.dart' as mutation;
+import 'package:bimber/ui/common/extensions.dart';
 
 class GraphqlAccountRepository extends AccountRepository {
   final ValueNotifier<GraphQLClient> client;
@@ -58,7 +59,9 @@ class GraphqlAccountRepository extends AccountRepository {
     final MutationOptions options = MutationOptions(
         document: mutation.login,
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: {"email": email, "password": password});
+        variables: {"input": {
+          "email": email,
+          "password": password}});
 
     final queryResult = await client.value.mutate(options);
 
@@ -87,7 +90,7 @@ class GraphqlAccountRepository extends AccountRepository {
     final MutationOptions options = MutationOptions(
         document: mutation.register,
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: data.toJson());
+        variables: {"input": data.toJsonForRegister()});
 
     final queryResult = await client.value.mutate(options);
     checkQueryResultForErrors(queryResult);
@@ -100,9 +103,11 @@ class GraphqlAccountRepository extends AccountRepository {
     final MutationOptions options = MutationOptions(
         document: mutation.editAccount,
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: data.toJson());
+        variables: {"input": data.toJsonForEdit()});
 
     final queryResult = await client.value.mutate(options);
+    print(queryResult.data);
+    print(queryResult.exception);
     checkQueryResultForErrors(queryResult);
 
     return;

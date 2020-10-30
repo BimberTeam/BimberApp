@@ -1,8 +1,8 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 final acceptFriendRequest = gql(r'''
-mutation AcceptFriendRequest($friendId: ID!){
-    acceptFriendRequest(friendId: $friendId) {
+mutation AcceptFriendRequest($input: FriendInput!){
+    acceptFriendRequest(input: $input) {
       message
       status
     }
@@ -10,8 +10,8 @@ mutation AcceptFriendRequest($friendId: ID!){
 ''');
 
 final denyFriendRequest = gql(r'''
-mutation DenyFriendRequest($userId: ID!){
-    denyFriendRequest(userId: $userId) {
+mutation DenyFriendRequest($input: FriendInput!){
+    denyFriendRequest(input: $input) {
       message
       status
     }
@@ -19,8 +19,8 @@ mutation DenyFriendRequest($userId: ID!){
 ''');
 
 final removeFriend = gql(r'''
-mutation RemoveFriend($friendId: ID!){
-    removeFriend(friendId: $friendId) {
+mutation RemoveFriend($input: FriendInput!){
+    removeFriend(ifd: $input) {
       message
       status
     }
@@ -28,8 +28,8 @@ mutation RemoveFriend($friendId: ID!){
 ''');
 
 final addFriend = gql(r'''
-mutation SendFriendRequest($friendId: ID!){
-    sendFriendRequest(friendId: $friendId) {
+mutation SendFriendRequest($input: FriendInput!){
+    sendFriendRequest(input: $input) {
       message
       status
     }
