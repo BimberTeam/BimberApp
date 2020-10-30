@@ -18,9 +18,9 @@ class GraphqlFriendRepository extends FriendRepository {
     final MutationOptions options = MutationOptions(
         document: mutation.acceptFriendRequest,
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: {"input": {
-          "id": friendId
-        }});
+        variables: {
+          "input": {"id": friendId}
+        });
 
     final queryResult = await client.value.mutate(options);
     checkQueryResultForErrors(queryResult);
@@ -38,9 +38,9 @@ class GraphqlFriendRepository extends FriendRepository {
     final MutationOptions options = MutationOptions(
         document: mutation.addFriend,
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: {"input": {
-          "id": friendId
-        }});
+        variables: {
+          "input": {"id": friendId}
+        });
 
     final queryResult = await client.value.mutate(options);
     checkQueryResultForErrors(queryResult);
@@ -58,9 +58,9 @@ class GraphqlFriendRepository extends FriendRepository {
     final MutationOptions options = MutationOptions(
         document: mutation.denyFriendRequest,
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: {"input": {
-          "id": userId
-        }});
+        variables: {
+          "input": {"id": userId}
+        });
 
     final queryResult = await client.value.mutate(options);
     checkQueryResultForErrors(queryResult);
@@ -78,9 +78,9 @@ class GraphqlFriendRepository extends FriendRepository {
     final MutationOptions options = MutationOptions(
         document: mutation.removeFriend,
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: {"input": {
-          "id": friendId
-        }});
+        variables: {
+          "input": {"id": friendId}
+        });
 
     final queryResult = await client.value.mutate(options);
     checkQueryResultForErrors(queryResult);

@@ -24,7 +24,7 @@ extension ChatThumbnailExtension on ChatThumbnail {
   }
 }
 
-extension RegisterAccountDataExtension on RegisterAccountData{
+extension RegisterAccountDataExtension on RegisterAccountData {
   Map<String, dynamic> toJsonForRegister() {
     return {
       "name": name,
@@ -43,7 +43,7 @@ extension RegisterAccountDataExtension on RegisterAccountData{
   }
 }
 
-extension EditAccountDataExtension on EditAccountData{
+extension EditAccountDataExtension on EditAccountData {
   Map<String, dynamic> toJsonForEdit() {
     return {
       "name": name,
@@ -57,5 +57,4 @@ extension EditAccountDataExtension on EditAccountData{
       "agePreferenceTo": agePreferenceTo
     };
   }
-
 }

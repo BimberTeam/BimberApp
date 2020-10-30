@@ -59,9 +59,9 @@ class GraphqlAccountRepository extends AccountRepository {
     final MutationOptions options = MutationOptions(
         document: mutation.login,
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: {"input": {
-          "email": email,
-          "password": password}});
+        variables: {
+          "input": {"email": email, "password": password}
+        });
 
     final queryResult = await client.value.mutate(options);
 
