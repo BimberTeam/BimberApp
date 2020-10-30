@@ -1,4 +1,5 @@
 import 'package:bimber/models/chat_thumbnail.dart';
+import 'package:bimber/ui/common/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:bimber/ui/common/extensions.dart';
@@ -64,12 +65,7 @@ class ChatOverviewState extends State<ChatOverview> {
           read = value;
         }));
   }
-
-  Color pickColor(String groupId) {
-    int hash = groupId.hashCode % 0xffffffff;
-    return Color(hash).withOpacity(1.0);
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -78,7 +74,7 @@ class ChatOverviewState extends State<ChatOverview> {
         },
         contentPadding: EdgeInsets.all(10),
         leading: CircleAvatar(
-          backgroundColor: pickColor(widget.chatThumbnail.groupId),
+          backgroundColor: colorFromGroupId(widget.chatThumbnail.groupId),
           radius: 30,
         ),
         title: Text(

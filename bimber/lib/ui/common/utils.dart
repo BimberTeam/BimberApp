@@ -55,3 +55,8 @@ void calculateCurrentDistanceFrom(
     onGetDistance(distanceInMeters);
   } catch (e) {}
 }
+
+Color colorFromGroupId(String groupId) {
+  int hash = groupId.hashCode % 0xffffffff;
+  return Color(hash).withOpacity(1.0);
+}

@@ -44,7 +44,7 @@ class Fixtures {
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
               imageUrl:
-                  "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.png",
+                  "https://baxu.pl/storage/posts/August2019/jvSRI1Qh0NWCsia6ORs0.jpg",
               location: Location(latitude: 50.44, longtitude: 56.78),
               friends: null),
           User(
@@ -78,7 +78,7 @@ class Fixtures {
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
               imageUrl:
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
+                  "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
               location: Location(latitude: 50.44, longtitude: 56.78),
               friends: null),
           User(
@@ -95,7 +95,7 @@ class Fixtures {
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
               imageUrl:
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
+                  "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
               location: Location(latitude: 50.44, longtitude: 56.78),
               friends: null),
           User(
@@ -112,7 +112,7 @@ class Fixtures {
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
               imageUrl:
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
+                  "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
               location: Location(latitude: 50.44, longtitude: 56.78),
               friends: null),
           User(
@@ -129,7 +129,7 @@ class Fixtures {
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
               imageUrl:
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
+                  "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
               location: Location(latitude: 50.44, longtitude: 56.78),
               friends: null),
         ]);
@@ -188,7 +188,7 @@ class Fixtures {
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
           imageUrl:
-              "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.png",
+              "https://baxu.pl/storage/posts/August2019/jvSRI1Qh0NWCsia6ORs0.jpg",
           location: Location(latitude: 50.44, longtitude: 56.78),
           friends: null),
       User(
@@ -222,7 +222,7 @@ class Fixtures {
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
           imageUrl:
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
+              "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
           location: Location(latitude: 50.44, longtitude: 56.78),
           friends: null),
       User(
@@ -239,7 +239,7 @@ class Fixtures {
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
           imageUrl:
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
+              "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
           location: Location(latitude: 50.44, longtitude: 56.78),
           friends: null),
       User(
@@ -256,7 +256,7 @@ class Fixtures {
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
           imageUrl:
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
+              "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
           location: Location(latitude: 50.44, longtitude: 56.78),
           friends: null),
       User(
@@ -273,7 +273,7 @@ class Fixtures {
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
           imageUrl:
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
+              "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
           location: Location(latitude: 50.44, longtitude: 56.78),
           friends: null)
     ];
@@ -318,6 +318,8 @@ class Fixtures {
   static String getRandomHarnasUrl(String userId) {
     final harnasUrls = [
       "https://wygraland.pl/wp-content/uploads/2017/02/harnas-1.jpg",
+      "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
+      "https://baxu.pl/storage/posts/August2019/jvSRI1Qh0NWCsia6ORs0.jpg"
     ];
     int hash = userId.hashCode;
     return harnasUrls[hash % 1];
