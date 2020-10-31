@@ -7,4 +7,5 @@ abstract class FriendRepository {
   Future<List<User>> fetchFriendInvitationList();
   Future<bool> acceptInvitation(String friendId);
   Future<bool> cancelInvitation(String friendId);
+  Future<List<String>> checkIfCanBeAddedToFriend(List<String> users);
 }
