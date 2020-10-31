@@ -44,7 +44,15 @@ class FriendRequestBlocWidget extends StatelessWidget {
                       strokeWidth: 3.0)),
             );
           } else if (state is FriendRequestsError) {
-            return Container(); //TODO error message
+            return Container(
+                alignment: Alignment.center,
+                child: Text(state.message,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondaryVariant,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: 'Baloo')));
           } else {
             return InvitationsList<User>(
               list: (state as FriendRequestResources).getFriendRequests(),

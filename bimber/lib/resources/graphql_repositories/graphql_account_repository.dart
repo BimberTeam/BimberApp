@@ -102,6 +102,8 @@ class GraphqlAccountRepository extends AccountRepository {
         variables: data.toJson());
 
     final queryResult = await client.value.mutate(options);
+    print(queryResult.data);
+    print(queryResult.exception);
     checkQueryResultForErrors(queryResult);
 
     return;

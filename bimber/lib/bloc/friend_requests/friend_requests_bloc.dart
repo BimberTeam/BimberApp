@@ -12,7 +12,6 @@ part 'friend_requests_state.dart';
 
 class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
   final FriendRepository friendRepository;
-  List<User> _cachedRequests;
 
   FriendRequestBloc({@required this.friendRepository})
       : super(FriendRequestsInitial());
@@ -22,66 +21,79 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
     FriendRequestEvent event,
   ) async* {
     if (event is InitFriendRequests) {
-      yield* _fetchFriendsRequests();
+      yield* _initFriendsRequests();
     }
     if (event is RefetchFriendRequests) {
-      yield* _mapRefreshFriendRequestsToState(event);
+      yield* _refetchFriendRequests();
     }
     if (event is DeclineFriendRequest) {
-      yield* _mapToState(() async* {
-        bool canceledFriend =
-            await friendRepository.cancelInvitation(event.friendId);
-        List<User> requests =
-            await friendRepository.fetchFriendInvitationList();
-        _cachedRequests = requests;
-        yield canceledFriend
-            ? FriendRequestsDeclineSuccess(requests: requests)
-            : FriendRequestsDeclineError(requests: requests);
-      });
+      yield* _mapDeclineFriendRequestToState(event);
     }
     if (event is AcceptFriendRequest) {
-      yield* _mapToState(() async* {
-        bool acceptedFriend =
-            await friendRepository.acceptInvitation(event.friendId);
-        List<User> requests =
-            await friendRepository.fetchFriendInvitationList();
-        _cachedRequests = requests;
-        yield acceptedFriend
-            ? FriendRequestsAcceptSuccess(requests: requests)
-            : FriendRequestsAcceptError(requests: requests);
-      });
+      yield* _acceptFriendRequests(event);
     }
   }
 
-  Stream<FriendRequestState> _mapRefreshFriendRequestsToState(
-      RefetchFriendRequests event) async* {
-    yield FriendRequestsLoading(requests: _cachedRequests);
-    yield* _fetchFriendsRequests();
-  }
-
-  Stream<FriendRequestState> _mapToState(
-      Stream<FriendRequestState> Function() yieldCode) async* {
-    yield FriendRequestsLoading(requests: _cachedRequests);
+  Stream<FriendRequestState> _mapDeclineFriendRequestToState(
+      DeclineFriendRequest event) async* {
     try {
-      yield* yieldCode();
-    } catch (exception) {
-      if (exception is TimeoutException)
-        yield FriendRequestsError(message: timeoutExceptionMessage);
-      else
-        yield FriendRequestsError(message: defaultErrorMessage);
-    }
-  }
-
-  Stream<FriendRequestState> _fetchFriendsRequests() async* {
-    try {
+      yield FriendRequestsLoading(
+          requests: await friendRepository.fetchFriendInvitationList(
+              fetchCache: true));
+      bool canceledFriend =
+          await friendRepository.declineInvitation(event.friendId);
       List<User> requests = await friendRepository.fetchFriendInvitationList();
-      _cachedRequests = requests;
+      yield canceledFriend
+          ? FriendRequestsDeclineSuccess(requests: requests)
+          : FriendRequestsDeclineError(requests: requests);
+    } catch (exception) {
+      yield* _handleException(exception);
+    }
+  }
+
+  Stream<FriendRequestState> _acceptFriendRequests(
+      AcceptFriendRequest event) async* {
+    try {
+      yield FriendRequestsLoading(
+          requests: await friendRepository.fetchFriendInvitationList(
+              fetchCache: true));
+      bool acceptedFriend =
+          await friendRepository.acceptInvitation(event.friendId);
+      List<User> requests = await friendRepository.fetchFriendInvitationList();
+      yield acceptedFriend
+          ? FriendRequestsAcceptSuccess(requests: requests)
+          : FriendRequestsAcceptError(requests: requests);
+    } catch (exception) {
+      yield* _handleException(exception);
+    }
+  }
+
+  Stream<FriendRequestState> _refetchFriendRequests() async* {
+    try {
+      yield FriendRequestsLoading(
+          requests: await friendRepository.fetchFriendInvitationList(
+              fetchCache: true));
+      List<User> requests = await friendRepository.fetchFriendInvitationList();
       yield FriendRequestsFetched(requests: requests);
     } catch (exception) {
-      if (exception is TimeoutException)
-        yield FriendRequestsError(message: timeoutExceptionMessage);
-      else
-        yield FriendRequestsError(message: defaultErrorMessage);
+      yield* _handleException(exception);
     }
+  }
+
+  Stream<FriendRequestState> _initFriendsRequests() async* {
+    try {
+      List<User> requests = await friendRepository.fetchFriendInvitationList();
+      yield FriendRequestsFetched(requests: requests);
+    } catch (exception) {
+      print(exception);
+      yield* _handleException(exception);
+    }
+  }
+
+  Stream<FriendRequestState> _handleException(exception) async* {
+    if (exception is TimeoutException)
+      yield FriendRequestsError(message: timeoutExceptionMessage);
+    else
+      yield FriendRequestsError(message: defaultErrorMessage);
   }
 }

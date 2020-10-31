@@ -25,6 +25,17 @@ class ImageService {
     return prefix + userId;
   }
 
+  static String getRandomHarnasUrl(String userId) {
+    final harnasUrls = [
+      "https://wygraland.pl/wp-content/uploads/2017/02/harnas-1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.png",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
+      "https://wygraland.pl/wp-content/uploads/2017/02/harnas-1.jpg"
+    ];
+    int hash = userId.hashCode;
+    return harnasUrls[hash % 4];
+  }
+
   static String _getExtension(String filename) {
     var index = filename.lastIndexOf('.');
     return filename.substring(index);

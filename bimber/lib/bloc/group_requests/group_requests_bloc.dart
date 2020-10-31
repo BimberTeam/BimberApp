@@ -12,7 +12,6 @@ part 'group_requests_event.dart';
 
 class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
   final GroupRepository groupRepository;
-  List<Group> _cachedRequests;
 
   GroupRequestsBloc({@required this.groupRepository})
       : super(GroupRequestsInitial());
@@ -22,64 +21,79 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
     GroupRequestsEvent event,
   ) async* {
     if (event is InitGroupRequests) {
-      yield* _fetchFriendsRequests();
+      yield* _initFriendsRequests();
     }
     if (event is RefetchGroupRequests) {
       yield* _mapRefreshGroupRequestsToState(event);
     }
     if (event is DeclineGroupRequest) {
-      yield* _mapToState(() async* {
-        bool canceledGroup =
-            await groupRepository.cancelGroupInvitation(event.groupId);
-        List<Group> requests = await groupRepository.fetchGroupInvitationList();
-        _cachedRequests = requests;
-        yield canceledGroup
-            ? GroupRequestDeclineSuccess(requests: requests)
-            : GroupRequestDeclineError(requests: requests);
-      });
+      yield* _mapDeclineGroupRequestToState(event);
     }
     if (event is AcceptGroupRequest) {
-      yield* _mapToState(() async* {
-        bool acceptedGroup =
-            await groupRepository.acceptGroupInvitation(event.groupId);
-        List<Group> requests = await groupRepository.fetchGroupInvitationList();
-        _cachedRequests = requests;
-        yield acceptedGroup
-            ? GroupRequestAcceptSuccess(requests: requests)
-            : GroupRequestAcceptError(requests: requests);
-      });
+      yield* _mapAcceptGroupRequestToState(event);
     }
   }
 
   Stream<GroupRequestState> _mapRefreshGroupRequestsToState(
       RefetchGroupRequests event) async* {
-    yield GroupRequestsLoading(requests: _cachedRequests);
-    yield* _fetchFriendsRequests();
-  }
-
-  Stream<GroupRequestState> _mapToState(
-      Stream<GroupRequestState> Function() yieldCode) async* {
-    yield GroupRequestsLoading(requests: _cachedRequests);
     try {
-      yield* yieldCode();
-    } catch (exception) {
-      if (exception is TimeoutException)
-        yield GroupRequestsError(message: timeoutExceptionMessage);
-      else
-        yield GroupRequestsError(message: defaultErrorMessage);
-    }
-  }
-
-  Stream<GroupRequestState> _fetchFriendsRequests() async* {
-    try {
+      yield GroupRequestsLoading(
+          requests:
+              await groupRepository.fetchGroupInvitationList(fetchCache: true));
       List<Group> requests = await groupRepository.fetchGroupInvitationList();
-      _cachedRequests = requests;
       yield GroupRequestsFetched(requests: requests);
     } catch (exception) {
-      if (exception is TimeoutException)
-        yield GroupRequestsError(message: timeoutExceptionMessage);
-      else
-        yield GroupRequestsError(message: defaultErrorMessage);
+      yield* _handleException(exception);
     }
+  }
+
+  Stream<GroupRequestState> _mapDeclineGroupRequestToState(
+      DeclineGroupRequest event) async* {
+    try {
+      yield GroupRequestsLoading(
+          requests:
+              await groupRepository.fetchGroupInvitationList(fetchCache: true));
+      bool canceledGroup =
+          await groupRepository.cancelGroupInvitation(event.groupId);
+      List<Group> requests = await groupRepository.fetchGroupInvitationList();
+      yield canceledGroup
+          ? GroupRequestDeclineSuccess(requests: requests)
+          : GroupRequestDeclineError(requests: requests);
+    } catch (exception) {
+      yield* _handleException(exception);
+    }
+  }
+
+  Stream<GroupRequestState> _mapAcceptGroupRequestToState(
+      AcceptGroupRequest event) async* {
+    try {
+      yield GroupRequestsLoading(
+          requests:
+              await groupRepository.fetchGroupInvitationList(fetchCache: true));
+      bool acceptedGroup =
+          await groupRepository.acceptGroupInvitation(event.groupId);
+      List<Group> requests = await groupRepository.fetchGroupInvitationList();
+      yield acceptedGroup
+          ? GroupRequestAcceptSuccess(requests: requests)
+          : GroupRequestAcceptError(requests: requests);
+    } catch (exception) {
+      yield* _handleException(exception);
+    }
+  }
+
+  Stream<GroupRequestState> _initFriendsRequests() async* {
+    try {
+      List<Group> requests = await groupRepository.fetchGroupInvitationList();
+      yield GroupRequestsFetched(requests: requests);
+    } catch (exception) {
+      yield* _handleException(exception);
+    }
+  }
+
+  Stream<GroupRequestState> _handleException(exception) async* {
+    if (exception is TimeoutException)
+      yield GroupRequestsError(message: timeoutExceptionMessage);
+    else
+      yield GroupRequestsError(message: defaultErrorMessage);
   }
 }

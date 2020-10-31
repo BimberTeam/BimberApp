@@ -102,7 +102,7 @@ class GroupMakerScreen extends StatelessWidget {
                     padding: EdgeInsets.only(top: 20),
                     child: ThemedPrimaryButton(
                       label: "Stwórz",
-                      onPressed: () {},
+                      onPressed: null,
                     ),
                   ),
                 )

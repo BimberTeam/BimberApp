@@ -23,7 +23,8 @@ class _UserDetailsState extends State<UserDetails> {
   @override
   void initState() {
     super.initState();
-    calculateCurrentDistanceFrom(widget.user.location, (distanceInMeters) {
+    calculateCurrentDistanceFrom(widget.user.latestLocation,
+        (distanceInMeters) {
       setState(() {
         _distance = distanceInMeters ~/ 1000;
       });

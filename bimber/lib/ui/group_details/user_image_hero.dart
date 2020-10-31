@@ -1,4 +1,5 @@
 import 'package:bimber/models/user.dart';
+import 'package:bimber/resources/services/image_service.dart';
 import 'package:bimber/ui/common/cache_image.dart';
 import 'package:bimber/ui/common/theme.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +97,7 @@ class _UserImageHolder extends StatelessWidget {
               child: InkWell(
                   onTap: onTap,
                   child: CustomCachedImage(
-                    imageUrl: user.imageUrl,
+                    imageUrl: ImageService.getRandomHarnasUrl(user.id),
                   )))),
     );
   }

@@ -6,6 +6,7 @@ import 'package:bimber/resources/repositories/chat_repositry.dart';
 import 'package:bimber/graphql/queries.dart' as query;
 import 'package:bimber/graphql/mutations.dart' as mutation;
 import 'package:bimber/graphql/subscriptions.dart' as subscription;
+import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:meta/meta.dart';
@@ -35,7 +36,7 @@ class GraphlqlChatRepository extends ChatRepository {
   }
 
   @override
-  Future<List<ChatThumbnail>> fetchChatThumbnails() async {
+  Future<List<ChatThumbnail>> fetchChatThumbnails({bool fetchCache}) async {
     return [
       ChatThumbnail(groupId: "test_group", name: "hello", lastMessage: null)
     ];

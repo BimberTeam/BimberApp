@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
 
 class GroupDetailsList extends StatelessWidget {
-  final int age;
+  final double age;
   final int distance;
   final List<User> members;
 
@@ -101,8 +101,8 @@ class GroupDetailsList extends StatelessWidget {
                 children: <Widget>[
                   _iconText(
                       Icons.group, "Liczba osób: ${members.length}", textColor),
-                  _iconText(
-                      Icons.calendar_today, "Średni wiek: $age", textColor),
+                  _iconText(Icons.calendar_today, "Średni wiek: ${age.round()}",
+                      textColor),
                   distance >= 0
                       ? _iconText(Icons.location_on, "$distance km", textColor)
                       : Container(),

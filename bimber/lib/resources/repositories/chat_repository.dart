@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 import 'package:meta/meta.dart';
 
 abstract class ChatRepository {
-  Future<List<ChatThumbnail>> fetchChatThumbnails();
+  Future<List<ChatThumbnail>> fetchChatThumbnails({bool fetchCache = false});
 
   Future<List<ChatMessage>> fetchChatMessages(
       {@required String groupId, int limit, DateTime lastDate});

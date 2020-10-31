@@ -14,12 +14,14 @@ class MockGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<List<Group>> fetchGroupInvitationList() {
+  Future<List<Group>> fetchGroupInvitationList({fetchCache = false}) {
+    if (fetchCache) return Future.value(Fixtures.getGroups());
     return Future.delayed(Duration(seconds: 1), () => Fixtures.getGroups());
   }
 
   @override
-  Future<List<Group>> fetchGroupList() {
+  Future<List<Group>> fetchGroupList({fetchCache = false}) {
+    if (fetchCache) return Future.value(Fixtures.getGroups());
     return Future.delayed(Duration(seconds: 1), () => Fixtures.getGroups());
   }
 

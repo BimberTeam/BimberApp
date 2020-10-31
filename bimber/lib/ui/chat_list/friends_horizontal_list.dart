@@ -115,12 +115,25 @@ class FriendsHorizontalList extends StatelessWidget {
           Container(
               padding: EdgeInsets.only(left: 4.0),
               height: 90,
-              child: ListView(
-                  physics: BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  children: friends
-                      .map((user) => _memberAvatar(context, user))
-                      .toList()))
+              child: friends.isNotEmpty
+                  ? ListView(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      children: friends
+                          .map((user) => _memberAvatar(context, user))
+                          .toList())
+                  : Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Brak znajomych",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: 'Baloo'),
+                        textAlign: TextAlign.center,
+                      ),
+                    ))
         ],
       ),
     );

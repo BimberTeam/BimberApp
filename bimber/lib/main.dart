@@ -19,7 +19,10 @@ Future<void> preloadFlare() async {
 }
 
 String typenameDataIdFromObject(Object object) {
-  // We do not support apollo caching yet due to neo4j lacking __typename__ field
+  if (object is Map<String, Object> &&
+      object.containsKey('__typename') &&
+      object.containsKey('id'))
+    return "${object['__typename']}/${object['id']}";
   return null;
 }
 

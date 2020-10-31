@@ -49,7 +49,15 @@ class ChatListScreen extends StatelessWidget {
                           strokeWidth: 3.0)),
                 );
               } else if (state is ChatListError) {
-                return Container(); //TODO error message
+                return Container(
+                    alignment: Alignment.center,
+                    child: Text(state.message,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primaryVariant,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: 'Baloo')));
               } else {
                 return ChatListView(
                   friends: (state as ChatListResources).getFriends(),

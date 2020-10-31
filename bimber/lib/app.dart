@@ -1,8 +1,9 @@
 import 'package:bimber/bloc/auth/authentication_bloc.dart';
 import 'package:bimber/resources/graphql_repositories/graphql_account_repository.dart';
 import 'package:bimber/resources/graphql_repositories/graphql_chat_repository.dart';
+import 'package:bimber/resources/graphql_repositories/graphql_friend_repository.dart';
+import 'package:bimber/resources/graphql_repositories/graphql_group_repository.dart';
 import 'package:bimber/resources/repositories/repositories.dart';
-import 'package:bimber/resources/mocks/mocks.dart';
 import 'package:bimber/models/account_data.dart';
 import 'package:bimber/resources/services/graphql_service.dart';
 import 'package:bimber/ui/account/account_edit_screen.dart';
@@ -33,14 +34,16 @@ class App extends StatelessWidget {
                 GraphqlAccountRepository(client: GraphqlClientService.client),
           ),
           RepositoryProvider<FriendRepository>(
-            create: (context) => MockFriendRepository(),
+            create: (context) =>
+                GraphqlFriendRepository(client: GraphqlClientService.client),
           ),
           RepositoryProvider<ChatRepository>(
             create: (context) =>
                 GraphlqlChatRepository(client: GraphqlClientService.client),
           ),
           RepositoryProvider<GroupRepository>(
-            create: (context) => MockGroupRepository(),
+            create: (context) =>
+                GraphqlGroupRepository(client: GraphqlClientService.client),
           )
         ],
         child: BlocProvider<AuthenticationBloc>(
