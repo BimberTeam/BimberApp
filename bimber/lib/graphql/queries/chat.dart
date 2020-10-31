@@ -12,3 +12,18 @@ query LoadChatMessages($groupId: ID!, $limit: Int, $lastDate: BimberDate) {
   }
 }
 """);
+
+final chatThumbnails = gql(r"""
+query ChatThumbnails {
+  chatThumbnails {
+    groupId
+    name
+    lastMessage {
+      userId
+      groupId
+      date
+      message
+    }
+  }
+}
+""");
