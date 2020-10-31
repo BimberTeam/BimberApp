@@ -17,3 +17,28 @@ mutation RejectGroupInvitation($input: RejectGroupInvitationInput!){
     }
 }
 ''');
+
+
+final createGroup = gql(r'''
+mutation CreateGroup($usersId: [ID!]!){
+    createGroup(input: {
+    usersId: $usersId
+    }) {
+      message
+      status
+    }
+}
+''');
+
+
+final addToGroup = gql(r'''
+mutation AddFriendToGroup($groupId: ID!, $friendId: ID!){
+    addFriendToGroup(input: {
+    friendId: $friendId,
+    groupId: $groupId
+    }) {
+      message
+      status
+    }
+}
+''');
