@@ -22,7 +22,8 @@ class GraphqlFriendRepository extends FriendRepository {
           "input": {"id": friendId}
         });
 
-    final queryResult = await client.value.mutate(options);
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
     Message message = Message.fromJson(queryResult.data['acceptFriendRequest']);
@@ -42,7 +43,8 @@ class GraphqlFriendRepository extends FriendRepository {
           "input": {"id": friendId}
         });
 
-    final queryResult = await client.value.mutate(options);
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
     Message message = Message.fromJson(queryResult.data['sendFriendRequest']);
@@ -62,7 +64,8 @@ class GraphqlFriendRepository extends FriendRepository {
           "input": {"id": userId}
         });
 
-    final queryResult = await client.value.mutate(options);
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
     Message message = Message.fromJson(queryResult.data['denyFriendRequest']);
@@ -82,7 +85,8 @@ class GraphqlFriendRepository extends FriendRepository {
           "input": {"id": friendId}
         });
 
-    final queryResult = await client.value.mutate(options);
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
     Message message = Message.fromJson(queryResult.data['removeFriend']);
@@ -101,7 +105,8 @@ class GraphqlFriendRepository extends FriendRepository {
         fetchResults: true,
         fetchPolicy:
             fetchCache ? FetchPolicy.cacheFirst : FetchPolicy.networkOnly);
-    final queryResult = await client.value.query(options);
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
     return (queryResult.data['me']['friendRequests'] as List)
@@ -117,10 +122,9 @@ class GraphqlFriendRepository extends FriendRepository {
         fetchPolicy:
             fetchCache ? FetchPolicy.cacheFirst : FetchPolicy.networkOnly);
 
-    final queryResult = await client.value.query(options);
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
-
-    print(queryResult.data);
 
     return (queryResult.data['me']['friends'] as List)
         .map((json) => User.fromJson(json))

@@ -39,8 +39,8 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
     try {
       yield ChatListLoading(
           friends: await friendRepository.fetchFriendsList(fetchCache: true),
-          chatThumbnails:
-              await chatRepository.fetchChatThumbnails(fetchCache: true));
+          chatThumbnails: sortChatThumbnails(
+              await chatRepository.fetchChatThumbnails(fetchCache: true)));
       List<User> friends = await friendRepository.fetchFriendsList();
       List<ChatThumbnail> chats = await chatRepository.fetchChatThumbnails();
       sortChatThumbnails(chats);
@@ -51,11 +51,11 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
   }
 
   Stream<ChatListState> _mapDeleteFriendToState(DeleteFriend event) async* {
-    yield ChatListLoading(
-        friends: await friendRepository.fetchFriendsList(fetchCache: true),
-        chatThumbnails:
-            await chatRepository.fetchChatThumbnails(fetchCache: true));
     try {
+      yield ChatListLoading(
+          friends: await friendRepository.fetchFriendsList(fetchCache: true),
+          chatThumbnails: sortChatThumbnails(
+              await chatRepository.fetchChatThumbnails(fetchCache: true)));
       bool deletedFriends = await friendRepository.deleteFriend(event.friendId);
       List<User> friends = await friendRepository.fetchFriendsList();
       List<ChatThumbnail> chats = await chatRepository.fetchChatThumbnails();
@@ -86,7 +86,7 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
       yield ChatListError(message: defaultErrorMessage);
   }
 
-  void sortChatThumbnails(List<ChatThumbnail> chats) {
+  List<ChatThumbnail> sortChatThumbnails(List<ChatThumbnail> chats) {
     //sorts chats with following rules:
     // 1. Chat thumbnails without any messages are placed first
     // 2. Chat thumbnails with most recent messages are placed first
@@ -100,5 +100,6 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
       }
       return 1;
     });
+    return chats;
   }
 }
