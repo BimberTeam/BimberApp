@@ -26,7 +26,7 @@ class MockGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<bool> addToGroup(String userId) {
+  Future<bool> addToGroup(String userId, String groupId) {
     return Future.delayed(Duration(seconds: 1), () => true);
   }
 

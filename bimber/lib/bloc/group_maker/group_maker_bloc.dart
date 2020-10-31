@@ -32,9 +32,9 @@ class GroupMakerBloc extends Bloc<GroupMakerEvent, GroupMakerState> {
 
   Stream<GroupMakerState> _mapCreateGroupToState(
       List<String> memberIds) async* {
-    yield GroupMakerLoading(
-        friends: await friendRepository.fetchFriendsList(fetchCache: true));
     try {
+      yield GroupMakerLoading(
+          friends: await friendRepository.fetchFriendsList(fetchCache: true));
       bool result = await groupRepository.createGroup(memberIds);
       List<User> friends = await friendRepository.fetchFriendsList();
       yield result

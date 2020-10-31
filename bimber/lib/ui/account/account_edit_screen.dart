@@ -49,6 +49,7 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    DialogUtils dialogUtils = DialogUtils();
     return BlocProvider<AccountBloc>(
       create: (context) =>
           AccountBloc(repository: context.repository<AccountRepository>()),
@@ -97,10 +98,10 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
         body: BlocConsumer<AccountBloc, AccountState>(
           listener: (context, state) {
             if (state is EditAccountLoading) {
-              showLoadingIndicatorDialog(
+              dialogUtils.showLoadingIndicatorDialog(
                   context, "Trwa aktualizowanie konta...");
             } else {
-              hideDialog(context);
+              dialogUtils.hideDialog(context);
             }
             if (state is EditAccountError) {
               showErrorSnackbar(context,
