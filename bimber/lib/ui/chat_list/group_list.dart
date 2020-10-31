@@ -92,7 +92,7 @@ class ChatOverviewState extends State<ChatOverview> {
               fontFamily: 'Baloo'),
         ),
         subtitle: Text(
-          widget.chatThumbnail.lastMessage?.text ?? "Zacznij konwersacje",
+          widget.chatThumbnail.lastMessage?.message ?? "Zacznij konwersacje",
           style: TextStyle(
               color: Colors.grey,
               fontSize: 10,

@@ -290,28 +290,14 @@ class Fixtures {
             groupId: "aaa" + index.toString(),
             name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
             lastMessage: ChatMessage(
-                id: "aaa",
                 groupId: "aaa",
                 date: DateTime.now(),
-                text: "siema" + index.toString(),
-                sender: "aaa")));
+                message: "siema" + index.toString(),
+                userId: "aaa")));
     chats.add(ChatThumbnail(
         groupId: "bdg",
         name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
         lastMessage: null));
-    return chats;
-  }
-
-  static List<ChatMessage> getChatMessages() {
-    List<ChatMessage> chats = List.generate(
-        10,
-        (index) => ChatMessage(
-            id: "aaa",
-            groupId: "aaa",
-            text: "siema" + index.toString(),
-            date: DateTime.now().subtract(Duration(minutes: 70 * index)),
-            sender: "id" + index.toString()));
-    chats.sort((a, b) => b.date.compareTo(a.date));
     return chats;
   }
 

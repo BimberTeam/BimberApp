@@ -1,6 +1,7 @@
 import 'package:bimber/models/chat_message.dart';
 import 'package:bimber/resources/services/image_service.dart';
 import 'package:bimber/ui/common/fixtures.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -57,7 +58,7 @@ class ChatMessageBox extends StatelessWidget {
             borderRadius: BorderRadius.circular(25.0),
           ),
           child: Text(
-            message.text,
+            message.message,
             style: TextStyle(
                 color: Theme.of(context).colorScheme.primaryVariant,
                 fontSize: 15,
@@ -77,8 +78,8 @@ class ChatMessageBox extends StatelessWidget {
               ? Padding(
                   padding: EdgeInsets.only(right: 8.0),
                   child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        Fixtures.getRandomHarnasUrl(message.sender)),
+                    backgroundImage: CachedNetworkImageProvider(
+                        ImageService.getImageUrl(message.userId)),
                     radius: 12.0,
                   ),
                 )
@@ -96,7 +97,7 @@ class ChatMessageBox extends StatelessWidget {
               borderRadius: BorderRadius.circular(25.0),
             ),
             child: Text(
-              message.text,
+              message.message,
               style: TextStyle(
                   color: Theme.of(context).colorScheme.primaryVariant,
                   fontSize: 15,

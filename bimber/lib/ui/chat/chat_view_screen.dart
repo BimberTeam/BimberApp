@@ -1,7 +1,9 @@
+import 'package:bimber/bloc/chat_bloc/chat_bloc.dart';
 import 'package:bimber/models/chat_message.dart';
 import 'package:bimber/ui/chat/chat_input.dart';
 import 'package:bimber/ui/chat/chat_message_box.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatViewScreen extends StatefulWidget {
   final List<ChatMessage> messages;
@@ -25,20 +27,14 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
     currentMessages = widget.messages;
   }
 
-  _onSubmitted(message) {
-    scrollController.animateTo(scrollController.position.minScrollExtent,
-        duration: Duration(milliseconds: 100), curve: Curves.easeIn);
-    setState(() {
-      currentMessages
-        ..insert(
-            0,
-            ChatMessage(
-                id: null,
-                groupId: widget.groupId,
-                date: DateTime.now(),
-                text: message,
-                sender: widget.currentUserId));
-    });
+  _onSubmitted(BuildContext context) {
+    final chatBloc = context.bloc<ChatBloc>();
+    return (message) {
+      scrollController.animateTo(scrollController.position.minScrollExtent,
+          duration: Duration(milliseconds: 100), curve: Curves.easeIn);
+
+      chatBloc.add(SendChatMessage(groupId: widget.groupId, message: message));
+    };
   }
 
   @override
@@ -51,15 +47,18 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
           reverse: true,
           controller: scrollController,
           itemBuilder: (context, index) {
+            final message = currentMessages[index];
+            bool hasNext = index + 1 < currentMessages.length;
+            final nextMessage = hasNext ? null : currentMessages[index + 1];
+
             return ChatMessageBox(
-              message: currentMessages[index],
-              isReceived: widget.currentUserId != currentMessages[index].sender,
+              message: message,
+              // THIS IS SO FUCKED UP
+              isReceived: widget.currentUserId != message.userId,
               showUser: index == currentMessages.length - 1 ||
-                  ((currentMessages[index].sender !=
-                      currentMessages[index + 1].sender)),
+                  ((message.userId != nextMessage.userId)),
               showDate: index == currentMessages.length - 1 ||
-                  (currentMessages[index]
-                          .date
+                  (message.date
                           .difference(currentMessages[index + 1].date)
                           .compareTo(Duration(hours: 1)) >
                       0),
@@ -67,7 +66,7 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
           },
           itemCount: currentMessages.length,
         )),
-        ChatInput(onSubmitted: _onSubmitted)
+        ChatInput(onSubmitted: _onSubmitted(context))
       ],
     );
   }
