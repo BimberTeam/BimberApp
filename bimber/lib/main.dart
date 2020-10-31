@@ -41,16 +41,30 @@ Future<void> main() async {
   final url = DotEnv().env["GRAPHQL_URL"];
   final HttpLink httpLink = HttpLink(url);
   final wsUrl = DotEnv().env["GRAPHQL_WS_URL"];
-  final WebSocketLink webSocketLink = WebSocketLink(wsUrl);
+
+  final WebSocketLink webSocketLink = WebSocketLink(wsUrl,
+      config: SocketClientConfig(
+        autoReconnect: true,
+        inactivityTimeout: Duration(seconds: 30),
+        initialPayload: () async {
+          final token = await TokenService.getToken();
+
+          return {
+            "headers": {"Authorization": token},
+          };
+        },
+      ));
 
   final AuthLink authLink = AuthLink(getToken: () async {
     final token = await TokenService.getToken();
     return '$token';
   });
 
-  final Link link =
-      Link.split((request) => request.isSubscription, webSocketLink, httpLink)
-          .concat(authLink);
+  // final Link link = authLink.concat(
+  //     Link.split((request) => request.isSubscription, webSocketLink, httpLink));
+  final Link link = Link.split((request) => request.isSubscription,
+      webSocketLink, authLink.concat(httpLink));
+  // final Link link = authLink.concat(httpLink).concat(webSocketLink);
 
   ValueNotifier<GraphQLClient> client = ValueNotifier(GraphQLClient(
     cache: GraphQLCache(

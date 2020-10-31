@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bimber/models/chat_message.dart';
-import 'package:bimber/resources/repositories/chat_repositry.dart';
+import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -18,22 +18,27 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   ChatBloc({@required this.groupId, @required this.repository})
       : super(ChatInitial()) {
-    newMessages = repository.newChatMessageStream(groupId: groupId);
+    try {
+      newMessages = repository.newChatMessageStream(groupId: groupId);
+      print("created");
 
-    newMessages.listen((result) {
-      if (result.hasException) {
-        print('Error while receiving chat message: ' +
-            result.exception.toString());
-        return;
-      }
+      newMessages.listen((result) {
+        if (result.hasException) {
+          print('Error while receiving chat message: ' +
+              result.exception.toString());
+          return;
+        }
 
-      if (result.isLoading) {
-        print('Waiting for chat message...');
-        return;
-      }
+        if (result.isLoading) {
+          print('Waiting for chat message...');
+          return;
+        }
 
-      add(DeliverNewChatMessage(message: ChatMessage.fromJson(result.data)));
-    });
+        add(DeliverNewChatMessage(message: ChatMessage.fromJson(result.data)));
+      });
+    } catch (e) {
+      print("OHOHO: " + e.toString());
+    }
   }
 
   @override
@@ -60,8 +65,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       yield ChatMessagesFetched(messages: messages);
     } catch (e) {
       print(e);
-      yield ChatError(
-          message: "Wystąpił błąd podaczas wczytywania wiadomości!");
+      yield ChatError(message: "Wystąpił nieznany błąd!");
     }
   }
 
@@ -73,7 +77,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       yield ChatMessageSent();
     } catch (e) {
       print(e);
-      yield ChatError(message: "Wystąpił błąd podczas wysyłania wiadomości!");
+      yield ChatError(message: "Wystąpił nieznany błąd!");
     }
   }
 }

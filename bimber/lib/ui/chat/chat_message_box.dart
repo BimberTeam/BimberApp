@@ -1,7 +1,6 @@
 import 'package:bimber/models/chat_message.dart';
 import 'package:bimber/resources/services/image_service.dart';
-import 'package:bimber/ui/common/fixtures.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:bimber/ui/common/cache_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -77,10 +76,14 @@ class ChatMessageBox extends StatelessWidget {
           showUser
               ? Padding(
                   padding: EdgeInsets.only(right: 8.0),
-                  child: CircleAvatar(
-                    backgroundImage: CachedNetworkImageProvider(
-                        ImageService.getImageUrl(message.userId)),
-                    radius: 12.0,
+                  child: SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: CustomCachedImage(
+                          imageUrl: ImageService.getImageUrl(message.userId)),
+                    ),
                   ),
                 )
               : Container(

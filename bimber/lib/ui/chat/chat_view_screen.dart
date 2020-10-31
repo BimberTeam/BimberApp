@@ -76,14 +76,14 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
           itemBuilder: (context, index) {
             final message = currentMessages[index];
             bool hasNext = index + 1 < currentMessages.length;
-            final nextMessage = hasNext ? null : currentMessages[index + 1];
+            final nextMessage = !hasNext ? null : currentMessages[index + 1];
 
             return ChatMessageBox(
               message: message,
               // THIS IS SO FUCKED UP
               isReceived: widget.currentUserId != message.userId,
               showUser: index == currentMessages.length - 1 ||
-                  ((message.userId != nextMessage.userId)),
+                  ((message.userId != nextMessage?.userId)),
               showDate: index == currentMessages.length - 1 ||
                   (message.date
                           .difference(currentMessages[index + 1].date)

@@ -89,6 +89,7 @@ class GraphqlAccountRepository extends AccountRepository {
         variables: data.toJson());
 
     final queryResult = await client.value.mutate(options);
+    print(queryResult.exception);
     checkQueryResultForErrors(queryResult);
 
     return AccountData.fromJson(queryResult.data["register"]);
@@ -118,6 +119,9 @@ class GraphqlAccountRepository extends AccountRepository {
             useCache ? FetchPolicy.cacheFirst : FetchPolicy.networkOnly);
 
     final queryResult = await client.value.query(options);
+    print(queryResult.exception);
+    final token = await TokenService.getToken();
+    print(token);
     checkQueryResultForErrors(queryResult);
 
     return AccountData.fromJson(queryResult.data["me"]);

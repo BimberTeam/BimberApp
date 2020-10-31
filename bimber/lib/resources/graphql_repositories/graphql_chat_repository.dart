@@ -2,7 +2,6 @@ import 'package:bimber/models/message.dart';
 import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:bimber/models/chat_message.dart';
 import 'package:bimber/resources/graphql_repositories/common.dart';
-import 'package:bimber/resources/repositories/chat_repositry.dart';
 import 'package:bimber/graphql/queries.dart' as query;
 import 'package:bimber/graphql/mutations.dart' as mutation;
 import 'package:bimber/graphql/subscriptions.dart' as subscription;
@@ -24,21 +23,21 @@ class GraphlqlChatRepository extends ChatRepository {
         fetchResults: true,
         fetchPolicy: FetchPolicy.networkOnly,
         variables: {
-          "gropuId": groupId,
+          "groupId": groupId,
           "limit": limit,
           "lastDate": lastDate?.toIso8601String(),
         });
     final queryResult = await client.value.query(options);
-    checkQueryResultForErrors(queryResult);
 
-    return List<ChatMessage>.from(queryResult.data["loadChatMessages"])
-        .map((msg) => ChatMessage.fromJson(msg));
+    return (queryResult.data["loadChatMessages"] as List)
+        .map((msg) => ChatMessage.fromJson(msg))
+        .toList();
   }
 
   @override
   Future<List<ChatThumbnail>> fetchChatThumbnails({bool fetchCache}) async {
     return [
-      ChatThumbnail(groupId: "test_group", name: "hello", lastMessage: null)
+      ChatThumbnail(groupId: "test_chat", name: "hello", lastMessage: null)
     ];
   }
 
@@ -53,6 +52,7 @@ class GraphlqlChatRepository extends ChatRepository {
         });
 
     final queryResult = await client.value.mutate(options);
+    print(queryResult.exception);
     checkQueryResultForErrors(queryResult);
 
     return Message.fromJson(queryResult.data["sendChatMessage"]);

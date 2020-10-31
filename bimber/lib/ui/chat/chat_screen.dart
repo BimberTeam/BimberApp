@@ -1,8 +1,7 @@
 import 'package:bimber/bloc/chat_bloc/chat_bloc.dart';
 import 'package:bimber/models/chat_thumbnail.dart';
-import 'package:bimber/resources/repositories/chat_repositry.dart';
+import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:bimber/ui/chat/chat_view_screen.dart';
-import 'package:bimber/ui/common/fixtures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
