@@ -46,7 +46,6 @@ class ImageService {
       @required String token,
       @required File image}) async {
     Dio dio = Dio();
-    print(token);
 
     FormData formData = FormData.fromMap({
       "file": await MultipartFile.fromFile(image.path,

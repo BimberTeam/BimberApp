@@ -31,7 +31,7 @@ dependencies:
   flutter_cache_manager: ^1.4.2
   shared_preferences: ^0.5.12
   dotted_border: ^1.0.6
-  graphql_flutter: ^4.0.0-beta.1
+  graphql_flutter: ^4.0.0-beta.3
   dio: ^3.0.10
   flutter_dotenv: ^2.1.0
 

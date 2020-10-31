@@ -96,7 +96,7 @@ class _GroupImageHolder extends StatelessWidget {
               crossAxisCount: crossAxisCount,
               childAspectRatio: (size.width / size.height),
               children: group.members.map((User member) {
-                final url = ImageService.getRandomHarnasUrl(member.id);
+                final url = ImageService.getImageUrl(member.id);
                 return GridTile(
                     child: CustomCachedImage(
                   imageUrl: url,

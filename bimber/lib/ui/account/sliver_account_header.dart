@@ -30,7 +30,6 @@ class SliverAccountHeader extends StatelessWidget {
           CachedNetworkImage(
               imageUrl: imageUrl,
               imageBuilder: (context, image) {
-                print(imageUrl);
                 return Container(
                   height: 150,
                   width: 150,
@@ -54,8 +53,6 @@ class SliverAccountHeader extends StatelessWidget {
                       child: CircularProgressIndicator(
                           value: downloadProgress.progress)),
               errorWidget: (context, url, error) {
-                print(url);
-                print(error);
                 return Icon(Icons.error, color: Colors.red, size: 150);
               }),
           SizedBox(height: 15),

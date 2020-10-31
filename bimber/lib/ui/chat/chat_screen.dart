@@ -1,7 +1,9 @@
+import 'package:bimber/bloc/chat_bloc/chat_bloc.dart';
 import 'package:bimber/models/chat_thumbnail.dart';
+import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:bimber/ui/chat/chat_view_screen.dart';
-import 'package:bimber/ui/common/fixtures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatScreen extends StatelessWidget {
   final ChatThumbnail chatThumbnail;
@@ -37,11 +39,13 @@ class ChatScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: ChatViewScreen(
-        messages: Fixtures.getChatMessages(),
-        currentUserId: "id3",
-        groupId: chatThumbnail.groupId,
-      ), //TODO bloc provider, consumer
+      body: BlocProvider<ChatBloc>(
+        create: (context) => ChatBloc(
+            groupId: chatThumbnail.groupId,
+            repository: context.repository<ChatRepository>())
+          ..add(FetchChatMessages(limit: 50)),
+        child: ChatViewScreen(groupId: chatThumbnail.groupId),
+      ),
     );
   }
 }
