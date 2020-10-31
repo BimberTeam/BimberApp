@@ -20,8 +20,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       : super(ChatInitial()) {
     try {
       newMessages = repository.newChatMessageStream(groupId: groupId);
-      print("created");
-
       newMessages.listen((result) {
         if (result.hasException) {
           print('Error while receiving chat message: ' +
@@ -34,7 +32,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           return;
         }
 
-        add(DeliverNewChatMessage(message: ChatMessage.fromJson(result.data)));
+        add(DeliverNewChatMessage(
+            message: ChatMessage.fromJson(result.data["newChatMessage"])));
       });
     } catch (e) {
       print("OHOHO: " + e.toString());

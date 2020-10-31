@@ -44,8 +44,7 @@ class ChatScreen extends StatelessWidget {
             groupId: chatThumbnail.groupId,
             repository: context.repository<ChatRepository>())
           ..add(FetchChatMessages(limit: 50)),
-        child: ChatViewScreen(
-            currentUserId: "id3", groupId: chatThumbnail.groupId),
+        child: ChatViewScreen(groupId: chatThumbnail.groupId),
       ),
     );
   }

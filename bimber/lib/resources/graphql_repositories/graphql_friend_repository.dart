@@ -120,8 +120,6 @@ class GraphqlFriendRepository extends FriendRepository {
     final queryResult = await client.value.query(options);
     checkQueryResultForErrors(queryResult);
 
-    print(queryResult.data);
-
     return (queryResult.data['me']['friends'] as List)
         .map((json) => User.fromJson(json))
         .toList();

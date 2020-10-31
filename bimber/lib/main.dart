@@ -45,7 +45,7 @@ Future<void> main() async {
   final WebSocketLink webSocketLink = WebSocketLink(wsUrl,
       config: SocketClientConfig(
         autoReconnect: true,
-        inactivityTimeout: Duration(seconds: 30),
+        inactivityTimeout: Duration(seconds: 300),
         initialPayload: () async {
           final token = await TokenService.getToken();
 

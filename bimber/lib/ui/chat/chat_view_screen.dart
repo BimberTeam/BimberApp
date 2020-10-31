@@ -1,5 +1,6 @@
 import 'package:bimber/bloc/chat_bloc/chat_bloc.dart';
 import 'package:bimber/models/chat_message.dart';
+import 'package:bimber/resources/repositories/account_repository.dart';
 import 'package:bimber/ui/chat/chat_input.dart';
 import 'package:bimber/ui/chat/chat_message_box.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
@@ -7,16 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatViewScreen extends StatefulWidget {
-  final String currentUserId;
   final String groupId;
 
-  const ChatViewScreen({Key key, this.currentUserId, this.groupId});
+  const ChatViewScreen({Key key, this.groupId});
 
   @override
   State<StatefulWidget> createState() => _ChatViewScreenState();
 }
 
 class _ChatViewScreenState extends State<ChatViewScreen> {
+  String userId;
   Set<ChatMessage> messages = Set();
   List<ChatMessage> currentMessages = [];
   ScrollController scrollController = ScrollController();
@@ -24,6 +25,12 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
   @override
   void initState() {
     super.initState();
+    context
+        .repository<AccountRepository>()
+        .fetchMe()
+        .then((user) => setState(() {
+              userId = user.id;
+            }));
   }
 
   _onSubmitted(BuildContext context) {
@@ -81,7 +88,7 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
             return ChatMessageBox(
               message: message,
               // THIS IS SO FUCKED UP
-              isReceived: widget.currentUserId != message.userId,
+              isReceived: userId != message.userId,
               showUser: index == currentMessages.length - 1 ||
                   ((message.userId != nextMessage?.userId)),
               showDate: index == currentMessages.length - 1 ||

@@ -52,7 +52,6 @@ class GraphlqlChatRepository extends ChatRepository {
         });
 
     final queryResult = await client.value.mutate(options);
-    print(queryResult.exception);
     checkQueryResultForErrors(queryResult);
 
     return Message.fromJson(queryResult.data["sendChatMessage"]);
