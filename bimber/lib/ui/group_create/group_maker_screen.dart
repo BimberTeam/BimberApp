@@ -13,6 +13,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:build_context/build_context.dart';
 
 class GroupMakerScreen extends StatelessWidget {
+  final DialogUtils dialogUtils = DialogUtils();
+
   Widget _draggableAnimatedList(BuildContext context, List<User> friends) {
     return DraggableAnimatedList<User>(
       elements: friends,
@@ -113,7 +115,6 @@ class GroupMakerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DialogUtils dialogUtils = DialogUtils();
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.secondary,
         appBar: AppBar(
