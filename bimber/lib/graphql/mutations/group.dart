@@ -18,7 +18,6 @@ mutation RejectGroupInvitation($input: RejectGroupInvitationInput!){
 }
 ''');
 
-
 final createGroup = gql(r'''
 mutation CreateGroup($usersId: [ID!]!){
     createGroup(input: {
@@ -29,7 +28,6 @@ mutation CreateGroup($usersId: [ID!]!){
     }
 }
 ''');
-
 
 final addToGroup = gql(r'''
 mutation AddFriendToGroup($groupId: ID!, $friendId: ID!){

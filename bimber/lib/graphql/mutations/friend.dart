@@ -20,7 +20,7 @@ mutation DenyFriendRequest($input: FriendInput!){
 
 final removeFriend = gql(r'''
 mutation RemoveFriend($input: FriendInput!){
-    removeFriend(ifd: $input) {
+    removeFriend(input: $input) {
       message
       status
     }

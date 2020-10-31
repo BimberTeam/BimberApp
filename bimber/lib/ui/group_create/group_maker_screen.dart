@@ -152,8 +152,7 @@ class GroupMakerScreen extends StatelessWidget {
                   dialogUtils.hideDialog(context);
                   context.pop();
                 });
-              }
-              else if (state is GroupMakerError) {
+              } else if (state is GroupMakerError) {
                 dialogUtils.hideDialog(context);
               }
             }, builder: (context, state) {

@@ -22,7 +22,8 @@ class GraphqlGroupRepository extends GroupRepository {
           "input": {"groupId": groupId}
         });
 
-    final queryResult = await client.value.mutate(options).timeout(Duration(seconds: 5));
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
     Message message =
@@ -35,20 +36,17 @@ class GraphqlGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<bool> addToGroup(String userId, String groupId) async{
+  Future<bool> addToGroup(String userId, String groupId) async {
     final MutationOptions options = MutationOptions(
         document: mutation.addToGroup,
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: {
-          "groupId": groupId,
-          "friendId": userId
-        });
+        variables: {"groupId": groupId, "friendId": userId});
 
-    final queryResult = await client.value.mutate(options).timeout(Duration(seconds: 5));
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
-    Message message =
-    Message.fromJson(queryResult.data['addFriendToGroup']);
+    Message message = Message.fromJson(queryResult.data['addFriendToGroup']);
 
     if (message.status == Status.ERROR)
       throw GraphqlException(message: message.message);
@@ -65,7 +63,8 @@ class GraphqlGroupRepository extends GroupRepository {
           "input": {"groupId": groupId}
         });
 
-    final queryResult = await client.value.mutate(options).timeout(Duration(seconds: 5));
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
     Message message =
@@ -78,19 +77,17 @@ class GraphqlGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<bool> createGroup(List<String> memberIds) async{
+  Future<bool> createGroup(List<String> memberIds) async {
     final MutationOptions options = MutationOptions(
         document: mutation.createGroup,
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: {
-          "usersId": memberIds
-        });
+        variables: {"usersId": memberIds});
 
-    final queryResult = await client.value.mutate(options).timeout(Duration(seconds: 5));
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
-    Message message =
-    Message.fromJson(queryResult.data['createGroup']);
+    Message message = Message.fromJson(queryResult.data['createGroup']);
 
     if (message.status == Status.ERROR)
       throw GraphqlException(message: message.message);
@@ -106,7 +103,8 @@ class GraphqlGroupRepository extends GroupRepository {
         fetchPolicy:
             fetchCache ? FetchPolicy.cacheFirst : FetchPolicy.networkOnly);
 
-    final queryResult = await client.value.query(options).timeout(Duration(seconds: 5));
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
     return (queryResult.data['me']['groupInvitations'] as List)
@@ -122,7 +120,8 @@ class GraphqlGroupRepository extends GroupRepository {
         fetchPolicy:
             fetchCache ? FetchPolicy.cacheFirst : FetchPolicy.networkOnly);
 
-    final queryResult = await client.value.query(options).timeout(Duration(seconds: 5));
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
     return (queryResult.data['me']['groups'] as List)

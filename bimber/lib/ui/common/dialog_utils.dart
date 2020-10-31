@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
 
-class DialogUtils{
+class DialogUtils {
   bool _isDialogOpen = false;
 
   void showLoadingIndicatorDialog(BuildContext context, String text) {
@@ -26,15 +26,16 @@ class DialogUtils{
                           Padding(
                               child: Container(
                                   child:
-                                  CircularProgressIndicator(strokeWidth: 3),
+                                      CircularProgressIndicator(strokeWidth: 3),
                                   width: 32,
                                   height: 32),
                               padding: EdgeInsets.only(bottom: 16)),
                           Text(
                             text,
                             style: TextStyle(
-                                color:
-                                Theme.of(context).colorScheme.primaryVariant,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primaryVariant,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w900,
                                 fontFamily: 'Baloo'),
@@ -67,16 +68,17 @@ class DialogUtils{
                           Padding(
                               child: Container(
                                   child: Icon(
-                                    icon,
-                                    color: color,
-                                    size: 50,
-                                  )),
+                                icon,
+                                color: color,
+                                size: 50,
+                              )),
                               padding: EdgeInsets.only(bottom: 16)),
                           Text(
                             text,
                             style: TextStyle(
-                                color:
-                                Theme.of(context).colorScheme.primaryVariant,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primaryVariant,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w900,
                                 fontFamily: 'Baloo'),
@@ -88,13 +90,9 @@ class DialogUtils{
   }
 
   void hideDialog(BuildContext context) {
-    if(_isDialogOpen){
+    if (_isDialogOpen) {
       context.pop();
       _isDialogOpen = false;
     }
-
   }
-
-
 }
-
