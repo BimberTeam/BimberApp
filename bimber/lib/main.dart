@@ -37,7 +37,7 @@ Future<void> main() async {
 
   final url = DotEnv().env["GRAPHQL_URL"];
   final HttpLink httpLink = HttpLink(url);
-  final wsUrl = DotEnv().env["GRAPHQL_URL"];
+  final wsUrl = DotEnv().env["GRAPHQL_WS_URL"];
   final WebSocketLink webSocketLink = WebSocketLink(wsUrl);
 
   final AuthLink authLink = AuthLink(getToken: () async {

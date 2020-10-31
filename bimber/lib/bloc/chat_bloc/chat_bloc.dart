@@ -40,6 +40,40 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   Stream<ChatState> mapEventToState(
     ChatEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+    if (event is DeliverNewChatMessage) {
+      yield NewChatMessage(message: event.message);
+    }
+    if (event is FetchChatMessages) {
+      yield* _mapFetchChatMessagesEvent(event);
+    }
+    if (event is SendChatMessage) {
+      yield* _mapSendChatMessageEvent(event);
+    }
+  }
+
+  Stream<ChatState> _mapFetchChatMessagesEvent(FetchChatMessages event) async* {
+    yield ChatFetchLoading();
+
+    try {
+      final messages = await repository.fetchChatMessages(
+          groupId: groupId, limit: event.limit, lastDate: event.lastDate);
+      yield ChatMessagesFetched(messages: messages);
+    } catch (e) {
+      print(e);
+      yield ChatError(
+          message: "Wystąpił błąd podaczas wczytywania wiadomości!");
+    }
+  }
+
+  Stream<ChatState> _mapSendChatMessageEvent(SendChatMessage event) async* {
+    try {
+      await repository.sendChatMessage(
+          message: event.message, groupId: groupId);
+
+      yield ChatMessageSent();
+    } catch (e) {
+      print(e);
+      yield ChatError(message: "Wystąpił błąd podczas wysyłania wiadomości!");
+    }
   }
 }

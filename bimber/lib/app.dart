@@ -155,7 +155,7 @@ class App extends StatelessWidget {
                   }
               }
             },
-            initialRoute: "/home",
+            initialRoute: "/",
           ),
         ));
   }

@@ -11,7 +11,8 @@ abstract class ChatRepository {
   Future<List<ChatMessage>> fetchChatMessages(
       {@required String groupId, int limit, DateTime lastDate});
 
-  Future<Message> sendChatMessage({@required ChatMessage message});
+  Future<Message> sendChatMessage(
+      {@required String message, @required String groupId});
 
   Stream<QueryResult> newChatMessageStream({@required String groupId});
 }

@@ -36,15 +36,20 @@ class GraphlqlChatRepository extends ChatRepository {
 
   @override
   Future<List<ChatThumbnail>> fetchChatThumbnails() async {
-    return [];
+    return [
+      ChatThumbnail(groupId: "test_group", name: "hello", lastMessage: null)
+    ];
   }
 
   @override
-  Future<Message> sendChatMessage({ChatMessage message}) async {
+  Future<Message> sendChatMessage({String groupId, String message}) async {
     final MutationOptions options = MutationOptions(
         document: mutation.sendChatMessage,
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: message.toJson());
+        variables: {
+          "groupId": groupId,
+          "message": message,
+        });
 
     final queryResult = await client.value.mutate(options);
     checkQueryResultForErrors(queryResult);

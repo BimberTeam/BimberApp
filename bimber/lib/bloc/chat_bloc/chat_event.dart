@@ -11,27 +11,24 @@ abstract class ChatEvent extends Equatable {
 }
 
 class FetchChatMessages extends ChatEvent {
-  final String groupId;
   final int limit;
   final DateTime lastDate;
 
-  FetchChatMessages(
-      {@required this.groupId, int limit = 50, DateTime lastDate = null})
+  FetchChatMessages({int limit = 50, DateTime lastDate = null})
       : limit = limit,
         lastDate = lastDate;
 
   @override
-  List<Object> get props => super.props..addAll([groupId, limit, lastDate]);
+  List<Object> get props => super.props..addAll([limit, lastDate]);
 }
 
 class SendChatMessage extends ChatEvent {
-  final String groupId;
   final String message;
 
-  SendChatMessage({@required this.groupId, @required this.message});
+  SendChatMessage({@required this.message});
 
   @override
-  List<Object> get props => super.props..addAll([groupId, message]);
+  List<Object> get props => super.props..addAll([message]);
 }
 
 class DeliverNewChatMessage extends ChatEvent {

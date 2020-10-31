@@ -18,6 +18,10 @@ class ChatMessagesFetched extends ChatState {
   List<Object> get props => super.props..addAll(messages);
 }
 
+class ChatMessageSent extends ChatState {}
+
+class ChatFetchLoading extends ChatState {}
+
 class NewChatMessage extends ChatState {
   final ChatMessage message;
 

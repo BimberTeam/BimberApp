@@ -44,7 +44,7 @@ class GraphqlAccountRepository extends AccountRepository {
     } on GraphqlConnectionError catch (e) {
       throw e;
     } catch (e) {
-      print(e);
+      await TokenService.deleteToken();
       return false;
     }
 
