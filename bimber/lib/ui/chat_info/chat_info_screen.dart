@@ -19,7 +19,7 @@ class ChatInfoScreen extends StatelessWidget {
           title: Padding(
             padding: EdgeInsets.only(left: 8.00),
             child: Text(
-             "Informacje o grupie",
+              "Informacje o grupie",
               style: TextStyle(
                   color: Theme.of(context).colorScheme.primaryVariant,
                   fontSize: 15,
@@ -28,7 +28,11 @@ class ChatInfoScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: ChatInfoViewScreen(group: Fixtures.getGroup("some"), currentUserId: "id", canBeAdded: [],) //TODO bloc consumer, provider
-    );
+        body: ChatInfoViewScreen(
+          group: Fixtures.getGroup("some"),
+          currentUserId: "id",
+          canBeAdded: ["aaa"],
+        ) //TODO bloc consumer, provider
+        );
   }
 }

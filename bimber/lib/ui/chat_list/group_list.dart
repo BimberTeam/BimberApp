@@ -65,7 +65,7 @@ class ChatOverviewState extends State<ChatOverview> {
           read = value;
         }));
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
