@@ -97,7 +97,7 @@ class _UserImageHolder extends StatelessWidget {
               child: InkWell(
                   onTap: onTap,
                   child: CustomCachedImage(
-                    imageUrl: ImageService.getRandomHarnasUrl(user.id),
+                    imageUrl: ImageService.getImageUrl(user.id),
                   )))),
     );
   }
