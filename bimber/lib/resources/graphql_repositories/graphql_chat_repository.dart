@@ -36,9 +36,17 @@ class GraphlqlChatRepository extends ChatRepository {
 
   @override
   Future<List<ChatThumbnail>> fetchChatThumbnails({bool fetchCache}) async {
-    return [
-      ChatThumbnail(groupId: "test_chat", name: "hello", lastMessage: null)
-    ];
+    final WatchQueryOptions options = WatchQueryOptions(
+      document: query.chatThumbnails,
+      fetchResults: true,
+      // network only as chat thumnnails does not have typename and id
+      fetchPolicy: FetchPolicy.networkOnly,
+    );
+    final queryResult = await client.value.query(options);
+
+    return (queryResult.data["chatThumbnails"] as List)
+        .map((msg) => ChatThumbnail.fromJson(msg))
+        .toList();
   }
 
   @override
