@@ -44,6 +44,7 @@ class GraphqlAccountRepository extends AccountRepository {
     } on GraphqlConnectionError catch (e) {
       throw e;
     } catch (e) {
+      await TokenService.deleteToken();
       print(e);
       return false;
     }
@@ -102,6 +103,8 @@ class GraphqlAccountRepository extends AccountRepository {
         variables: data.toJson());
 
     final queryResult = await client.value.mutate(options);
+    print(queryResult.data);
+    print(queryResult.exception);
     checkQueryResultForErrors(queryResult);
 
     return;

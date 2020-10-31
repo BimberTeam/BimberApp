@@ -200,9 +200,11 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
             padding: EdgeInsets.only(top: 20),
             child: ThemedPrimaryButton(
               label: widget.buttonLabel,
-              onPressed: () {
-                widget.onPressed(added);
-              },
+              onPressed: added.isEmpty
+                  ? null
+                  : () {
+                      widget.onPressed(added);
+                    },
             ),
           ),
         )

@@ -26,10 +26,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              imageUrl:
-                  "https://wygraland.pl/wp-content/uploads/2017/02/harnas-1.jpg",
-              location: Location(latitude: 50.44, longtitude: 56.78),
-              friends: null),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'bbb',
               name: "Harnas",
@@ -43,10 +40,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              imageUrl:
-                  "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.png",
-              location: Location(latitude: 50.44, longtitude: 56.78),
-              friends: null),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'ccc',
               name: "Harnas",
@@ -60,10 +54,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              imageUrl:
-                  "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.pg",
-              location: Location(latitude: 50.44, longtitude: 56.78),
-              friends: null),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'ddd',
               name: "Harnas",
@@ -77,10 +68,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              imageUrl:
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
-              location: Location(latitude: 50.44, longtitude: 56.78),
-              friends: null),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'eee',
               name: "Harnas",
@@ -94,10 +82,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              imageUrl:
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
-              location: Location(latitude: 50.44, longtitude: 56.78),
-              friends: null),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'fff',
               name: "Harnas",
@@ -111,10 +96,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              imageUrl:
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
-              location: Location(latitude: 50.44, longtitude: 56.78),
-              friends: null),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'ggg',
               name: "Harnas",
@@ -128,10 +110,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              imageUrl:
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
-              location: Location(latitude: 50.44, longtitude: 56.78),
-              friends: null),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
         ]);
   }
 
@@ -149,10 +128,7 @@ class Fixtures {
         agePreferenceFrom: 18,
         agePreferenceTo: 99,
         alcoholPreference: AlcoholType.BEER,
-        imageUrl:
-            "https://wygraland.pl/wp-content/uploads/2017/02/harnas-1.jpg",
-        location: Location(latitude: 50.44, longtitude: 56.78),
-        friends: null);
+        latestLocation: Location(latitude: 50.44, longtitude: 56.78));
   }
 
   static List<User> getUsersList() {
@@ -170,10 +146,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          imageUrl:
-              "https://wygraland.pl/wp-content/uploads/2017/02/harnas-1.jpg",
-          location: Location(latitude: 50.44, longtitude: 56.78),
-          friends: null),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'bbb',
           name: "Harnas",
@@ -187,10 +160,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          imageUrl:
-              "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.png",
-          location: Location(latitude: 50.44, longtitude: 56.78),
-          friends: null),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'ccc',
           name: "Harnas",
@@ -204,10 +174,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          imageUrl:
-              "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.pg",
-          location: Location(latitude: 50.44, longtitude: 56.78),
-          friends: null),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'ddd',
           name: "Harnas",
@@ -221,10 +188,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          imageUrl:
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
-          location: Location(latitude: 50.44, longtitude: 56.78),
-          friends: null),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'eee',
           name: "Harnas",
@@ -238,10 +202,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          imageUrl:
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
-          location: Location(latitude: 50.44, longtitude: 56.78),
-          friends: null),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'fff',
           name: "Harnas",
@@ -255,10 +216,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          imageUrl:
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
-          location: Location(latitude: 50.44, longtitude: 56.78),
-          friends: null),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'ggg',
           name: "Harnas",
@@ -272,10 +230,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          imageUrl:
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Harna%C5%9B_can.png/215px-Harna%C5%9B_can.png",
-          location: Location(latitude: 50.44, longtitude: 56.78),
-          friends: null)
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78))
     ];
   }
 

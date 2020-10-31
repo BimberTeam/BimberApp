@@ -9,6 +9,7 @@ class ThemedPrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
+      disabledColor: Colors.grey,
       onPressed: onPressed,
       child: Text(label,
           textAlign: TextAlign.center,
