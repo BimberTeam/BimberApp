@@ -1,18 +1,22 @@
+import 'package:bimber/bloc/chat_info/chat_info_bloc.dart';
 import 'package:bimber/models/group.dart';
 import 'package:bimber/models/user.dart';
+import 'package:bimber/ui/common/snackbar_utils.dart';
 import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:flutter/material.dart';
 import 'package:bimber/ui/common/utils.dart';
 import 'package:build_context/build_context.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ChatInfoViewScreen extends StatelessWidget {
-  final Group group;
-  final List<String> canBeAdded;
-  final String currentUserId;
+class ChatInfoViewScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => ChatInfoViewScreenState();
+}
 
-  const ChatInfoViewScreen(
-      {Key key, this.group, this.canBeAdded, this.currentUserId})
-      : super(key: key);
+class ChatInfoViewScreenState extends State<ChatInfoViewScreen> {
+  Group group;
+  List<String> canBeAdded;
+  String currentUserId;
 
   Widget _header(BuildContext context) {
     TextStyle style = TextStyle(
@@ -118,7 +122,11 @@ class ChatInfoViewScreen extends StatelessWidget {
                 fontFamily: 'Baloo'),
           ),
           trailing: canBeAdded.contains(user.id)
-              ? _button(Icons.add, null, () {}, context)
+              ? _button(Icons.add, null, () {
+                  context
+                      .bloc<ChatInfoBloc>()
+                      .add(AddMemberToFriends(id: user.id));
+                }, context)
               : SizedBox(
                   width: 0,
                 )),
@@ -127,19 +135,56 @@ class ChatInfoViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.all(10),
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            children: [
-                  _header(context),
-                ] +
-                group.members
-                    .where((element) => element.id != currentUserId)
-                    .map((e) => _memberListTile(e, context))
-                    .toList(),
-          ),
-        ));
+    return BlocConsumer<ChatInfoBloc, ChatInfoState>(builder: (context, state) {
+      if (state is ChatInfoInitial) {
+        return Align(
+          alignment: Alignment.center,
+          child: SizedBox(
+              height: 50,
+              width: 50,
+              child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).colorScheme.primary),
+                  strokeWidth: 3.0)),
+        );
+      } else if (state is ChatInfoError) {
+        return Container(
+            alignment: Alignment.center,
+            child: Text(state.message,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.primaryVariant,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    fontFamily: 'Baloo')));
+      } else {
+        return Container(
+            padding: EdgeInsets.all(10),
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                      _header(context),
+                    ] +
+                    group.members
+                        .where((element) => element.id != currentUserId)
+                        .map((e) => _memberListTile(e, context))
+                        .toList(),
+              ),
+            ));
+      }
+    }, listener: (context, state) {
+      if (state is ChatInfoFetched) {
+        group = state.group;
+        canBeAdded = state.canBeAdded;
+        currentUserId = state.currentUserId;
+      } else if (state is ChatInfoLoading) {
+        showLoadingSnackbar(context, message: "");
+      } else if (state is ChatInfoAddFailure) {
+        showErrorSnackbar(context, message: "Nie udało się dodać do znajomych");
+      } else if (state is ChatInfoAddSuccess) {
+        showSuccessSnackbar(context, message: "Dodano do znajomych");
+      }
+    });
   }
 }

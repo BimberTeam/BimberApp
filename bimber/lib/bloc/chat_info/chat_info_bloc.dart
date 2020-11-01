@@ -16,13 +16,17 @@ class ChatInfoBloc extends Bloc<ChatInfoEvent, ChatInfoState> {
   final AccountRepository accountRepository;
   final String groupId;
 
-  ChatInfoBloc({@required this.friendRepository, @required this.groupRepository, @required this.accountRepository, @required this.groupId})
+  ChatInfoBloc(
+      {@required this.friendRepository,
+      @required this.groupRepository,
+      @required this.accountRepository,
+      @required this.groupId})
       : super(ChatInfoInitial());
 
   @override
   Stream<ChatInfoState> mapEventToState(
-      ChatInfoEvent event,
-      ) async* {
+    ChatInfoEvent event,
+  ) async* {
     if (event is InitChatInfo) {
       yield* _mapInitChatInfoToState(event);
     }
@@ -31,17 +35,18 @@ class ChatInfoBloc extends Bloc<ChatInfoEvent, ChatInfoState> {
     }
   }
 
-  Stream<ChatInfoState> _mapAddMemberToFriendsToState(AddMemberToFriends event) async* {
+  Stream<ChatInfoState> _mapAddMemberToFriendsToState(
+      AddMemberToFriends event) async* {
     try {
       yield ChatInfoLoading();
       bool addedFriends = await friendRepository.deleteFriend(event.id);
-      yield addedFriends
-          ? ChatInfoAddSuccess()
-          : ChatInfoAddFailure();
+      yield addedFriends ? ChatInfoAddSuccess() : ChatInfoAddFailure();
       Group group = await groupRepository.fetchGroup(groupId);
-      List<String> canBeAdded = await friendRepository.checkIfCanBeAddedToFriend(group.members.map((e) => e.id));
+      List<String> canBeAdded = await friendRepository
+          .checkIfCanBeAddedToFriend(group.members.map((e) => e.id).toList());
       String currentUserId = (await accountRepository.fetchMe()).id;
-      yield ChatInfoFetched(group: group, canBeAdded: canBeAdded, currentUserId: currentUserId);
+      yield ChatInfoFetched(
+          group: group, canBeAdded: canBeAdded, currentUserId: currentUserId);
     } catch (exception) {
       if (exception is TimeoutException)
         yield ChatInfoError(message: timeoutExceptionMessage);
@@ -53,15 +58,17 @@ class ChatInfoBloc extends Bloc<ChatInfoEvent, ChatInfoState> {
   Stream<ChatInfoState> _mapInitChatInfoToState(InitChatInfo event) async* {
     try {
       Group group = await groupRepository.fetchGroup(groupId);
-      List<String> canBeAdded = await friendRepository.checkIfCanBeAddedToFriend(group.members.map((e) => e.id));
+      List<String> canBeAdded = await friendRepository
+          .checkIfCanBeAddedToFriend(group.members.map((e) => e.id).toList());
       String currentUserId = (await accountRepository.fetchMe()).id;
-      yield ChatInfoFetched(group: group, canBeAdded: canBeAdded, currentUserId: currentUserId);
+      yield ChatInfoFetched(
+          group: group, canBeAdded: canBeAdded, currentUserId: currentUserId);
     } catch (exception) {
+      print(exception);
       if (exception is TimeoutException)
         yield ChatInfoError(message: timeoutExceptionMessage);
       else
         yield ChatInfoError(message: defaultErrorMessage);
     }
   }
-  
 }

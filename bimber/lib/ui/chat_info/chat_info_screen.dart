@@ -1,6 +1,10 @@
+import 'package:bimber/bloc/chat_info/chat_info_bloc.dart';
+import 'package:bimber/resources/repositories/account_repository.dart';
+import 'package:bimber/resources/repositories/friend_repository.dart';
+import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/ui/chat_info/chat_info_screen_view.dart';
-import 'package:bimber/ui/common/fixtures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatInfoScreen extends StatelessWidget {
   final String groupId;
@@ -28,11 +32,14 @@ class ChatInfoScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: ChatInfoViewScreen(
-          group: Fixtures.getGroup("some"),
-          currentUserId: "id",
-          canBeAdded: ["aaa"],
-        ) //TODO bloc consumer, provider
-        );
+        body: BlocProvider<ChatInfoBloc>(
+          create: (context) => ChatInfoBloc(
+              friendRepository: context.repository<FriendRepository>(),
+              groupRepository: context.repository<GroupRepository>(),
+              accountRepository: context.repository<AccountRepository>(),
+              groupId: groupId)
+            ..add(InitChatInfo()),
+          child: ChatInfoViewScreen(),
+        ));
   }
 }

@@ -22,8 +22,7 @@ class ChatInfoError extends ChatInfoState {
   List<Object> get props => [message];
 }
 
-
-class ChatInfoFetched extends ChatInfoState{
+class ChatInfoFetched extends ChatInfoState {
   final List<String> canBeAdded;
   final String currentUserId;
   final Group group;
