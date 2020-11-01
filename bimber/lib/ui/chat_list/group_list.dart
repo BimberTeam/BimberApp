@@ -32,7 +32,8 @@ class GroupChatList extends StatelessWidget {
               padding: EdgeInsets.only(left: 4.0),
               child: chatThumbnails.isNotEmpty
                   ? ListView(
-                      physics: BouncingScrollPhysics(),
+                      physics: BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
                       scrollDirection: Axis.vertical,
                       children: chatThumbnails
                           .map((chat) => ChatOverview(chatThumbnail: chat))

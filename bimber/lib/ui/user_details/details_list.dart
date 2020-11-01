@@ -9,20 +9,18 @@ class DetailsList extends StatelessWidget {
   DetailsList({@required this.user, @required this.distance});
 
   _description(String text, Color color) {
-    return Row(
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text(
-            text,
-            style: TextStyle(
-                color: color,
-                fontSize: 15,
-                fontWeight: FontWeight.w900,
-                fontFamily: 'Baloo'),
-          ),
-        )
-      ],
+    return Container(
+      padding: EdgeInsets.all(8.0),
+      child: Text(
+        text,
+        maxLines: 100,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+            color: color,
+            fontSize: 15,
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Baloo'),
+      ),
     );
   }
 

@@ -19,7 +19,8 @@ class Fixtures {
               email: null,
               gender: Gender.MALE,
               age: 18,
-              description: "Harnas, piwo z gór",
+              description:
+                  "Harnas, piwo z gór l;aldjkf;lasdkjflkasjdl;kdjsflakdjsl;adjsklkasdjflkasdjal;sdjklaksdjlaskdjldsakjlkasdjlaskdjlaksdflksadopweiruqwtuqpoitoipqwyetncxvm,zxc.,mznc .",
               favoriteAlcoholName: "Harnas",
               favoriteAlcoholType: AlcoholType.BEER,
               genderPreference: Gender.MALE,
