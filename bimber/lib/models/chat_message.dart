@@ -4,49 +4,44 @@ import 'package:meta/meta.dart';
 class ChatMessage extends Equatable {
   bool get stringify => true;
 
-  final String id;
   final String groupId;
+  final String userId;
   final DateTime date;
-  final String text;
-  final String sender;
+  final String message;
 
   ChatMessage(
-      {@required this.id,
-      @required this.groupId,
+      {@required this.groupId,
+      @required this.userId,
       @required this.date,
-      @required this.text,
-      @required this.sender});
+      @required this.message});
 
   ChatMessage copyWith(
-      {String id, String groupId, DateTime date, String text, String sender}) {
+      {String groupId, String userId, DateTime date, String message}) {
     return ChatMessage(
-        id: id ?? this.id,
         groupId: groupId ?? this.groupId,
+        userId: userId ?? this.userId,
         date: date ?? this.date,
-        text: text ?? this.text,
-        sender: sender ?? this.sender);
+        message: message ?? this.message);
   }
 
   @override
-  List get props => [id, groupId, date, text, sender];
+  List get props => [groupId, userId, date, message];
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
       "groupId": groupId,
+      "userId": userId,
       "date": date?.toIso8601String(),
-      "text": text,
-      "sender": sender
+      "message": message
     };
   }
 
   factory ChatMessage.fromJson(dynamic json) {
     if (json == null) return null;
     return ChatMessage(
-        id: json["id"],
         groupId: json["groupId"],
+        userId: json["userId"],
         date: json["date"] != null ? DateTime.parse(json["date"]) : null,
-        text: json["text"],
-        sender: json["sender"]);
+        message: json["message"]);
   }
 }

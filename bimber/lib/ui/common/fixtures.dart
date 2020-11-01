@@ -26,10 +26,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              imageUrl:
-                  "https://wygraland.pl/wp-content/uploads/2017/02/harnas-1.jpg",
-              location: Location(latitude: 50.44, longtitude: 56.78),
-              friends: null),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'bbb',
               name: "Harnas",
@@ -43,10 +40,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              imageUrl:
-                  "https://baxu.pl/storage/posts/August2019/jvSRI1Qh0NWCsia6ORs0.jpg",
-              location: Location(latitude: 50.44, longtitude: 56.78),
-              friends: null),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'ccc',
               name: "Harnas",
@@ -60,10 +54,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              imageUrl:
-                  "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.pg",
-              location: Location(latitude: 50.44, longtitude: 56.78),
-              friends: null),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'ddd',
               name: "Harnas",
@@ -77,10 +68,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              imageUrl:
-                  "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
-              location: Location(latitude: 50.44, longtitude: 56.78),
-              friends: null),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'eee',
               name: "Harnas",
@@ -94,10 +82,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              imageUrl:
-                  "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
-              location: Location(latitude: 50.44, longtitude: 56.78),
-              friends: null),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'fff',
               name: "Harnas",
@@ -111,10 +96,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              imageUrl:
-                  "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
-              location: Location(latitude: 50.44, longtitude: 56.78),
-              friends: null),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
           User(
               id: 'ggg',
               name: "Harnas",
@@ -128,10 +110,7 @@ class Fixtures {
               agePreferenceFrom: 18,
               agePreferenceTo: 99,
               alcoholPreference: AlcoholType.BEER,
-              imageUrl:
-                  "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
-              location: Location(latitude: 50.44, longtitude: 56.78),
-              friends: null),
+              latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
         ]);
   }
 
@@ -149,10 +128,7 @@ class Fixtures {
         agePreferenceFrom: 18,
         agePreferenceTo: 99,
         alcoholPreference: AlcoholType.BEER,
-        imageUrl:
-            "https://wygraland.pl/wp-content/uploads/2017/02/harnas-1.jpg",
-        location: Location(latitude: 50.44, longtitude: 56.78),
-        friends: null);
+        latestLocation: Location(latitude: 50.44, longtitude: 56.78));
   }
 
   static List<User> getUsersList() {
@@ -170,27 +146,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          imageUrl:
-              "https://wygraland.pl/wp-content/uploads/2017/02/harnas-1.jpg",
-          location: Location(latitude: 50.44, longtitude: 56.78),
-          friends: null),
-      User(
-          id: 'bbb',
-          name: "Harnas",
-          email: null,
-          gender: Gender.MALE,
-          age: 22,
-          description: "Harnas, piwo z gór",
-          favoriteAlcoholName: "Harnas",
-          favoriteAlcoholType: AlcoholType.BEER,
-          genderPreference: Gender.MALE,
-          agePreferenceFrom: 18,
-          agePreferenceTo: 99,
-          alcoholPreference: AlcoholType.BEER,
-          imageUrl:
-              "https://baxu.pl/storage/posts/August2019/jvSRI1Qh0NWCsia6ORs0.jpg",
-          location: Location(latitude: 50.44, longtitude: 56.78),
-          friends: null),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'ccc',
           name: "Harnas",
@@ -204,10 +160,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          imageUrl:
-              "https://upload.wikimedia.org/wikipedia/commons/8/85/Harna%C5%9B_glass_bottle.pg",
-          location: Location(latitude: 50.44, longtitude: 56.78),
-          friends: null),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'ddd',
           name: "Harnas",
@@ -221,10 +174,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          imageUrl:
-              "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
-          location: Location(latitude: 50.44, longtitude: 56.78),
-          friends: null),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'eee',
           name: "Harnas",
@@ -238,10 +188,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          imageUrl:
-              "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
-          location: Location(latitude: 50.44, longtitude: 56.78),
-          friends: null),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'fff',
           name: "Harnas",
@@ -255,10 +202,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          imageUrl:
-              "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
-          location: Location(latitude: 50.44, longtitude: 56.78),
-          friends: null),
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
           id: 'ggg',
           name: "Harnas",
@@ -272,10 +216,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          imageUrl:
-              "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
-          location: Location(latitude: 50.44, longtitude: 56.78),
-          friends: null)
+          latestLocation: Location(latitude: 50.44, longtitude: 56.78))
     ];
   }
 
@@ -290,28 +231,14 @@ class Fixtures {
             groupId: "aaa" + index.toString(),
             name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
             lastMessage: ChatMessage(
-                id: "aaa",
                 groupId: "aaa",
                 date: DateTime.now(),
-                text: "siema" + index.toString(),
-                sender: "aaa")));
+                message: "siema" + index.toString(),
+                userId: "aaa")));
     chats.add(ChatThumbnail(
         groupId: "bdg",
         name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
         lastMessage: null));
-    return chats;
-  }
-
-  static List<ChatMessage> getChatMessages() {
-    List<ChatMessage> chats = List.generate(
-        10,
-        (index) => ChatMessage(
-            id: "aaa",
-            groupId: "aaa",
-            text: "siema" + index.toString(),
-            date: DateTime.now().subtract(Duration(minutes: 70 * index)),
-            sender: "id" + index.toString()));
-    chats.sort((a, b) => b.date.compareTo(a.date));
     return chats;
   }
 

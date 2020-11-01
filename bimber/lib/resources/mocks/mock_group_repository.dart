@@ -14,17 +14,19 @@ class MockGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<List<Group>> fetchGroupInvitationList() {
+  Future<List<Group>> fetchGroupInvitationList({fetchCache = false}) {
+    if (fetchCache) return Future.value(Fixtures.getGroups());
     return Future.delayed(Duration(seconds: 1), () => Fixtures.getGroups());
   }
 
   @override
-  Future<List<Group>> fetchGroupList() {
+  Future<List<Group>> fetchGroupList({fetchCache = false}) {
+    if (fetchCache) return Future.value(Fixtures.getGroups());
     return Future.delayed(Duration(seconds: 1), () => Fixtures.getGroups());
   }
 
   @override
-  Future<bool> addToGroup(String userId) {
+  Future<bool> addToGroup(String userId, String groupId) {
     return Future.delayed(Duration(seconds: 1), () => true);
   }
 
@@ -37,5 +39,10 @@ class MockGroupRepository extends GroupRepository {
   @override
   Future<Group> fetchGroup(String groupId) {
     return Future.value(Fixtures.getGroup(groupId));
+  }
+
+  @override
+  Future<List<String>> fetchPossibleFriend(String groupId) {
+   return Future.value(["aaa"]);
   }
 }

@@ -7,11 +7,14 @@ import 'package:bimber/ui/common/themed_primary_button.dart';
 import 'package:bimber/ui/group_create/draggable_animated_list.dart';
 import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:build_context/build_context.dart';
 
 class GroupMakerScreen extends StatelessWidget {
+  final DialogUtils dialogUtils = DialogUtils();
+
   Widget _draggableAnimatedList(BuildContext context, List<User> friends) {
     return DraggableAnimatedList<User>(
       elements: friends,
@@ -102,7 +105,7 @@ class GroupMakerScreen extends StatelessWidget {
                     padding: EdgeInsets.only(top: 20),
                     child: ThemedPrimaryButton(
                       label: "Stwórz",
-                      onPressed: () {},
+                      onPressed: null,
                     ),
                   ),
                 )
@@ -133,23 +136,25 @@ class GroupMakerScreen extends StatelessWidget {
             child: BlocConsumer<GroupMakerBloc, GroupMakerState>(
                 listener: (context, state) {
               if (state is GroupMakerLoading) {
-                showLoadingIndicatorDialog(context, "Ładowanie...");
+                dialogUtils.showLoadingIndicatorDialog(context, "Ładowanie...");
               } else if (state is GroupMakerFailure) {
-                hideDialog(context);
-                showIconDialog(Icons.error, Colors.red,
+                dialogUtils.hideDialog(context);
+                dialogUtils.showIconDialog(Icons.error, Colors.red,
                     "Nie udało się stworzyć grupy", context);
                 Future.delayed(Duration(milliseconds: 1500), () {
-                  hideDialog(context);
+                  dialogUtils.hideDialog(context);
                   context.pop();
                 });
               } else if (state is GroupMakerSuccess) {
-                hideDialog(context);
-                showIconDialog(Icons.check_circle, Colors.green,
+                dialogUtils.hideDialog(context);
+                dialogUtils.showIconDialog(Icons.check_circle, Colors.green,
                     "Wysłano zaproszenia do grupy", context);
                 Future.delayed(Duration(milliseconds: 1500), () {
-                  hideDialog(context);
+                  dialogUtils.hideDialog(context);
                   context.pop();
                 });
+              } else if (state is GroupMakerError) {
+                dialogUtils.hideDialog(context);
               }
             }, builder: (context, state) {
               if (state is GroupMakerInitial)

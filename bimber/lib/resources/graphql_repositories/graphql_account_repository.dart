@@ -23,7 +23,8 @@ class GraphqlAccountRepository extends AccountRepository {
         fetchPolicy: FetchPolicy.networkOnly,
         variables: {"email": email});
 
-    final queryResult = await client.value.query(options);
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
     return queryResult.data["accountExists"] as bool;
@@ -37,14 +38,15 @@ class GraphqlAccountRepository extends AccountRepository {
     final WatchQueryOptions options =
         WatchQueryOptions(document: query.me, fetchResults: true);
 
-    final queryResult = await client.value.query(options);
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
 
     try {
       checkQueryResultForErrors(queryResult);
     } on GraphqlConnectionError catch (e) {
       throw e;
     } catch (e) {
-      print(e);
+      await TokenService.deleteToken();
       return false;
     }
 
@@ -59,7 +61,8 @@ class GraphqlAccountRepository extends AccountRepository {
         fetchPolicy: FetchPolicy.networkOnly,
         variables: {"email": email, "password": password});
 
-    final queryResult = await client.value.mutate(options);
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
 
     try {
       checkQueryResultForErrors(queryResult);
@@ -88,7 +91,8 @@ class GraphqlAccountRepository extends AccountRepository {
         fetchPolicy: FetchPolicy.networkOnly,
         variables: data.toJson());
 
-    final queryResult = await client.value.mutate(options);
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
     return AccountData.fromJson(queryResult.data["register"]);
@@ -101,7 +105,8 @@ class GraphqlAccountRepository extends AccountRepository {
         fetchPolicy: FetchPolicy.networkOnly,
         variables: data.toJson());
 
-    final queryResult = await client.value.mutate(options);
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
     return;
@@ -115,7 +120,8 @@ class GraphqlAccountRepository extends AccountRepository {
         fetchPolicy:
             useCache ? FetchPolicy.cacheFirst : FetchPolicy.networkOnly);
 
-    final queryResult = await client.value.query(options);
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
     return AccountData.fromJson(queryResult.data["me"]);

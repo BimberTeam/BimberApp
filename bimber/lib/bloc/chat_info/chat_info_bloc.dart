@@ -39,11 +39,10 @@ class ChatInfoBloc extends Bloc<ChatInfoEvent, ChatInfoState> {
       AddMemberToFriends event) async* {
     try {
       yield ChatInfoLoading();
-      bool addedFriends = await friendRepository.deleteFriend(event.id);
+      bool addedFriends = await friendRepository.addFriend(event.id);
       yield addedFriends ? ChatInfoAddSuccess() : ChatInfoAddFailure();
       Group group = await groupRepository.fetchGroup(groupId);
-      List<String> canBeAdded = await friendRepository
-          .checkIfCanBeAddedToFriend(group.members.map((e) => e.id).toList());
+      List<String> canBeAdded = await groupRepository.fetchPossibleFriend(groupId);
       String currentUserId = (await accountRepository.fetchMe()).id;
       yield ChatInfoFetched(
           group: group, canBeAdded: canBeAdded, currentUserId: currentUserId);
@@ -58,8 +57,7 @@ class ChatInfoBloc extends Bloc<ChatInfoEvent, ChatInfoState> {
   Stream<ChatInfoState> _mapInitChatInfoToState(InitChatInfo event) async* {
     try {
       Group group = await groupRepository.fetchGroup(groupId);
-      List<String> canBeAdded = await friendRepository
-          .checkIfCanBeAddedToFriend(group.members.map((e) => e.id).toList());
+      List<String> canBeAdded = await groupRepository.fetchPossibleFriend(groupId);
       String currentUserId = (await accountRepository.fetchMe()).id;
       yield ChatInfoFetched(
           group: group, canBeAdded: canBeAdded, currentUserId: currentUserId);

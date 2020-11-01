@@ -2,20 +2,20 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 final register = gql(r'''
 mutation Register(
-  $name: String!,
-  $email: String!,
-  $password: String!,
-  $age: Int!,
-  $favoriteAlcoholName: String!,
-  $favoriteAlcoholType: AlcoholType!,
-  $description: String!,
-  $gender: Gender!,
-  $genderPreference: Gender!,
-  $alcoholPreference: AlcoholType!,
-  $agePreferenceFrom: Int!,
-  $agePreferenceTo: Int!,
-) {
-  register(user: {
+    $name: String!,
+    $email: String!,
+    $password: String!,
+    $age: Int!,
+    $favoriteAlcoholName: String!,
+    $favoriteAlcoholType: AlcoholType!,
+    $description: String!,
+    $gender: Gender!,
+    $genderPreference: Gender!,
+    $alcoholPreference: AlcoholType!,
+    $agePreferenceFrom: Int!,
+    $agePreferenceTo: Int!
+  ) {
+  register(input: {
     name: $name,
     email: $email,
     password: $password,
@@ -37,7 +37,10 @@ mutation Register(
 
 final login = gql(r'''
 mutation Login($email: String!, $password: String!) {
-  login(email: $email, password: $password) {
+  login(input: {
+    email: $email, 
+    password: $password
+  }) {
     token
   }
 }
@@ -45,18 +48,18 @@ mutation Login($email: String!, $password: String!) {
 
 final editAccount = gql(r'''
 mutation EditAccount(
-  $name: String,
-  $age: Int,
-  $favoriteAlcoholName: String,
-  $favoriteAlcoholType: AlcoholType,
-  $description: String,
-  $gender: Gender,
-  $genderPreference: Gender,
-  $alcoholPreference: AlcoholType,
-  $agePreferenceFrom: Int,
-  $agePreferenceTo: Int,
+    $name: String,
+    $age: Int,
+    $favoriteAlcoholName: String,
+    $favoriteAlcoholType: AlcoholType,
+    $description: String,
+    $gender: Gender,
+    $genderPreference: Gender,
+    $alcoholPreference: AlcoholType,
+    $agePreferenceFrom: Int,
+    $agePreferenceTo: Int,
 ) {
-  updateAccount(account: {
+  updateAccount(input: {
     name: $name,
     age: $age,
     favoriteAlcoholName: $favoriteAlcoholName,

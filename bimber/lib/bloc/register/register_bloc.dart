@@ -31,10 +31,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         yield RegisterSuccess(account: registered);
 
         final userId = registered.id;
+
+        await repository.login(event.data.email, event.data.password);
         final token = await TokenService.getToken();
         final image = File(event.data.imagePath);
 
-        // FIXEME what to do when image fails to update but we already created the account?
         try {
           await ImageService.uploadImage(
               userId: userId, token: token, image: image);
@@ -42,7 +43,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           print("Failed to upload image: $e");
         }
 
-        await Future.delayed(Duration(seconds: 2));
         yield RegisterNavigateToLogin();
       } catch (e) {
         print(e);

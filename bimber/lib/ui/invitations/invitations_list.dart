@@ -107,13 +107,35 @@ class InvitationsList<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: RefreshIndicator(
-      onRefresh: onRefresh,
-      child: ListView(
-        physics: BouncingScrollPhysics(),
-        children: list
-            .map((element) => _invitationListTile(element, context))
-            .toList(),
-      ),
-    ));
+            onRefresh: onRefresh,
+            child: list.isNotEmpty
+                ? ListView(
+                    physics: BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    children: list
+                        .map((element) => _invitationListTile(element, context))
+                        .toList(),
+                  )
+                : LayoutBuilder(builder:
+                    (BuildContext context, BoxConstraints viewportConstraints) {
+                    return SingleChildScrollView(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        child: Container(
+                            height: viewportConstraints.maxHeight,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                "Brak zaproszeń",
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondaryVariant,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w900,
+                                    fontFamily: 'Baloo'),
+                                textAlign: TextAlign.center,
+                              ),
+                            )));
+                  })));
   }
 }

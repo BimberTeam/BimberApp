@@ -30,12 +30,34 @@ class GroupChatList extends StatelessWidget {
         Expanded(
           child: Container(
               padding: EdgeInsets.only(left: 4.0),
-              child: ListView(
-                  physics: BouncingScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  children: chatThumbnails
-                      .map((chat) => ChatOverview(chatThumbnail: chat))
-                      .toList())),
+              child: chatThumbnails.isNotEmpty
+                  ? ListView(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      children: chatThumbnails
+                          .map((chat) => ChatOverview(chatThumbnail: chat))
+                          .toList())
+                  : LayoutBuilder(builder: (BuildContext context,
+                      BoxConstraints viewportConstraints) {
+                      return SingleChildScrollView(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          child: Container(
+                              height: viewportConstraints.maxHeight,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Brak grup",
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primaryVariant,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: 'Baloo'),
+                                  textAlign: TextAlign.center,
+                                ),
+                              )));
+                    })),
         )
       ],
     ));
@@ -88,7 +110,7 @@ class ChatOverviewState extends State<ChatOverview> {
               fontFamily: 'Baloo'),
         ),
         subtitle: Text(
-          widget.chatThumbnail.lastMessage?.text ?? "Zacznij konwersacje",
+          widget.chatThumbnail.lastMessage?.message ?? "Zacznij konwersacje",
           style: TextStyle(
               color: Colors.grey,
               fontSize: 10,
