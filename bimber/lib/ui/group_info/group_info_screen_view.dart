@@ -15,8 +15,8 @@ class GroupInfoViewScreen extends StatefulWidget {
 
 class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
   Group group;
-  List<String> canBeAdded;
-  String currentUserId;
+  List<String> friendsCandidate;
+  String meId;
 
   Widget _header(BuildContext context) {
     TextStyle style = TextStyle(
@@ -121,7 +121,7 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
                 fontWeight: FontWeight.w900,
                 fontFamily: 'Baloo'),
           ),
-          trailing: canBeAdded.contains(user.id)
+          trailing: friendsCandidate.contains(user.id)
               ? _button(Icons.add, null, () {
                   context
                       .bloc<GroupInfoBloc>()
@@ -140,8 +140,8 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
         listener: (context, state) {
       if (state is GroupInfoFetched) {
         group = state.group;
-        canBeAdded = state.canBeAdded;
-        currentUserId = state.currentUserId;
+        friendsCandidate = state.friendsCandidate;
+        meId = state.meId;
       } else if (state is GroupInfoLoading) {
         showLoadingSnackbar(context, message: "");
       } else if (state is GroupInfoAddFailure) {
@@ -179,7 +179,7 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
                       _header(context),
                     ] +
                     group.members
-                        .where((element) => element.id != currentUserId)
+                        .where((element) => element.id != meId)
                         .map((e) => _memberListTile(e, context))
                         .toList(),
               ),

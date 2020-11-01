@@ -57,7 +57,7 @@ class GroupInfoBloc extends Bloc<GroupInfoEvent, GroupInfoState> {
           await groupRepository.fetchFriendCandidates(groupId);
       final meId = (await accountRepository.fetchMe()).id;
       yield GroupInfoFetched(
-          group: group, canBeAdded: friendsCandidates, currentUserId: meId);
+          group: group, friendsCandidate: friendsCandidates, meId: meId);
     } catch (exception) {
       print(exception);
       if (exception is TimeoutException)
