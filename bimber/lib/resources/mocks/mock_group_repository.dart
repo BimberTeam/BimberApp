@@ -42,7 +42,7 @@ class MockGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<List<String>> fetchPossibleFriend(String groupId) {
-   return Future.value(["aaa"]);
+  Future<List<String>> fetchFriendCandidates(String groupId) {
+    return Future.value(["aaa"]);
   }
 }

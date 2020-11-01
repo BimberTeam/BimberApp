@@ -8,5 +8,5 @@ abstract class GroupRepository {
   Future<bool> createGroup(List<String> memberIds);
   Future<bool> addToGroup(String userId, String groupId);
   Future<Group> fetchGroup(String groupId);
-  Future<List<String>> fetchPossibleFriend(String groupId);
+  Future<List<String>> fetchFriendCandidates(String groupId);
 }

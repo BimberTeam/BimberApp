@@ -1,15 +1,15 @@
-import 'package:bimber/bloc/chat_info/chat_info_bloc.dart';
+import 'package:bimber/bloc/group_info/group_info_bloc.dart';
 import 'package:bimber/resources/repositories/account_repository.dart';
 import 'package:bimber/resources/repositories/friend_repository.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
-import 'package:bimber/ui/chat_info/chat_info_screen_view.dart';
+import 'package:bimber/ui/group_info/group_info_screen_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ChatInfoScreen extends StatelessWidget {
+class GroupInfoScreen extends StatelessWidget {
   final String groupId;
 
-  const ChatInfoScreen({Key key, this.groupId}) : super(key: key);
+  const GroupInfoScreen({Key key, this.groupId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +32,14 @@ class ChatInfoScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: BlocProvider<ChatInfoBloc>(
-          create: (context) => ChatInfoBloc(
+        body: BlocProvider<GroupInfoBloc>(
+          create: (context) => GroupInfoBloc(
               friendRepository: context.repository<FriendRepository>(),
               groupRepository: context.repository<GroupRepository>(),
               accountRepository: context.repository<AccountRepository>(),
               groupId: groupId)
-            ..add(InitChatInfo()),
-          child: ChatInfoViewScreen(),
+            ..add(InitGroupInfo()),
+          child: GroupInfoViewScreen(),
         ));
   }
 }

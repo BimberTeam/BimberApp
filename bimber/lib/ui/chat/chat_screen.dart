@@ -5,6 +5,7 @@ import 'package:bimber/ui/chat/chat_view_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 class ChatScreen extends StatelessWidget {
   final ChatThumbnail chatThumbnail;
 

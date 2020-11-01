@@ -57,6 +57,5 @@ void calculateCurrentDistanceFrom(
 }
 
 Color colorFromGroupId(String groupId) {
-  int hash = groupId.hashCode % 0xffffffff;
-  return Color(hash).withOpacity(1.0);
+  return Color(groupId.hashCode).withOpacity(1.0);
 }

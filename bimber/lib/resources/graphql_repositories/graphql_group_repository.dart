@@ -136,7 +136,7 @@ class GraphqlGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<List<String>> fetchPossibleFriend(String groupId) {
+  Future<List<String>> fetchFriendCandidates(String groupId) {
     return Future.value(["aaa"]);
   }
 }

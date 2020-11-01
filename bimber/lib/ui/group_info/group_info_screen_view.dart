@@ -1,4 +1,4 @@
-import 'package:bimber/bloc/chat_info/chat_info_bloc.dart';
+import 'package:bimber/bloc/group_info/group_info_bloc.dart';
 import 'package:bimber/models/group.dart';
 import 'package:bimber/models/user.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
@@ -8,12 +8,12 @@ import 'package:bimber/ui/common/utils.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ChatInfoViewScreen extends StatefulWidget {
+class GroupInfoViewScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => ChatInfoViewScreenState();
+  State<StatefulWidget> createState() => GroupInfoViewScreenState();
 }
 
-class ChatInfoViewScreenState extends State<ChatInfoViewScreen> {
+class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
   Group group;
   List<String> canBeAdded;
   String currentUserId;
@@ -124,21 +124,34 @@ class ChatInfoViewScreenState extends State<ChatInfoViewScreen> {
           trailing: canBeAdded.contains(user.id)
               ? _button(Icons.add, null, () {
                   context
-                      .bloc<ChatInfoBloc>()
+                      .bloc<GroupInfoBloc>()
                       .add(AddMemberToFriends(id: user.id));
                 }, context)
               : SizedBox(
                   width: 0,
+                  height: 0,
                 )),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ChatInfoBloc, ChatInfoState>(builder: (context, state) {
-      if (state is ChatInfoInitial) {
-        return Align(
-          alignment: Alignment.center,
+    return BlocConsumer<GroupInfoBloc, GroupInfoState>(
+        listener: (context, state) {
+      if (state is GroupInfoFetched) {
+        group = state.group;
+        canBeAdded = state.canBeAdded;
+        currentUserId = state.currentUserId;
+      } else if (state is GroupInfoLoading) {
+        showLoadingSnackbar(context, message: "");
+      } else if (state is GroupInfoAddFailure) {
+        showErrorSnackbar(context, message: "Nie udało się dodać do znajomych");
+      } else if (state is GroupInfoAddSuccess) {
+        showSuccessSnackbar(context, message: "Dodano do znajomych");
+      }
+    }, builder: (context, state) {
+      if (state is GroupInfoInitial) {
+        return Center(
           child: SizedBox(
               height: 50,
               width: 50,
@@ -147,9 +160,8 @@ class ChatInfoViewScreenState extends State<ChatInfoViewScreen> {
                       Theme.of(context).colorScheme.primary),
                   strokeWidth: 3.0)),
         );
-      } else if (state is ChatInfoError) {
-        return Container(
-            alignment: Alignment.center,
+      } else if (state is GroupInfoError) {
+        return Center(
             child: Text(state.message,
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -172,18 +184,6 @@ class ChatInfoViewScreenState extends State<ChatInfoViewScreen> {
                         .toList(),
               ),
             ));
-      }
-    }, listener: (context, state) {
-      if (state is ChatInfoFetched) {
-        group = state.group;
-        canBeAdded = state.canBeAdded;
-        currentUserId = state.currentUserId;
-      } else if (state is ChatInfoLoading) {
-        showLoadingSnackbar(context, message: "");
-      } else if (state is ChatInfoAddFailure) {
-        showErrorSnackbar(context, message: "Nie udało się dodać do znajomych");
-      } else if (state is ChatInfoAddSuccess) {
-        showSuccessSnackbar(context, message: "Dodano do znajomych");
       }
     });
   }

@@ -1,8 +1,8 @@
-part of 'chat_info_bloc.dart';
+part of 'group_info_bloc.dart';
 
 @immutable
-abstract class ChatInfoEvent extends Equatable {
-  const ChatInfoEvent();
+abstract class GroupInfoEvent extends Equatable {
+  const GroupInfoEvent();
 
   @override
   List<Object> get props => [];
@@ -11,9 +11,9 @@ abstract class ChatInfoEvent extends Equatable {
   bool get stringify => true;
 }
 
-class InitChatInfo extends ChatInfoEvent {}
+class InitGroupInfo extends GroupInfoEvent {}
 
-class AddMemberToFriends extends ChatInfoEvent {
+class AddMemberToFriends extends GroupInfoEvent {
   final String id;
 
   AddMemberToFriends({@required this.id});
