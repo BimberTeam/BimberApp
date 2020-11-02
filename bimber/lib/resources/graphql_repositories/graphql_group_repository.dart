@@ -1,6 +1,7 @@
 import 'package:bimber/models/group.dart';
 import 'package:bimber/models/message.dart';
 import 'package:bimber/models/status.dart';
+import 'package:bimber/models/user.dart';
 import 'package:bimber/resources/graphql_repositories/common.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/graphql/queries.dart' as query;
@@ -132,11 +133,20 @@ class GraphqlGroupRepository extends GroupRepository {
 
   @override
   Future<Group> fetchGroup(String groupId) {
+    // TODO: implement
     return Future.value(Fixtures.getGroup(groupId));
   }
 
   @override
   Future<List<String>> fetchFriendCandidates(String groupId) {
+    // TODO: implement
     return Future.value(["aaa"]);
+  }
+
+  @override
+  Future<List<User>> fetchGroupMemberCandidates(String groupId,
+      {fetchCache = false}) {
+    // TODO: implement fetchGroupMemberCandidates
+    return Future.value(Fixtures.getUsersList());
   }
 }
