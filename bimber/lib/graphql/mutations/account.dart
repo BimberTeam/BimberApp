@@ -10,7 +10,7 @@ mutation Register(
     $favoriteAlcoholType: AlcoholType!,
     $description: String!,
     $gender: Gender!,
-    $genderPreference: Gender!,
+    $genderPreference: Gender,
     $alcoholPreference: AlcoholType!,
     $agePreferenceFrom: Int!,
     $agePreferenceTo: Int!
