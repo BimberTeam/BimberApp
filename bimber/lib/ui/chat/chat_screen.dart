@@ -3,6 +3,7 @@ import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:bimber/ui/chat/chat_view_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:build_context/build_context.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -35,7 +36,9 @@ class ChatScreen extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.info),
-            onPressed: () {},
+            onPressed: () {
+              context.pushNamed("/chat-info", arguments: chatThumbnail.groupId);
+            },
           ),
         ],
       ),

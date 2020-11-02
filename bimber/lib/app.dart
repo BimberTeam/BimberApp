@@ -12,6 +12,7 @@ import 'package:bimber/ui/chat_list/friend_menu.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:bimber/ui/group_create/group_maker_screen.dart';
 import 'package:bimber/ui/group_details/group_details.dart';
+import 'package:bimber/ui/group_info/group_info_screen.dart';
 import 'package:bimber/ui/home/home_screen.dart';
 import 'package:bimber/ui/invitations/invitations_screen.dart';
 import 'package:bimber/ui/login/login_screen.dart';
@@ -148,6 +149,15 @@ class App extends StatelessWidget {
                         duration: Duration(milliseconds: 500),
                         child: ChatScreen(
                           chatThumbnail: settings.arguments,
+                        ));
+                  }
+                case "/chat-info":
+                  {
+                    return PageTransition(
+                        type: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 500),
+                        child: GroupInfoScreen(
+                          groupId: settings.arguments,
                         ));
                   }
                 default:

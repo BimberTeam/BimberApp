@@ -148,20 +148,6 @@ class Fixtures {
           alcoholPreference: AlcoholType.BEER,
           latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
       User(
-          id: 'bbb',
-          name: "Harnas",
-          email: null,
-          gender: Gender.MALE,
-          age: 22,
-          description: "Harnas, piwo z gór",
-          favoriteAlcoholName: "Harnas",
-          favoriteAlcoholType: AlcoholType.BEER,
-          genderPreference: Gender.MALE,
-          agePreferenceFrom: 18,
-          agePreferenceTo: 99,
-          alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
-      User(
           id: 'ccc',
           name: "Harnas",
           email: null,
@@ -259,6 +245,8 @@ class Fixtures {
   static String getRandomHarnasUrl(String userId) {
     final harnasUrls = [
       "https://wygraland.pl/wp-content/uploads/2017/02/harnas-1.jpg",
+      "https://www.smolar.pl/sites/default/files/styles/details/public/harna6x6_1.jpg?itok=z9SKYmae",
+      "https://baxu.pl/storage/posts/August2019/jvSRI1Qh0NWCsia6ORs0.jpg"
     ];
     int hash = userId.hashCode;
     return harnasUrls[hash % 1];

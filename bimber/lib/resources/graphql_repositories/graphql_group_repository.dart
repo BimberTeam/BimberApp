@@ -5,6 +5,7 @@ import 'package:bimber/resources/graphql_repositories/common.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/graphql/queries.dart' as query;
 import 'package:bimber/graphql/mutations.dart' as mutation;
+import 'package:bimber/ui/common/fixtures.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -127,5 +128,15 @@ class GraphqlGroupRepository extends GroupRepository {
     return (queryResult.data['me']['groups'] as List)
         .map((json) => Group.fromJson(json))
         .toList();
+  }
+
+  @override
+  Future<Group> fetchGroup(String groupId) {
+    return Future.value(Fixtures.getGroup(groupId));
+  }
+
+  @override
+  Future<List<String>> fetchFriendCandidates(String groupId) {
+    return Future.value(["aaa"]);
   }
 }

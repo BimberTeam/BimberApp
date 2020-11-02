@@ -35,4 +35,14 @@ class MockGroupRepository extends GroupRepository {
     return Future.delayed(
         Duration(seconds: 1), () => memberIds.length > 3 ? true : false);
   }
+
+  @override
+  Future<Group> fetchGroup(String groupId) {
+    return Future.value(Fixtures.getGroup(groupId));
+  }
+
+  @override
+  Future<List<String>> fetchFriendCandidates(String groupId) {
+    return Future.value(["aaa"]);
+  }
 }
