@@ -1,3 +1,4 @@
+import 'package:bimber/graphql/queries.dart';
 import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:bimber/models/group.dart';
 import 'package:bimber/models/alcohol_type.dart';
@@ -251,5 +252,26 @@ class Fixtures {
     ];
     int hash = userId.hashCode;
     return harnasUrls[hash % 1];
+  }
+
+  static List<ChatMessage> getChatMessage() {
+    List<ChatMessage> messages = List.generate(
+        6,
+        (index) => ChatMessage(
+            groupId: "aaa",
+            date: DateTime.now().subtract(Duration(minutes: 5 * index * index)),
+            message: "siema" + index.toString(),
+            userId: "aaa"));
+    messages.add(ChatMessage(
+        groupId: "aaa",
+        date: DateTime.now().subtract(Duration(minutes: 100)),
+        message: "syna nie ma w domu, lipinki łużyckie",
+        userId: "bbb"));
+    messages.add(ChatMessage(
+        groupId: "aaa",
+        date: DateTime.now().subtract(Duration(minutes: 100)),
+        message: "halko? tutaj hymel jadwiga straz nie gasi",
+        userId: "id"));
+    return messages;
   }
 }

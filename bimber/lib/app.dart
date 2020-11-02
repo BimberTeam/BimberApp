@@ -45,7 +45,7 @@ class App extends StatelessWidget {
           ),
           RepositoryProvider<ChatRepository>(
             create: (context) =>
-                GraphlqlChatRepository(client: GraphqlClientService.client),
+                GraphqlChatRepository(client: GraphqlClientService.client),
           ),
           RepositoryProvider<GroupRepository>(
             create: (context) =>
