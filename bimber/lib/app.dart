@@ -7,6 +7,7 @@ import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:bimber/models/account_data.dart';
 import 'package:bimber/resources/services/graphql_service.dart';
 import 'package:bimber/ui/account/account_edit_screen.dart';
+import 'package:bimber/ui/add_friend_to_group/add_friends_screen.dart';
 import 'package:bimber/ui/chat/chat_screen.dart';
 import 'package:bimber/ui/chat_list/friend_menu.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
@@ -162,6 +163,15 @@ class App extends StatelessWidget {
                         type: PageTransitionType.fade,
                         duration: Duration(milliseconds: 500),
                         child: GroupInfoScreen(
+                          groupId: settings.arguments,
+                        ));
+                  }
+                case "/add-friends-to-group":
+                  {
+                    return PageTransition(
+                        type: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 500),
+                        child: AddFriendsScreen(
                           groupId: settings.arguments,
                         ));
                   }

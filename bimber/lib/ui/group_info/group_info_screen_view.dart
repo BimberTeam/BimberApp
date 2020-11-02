@@ -53,8 +53,10 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _button(Icons.search, "Odkryj", () => 1, context),
-              _button(Icons.people, "Dodaj", () => 2, context),
+              _button(Icons.search, "Odkryj", () {}, context),
+              _button(Icons.people, "Dodaj", () {
+                context.pushNamed("/add-friends-to-group", arguments: group.id);
+              }, context),
               _button(Icons.map, "Mapa", () => 3, context)
             ],
           ),

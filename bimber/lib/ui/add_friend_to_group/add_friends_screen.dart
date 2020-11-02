@@ -1,6 +1,5 @@
-import 'package:bimber/bloc/group_maker/group_maker_bloc.dart';
+import 'package:bimber/bloc/add_friends/add_friend_bloc.dart';
 import 'package:bimber/models/user.dart';
-import 'package:bimber/resources/repositories/friend_repository.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/ui/common/dialog_utils.dart';
 import 'package:bimber/ui/common/themed_primary_button.dart';
@@ -11,17 +10,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:build_context/build_context.dart';
 
-class GroupMakerScreen extends StatelessWidget {
+class AddFriendsScreen extends StatelessWidget {
   final DialogUtils dialogUtils = DialogUtils();
+  final String groupId;
+
+  AddFriendsScreen({Key key, this.groupId}) : super(key: key);
 
   Widget _draggableAnimatedList(BuildContext context, List<User> friends) {
     return DraggableAnimatedList(
       users: friends,
       onPressed: (List<User> friendsAdded) {
-        context.bloc<GroupMakerBloc>().add(CreateGroup(
-            memberIds: friendsAdded.map((member) => member.id).toList()));
+        context.bloc<AddFriendsBloc>().add(AddFriendsToGroup(
+            memberIds: friendsAdded.map((e) => e.id).toList()));
       },
-      buttonLabel: "Stwórz",
+      buttonLabel: "Dodaj",
     );
   }
 
@@ -64,7 +66,7 @@ class GroupMakerScreen extends StatelessWidget {
                     width: double.infinity,
                     padding: EdgeInsets.only(top: 20),
                     child: ThemedPrimaryButton(
-                      label: "Stwórz",
+                      label: "Dodaj",
                       onPressed: null,
                     ),
                   ),
@@ -81,31 +83,31 @@ class GroupMakerScreen extends StatelessWidget {
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           centerTitle: true,
-          title: Text("Stwórz grupę",
+          title: Text("Dodaj znajomych do grupy",
               style: TextStyle(
                   color: Theme.of(context).colorScheme.primaryVariant,
                   fontSize: 20,
                   fontWeight: FontWeight.w900,
                   fontFamily: 'Baloo')),
         ),
-        body: BlocProvider<GroupMakerBloc>(
-            create: (context) => GroupMakerBloc(
+        body: BlocProvider<AddFriendsBloc>(
+            create: (context) => AddFriendsBloc(
                 groupRepository: context.repository<GroupRepository>(),
-                friendRepository: context.repository<FriendRepository>())
-              ..add(InitGroupMaker()),
-            child: BlocConsumer<GroupMakerBloc, GroupMakerState>(
+                groupId: groupId)
+              ..add(InitAddFriends()),
+            child: BlocConsumer<AddFriendsBloc, AddFriendsState>(
                 listener: (context, state) {
-              if (state is GroupMakerLoading) {
+              if (state is AddFriendsLoading) {
                 dialogUtils.showLoadingIndicatorDialog(context, "Ładowanie...");
-              } else if (state is GroupMakerFailure) {
+              } else if (state is AddFriendsFailure) {
                 dialogUtils.hideDialog(context);
                 dialogUtils.showIconDialog(Icons.error, Colors.red,
-                    "Nie udało się stworzyć grupy", context);
+                    "Nie udało się dodać znajomych", context);
                 Future.delayed(Duration(milliseconds: 1500), () {
                   dialogUtils.hideDialog(context);
                   context.pop();
                 });
-              } else if (state is GroupMakerSuccess) {
+              } else if (state is AddFriendsSuccess) {
                 dialogUtils.hideDialog(context);
                 dialogUtils.showIconDialog(Icons.check_circle, Colors.green,
                     "Wysłano zaproszenia do grupy", context);
@@ -113,13 +115,13 @@ class GroupMakerScreen extends StatelessWidget {
                   dialogUtils.hideDialog(context);
                   context.pop();
                 });
-              } else if (state is GroupMakerError) {
+              } else if (state is AddFriendsError) {
                 dialogUtils.hideDialog(context);
               }
             }, builder: (context, state) {
-              if (state is GroupMakerInitial)
+              if (state is AddFriendsInitial)
                 return _initialScreen(context);
-              else if (state is GroupMakerError) {
+              else if (state is AddFriendsError) {
                 return Container(
                     alignment: Alignment.center,
                     child: Text(state.message,
@@ -130,8 +132,8 @@ class GroupMakerScreen extends StatelessWidget {
                             fontWeight: FontWeight.w900,
                             fontFamily: 'Baloo')));
               } else
-                return _draggableAnimatedList(
-                    context, (state as GroupMakerResources).getFriends());
+                return _draggableAnimatedList(context,
+                    (state as AddFriendsResources).getPossibleMembers());
             })));
   }
 }
