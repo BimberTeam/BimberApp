@@ -53,11 +53,11 @@ class GroupInfoBloc extends Bloc<GroupInfoEvent, GroupInfoState> {
   Stream<GroupInfoState> _mapToState() async* {
     try {
       final group = await groupRepository.fetchGroup(groupId);
-      final friendsCandidates =
+      final friendCandidates =
           await groupRepository.fetchFriendCandidates(groupId);
       final meId = (await accountRepository.fetchMe()).id;
       yield GroupInfoFetched(
-          group: group, friendsCandidate: friendsCandidates, meId: meId);
+          group: group, friendCandidates: friendCandidates, meId: meId);
     } catch (exception) {
       print(exception);
       if (exception is TimeoutException)
