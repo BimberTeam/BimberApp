@@ -23,14 +23,14 @@ class GroupInfoError extends GroupInfoState {
 }
 
 class GroupInfoFetched extends GroupInfoState {
-  final List<String> friendsCandidate;
+  final List<String> friendCandidates;
   final String meId;
   final Group group;
 
-  GroupInfoFetched({this.friendsCandidate, this.meId, this.group});
+  GroupInfoFetched({this.friendCandidates, this.meId, this.group});
 
   @override
-  List<Object> get props => [this.friendsCandidate, this.meId, this.group];
+  List<Object> get props => [this.friendCandidates, this.meId, this.group];
 }
 
 class GroupInfoLoading extends GroupInfoState {}
