@@ -55,7 +55,9 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
             children: [
               _button(Icons.search, "Odkryj", () => 1, context),
               _button(Icons.people, "Dodaj", () => 2, context),
-              _button(Icons.map, "Mapa", () => 3, context)
+              _button(Icons.map, "Mapa", () {
+                context.pushNamed("/members-map");
+              }, context)
             ],
           ),
           SizedBox(
