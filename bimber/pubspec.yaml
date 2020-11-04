@@ -34,6 +34,8 @@ dependencies:
   graphql_flutter: ^4.0.0-beta.3
   dio: ^3.0.10
   flutter_dotenv: ^2.1.0
+  google_maps_flutter: ^1.0.6
+  google_maps_cluster_manager: ^0.2.0
 
 dev_dependencies:
   flutter_test:

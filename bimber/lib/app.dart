@@ -13,6 +13,7 @@ import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:bimber/ui/group_create/group_maker_screen.dart';
 import 'package:bimber/ui/group_details/group_details.dart';
 import 'package:bimber/ui/group_info/group_info_screen.dart';
+import 'package:bimber/ui/group_members_map/group_members_map_screen.dart';
 import 'package:bimber/ui/home/home_screen.dart';
 import 'package:bimber/ui/invitations/invitations_screen.dart';
 import 'package:bimber/ui/login/login_screen.dart';
@@ -163,6 +164,18 @@ class App extends StatelessWidget {
                         duration: Duration(milliseconds: 500),
                         child: GroupInfoScreen(
                           groupId: settings.arguments,
+                        ));
+                  }
+                case "/members-map":
+                  {
+                    final arguments =
+                        settings.arguments as Map<String, dynamic>;
+                    return PageTransition(
+                        type: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 500),
+                        child: MembersMap(
+                          groupMembers: arguments["groupMembers"],
+                          meId: arguments["meId"],
                         ));
                   }
                 default:
