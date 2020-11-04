@@ -1,4 +1,3 @@
-import 'package:bimber/graphql/queries.dart';
 import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:bimber/models/group.dart';
 import 'package:bimber/models/alcohol_type.dart';
@@ -20,8 +19,7 @@ class Fixtures {
               email: null,
               gender: Gender.MALE,
               age: 18,
-              description:
-                  "Harnas, piwo z gór l;aldjkf;lasdkjflkasjdl;kdjsflakdjsl;adjsklkasdjflkasdjal;sdjklaksdjlaskdjldsakjlkasdjlaskdjlaksdflksadopweiruqwtuqpoitoipqwyetncxvm,zxc.,mznc .",
+              description: "Harnas, piwo z gór",
               favoriteAlcoholName: "Harnas",
               favoriteAlcoholType: AlcoholType.BEER,
               genderPreference: Gender.MALE,
@@ -258,16 +256,19 @@ class Fixtures {
     List<ChatMessage> messages = List.generate(
         6,
         (index) => ChatMessage(
+            name: "harnas" + index.toString(),
             groupId: "aaa",
             date: DateTime.now().subtract(Duration(minutes: 5 * index * index)),
             message: "siema" + index.toString(),
             userId: "aaa"));
     messages.add(ChatMessage(
+        name: "Jadwiga",
         groupId: "aaa",
         date: DateTime.now().subtract(Duration(minutes: 100)),
         message: "syna nie ma w domu, lipinki łużyckie",
         userId: "bbb"));
     messages.add(ChatMessage(
+        name: "Hymel",
         groupId: "aaa",
         date: DateTime.now().subtract(Duration(minutes: 100)),
         message: "halko? tutaj hymel jadwiga straz nie gasi",

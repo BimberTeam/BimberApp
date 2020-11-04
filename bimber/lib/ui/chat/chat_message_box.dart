@@ -9,14 +9,12 @@ class ChatMessageBox extends StatelessWidget {
   final bool isReceived;
   final bool showUser;
   final bool showDate;
-  final String username;
   const ChatMessageBox(
       {Key key,
       @required this.message,
       this.isReceived,
       this.showUser,
-      this.showDate,
-      this.username})
+      this.showDate})
       : super(key: key);
 
   @override
@@ -79,7 +77,7 @@ class ChatMessageBox extends StatelessWidget {
           showUser || showDate
               ? Padding(
                   padding: EdgeInsets.only(left: 50, bottom: 2, top: 6),
-                  child: Text(username,
+                  child: Text(message.name,
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.primaryVariant,
                           fontSize: 10,
