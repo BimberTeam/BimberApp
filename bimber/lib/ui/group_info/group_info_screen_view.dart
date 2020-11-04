@@ -56,7 +56,8 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
               _button(Icons.search, "Odkryj", () => 1, context),
               _button(Icons.people, "Dodaj", () => 2, context),
               _button(Icons.map, "Mapa", () {
-                context.pushNamed("/members-map");
+                context.pushNamed("/members-map",
+                    arguments: {"groupMembers": group.members, "meId": meId});
               }, context)
             ],
           ),

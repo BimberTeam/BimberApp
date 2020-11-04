@@ -163,10 +163,15 @@ class App extends StatelessWidget {
                   }
                 case "/members-map":
                   {
+                    final Map<String, dynamic> arguments =
+                        settings.arguments as Map<String, dynamic>;
                     return PageTransition(
                         type: PageTransitionType.fade,
                         duration: Duration(milliseconds: 500),
-                        child: MembersMap());
+                        child: MembersMap(
+                          groupMembers: arguments["groupMembers"],
+                          meId: arguments["meId"],
+                        ));
                   }
                 default:
                   {

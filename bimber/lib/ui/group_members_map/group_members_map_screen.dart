@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:bimber/models/location.dart';
+import 'package:bimber/models/user.dart';
+import 'package:bimber/ui/common/fixtures.dart';
 import 'package:bimber/ui/common/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -10,6 +13,11 @@ import 'dart:ui' as ui;
 import 'package:tinycolor/tinycolor.dart';
 
 class MembersMap extends StatefulWidget {
+  final List<User> groupMembers;
+  final String meId;
+
+  const MembersMap({Key key, this.groupMembers, this.meId}) : super(key: key);
+
   @override
   _MembersMapState createState() => _MembersMapState();
 }
@@ -18,17 +26,8 @@ class _MembersMapState extends State<MembersMap> {
   Completer<GoogleMapController> _controller = Completer();
   Set<Marker> _markers = Set();
   ClusterManager _manager;
-  LatLng _center = LatLng(50.049683, 19.944544);
-  List<ClusterItem<String>> items = [
-    ClusterItem(
-      LatLng(50.049683, 19.949544),
-      item:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/1200px-Donald_Trump_official_portrait.jpg",
-    ),
-    ClusterItem(LatLng(50.041683, 19.949544),
-        item:
-            "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc2MzAyNDY4NjM0NzgwODQ1/joe-biden-gettyimages-1267438366.jpg")
-  ];
+  LatLng _center;
+  List<ClusterItem<User>> items;
 
   Future<ui.Image> getImageFromUrl(String url) async {
     Uint8List bytes = (await NetworkAssetBundle(Uri.parse(url)).load(url))
@@ -43,11 +42,23 @@ class _MembersMapState extends State<MembersMap> {
     return completer.future;
   }
 
+  LatLng fromLocation(Location location) {
+    return LatLng(location.latitude, location.longtitude);
+  }
+
   @override
   void initState() {
     super.initState();
-    _manager = ClusterManager<String>(items, _updateMarkers,
+    _center = fromLocation(widget.groupMembers
+        .firstWhere((user) => user.id == widget.meId)
+        .latestLocation);
+    items = widget.groupMembers
+        .map((user) =>
+            ClusterItem<User>(fromLocation(user.latestLocation), item: user))
+        .toList();
+    _manager = ClusterManager<User>(items, _updateMarkers,
         markerBuilder: _markerBuilder, initialZoom: 11, stopClusteringZoom: 12);
+    setState(() {});
   }
 
   void _updateMarkers(Set<Marker> markers) {
@@ -56,20 +67,19 @@ class _MembersMapState extends State<MembersMap> {
     });
   }
 
-  Future<Marker> Function(Cluster<String>) get _markerBuilder =>
-      (cluster) async {
+  Future<Marker> Function(Cluster<User>) get _markerBuilder => (cluster) async {
         return Marker(
           markerId: MarkerId(cluster.getId()),
           position: cluster.location,
           infoWindow: cluster.isMultiple
               ? InfoWindow()
-              : InfoWindow(title: cluster.items.first),
+              : InfoWindow(title: cluster.items.first.name),
           icon: await _getMarkerBitmap(cluster.count, cluster.items),
         );
       };
 
   Future<BitmapDescriptor> _getMarkerBitmap(
-      int clusterSize, Iterable<String> items) async {
+      int clusterSize, Iterable<User> items) async {
     final double size = 200;
 
     final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
@@ -93,7 +103,8 @@ class _MembersMapState extends State<MembersMap> {
       canvas.clipPath(Path()..addOval(oval));
 
       // Add image
-      ui.Image image = await getImageFromUrl(items.first);
+      ui.Image image = await getImageFromUrl(
+          Fixtures.getRandomPresidentImageUrl(items.first.id));
       paintImage(canvas: canvas, image: image, rect: oval, fit: BoxFit.cover);
     } else {
       //if cluster size > 1 paint number of users in cluster
