@@ -10,9 +10,11 @@ void showErrorSnackbar(BuildContext context,
         content: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(message,
-                style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.w700)),
+            Flexible(
+                child: Text(message,
+                    overflow: TextOverflow.clip,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w700))),
             Icon(Icons.error)
           ],
         ),
@@ -31,9 +33,11 @@ void showSuccessSnackbar(BuildContext context,
         content: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(message,
-                style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.w700)),
+            Flexible(
+              child: Text(message,
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w700)),
+            ),
             Icon(Icons.check_circle)
           ],
         ),

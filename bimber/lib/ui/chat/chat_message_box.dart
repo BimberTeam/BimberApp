@@ -70,43 +70,62 @@ class ChatMessageBox extends StatelessWidget {
   Widget _receivedMessage(BuildContext context) {
     return Container(
       alignment: Alignment.centerLeft,
-      padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
-      child: Row(
-        children: <Widget>[
-          showUser
+      padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          showUser || showDate
               ? Padding(
-                  padding: EdgeInsets.only(right: 8.0),
-                  child: SizedBox(
-                    height: 30,
-                    width: 30,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: CustomCachedImage(
-                          imageUrl: ImageService.getImageUrl(message.userId)),
-                    ),
-                  ),
-                )
-              : Container(
-                  width: 32.0,
-                  height: 24.0,
+                  padding: EdgeInsets.only(left: 50, bottom: 2, top: 6),
+                  child: Text(message.name,
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primaryVariant,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'Baloo')))
+              : SizedBox(
+                  width: 0,
+                  height: 0,
                 ),
-          Container(
-            constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 3 / 4),
-            padding: EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
-              border: Border.all(
-                  color: Theme.of(context).colorScheme.primaryVariant),
-              borderRadius: BorderRadius.circular(25.0),
-            ),
-            child: Text(
-              message.message,
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.primaryVariant,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: 'Baloo'),
-            ),
+          Row(
+            children: <Widget>[
+              (showUser || showDate)
+                  ? Padding(
+                      padding: EdgeInsets.only(right: 8.0),
+                      child: SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: CustomCachedImage(
+                              imageUrl:
+                                  ImageService.getImageUrl(message.userId)),
+                        ),
+                      ),
+                    )
+                  : Container(
+                      width: 38.0,
+                      height: 24.0,
+                    ),
+              Container(
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 3 / 4),
+                padding: EdgeInsets.all(12.0),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: Theme.of(context).colorScheme.primaryVariant),
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                child: Text(
+                  message.message,
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.primaryVariant,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Baloo'),
+                ),
+              ),
+            ],
           ),
         ],
       ),

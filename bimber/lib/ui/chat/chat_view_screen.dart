@@ -94,7 +94,7 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
               showDate: index == currentMessages.length - 1 ||
                   (message.date
                           .difference(currentMessages[index + 1].date)
-                          .compareTo(Duration(hours: 1)) >
+                          .compareTo(Duration(minutes: 10)) >
                       0),
             );
           },

@@ -251,4 +251,28 @@ class Fixtures {
     int hash = userId.hashCode;
     return harnasUrls[hash % 1];
   }
+
+  static List<ChatMessage> getChatMessage() {
+    List<ChatMessage> messages = List.generate(
+        6,
+        (index) => ChatMessage(
+            name: "harnas" + index.toString(),
+            groupId: "aaa",
+            date: DateTime.now().subtract(Duration(minutes: 5 * index * index)),
+            message: "siema" + index.toString(),
+            userId: "aaa"));
+    messages.add(ChatMessage(
+        name: "Jadwiga",
+        groupId: "aaa",
+        date: DateTime.now().subtract(Duration(minutes: 100)),
+        message: "syna nie ma w domu, lipinki łużyckie",
+        userId: "bbb"));
+    messages.add(ChatMessage(
+        name: "Hymel",
+        groupId: "aaa",
+        date: DateTime.now().subtract(Duration(minutes: 100)),
+        message: "halko? tutaj hymel jadwiga straz nie gasi",
+        userId: "id"));
+    return messages;
+  }
 }
