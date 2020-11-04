@@ -10,10 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:meta/meta.dart';
 
-class GraphlqlChatRepository extends ChatRepository {
+class GraphqlChatRepository extends ChatRepository {
   final ValueNotifier<GraphQLClient> client;
 
-  GraphlqlChatRepository({@required this.client});
+  GraphqlChatRepository({@required this.client});
 
   @override
   Future<List<ChatMessage>> fetchChatMessages(

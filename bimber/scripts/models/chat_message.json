@@ -3,5 +3,6 @@
   "groupId": {"type":  "String"},
   "userId": {"type":  "String"},
   "date": {"type":  "DateTime"},
-  "message": {"type":  "String"}
+  "message": {"type":  "String"},
+  "name": {"type":  "String"}
 }

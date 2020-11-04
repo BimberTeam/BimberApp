@@ -25,10 +25,15 @@ import 'package:bimber/ui/user_details/user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:flutter/services.dart';
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MultiRepositoryProvider(
         providers: [
           RepositoryProvider<AccountRepository>(
@@ -41,7 +46,7 @@ class App extends StatelessWidget {
           ),
           RepositoryProvider<ChatRepository>(
             create: (context) =>
-                GraphlqlChatRepository(client: GraphqlClientService.client),
+                GraphqlChatRepository(client: GraphqlClientService.client),
           ),
           RepositoryProvider<GroupRepository>(
             create: (context) =>
