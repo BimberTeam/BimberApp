@@ -23,7 +23,7 @@ class MembersMap extends StatefulWidget {
 }
 
 class _MembersMapState extends State<MembersMap> {
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
   Set<Marker> _markers = Set();
   ClusterManager _manager;
   LatLng _center;
@@ -52,12 +52,15 @@ class _MembersMapState extends State<MembersMap> {
     _center = fromLocation(widget.groupMembers
         .firstWhere((user) => user.id == widget.meId)
         .latestLocation);
+
     items = widget.groupMembers
         .map((user) =>
             ClusterItem<User>(fromLocation(user.latestLocation), item: user))
         .toList();
+
     _manager = ClusterManager<User>(items, _updateMarkers,
         markerBuilder: _markerBuilder, initialZoom: 11, stopClusteringZoom: 12);
+
     setState(() {});
   }
 
@@ -84,6 +87,7 @@ class _MembersMapState extends State<MembersMap> {
 
     final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
+
     final Paint paint1 = Paint()..color = indigoDye;
     final Paint paint2 = Paint()
       ..color = TinyColor(lemonMeringue).darken(10).color;
@@ -109,6 +113,7 @@ class _MembersMapState extends State<MembersMap> {
     } else {
       //if cluster size > 1 paint number of users in cluster
       TextPainter painter = TextPainter(textDirection: TextDirection.ltr);
+
       painter.text = TextSpan(
         text: clusterSize.toString(),
         style: TextStyle(
@@ -116,6 +121,7 @@ class _MembersMapState extends State<MembersMap> {
             color: TinyColor(lemonMeringue).darken(10).color,
             fontWeight: FontWeight.normal),
       );
+
       painter.layout();
       painter.paint(
         canvas,

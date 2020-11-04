@@ -168,7 +168,7 @@ class App extends StatelessWidget {
                   }
                 case "/members-map":
                   {
-                    final Map<String, dynamic> arguments =
+                    final arguments =
                         settings.arguments as Map<String, dynamic>;
                     return PageTransition(
                         type: PageTransitionType.fade,

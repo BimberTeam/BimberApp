@@ -16,6 +16,7 @@ class GroupInfoScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.secondary,
         appBar: AppBar(
+          centerTitle: true,
           iconTheme: IconThemeData(
             color: Theme.of(context).colorScheme.primaryVariant,
           ),
