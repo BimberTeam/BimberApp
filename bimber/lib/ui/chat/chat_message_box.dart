@@ -89,7 +89,7 @@ class ChatMessageBox extends StatelessWidget {
                 ),
           Row(
             children: <Widget>[
-              showUser || showDate
+              (showUser || showDate)
                   ? Padding(
                       padding: EdgeInsets.only(right: 8.0),
                       child: SizedBox(
