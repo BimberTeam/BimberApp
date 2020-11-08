@@ -22,6 +22,7 @@ import 'package:bimber/ui/login/starting_screen.dart';
 import 'package:bimber/ui/register/register_screen.dart';
 import 'package:bimber/ui/splash/splash_screen.dart';
 import 'package:bimber/ui/user_details/user_details.dart';
+import 'package:bimber/ui/voting/voting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
@@ -177,6 +178,13 @@ class App extends StatelessWidget {
                           groupMembers: arguments["groupMembers"],
                           meId: arguments["meId"],
                         ));
+                  }
+                case "/group-members-candidates":
+                  {
+                    return PageTransition(
+                        type: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 500),
+                        child: VotingScreen());
                   }
                 default:
                   {

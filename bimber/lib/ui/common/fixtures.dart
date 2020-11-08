@@ -179,8 +179,9 @@ class Fixtures {
             groupId: "aaa" + index.toString(),
             name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
             lastMessage: ChatMessage(
+                name: "Harnas",
                 groupId: "aaa",
-                date: DateTime.now(),
+                date: DateTime.now().subtract(Duration(minutes: index * 15)),
                 message: "siema" + index.toString(),
                 userId: "aaa")));
     chats.add(ChatThumbnail(
