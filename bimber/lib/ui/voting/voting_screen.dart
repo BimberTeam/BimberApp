@@ -1,5 +1,9 @@
-import 'package:bimber/ui/invitations/friend_request_bloc_widget.dart';
-import 'package:bimber/ui/invitations/group_requests_bloc_widget.dart';
+import 'package:bimber/models/user.dart';
+import 'package:bimber/ui/common/fixtures.dart';
+import 'package:bimber/ui/group_details/user_image_hero.dart';
+import 'package:bimber/ui/voting/voting_result.dart';
+import 'package:build_context/build_context.dart';
+import 'package:bimber/ui/invitations/invitations_list.dart';
 import 'package:flutter/material.dart';
 
 class VotingScreen extends StatefulWidget {
@@ -77,7 +81,26 @@ class _VotingScreenState extends State<VotingScreen>
         body: TabBarView(
           physics: NeverScrollableScrollPhysics(),
           controller: _tabController,
-          children: <Widget>[Container(), Container()],
+          children: <Widget>[
+            InvitationsList<User>(
+              list: Fixtures.getUSAPresidents(),
+              onRefresh: () {},
+              createLeadingWidget: (User user) => UserImageHero(
+                  user: user,
+                  size: Size(60, 60),
+                  radius: BorderRadius.circular(15.0),
+                  onTap: () {
+                    context.pushNamed("/user-details", arguments: user);
+                  }),
+              createTitle: (User user) => user.name,
+              createSubtitle: (User user) => user.age.toString(),
+              onAccept: (User user) {},
+              onDecline: (User user) {},
+            ),
+            VotingResults(
+              candidates: Fixtures.getGroupCandidates(),
+            )
+          ],
         ));
   }
 }
