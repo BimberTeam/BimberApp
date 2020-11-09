@@ -1,4 +1,6 @@
 import 'package:bimber/models/group.dart';
+import 'package:bimber/models/group_candidate.dart';
+import 'package:bimber/models/user.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/ui/common/fixtures.dart';
 
@@ -44,5 +46,25 @@ class MockGroupRepository extends GroupRepository {
   @override
   Future<List<String>> fetchFriendCandidates(String groupId) {
     return Future.value(["aaa"]);
+  }
+
+  @override
+  Future<List<User>> fetchCandidatesForVote(String groupId) {
+    return Future.value(Fixtures.getUSAPresidents());
+  }
+
+  @override
+  Future<List<GroupCandidate>> fetchGroupCandidates(String groupId) {
+    return Future.value(Fixtures.getGroupCandidates());
+  }
+
+  @override
+  Future<bool> voteAgainst(String groupId, String userId) {
+    return Future.value(true);
+  }
+
+  @override
+  Future<bool> voteFor(String groupId, String userId) {
+    return Future.value(true);
   }
 }

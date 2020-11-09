@@ -1,6 +1,8 @@
 import 'package:bimber/models/group.dart';
+import 'package:bimber/models/group_candidate.dart';
 import 'package:bimber/models/message.dart';
 import 'package:bimber/models/status.dart';
+import 'package:bimber/models/user.dart';
 import 'package:bimber/resources/graphql_repositories/common.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/graphql/queries.dart' as query;
@@ -132,11 +134,37 @@ class GraphqlGroupRepository extends GroupRepository {
 
   @override
   Future<Group> fetchGroup(String groupId) {
-    return Future.value(Fixtures.getGroup(groupId));
+    // TODO: implement fetchGroup
+    throw UnimplementedError();
   }
 
   @override
   Future<List<String>> fetchFriendCandidates(String groupId) {
-    return Future.value(["aaa"]);
+    // TODO: implement fetchFriendCandidates
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<User>> fetchCandidatesForVote(String groupId) {
+    // TODO: implement fetchCandidatesForVote
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<GroupCandidate>> fetchGroupCandidates(String groupId) {
+    // TODO: implement fetchGroupCandidates
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> voteAgainst(String groupId, String userId) {
+    // TODO: implement voteAgainst
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> voteFor(String groupId, String userId) {
+    // TODO: implement voteFor
+    throw UnimplementedError();
   }
 }

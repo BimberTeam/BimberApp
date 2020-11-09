@@ -1,4 +1,5 @@
 import 'package:bimber/models/group_candidate.dart';
+import 'package:bimber/ui/common/theme.dart';
 import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
@@ -19,15 +20,16 @@ class VotingResults extends StatelessWidget {
 
   _chartSeries(GroupCandidate candidate, BuildContext context) {
     final data = [
-      Votes("Za", candidate.votesInFavour, charts.Color(r: 0, g: 255, b: 0)),
+      Votes("Za", candidate.votesInFavour,
+          charts.ColorUtil.fromDartColor(indigoDye)),
+      Votes("Przeciw", candidate.votesAgainst,
+          charts.ColorUtil.fromDartColor(sandyBrown)),
       Votes(
-          "Przeciw", candidate.votesAgainst, charts.Color(r: 255, g: 0, b: 0)),
-      Votes(
-          "Brak",
+          "Brak głosu",
           candidate.groupCount -
               candidate.votesAgainst -
               candidate.votesInFavour,
-          charts.Color(r: 150, g: 150, b: 150))
+          charts.ColorUtil.fromDartColor(Colors.blueGrey))
     ];
     return [
       charts.Series<Votes, String>(
