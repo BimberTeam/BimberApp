@@ -4,6 +4,8 @@ import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:flutter/material.dart';
 import 'package:build_context/build_context.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:bimber/bloc/voting/voting_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Votes {
   final String vote;
@@ -126,7 +128,10 @@ class VotingResults extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: RefreshIndicator(
-            onRefresh: () {},
+            onRefresh: () {
+              context.bloc<VotingBloc>().add(RefetchVoting());
+              return Future.delayed(Duration(seconds: 1));
+            },
             child: candidates.isNotEmpty
                 ? ListView(
                     physics: BouncingScrollPhysics(

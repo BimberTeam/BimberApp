@@ -83,6 +83,7 @@ class GroupRequestsBlocWidget extends StatelessWidget {
                     .bloc<GroupRequestsBloc>()
                     .add(AcceptGroupRequest(groupId: group.id));
               },
+              emptyListMessage: "Brak zaproszeń",
             );
           }
         },

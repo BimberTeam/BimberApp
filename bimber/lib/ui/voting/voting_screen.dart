@@ -1,12 +1,20 @@
+import 'package:bimber/bloc/voting/voting_bloc.dart';
+import 'package:bimber/models/group_candidate.dart';
 import 'package:bimber/models/user.dart';
-import 'package:bimber/ui/common/fixtures.dart';
+import 'package:bimber/resources/repositories/group_repository.dart';
+import 'package:bimber/ui/common/snackbar_utils.dart';
 import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:bimber/ui/voting/voting_result.dart';
 import 'package:build_context/build_context.dart';
 import 'package:bimber/ui/invitations/invitations_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class VotingScreen extends StatefulWidget {
+  final String groupId;
+
+  const VotingScreen({@required this.groupId});
+
   @override
   State<StatefulWidget> createState() => _VotingScreenState();
 }
@@ -14,6 +22,8 @@ class VotingScreen extends StatefulWidget {
 class _VotingScreenState extends State<VotingScreen>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
+  List<User> groupCandidates = [];
+  List<GroupCandidate> votingResults = [];
 
   @override
   void initState() {
@@ -78,29 +88,88 @@ class _VotingScreenState extends State<VotingScreen>
             ],
           ),
         ),
-        body: TabBarView(
-          physics: NeverScrollableScrollPhysics(),
-          controller: _tabController,
-          children: <Widget>[
-            InvitationsList<User>(
-              list: Fixtures.getUSAPresidents(),
-              onRefresh: () {},
-              createLeadingWidget: (User user) => UserImageHero(
-                  user: user,
-                  size: Size(60, 60),
-                  radius: BorderRadius.circular(15.0),
-                  onTap: () {
-                    context.pushNamed("/user-details", arguments: user);
-                  }),
-              createTitle: (User user) => user.name,
-              createSubtitle: (User user) => user.age.toString(),
-              onAccept: (User user) {},
-              onDecline: (User user) {},
-            ),
-            VotingResults(
-              candidates: Fixtures.getGroupCandidates(),
-            )
-          ],
+        body: BlocProvider<VotingBloc>(
+          create: (context) => VotingBloc(
+              groupRepository: context.repository<GroupRepository>(),
+              groupId: widget.groupId)
+            ..add(InitVoting()),
+          child: BlocConsumer<VotingBloc, VotingState>(
+            listener: (context, state) {
+              if (state is VotingFetched) {
+                setState(() {
+                  groupCandidates = state.groupCandidates;
+                  votingResults = state.votingResults;
+                });
+              } else if (state is VotingLoading) {
+                showLoadingSnackbar(context, message: "");
+              } else if (state is VotingFailure) {
+                showErrorSnackbar(context,
+                    message:
+                        "Nie udało się oddać głosu. Spróbuj ponownie później!");
+              } else if (state is VotingSuccess) {
+                showSuccessSnackbar(context,
+                    message: "Oddano głos na kandydata");
+              }
+            },
+            builder: (context, state) {
+              if (state is VotingInitial) {
+                return Center(
+                  child: SizedBox(
+                      height: 50,
+                      width: 50,
+                      child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Theme.of(context).colorScheme.secondaryVariant),
+                          strokeWidth: 3.0)),
+                );
+              } else if (state is VotingError) {
+                return Center(
+                    child: Text(state.message,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).colorScheme.secondaryVariant,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: 'Baloo')));
+              } else {
+                return TabBarView(
+                  physics: NeverScrollableScrollPhysics(),
+                  controller: _tabController,
+                  children: <Widget>[
+                    InvitationsList<User>(
+                      list: groupCandidates,
+                      onRefresh: () {
+                        context.bloc<VotingBloc>().add(RefetchVoting());
+                        return Future.delayed(Duration(seconds: 1));
+                      },
+                      createLeadingWidget: (User user) => UserImageHero(
+                          user: user,
+                          size: Size(60, 60),
+                          radius: BorderRadius.circular(15.0),
+                          onTap: () {
+                            context.pushNamed("/user-details", arguments: user);
+                          }),
+                      createTitle: (User user) => user.name,
+                      createSubtitle: (User user) => user.age.toString(),
+                      onAccept: (User user) {
+                        context.bloc<VotingBloc>().add(VoteFor(id: user.id));
+                      },
+                      onDecline: (User user) {
+                        context
+                            .bloc<VotingBloc>()
+                            .add(VoteAgainst(id: user.id));
+                      },
+                      emptyListMessage: "Brak kandydatów do grupy",
+                    ),
+                    VotingResults(
+                      candidates: votingResults,
+                    )
+                  ],
+                );
+              }
+            },
+          ),
         ));
   }
 }

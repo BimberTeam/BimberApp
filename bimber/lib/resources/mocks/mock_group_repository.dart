@@ -55,7 +55,8 @@ class MockGroupRepository extends GroupRepository {
 
   @override
   Future<List<GroupCandidate>> fetchGroupCandidates(String groupId) {
-    return Future.value(Fixtures.getGroupCandidates());
+    return Future.delayed(
+        Duration(seconds: 1), () => Fixtures.getGroupCandidates());
   }
 
   @override

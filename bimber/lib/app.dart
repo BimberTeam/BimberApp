@@ -3,6 +3,7 @@ import 'package:bimber/resources/graphql_repositories/graphql_account_repository
 import 'package:bimber/resources/graphql_repositories/graphql_chat_repository.dart';
 import 'package:bimber/resources/graphql_repositories/graphql_friend_repository.dart';
 import 'package:bimber/resources/graphql_repositories/graphql_group_repository.dart';
+import 'package:bimber/resources/mocks/mock_group_repository.dart';
 import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:bimber/models/account_data.dart';
 import 'package:bimber/resources/services/graphql_service.dart';
@@ -184,7 +185,9 @@ class App extends StatelessWidget {
                     return PageTransition(
                         type: PageTransitionType.fade,
                         duration: Duration(milliseconds: 500),
-                        child: VotingScreen());
+                        child: VotingScreen(
+                          groupId: settings.arguments,
+                        ));
                   }
                 default:
                   {
