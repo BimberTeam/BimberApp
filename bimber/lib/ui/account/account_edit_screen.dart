@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:bimber/bloc/account_bloc/account_bloc.dart';
+import 'package:bimber/bloc/auth/authentication_bloc.dart';
 import 'package:bimber/models/account_data.dart';
 import 'package:bimber/models/age_preference.dart';
 import 'package:bimber/models/edit_account_data.dart';
@@ -46,7 +47,7 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
     return fileInfo.file.path;
   }
 
-  Widget _deleteAccountButton() {
+  Widget _deleteAccountButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
         dialogUtils.showActionDialog(
@@ -56,7 +57,10 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
             buttonText2: "Anuluj",
             color1: Colors.red,
             color2: Colors.grey,
-            onPressed1: () {},
+            onPressed1: () {
+              dialogUtils.hideDialog(context);
+              context.bloc<AccountBloc>().add(DeleteAccount());
+            },
             onPressed2: () => dialogUtils.hideDialog(context));
       },
       child: Row(
@@ -134,6 +138,10 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
         ),
         body: BlocConsumer<AccountBloc, AccountState>(
           listener: (context, state) {
+            if (state is AccountDeleted) {
+              context.pop();
+              context.bloc<AuthenticationBloc>().add(LoggedOut());
+            }
             if (state is EditAccountLoading) {
               dialogUtils.showLoadingIndicatorDialog(
                   context, "Trwa aktualizowanie konta...");
@@ -197,7 +205,7 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
                               }),
                           AccountFormField.alcoholPreferenceField,
                           AccountFormField.alcoholNameField,
-                          _deleteAccountButton()
+                          _deleteAccountButton(context)
                         ].map((field) => FormFieldCard(child: field)).toList(),
                       ),
                     ));

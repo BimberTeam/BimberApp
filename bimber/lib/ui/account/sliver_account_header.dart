@@ -1,6 +1,8 @@
+import 'package:bimber/bloc/auth/authentication_bloc.dart';
 import 'package:bimber/ui/common/theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SliverAccountHeader extends StatelessWidget {
   final String name;
@@ -67,7 +69,9 @@ class SliverAccountHeader extends StatelessWidget {
           SizedBox(height: 10),
           _button(Icons.perm_identity, "EDYTUJ", onEditAccount),
           SizedBox(height: 10),
-          _button(Icons.logout, "WYLOGUJ", () {}),
+          _button(Icons.logout, "WYLOGUJ", () {
+            context.bloc<AuthenticationBloc>().add(LoggedOut());
+          }),
         ],
       ),
     );

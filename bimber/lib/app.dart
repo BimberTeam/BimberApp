@@ -96,17 +96,6 @@ class App extends StatelessWidget {
                             onAccountUpdate: arguments["onAccountUpdate"],
                             accountData: arguments["account"] as AccountData));
                   }
-                case "/home":
-                  {
-                    return PageTransition(
-                        type: PageTransitionType.fade, child: HomeScreen());
-                  }
-                case "/discover":
-                  {
-                    return PageTransition(
-                        type: PageTransitionType.scale,
-                        child: DiscoverScreen());
-                  }
                 case "/user-details":
                   {
                     return PageTransition(

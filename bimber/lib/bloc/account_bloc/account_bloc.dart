@@ -28,6 +28,9 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     if (event is EditAccount) {
       yield* _mapEditAccountEvent(event);
     }
+    if (event is DeleteAccount) {
+      yield* _mapDeleteAccountEvent();
+    }
   }
 
   Stream<AccountState> _mapFetchAccountEvent(FetchAccount event) async* {
@@ -42,6 +45,24 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
           : AccountError(
               message:
                   "Wystąpił problem podczas ładownia profilu, spróbuj ponownie później!"));
+    }
+  }
+
+  Stream<AccountState> _mapDeleteAccountEvent() async* {
+    yield AccountLoading();
+    try {
+      final deleted = await repository.deleteAccount();
+      yield deleted
+          ? AccountDeleted()
+          : AccountError(
+              message:
+                  "Wystąpił problem usuwania profilu, spróbuj ponownie później!");
+    } catch (e) {
+      yield (e is GraphqlConnectionError
+          ? AccountServerNotResponding()
+          : AccountError(
+              message:
+                  "Wystąpił problem podczas usuwania profilu, spróbuj ponownie później!"));
     }
   }
 

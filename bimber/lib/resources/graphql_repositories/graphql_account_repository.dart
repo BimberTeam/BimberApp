@@ -1,6 +1,8 @@
 import 'package:bimber/models/account_data.dart';
 import 'package:bimber/models/edit_account_data.dart';
+import 'package:bimber/models/message.dart';
 import 'package:bimber/models/register_account_data.dart';
+import 'package:bimber/models/status.dart';
 import 'package:bimber/resources/graphql_repositories/common.dart';
 import 'package:bimber/resources/repositories/account_repository.dart';
 import 'package:bimber/resources/services/token_service.dart';
@@ -125,5 +127,30 @@ class GraphqlAccountRepository extends AccountRepository {
     checkQueryResultForErrors(queryResult);
 
     return AccountData.fromJson(queryResult.data["me"]);
+  }
+
+  @override
+  Future<bool> deleteAccount() async {
+    final MutationOptions options = MutationOptions(
+        document: mutation.deleteAccount, fetchPolicy: FetchPolicy.networkOnly);
+
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
+
+    try {
+      checkQueryResultForErrors(queryResult);
+    } on GraphqlConnectionError catch (e) {
+      throw e;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+
+    Message message = Message.fromJson(queryResult.data['deleteAccount']);
+
+    if (message.status == Status.ERROR)
+      throw GraphqlException(message: message.message);
+
+    return true;
   }
 }

@@ -84,3 +84,12 @@ mutation EditAccount(
   }
 }
 ''');
+
+final deleteAccount = gql(r'''
+mutation DeleteAccount {
+  deleteAccount {
+    message
+    status
+  }
+}
+''');
