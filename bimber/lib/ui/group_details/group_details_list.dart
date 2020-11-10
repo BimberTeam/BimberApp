@@ -66,12 +66,14 @@ class GroupDetailsList extends StatelessWidget {
                     color: Colors.black.withOpacity(0.4))
               ]),
           child: UserImageHero(
-              radius: BorderRadius.circular(15.0),
-              user: user,
-              size: Size(size, size),
-              onTap: () {
-                context.pushNamed("/user-details", arguments: user);
-              }),
+            radius: BorderRadius.circular(15.0),
+            user: user,
+            size: Size(size, size),
+            onTap: () {
+              context.pushNamed("/user-details", arguments: user);
+            },
+            showGradient: false,
+          ),
         ),
         Text(
           "${user.name}",

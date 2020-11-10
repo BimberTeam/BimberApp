@@ -110,12 +110,14 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
       child: ListTile(
           contentPadding: EdgeInsets.all(10),
           leading: UserImageHero(
-              user: user,
-              size: Size(60, 60),
-              radius: BorderRadius.circular(15.0),
-              onTap: () {
-                context.pushNamed("/user-details", arguments: user);
-              }),
+            user: user,
+            size: Size(60, 60),
+            radius: BorderRadius.circular(15.0),
+            onTap: () {
+              context.pushNamed("/user-details", arguments: user);
+            },
+            showGradient: false,
+          ),
           title: Text(
             user.name,
             style: TextStyle(
