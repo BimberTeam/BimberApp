@@ -73,3 +73,36 @@ query GroupInvitationsList {
   }
 }
 ''');
+
+final group = gql(r'''
+query Group($id: ID!) {
+  group(id: $id) {
+    __typename
+    id
+    members{
+       __typename
+      id
+      name
+      email
+      age
+      favoriteAlcoholName
+      favoriteAlcoholType
+      description
+      gender
+      genderPreference
+      alcoholPreference
+      agePreferenceFrom
+      agePreferenceTo  
+      latestLocation {
+        latitude
+        longitude
+      }   
+    }
+    averageAge
+    averageLocation{
+      latitude
+      longitude
+    }
+  }
+}
+''');

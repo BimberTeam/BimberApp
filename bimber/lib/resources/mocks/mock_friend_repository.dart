@@ -40,4 +40,14 @@ class MockFriendRepository extends FriendRepository {
   Future<bool> declineInvitation(String friendId) {
     return Future.value(true);
   }
+
+  @override
+  Future<List<User>> fetchFriendCandidatesFromGroup(String groupId) {
+    return Future.value(Fixtures.getUSAPresidents());
+  }
+
+  @override
+  Future<List<User>> fetchFriendsWithoutGroupMembership(String groupId) {
+    return Future.value(Fixtures.getUSAPresidents());
+  }
 }

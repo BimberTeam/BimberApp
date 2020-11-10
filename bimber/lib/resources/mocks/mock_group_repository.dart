@@ -44,11 +44,6 @@ class MockGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<List<String>> fetchFriendCandidates(String groupId) {
-    return Future.value(["aaa"]);
-  }
-
-  @override
   Future<List<User>> fetchCandidatesForVote(String groupId) {
     return Future.value(Fixtures.getUSAPresidents());
   }

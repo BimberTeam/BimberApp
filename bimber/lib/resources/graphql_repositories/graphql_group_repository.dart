@@ -133,15 +133,19 @@ class GraphqlGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<Group> fetchGroup(String groupId) {
-    // TODO: implement fetchGroup
-    throw UnimplementedError();
-  }
+  Future<Group> fetchGroup(String groupId) async {
+    // TODO: check if works
+    final WatchQueryOptions options = WatchQueryOptions(
+        document: query.group,
+        fetchResults: true,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"id": groupId});
 
-  @override
-  Future<List<String>> fetchFriendCandidates(String groupId) {
-    // TODO: implement fetchFriendCandidates
-    throw UnimplementedError();
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    return Group.fromJson(queryResult.data['group']);
   }
 
   @override
@@ -157,14 +161,44 @@ class GraphqlGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<bool> voteAgainst(String groupId, String userId) {
-    // TODO: implement voteAgainst
-    throw UnimplementedError();
+  Future<bool> voteAgainst(String groupId, String userId) async {
+    // TODO: check if works
+    final MutationOptions options = MutationOptions(
+        document: mutation.voteAgainst,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"userId": userId, "groupId": groupId});
+
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    Message message =
+        Message.fromJson(queryResult.data['rejectGroupPendingUser']);
+
+    if (message.status == Status.ERROR)
+      throw GraphqlException(message: message.message);
+
+    return true;
   }
 
   @override
-  Future<bool> voteFor(String groupId, String userId) {
-    // TODO: implement voteFor
-    throw UnimplementedError();
+  Future<bool> voteFor(String groupId, String userId) async {
+    // TODO: check if works
+    final MutationOptions options = MutationOptions(
+        document: mutation.voteFor,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"userId": userId, "groupId": groupId});
+
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    Message message =
+        Message.fromJson(queryResult.data['acceptGroupPendingUser']);
+
+    if (message.status == Status.ERROR)
+      throw GraphqlException(message: message.message);
+
+    return true;
   }
 }

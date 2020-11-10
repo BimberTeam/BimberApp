@@ -54,7 +54,9 @@ class GroupInfoBloc extends Bloc<GroupInfoEvent, GroupInfoState> {
     try {
       final group = await groupRepository.fetchGroup(groupId);
       final friendCandidates =
-          await groupRepository.fetchFriendCandidates(groupId);
+          (await friendRepository.fetchFriendCandidatesFromGroup(groupId))
+              .map((user) => user.id)
+              .toList();
       final meId = (await accountRepository.fetchMe()).id;
       yield GroupInfoFetched(
           group: group, friendCandidates: friendCandidates, meId: meId);
