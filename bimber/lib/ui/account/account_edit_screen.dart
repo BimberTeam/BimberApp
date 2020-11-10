@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:math';
-
 import 'package:bimber/bloc/account_bloc/account_bloc.dart';
 import 'package:bimber/models/account_data.dart';
 import 'package:bimber/models/age_preference.dart';
@@ -32,6 +31,7 @@ class AccountEditScreen extends StatefulWidget {
 class _AccountEditScreenState extends State<AccountEditScreen> {
   final _fbKey = GlobalKey<FormBuilderState>();
   AgePreference _agePreference;
+  DialogUtils dialogUtils = DialogUtils();
 
   @override
   void initState() {
@@ -46,14 +46,51 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
     return fileInfo.file.path;
   }
 
+  Widget _deleteAccountButton() {
+    return GestureDetector(
+      onTap: () {
+        dialogUtils.showActionDialog(
+            text: "Czy na pewno chcesz usunąć konto?",
+            context: context,
+            buttonText1: "Usuń",
+            buttonText2: "Anuluj",
+            color1: Colors.red,
+            color2: Colors.grey,
+            onPressed1: () {},
+            onPressed2: () => dialogUtils.hideDialog(context));
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.delete,
+            color: Colors.red,
+            size: 15,
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Text(
+            "Usun konto",
+            style: TextStyle(
+                color: Colors.red,
+                fontSize: 15,
+                fontWeight: FontWeight.w900,
+                fontFamily: 'Baloo'),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    DialogUtils dialogUtils = DialogUtils();
     return BlocProvider<AccountBloc>(
       create: (context) =>
           AccountBloc(repository: context.repository<AccountRepository>()),
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         appBar: AppBar(
           centerTitle: true,
           title: Text("Edycja Konta",
@@ -160,6 +197,7 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
                               }),
                           AccountFormField.alcoholPreferenceField,
                           AccountFormField.alcoholNameField,
+                          _deleteAccountButton()
                         ].map((field) => FormFieldCard(child: field)).toList(),
                       ),
                     ));
@@ -181,10 +219,12 @@ class FormFieldCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: TinyColor(lemonMeringue).darken(5).color,
+          color: Theme.of(context).colorScheme.secondaryVariant,
           boxShadow: [
             BoxShadow(
-              color: TinyColor(Colors.black).lighten(30).color,
+              color: TinyColor(
+                Theme.of(context).colorScheme.secondaryVariant,
+              ).darken(10).color,
               offset: Offset(3, 3),
               blurRadius: 3,
             )

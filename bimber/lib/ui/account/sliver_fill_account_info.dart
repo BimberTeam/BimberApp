@@ -1,7 +1,9 @@
 import 'package:bimber/models/account_data.dart';
 import 'package:bimber/ui/account/info_card.dart';
+import 'package:bimber/ui/common/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:bimber/ui/common/language_utils.dart';
+import 'package:tinycolor/tinycolor.dart';
 
 class SliverFillAccountInfo extends StatefulWidget {
   final AccountData accountData;
@@ -15,8 +17,8 @@ class SliverFillAccountInfo extends StatefulWidget {
 }
 
 class _SliverFillAccountInfoState extends State<SliverFillAccountInfo> {
-  static const backCardColor = const Color.fromRGBO(40, 30, 50, 1.0);
-  static const infoCardColor = const Color.fromRGBO(60, 50, 70, 1.0);
+  static final backCardColor = indigoDye;
+  static final infoCardColor = TinyColor(indigoDye).darken(10).color;
 
   final divider = Container(
     margin: EdgeInsets.only(left: 50, right: 50, top: 15),
