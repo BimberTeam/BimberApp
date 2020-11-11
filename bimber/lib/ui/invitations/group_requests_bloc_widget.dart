@@ -69,6 +69,7 @@ class GroupRequestsBlocWidget extends StatelessWidget {
                     group: group,
                     size: Size(60, 60),
                     radius: BorderRadius.circular(15.0),
+                    showGradient: false,
                   )),
               createTitle: (Group group) => "Grupa",
               createSubtitle: (Group group) =>

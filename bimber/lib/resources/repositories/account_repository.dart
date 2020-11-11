@@ -7,9 +7,8 @@ abstract class AccountRepository {
   Future<bool> checkIfEmailExists(String email);
   Future<bool> login(String email, String password);
   Future<void> logout();
-
   Future<AccountData> register(RegisterAccountData data);
   Future<void> editAccount(EditAccountData data);
-
   Future<AccountData> fetchMe({bool useCache});
+  Future<bool> deleteAccount();
 }

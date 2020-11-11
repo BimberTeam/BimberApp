@@ -89,6 +89,78 @@ class DialogUtils {
     );
   }
 
+  _button(String text, Function onPressed, Color color) {
+    return RaisedButton(
+      onPressed: onPressed,
+      color: color,
+      elevation: 5,
+      child: Text(text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Baloo',
+              fontSize: 15.0,
+              fontWeight: FontWeight.bold)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+    );
+  }
+
+  void showActionDialog(
+      {String text,
+      BuildContext context,
+      String confirmText,
+      String cancelText,
+      Color confirmButtonColor,
+      Color cancelButtonColor,
+      Function onConfirmed,
+      Function onCanceled}) {
+    _isDialogOpen = true;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                content: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            text,
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primaryVariant,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: 'Baloo'),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _button(
+                                  confirmText, onConfirmed, confirmButtonColor),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              _button(cancelText, onCanceled, cancelButtonColor)
+                            ],
+                          )
+                        ]))));
+      },
+    );
+  }
+
   void hideDialog(BuildContext context) {
     if (_isDialogOpen) {
       context.pop();

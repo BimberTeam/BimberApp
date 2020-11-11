@@ -1,5 +1,8 @@
+import 'package:bimber/bloc/auth/authentication_bloc.dart';
+import 'package:bimber/ui/common/theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SliverAccountHeader extends StatelessWidget {
   final String name;
@@ -8,7 +11,7 @@ class SliverAccountHeader extends StatelessWidget {
 
   final Function onEditAccount;
 
-  static const editButtonColor = const Color.fromRGBO(40, 30, 50, 1.0);
+  static final editButtonColor = indigoDye;
 
   SliverAccountHeader(
       {this.name, this.email, this.imageUrl, this.onEditAccount});
@@ -17,7 +20,7 @@ class SliverAccountHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
         leading: Container(),
-        expandedHeight: 350,
+        expandedHeight: 390,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         flexibleSpace: FlexibleSpaceBar(background: _avatar(context)));
   }
@@ -64,20 +67,24 @@ class SliverAccountHeader extends StatelessWidget {
                   color: Colors.black,
                   fontSize: 30)),
           SizedBox(height: 10),
-          _editButton(),
+          _button(Icons.perm_identity, "EDYTUJ", onEditAccount),
+          SizedBox(height: 10),
+          _button(Icons.logout, "WYLOGUJ", () {
+            context.bloc<AuthenticationBloc>().add(LoggedOut());
+          }),
         ],
       ),
     );
   }
 
-  _editButton() {
+  _button(IconData icon, String text, Function onPressed) {
     return RaisedButton.icon(
       padding: EdgeInsets.symmetric(horizontal: 30),
-      icon: Icon(Icons.perm_identity, color: Colors.white),
-      onPressed: onEditAccount,
+      icon: Icon(icon, color: Colors.white),
+      onPressed: onPressed,
       color: editButtonColor,
       elevation: 5,
-      label: Text("EDYTUJ",
+      label: Text(text,
           textAlign: TextAlign.center,
           style: TextStyle(
               color: Colors.white,

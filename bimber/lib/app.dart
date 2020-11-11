@@ -9,12 +9,10 @@ import 'package:bimber/resources/services/graphql_service.dart';
 import 'package:bimber/ui/account/account_edit_screen.dart';
 import 'package:bimber/ui/chat/chat_screen.dart';
 import 'package:bimber/ui/chat_list/friend_menu.dart';
-import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:bimber/ui/group_create/group_maker_screen.dart';
 import 'package:bimber/ui/group_details/group_details.dart';
 import 'package:bimber/ui/group_info/group_info_screen.dart';
 import 'package:bimber/ui/group_members_map/group_members_map_screen.dart';
-import 'package:bimber/ui/home/home_screen.dart';
 import 'package:bimber/ui/invitations/invitations_screen.dart';
 import 'package:bimber/ui/login/login_screen.dart';
 import 'package:bimber/ui/common/theme.dart';
@@ -95,17 +93,6 @@ class App extends StatelessWidget {
                         child: AccountEditScreen(
                             onAccountUpdate: arguments["onAccountUpdate"],
                             accountData: arguments["account"] as AccountData));
-                  }
-                case "/home":
-                  {
-                    return PageTransition(
-                        type: PageTransitionType.fade, child: HomeScreen());
-                  }
-                case "/discover":
-                  {
-                    return PageTransition(
-                        type: PageTransitionType.scale,
-                        child: DiscoverScreen());
                   }
                 case "/user-details":
                   {
