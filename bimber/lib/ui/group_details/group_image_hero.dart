@@ -12,11 +12,13 @@ class GroupImageHero extends StatelessWidget {
   final Group group;
   final Size size;
   final BorderRadius borderRadius;
+  final bool showGradient;
 
   GroupImageHero(
       {@required this.group,
       @required this.size,
-      BorderRadius radius = const BorderRadius.all(Radius.circular(0))})
+      BorderRadius radius = const BorderRadius.all(Radius.circular(0)),
+      this.showGradient = true})
       : borderRadius = radius;
 
   @override
@@ -52,12 +54,17 @@ class GroupImageHero extends StatelessWidget {
                 size: size,
                 destinationRadius: toHolder.destinationRadius,
                 currentRadius: currentRadius,
+                showGradient: showGradient,
               );
             },
           );
         },
         child: _GroupImageHolder(
-            group: group, size: size, destinationRadius: borderRadius));
+          group: group,
+          size: size,
+          destinationRadius: borderRadius,
+          showGradient: showGradient,
+        ));
   }
 }
 
@@ -67,12 +74,14 @@ class _GroupImageHolder extends StatelessWidget {
   final BorderRadius destinationRadius;
   final BorderRadius currentRadius;
   final int crossAxisCount;
+  final bool showGradient;
 
   _GroupImageHolder(
       {@required this.group,
       @required this.size,
       @required this.destinationRadius,
-      this.currentRadius})
+      this.currentRadius,
+      this.showGradient = true})
       : crossAxisCount = sqrt(group.members.length).ceil();
 
   @override
@@ -81,13 +90,15 @@ class _GroupImageHolder extends StatelessWidget {
       borderRadius: currentRadius ?? destinationRadius,
       child: Container(
           color: indigoDye,
-          foregroundDecoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, Colors.black],
-                  tileMode: TileMode.clamp,
-                  stops: [0.7, 1.0])),
+          foregroundDecoration: showGradient
+              ? BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Colors.transparent, Colors.black],
+                      tileMode: TileMode.clamp,
+                      stops: [0.7, 1.0]))
+              : BoxDecoration(),
           height: size.height,
           width: size.width,
           child: GridView.count(

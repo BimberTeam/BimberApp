@@ -21,12 +21,14 @@ class GroupMakerScreen extends StatelessWidget {
       itemThumbnail: (User user) => Column(
         children: [
           UserImageHero(
-              radius: BorderRadius.circular(15.0),
-              user: user,
-              size: Size(60, 60),
-              onTap: () {
-                context.pushNamed("/user-details", arguments: user);
-              }),
+            radius: BorderRadius.circular(15.0),
+            user: user,
+            size: Size(60, 60),
+            onTap: () {
+              context.pushNamed("/user-details", arguments: user);
+            },
+            showGradient: false,
+          ),
           Text(
             user.name,
             style: TextStyle(
@@ -39,12 +41,14 @@ class GroupMakerScreen extends StatelessWidget {
         ],
       ),
       itemCardLeading: (User user) => UserImageHero(
-          radius: BorderRadius.circular(15.0),
-          user: user,
-          size: Size(60, 60),
-          onTap: () {
-            context.pushNamed("/user-details", arguments: user);
-          }),
+        radius: BorderRadius.circular(15.0),
+        user: user,
+        size: Size(60, 60),
+        onTap: () {
+          context.pushNamed("/user-details", arguments: user);
+        },
+        showGradient: false,
+      ),
       itemCardTitleText: (User user) => user.name,
       itemCardSubtitleText: (User user) => user.age.toString(),
       listPlaceholder: Text(

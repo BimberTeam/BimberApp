@@ -27,7 +27,7 @@ mutation Register(
     genderPreference: $genderPreference,
     alcoholPreference: $alcoholPreference,
     agePreferenceFrom: $agePreferenceFrom,
-    agePreferenceTo: $agePreferenceTo,
+    agePreferenceTo: $agePreferenceTo
   }) {
     id
   }
@@ -81,6 +81,15 @@ mutation EditAccount(
     alcoholPreference
     agePreferenceFrom
     agePreferenceTo
+  }
+}
+''');
+
+final deleteAccount = gql(r'''
+mutation DeleteAccount {
+  deleteAccount {
+    message
+    status
   }
 }
 ''');

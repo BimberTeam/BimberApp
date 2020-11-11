@@ -1,3 +1,4 @@
+import 'package:bimber/bloc/auth/authentication_bloc.dart';
 import 'package:bimber/bloc/login/login_bloc.dart';
 import 'package:bimber/resources/repositories/account_repository.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
@@ -40,7 +41,7 @@ class LoginScreenState extends State<LoginScreen>
                   } else if (state is LoginFailed) {
                     showErrorSnackbar(context, message: state.message);
                   } else if (state is LoginSucceed) {
-                    Navigator.of(context).pushReplacementNamed("/home");
+                    context.bloc<AuthenticationBloc>().add(LoggedIn());
                   } else if (state is LoginLoading) {
                     showLoadingSnackbar(context,
                         message: "Poszukiwanie danych bimbrownika...");
