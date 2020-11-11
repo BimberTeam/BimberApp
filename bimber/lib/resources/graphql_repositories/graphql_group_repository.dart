@@ -149,15 +149,39 @@ class GraphqlGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<List<User>> fetchCandidatesForVote(String groupId) {
-    // TODO: implement fetchCandidatesForVote
-    throw UnimplementedError();
+  Future<List<User>> fetchGroupCandidates(String groupId) async{
+    //TODO check if works
+    final WatchQueryOptions options = WatchQueryOptions(
+        document: query.groupCandidates,
+        fetchResults: true,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"id": groupId});
+
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    return (queryResult.data['groupCandidates'] as List)
+        .map((json) => User.fromJson(json))
+        .toList();
   }
 
   @override
-  Future<List<GroupCandidate>> fetchGroupCandidates(String groupId) {
-    // TODO: implement fetchGroupCandidates
-    throw UnimplementedError();
+  Future<List<GroupCandidate>> fetchGroupCandidateResults(String groupId) async{
+    //TODO check if works
+    final WatchQueryOptions options = WatchQueryOptions(
+        document: query.groupCandidatesResult,
+        fetchResults: true,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"id": groupId});
+
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    return (queryResult.data['groupCandidatesResult'] as List)
+        .map((json) => GroupCandidate.fromJson(json))
+        .toList();
   }
 
   @override

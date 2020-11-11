@@ -61,9 +61,9 @@ class VotingBloc extends Bloc<VotingEvent, VotingState> {
   Stream<VotingState> _fetchVoting() async* {
     try {
       List<User> groupCandidates =
-          await groupRepository.fetchCandidatesForVote(groupId);
-      List<GroupCandidate> votingResults =
           await groupRepository.fetchGroupCandidates(groupId);
+      List<GroupCandidate> votingResults =
+          await groupRepository.fetchGroupCandidateResults(groupId);
       yield VotingFetched(groupCandidates, votingResults);
     } catch (exception) {
       yield* _handleException(exception);

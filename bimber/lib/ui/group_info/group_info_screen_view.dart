@@ -44,7 +44,7 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
             height: 5,
           ),
           Text(
-            "${group.averageAge} średnia wieku",
+            "${group.averageAge.toInt()} średnia wieku",
             style: style,
           ),
           SizedBox(

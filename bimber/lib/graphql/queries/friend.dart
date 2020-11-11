@@ -80,3 +80,28 @@ query ListFriendWithoutGroupMembership($id: ID!) {
   }
 }
 ''');
+
+
+final groupMembersWithoutFriendship = gql(r'''
+query GroupMembersWithoutFriendship($id: ID!) {
+  groupMembersWithoutFriendship(groupId: $id) {
+    __typename
+    id
+    name
+    email
+    age
+    favoriteAlcoholName
+    favoriteAlcoholType
+    description
+    gender
+    genderPreference
+    alcoholPreference
+    agePreferenceFrom
+    agePreferenceTo
+    latestLocation {
+      latitude
+      longitude
+    }
+  }
+}
+''');

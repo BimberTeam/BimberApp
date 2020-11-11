@@ -12,7 +12,7 @@ class Fixtures {
     return Group(
         id: id,
         averageAge: 20,
-        averageLocation: Location(latitude: 50.44, longtitude: 56.78),
+        averageLocation: Location(latitude: 50.44, longitude: 56.78),
         members: getUSAPresidents());
   }
 
@@ -30,7 +30,7 @@ class Fixtures {
         agePreferenceFrom: 18,
         agePreferenceTo: 99,
         alcoholPreference: AlcoholType.BEER,
-        latestLocation: Location(latitude: 50.44, longtitude: 56.78));
+        latestLocation: Location(latitude: 50.44, longitude: 56.78));
   }
 
   static List<User> getUsersList() {
@@ -48,7 +48,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
+          latestLocation: Location(latitude: 50.44, longitude: 56.78)),
       User(
           id: 'ccc',
           name: "Harnas",
@@ -62,7 +62,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
+          latestLocation: Location(latitude: 50.44, longitude: 56.78)),
       User(
           id: 'ddd',
           name: "Harnas",
@@ -76,7 +76,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
+          latestLocation: Location(latitude: 50.44, longitude: 56.78)),
       User(
           id: 'eee',
           name: "Harnas",
@@ -90,7 +90,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
+          latestLocation: Location(latitude: 50.44, longitude: 56.78)),
       User(
           id: 'fff',
           name: "Harnas",
@@ -104,7 +104,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
+          latestLocation: Location(latitude: 50.44, longitude: 56.78)),
       User(
           id: 'ggg',
           name: "Harnas",
@@ -118,7 +118,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.44, longtitude: 56.78))
+          latestLocation: Location(latitude: 50.44, longitude: 56.78))
     ];
   }
 
@@ -137,7 +137,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.049683, longtitude: 19.949544)),
+          latestLocation: Location(latitude: 50.049683, longitude: 19.949544)),
       User(
           id: '2',
           name: "Joe Biden",
@@ -151,7 +151,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.041683, longtitude: 19.949544)),
+          latestLocation: Location(latitude: 50.041683, longitude: 19.949544)),
       User(
           id: 'aaa',
           name: "Barack Obama",
@@ -165,7 +165,7 @@ class Fixtures {
           agePreferenceFrom: 18,
           agePreferenceTo: 99,
           alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.049683, longtitude: 19.941544)),
+          latestLocation: Location(latitude: 50.049683, longitude: 19.941544)),
     ];
   }
 

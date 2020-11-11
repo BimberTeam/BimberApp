@@ -132,9 +132,21 @@ class GraphqlFriendRepository extends FriendRepository {
   }
 
   @override
-  Future<List<User>> fetchFriendCandidatesFromGroup(String groupId) {
-    // TODO: implement fetchFriendCandidatesFromGroup
-    throw UnimplementedError();
+  Future<List<User>> fetchFriendCandidatesFromGroup(String groupId) async{
+    //TODO check if works
+    final WatchQueryOptions options = WatchQueryOptions(
+        document: query.groupMembersWithoutFriendship,
+        fetchResults: true,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"id": groupId});
+
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    return (queryResult.data['groupMembersWithoutFriendship'] as List)
+        .map((json) => User.fromJson(json))
+        .toList();
   }
 
   @override

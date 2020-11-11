@@ -37,6 +37,8 @@ class GroupMakerScreen extends StatelessWidget {
                 fontWeight: FontWeight.w900,
                 fontFamily: 'Baloo',
                 decoration: TextDecoration.none),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           )
         ],
       ),

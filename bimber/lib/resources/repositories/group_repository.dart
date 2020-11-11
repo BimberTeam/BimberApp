@@ -10,8 +10,8 @@ abstract class GroupRepository {
   Future<bool> createGroup(List<String> memberIds);
   Future<bool> addToGroup(String userId, String groupId);
   Future<Group> fetchGroup(String groupId);
-  Future<List<User>> fetchCandidatesForVote(String groupId);
-  Future<List<GroupCandidate>> fetchGroupCandidates(String groupId);
+  Future<List<User>> fetchGroupCandidates(String groupId);
+  Future<List<GroupCandidate>> fetchGroupCandidateResults(String groupId);
   Future<bool> voteFor(String groupId, String userId);
   Future<bool> voteAgainst(String groupId, String userId);
 }

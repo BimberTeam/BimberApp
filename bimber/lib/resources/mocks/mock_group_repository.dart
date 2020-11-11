@@ -44,12 +44,12 @@ class MockGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<List<User>> fetchCandidatesForVote(String groupId) {
+  Future<List<User>> fetchGroupCandidates(String groupId) {
     return Future.value(Fixtures.getUSAPresidents());
   }
 
   @override
-  Future<List<GroupCandidate>> fetchGroupCandidates(String groupId) {
+  Future<List<GroupCandidate>> fetchGroupCandidateResults(String groupId) {
     return Future.delayed(
         Duration(seconds: 1), () => Fixtures.getGroupCandidates());
   }

@@ -106,3 +106,57 @@ query Group($id: ID!) {
   }
 }
 ''');
+
+final groupCandidates = gql(r'''
+query GroupCandidates($id: ID!) {
+  groupCandidates(input: {groupId: $id}) {
+    __typename
+    id
+    name
+    email
+    age
+    favoriteAlcoholName
+    favoriteAlcoholType
+    description
+    gender
+    genderPreference
+    alcoholPreference
+    agePreferenceFrom
+    agePreferenceTo  
+    latestLocation {
+      latitude
+      longitude
+    }   
+  }
+}
+''');
+
+final groupCandidatesResult = gql(r'''
+query GroupCandidatesResult($id: ID!) {
+  groupCandidatesResult(input: {groupId: $id}) {
+  __typename
+  user {
+    __typename
+      id
+      name
+      email
+      age
+      favoriteAlcoholName
+      favoriteAlcoholType
+      description
+      gender
+      genderPreference
+      alcoholPreference
+      agePreferenceFrom
+      agePreferenceTo  
+      latestLocation {
+        latitude
+        longitude
+      }   
+  }
+  votesAgainst
+  votesInFavour
+  groupCount
+  }
+}
+''');
