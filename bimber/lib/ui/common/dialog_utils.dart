@@ -108,12 +108,12 @@ class DialogUtils {
   void showActionDialog(
       {String text,
       BuildContext context,
-      String buttonText1,
-      String buttonText2,
-      Color color1,
-      Color color2,
-      Function onPressed1,
-      Function onPressed2}) {
+      String leftButtonText,
+      String rightButtonText,
+      Color leftButtonColor,
+      Color rightButtonColor,
+      Function onPressedLeftButton,
+      Function onPressedRightButton}) {
     _isDialogOpen = true;
     showDialog(
       context: context,
@@ -148,11 +148,13 @@ class DialogUtils {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              _button(buttonText1, onPressed1, color1),
+                              _button(leftButtonText, onPressedLeftButton,
+                                  leftButtonColor),
                               SizedBox(
                                 width: 10,
                               ),
-                              _button(buttonText2, onPressed2, color2)
+                              _button(rightButtonText, onPressedRightButton,
+                                  rightButtonColor)
                             ],
                           )
                         ]))));

@@ -53,15 +53,15 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
         dialogUtils.showActionDialog(
             text: "Czy na pewno chcesz usunąć konto?",
             context: context,
-            buttonText1: "Usuń",
-            buttonText2: "Anuluj",
-            color1: Colors.red,
-            color2: Colors.grey,
-            onPressed1: () {
+            leftButtonText: "Usuń",
+            rightButtonText: "Anuluj",
+            leftButtonColor: Colors.red,
+            rightButtonColor: Colors.grey,
+            onPressedLeftButton: () {
               dialogUtils.hideDialog(context);
               context.bloc<AccountBloc>().add(DeleteAccount());
             },
-            onPressed2: () => dialogUtils.hideDialog(context));
+            onPressedRightButton: () => dialogUtils.hideDialog(context));
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
