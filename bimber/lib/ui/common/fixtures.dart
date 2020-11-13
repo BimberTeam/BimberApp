@@ -2,10 +2,10 @@ import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:bimber/models/group.dart';
 import 'package:bimber/models/alcohol_type.dart';
 import 'package:bimber/models/gender.dart';
-import 'package:bimber/models/group_candidate.dart';
 import 'package:bimber/models/location.dart';
 import 'package:bimber/models/chat_message.dart';
 import 'package:bimber/models/user.dart';
+import 'package:bimber/models/voting_result.dart';
 
 class Fixtures {
   static Group getGroup(String id) {
@@ -176,9 +176,9 @@ class Fixtures {
     return messages;
   }
 
-  static List<GroupCandidate> getGroupCandidates() {
+  static List<VotingResult> getVotingResults() {
     return getUSAPresidents()
-        .map((user) => GroupCandidate(
+        .map((user) => VotingResult(
             user: user, votesAgainst: 3, votesInFavour: 5, groupCount: 10))
         .toList();
   }

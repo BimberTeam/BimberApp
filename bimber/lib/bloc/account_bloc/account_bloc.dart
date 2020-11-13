@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bimber/models/account_data.dart';
 import 'package:bimber/models/edit_account_data.dart';
+import 'package:bimber/models/status.dart';
 import 'package:bimber/resources/graphql_repositories/common.dart';
 import 'package:bimber/resources/repositories/account_repository.dart';
 import 'package:bimber/resources/services/image_service.dart';
@@ -51,12 +52,11 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   Stream<AccountState> _mapDeleteAccountEvent() async* {
     yield AccountLoading();
     try {
-      final deleted = await repository.deleteAccount();
-      yield deleted
-          ? AccountDeleted()
-          : AccountError(
-              message:
-                  "Wystąpił problem usuwania profilu, spróbuj ponownie później!");
+      final message = await repository.deleteAccount();
+      if (message.status == Status.OK)
+        yield AccountDeleted();
+      else
+        yield AccountError(message: message.message);
     } catch (e) {
       yield (e is GraphqlConnectionError
           ? AccountServerNotResponding()

@@ -1,5 +1,5 @@
 {
-  "__class__": "GroupCandidate",
+  "__class__": "VotingResult",
   "user": {"type":  "User"},
   "votesAgainst": {"type": "int"},
   "votesInFavour": {"type": "int"},

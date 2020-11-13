@@ -1,6 +1,6 @@
 import 'package:bimber/bloc/voting/voting_bloc.dart';
-import 'package:bimber/models/group_candidate.dart';
 import 'package:bimber/models/user.dart';
+import 'package:bimber/models/voting_result.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
 import 'package:bimber/ui/group_details/user_image_hero.dart';
@@ -23,7 +23,7 @@ class _VotingScreenState extends State<VotingScreen>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
   List<User> groupCandidates = [];
-  List<GroupCandidate> votingResults = [];
+  List<VotingResult> votingResults = [];
 
   @override
   void initState() {
@@ -69,6 +69,62 @@ class _VotingScreenState extends State<VotingScreen>
         ));
   }
 
+  Widget _buildFromState(BuildContext context, VotingState state) {
+    if (state is VotingInitial) {
+      return Center(
+        child: SizedBox(
+            height: 50,
+            width: 50,
+            child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                    Theme.of(context).colorScheme.secondaryVariant),
+                strokeWidth: 3.0)),
+      );
+    } else if (state is VotingError) {
+      return Center(
+          child: Text(state.message,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondaryVariant,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'Baloo')));
+    } else {
+      return TabBarView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: _tabController,
+        children: <Widget>[
+          InvitationsList<User>(
+            list: groupCandidates,
+            onRefresh: () {
+              context.bloc<VotingBloc>().add(RefetchVoting());
+              return Future.delayed(Duration(seconds: 1));
+            },
+            createLeadingWidget: (User user) => UserImageHero(
+                user: user,
+                size: Size(60, 60),
+                radius: BorderRadius.circular(15.0),
+                onTap: () {
+                  context.pushNamed("/user-details", arguments: user);
+                }),
+            createTitle: (User user) => user.name,
+            createSubtitle: (User user) => user.age.toString(),
+            onAccept: (User user) {
+              context.bloc<VotingBloc>().add(VoteFor(userId: user.id));
+            },
+            onDecline: (User user) {
+              context.bloc<VotingBloc>().add(VoteAgainst(userId: user.id));
+            },
+            emptyListMessage: "Brak kandydatów do grupy",
+          ),
+          VotingResults(
+            votingResults: votingResults,
+          )
+        ],
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +151,7 @@ class _VotingScreenState extends State<VotingScreen>
             ..add(InitVoting()),
           child: BlocConsumer<VotingBloc, VotingState>(
             listener: (context, state) {
-              if (state is VotingFetched) {
+              if (state is VotingFetchedCandidatesAndResults) {
                 setState(() {
                   groupCandidates = state.groupCandidates;
                   votingResults = state.votingResults;
@@ -111,64 +167,7 @@ class _VotingScreenState extends State<VotingScreen>
                     message: "Oddano głos na kandydata");
               }
             },
-            builder: (context, state) {
-              if (state is VotingInitial) {
-                return Center(
-                  child: SizedBox(
-                      height: 50,
-                      width: 50,
-                      child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              Theme.of(context).colorScheme.secondaryVariant),
-                          strokeWidth: 3.0)),
-                );
-              } else if (state is VotingError) {
-                return Center(
-                    child: Text(state.message,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color:
-                                Theme.of(context).colorScheme.secondaryVariant,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
-                            fontFamily: 'Baloo')));
-              } else {
-                return TabBarView(
-                  physics: NeverScrollableScrollPhysics(),
-                  controller: _tabController,
-                  children: <Widget>[
-                    InvitationsList<User>(
-                      list: groupCandidates,
-                      onRefresh: () {
-                        context.bloc<VotingBloc>().add(RefetchVoting());
-                        return Future.delayed(Duration(seconds: 1));
-                      },
-                      createLeadingWidget: (User user) => UserImageHero(
-                          user: user,
-                          size: Size(60, 60),
-                          radius: BorderRadius.circular(15.0),
-                          onTap: () {
-                            context.pushNamed("/user-details", arguments: user);
-                          }),
-                      createTitle: (User user) => user.name,
-                      createSubtitle: (User user) => user.age.toString(),
-                      onAccept: (User user) {
-                        context.bloc<VotingBloc>().add(VoteFor(id: user.id));
-                      },
-                      onDecline: (User user) {
-                        context
-                            .bloc<VotingBloc>()
-                            .add(VoteAgainst(id: user.id));
-                      },
-                      emptyListMessage: "Brak kandydatów do grupy",
-                    ),
-                    VotingResults(
-                      candidates: votingResults,
-                    )
-                  ],
-                );
-              }
-            },
+            builder: _buildFromState,
           ),
         ));
   }

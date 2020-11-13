@@ -111,7 +111,7 @@ query GroupCandidates($id: ID!) {
 }
 ''');
 
-final groupCandidatesResult = gql(r'''
+final votingResults = gql(r'''
 query GroupCandidatesResult($id: ID!) {
   groupCandidatesResult(input: {groupId: $id}) {
   __typename

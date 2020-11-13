@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bimber/models/group.dart';
+import 'package:bimber/models/status.dart';
 import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:bimber/ui/common/constants.dart';
 import 'package:bloc/bloc.dart';
@@ -43,8 +44,11 @@ class GroupInfoBloc extends Bloc<GroupInfoEvent, GroupInfoState> {
       AddMemberToFriends event) async* {
     try {
       yield GroupInfoLoading();
-      bool addedFriend = await friendRepository.addFriend(event.id);
-      yield addedFriend ? GroupInfoAddSuccess() : GroupInfoAddFailure();
+      final message = await friendRepository.addFriend(event.id);
+      if (message.status == Status.OK)
+        yield GroupInfoAddSuccess();
+      else
+        yield GroupInfoAddFailure();
       yield* _mapToState();
     } catch (exception) {
       if (exception is TimeoutException)

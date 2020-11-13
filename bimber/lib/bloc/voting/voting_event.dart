@@ -16,19 +16,19 @@ class InitVoting extends VotingEvent {}
 class RefetchVoting extends VotingEvent {}
 
 class VoteFor extends VotingEvent {
-  final String id;
+  final String userId;
 
-  VoteFor({@required this.id});
+  VoteFor({@required this.userId});
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [userId];
 }
 
 class VoteAgainst extends VotingEvent {
-  final String id;
+  final String userId;
 
-  VoteAgainst({@required this.id});
+  VoteAgainst({@required this.userId});
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [userId];
 }

@@ -20,11 +20,11 @@ class VotingError extends VotingState {
   List<Object> get props => [message];
 }
 
-class VotingFetched extends VotingState {
+class VotingFetchedCandidatesAndResults extends VotingState {
   final List<User> groupCandidates;
-  final List<GroupCandidate> votingResults;
+  final List<VotingResult> votingResults;
 
-  VotingFetched(this.groupCandidates, this.votingResults);
+  VotingFetchedCandidatesAndResults(this.groupCandidates, this.votingResults);
 
   @override
   List<Object> get props => [this.groupCandidates, this.votingResults];

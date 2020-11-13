@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import "package:bimber/models/user.dart";
 
-class GroupCandidate extends Equatable {
+class VotingResult extends Equatable {
   bool get stringify => true;
 
   final User user;
@@ -10,15 +10,15 @@ class GroupCandidate extends Equatable {
   final int votesInFavour;
   final int groupCount;
 
-  GroupCandidate(
+  VotingResult(
       {@required this.user,
       @required this.votesAgainst,
       @required this.votesInFavour,
       @required this.groupCount});
 
-  GroupCandidate copyWith(
+  VotingResult copyWith(
       {User user, int votesAgainst, int votesInFavour, int groupCount}) {
-    return GroupCandidate(
+    return VotingResult(
         user: user ?? this.user,
         votesAgainst: votesAgainst ?? this.votesAgainst,
         votesInFavour: votesInFavour ?? this.votesInFavour,
@@ -37,9 +37,9 @@ class GroupCandidate extends Equatable {
     };
   }
 
-  factory GroupCandidate.fromJson(dynamic json) {
+  factory VotingResult.fromJson(dynamic json) {
     if (json == null) return null;
-    return GroupCandidate(
+    return VotingResult(
         user: User.fromJson(json["user"]),
         votesAgainst: json["votesAgainst"] as int,
         votesInFavour: json["votesInFavour"] as int,

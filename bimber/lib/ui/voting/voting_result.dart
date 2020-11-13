@@ -1,4 +1,4 @@
-import 'package:bimber/models/group_candidate.dart';
+import 'package:bimber/models/voting_result.dart';
 import 'package:bimber/ui/common/theme.dart';
 import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +7,23 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:bimber/bloc/voting/voting_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+enum Vote { FOR, AGAINST, NONE }
+
+extension VoteString on Vote {
+  String toPolishString() {
+    switch (this) {
+      case Vote.FOR:
+        return "Za";
+      case Vote.AGAINST:
+        return "Przeciw";
+      case Vote.NONE:
+        return "Brak głosu";
+    }
+  }
+}
+
 class Votes {
-  final String vote;
+  final Vote vote;
   final int number;
   final charts.Color color;
 
@@ -16,21 +31,21 @@ class Votes {
 }
 
 class VotingResults extends StatelessWidget {
-  final List<GroupCandidate> candidates;
+  final List<VotingResult> votingResults;
 
-  const VotingResults({Key key, this.candidates}) : super(key: key);
+  const VotingResults({Key key, this.votingResults}) : super(key: key);
 
-  _chartSeries(GroupCandidate candidate, BuildContext context) {
+  _chartSeries(VotingResult votingResult, BuildContext context) {
     final data = [
-      Votes("Za", candidate.votesInFavour,
+      Votes(Vote.FOR, votingResult.votesInFavour,
           charts.ColorUtil.fromDartColor(indigoDye)),
-      Votes("Przeciw", candidate.votesAgainst,
+      Votes(Vote.AGAINST, votingResult.votesAgainst,
           charts.ColorUtil.fromDartColor(sandyBrown)),
       Votes(
-          "Brak głosu",
-          candidate.groupCount -
-              candidate.votesAgainst -
-              candidate.votesInFavour,
+          Vote.NONE,
+          votingResult.groupCount -
+              votingResult.votesAgainst -
+              votingResult.votesInFavour,
           charts.ColorUtil.fromDartColor(Colors.blueGrey))
     ];
     return [
@@ -39,15 +54,15 @@ class VotingResults extends StatelessWidget {
             Theme.of(context).colorScheme.secondaryVariant),
         id: "Głosy",
         data: data,
-        domainFn: (Votes vote, _) => vote.vote,
+        domainFn: (Votes vote, _) => vote.vote.toPolishString(),
         measureFn: (Votes vote, _) => vote.number,
         colorFn: (Votes vote, _) => vote.color,
-        labelAccessorFn: (Votes votes, _) => votes.vote,
+        labelAccessorFn: (Votes votes, _) => votes.vote.toPolishString(),
       )
     ];
   }
 
-  Widget _candidateListTile(GroupCandidate candidate, BuildContext context) {
+  Widget _candidateListTile(VotingResult votingResult, BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
       decoration: BoxDecoration(
@@ -70,15 +85,16 @@ class VotingResults extends StatelessWidget {
                     color: Colors.black.withOpacity(0.4))
               ]),
           child: UserImageHero(
-              user: candidate.user,
+              user: votingResult.user,
               size: Size(60, 60),
               radius: BorderRadius.circular(15.0),
               onTap: () {
-                context.pushNamed("/user-details", arguments: candidate.user);
+                context.pushNamed("/user-details",
+                    arguments: votingResult.user);
               }),
         ),
         title: Text(
-          candidate.user.name,
+          votingResult.user.name,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
           style: TextStyle(
@@ -88,7 +104,7 @@ class VotingResults extends StatelessWidget {
               fontFamily: 'Baloo'),
         ),
         subtitle: Text(
-          "Zagłosowało ${candidate.votesAgainst + candidate.votesInFavour} z ${candidate.groupCount}",
+          "Zagłosowało ${votingResult.votesAgainst + votingResult.votesInFavour} z ${votingResult.groupCount}",
           style: TextStyle(
               color: Colors.grey,
               fontSize: 15,
@@ -101,7 +117,7 @@ class VotingResults extends StatelessWidget {
             height: 200,
             width: MediaQuery.of(context).size.width,
             child: charts.PieChart(
-              _chartSeries(candidate, context),
+              _chartSeries(votingResult, context),
               animate: true,
               animationDuration: Duration(seconds: 1),
               behaviors: [
@@ -132,11 +148,11 @@ class VotingResults extends StatelessWidget {
               context.bloc<VotingBloc>().add(RefetchVoting());
               return Future.delayed(Duration(seconds: 1));
             },
-            child: candidates.isNotEmpty
+            child: votingResults.isNotEmpty
                 ? ListView(
                     physics: BouncingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics()),
-                    children: candidates
+                    children: votingResults
                         .map((element) => _candidateListTile(element, context))
                         .toList(),
                   )

@@ -1,3 +1,5 @@
+import 'package:bimber/models/message.dart';
+import 'package:bimber/models/status.dart';
 import 'package:bimber/models/user.dart';
 import 'package:bimber/resources/repositories/friend_repository.dart';
 import 'package:bimber/ui/common/fixtures.dart';
@@ -6,18 +8,18 @@ class MockFriendRepository extends FriendRepository {
   List<User> _cachedFriends;
 
   @override
-  Future<bool> acceptInvitation(String friendId) {
-    return Future.value(true);
+  Future<Message> acceptInvitation(String friendId) {
+    return Future.value(Message(status: Status.OK, message: "ok"));
   }
 
   @override
-  Future<bool> addFriend(String friendId) {
-    return Future.value(true);
+  Future<Message> addFriend(String friendId) {
+    return Future.value(Message(status: Status.OK, message: "ok"));
   }
 
   @override
-  Future<bool> deleteFriend(String friendId) {
-    return Future.value(false);
+  Future<Message> deleteFriend(String friendId) {
+    return Future.value(Message(status: Status.OK, message: "ok"));
   }
 
   @override
@@ -37,8 +39,8 @@ class MockFriendRepository extends FriendRepository {
   }
 
   @override
-  Future<bool> declineInvitation(String friendId) {
-    return Future.value(true);
+  Future<Message> declineInvitation(String friendId) {
+    return Future.value(Message(status: Status.OK, message: "ok"));
   }
 
   @override

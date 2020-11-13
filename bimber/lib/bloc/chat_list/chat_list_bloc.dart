@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bimber/models/chat_thumbnail.dart';
+import 'package:bimber/models/status.dart';
 import 'package:bimber/models/user.dart';
 import 'package:bimber/resources/repositories/chat_repository.dart';
 import 'package:bimber/resources/repositories/repositories.dart';
@@ -56,13 +57,14 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
           friends: await friendRepository.fetchFriendsList(fetchCache: true),
           chatThumbnails: sortChatThumbnails(
               await chatRepository.fetchChatThumbnails(fetchCache: true)));
-      bool deletedFriends = await friendRepository.deleteFriend(event.friendId);
+      final message = await friendRepository.deleteFriend(event.friendId);
       List<User> friends = await friendRepository.fetchFriendsList();
       List<ChatThumbnail> chats = await chatRepository.fetchChatThumbnails();
       sortChatThumbnails(chats);
-      yield deletedFriends
-          ? ChatListDeleteSuccess(friends: friends, chatThumbnails: chats)
-          : ChatListDeleteFailure(friends: friends, chatThumbnails: chats);
+      if (message.status == Status.OK)
+        yield ChatListDeleteSuccess(friends: friends, chatThumbnails: chats);
+      else
+        yield ChatListDeleteFailure(friends: friends, chatThumbnails: chats);
     } catch (exception) {
       yield* _handleExceptions(exception);
     }

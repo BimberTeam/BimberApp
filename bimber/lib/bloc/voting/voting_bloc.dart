@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:bimber/models/group_candidate.dart';
+import 'package:bimber/models/status.dart';
 import 'package:bimber/models/user.dart';
+import 'package:bimber/models/voting_result.dart';
 import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:bimber/ui/common/constants.dart';
 import 'package:bloc/bloc.dart';
@@ -39,8 +40,11 @@ class VotingBloc extends Bloc<VotingEvent, VotingState> {
   Stream<VotingState> _mapVoteForToState(VoteFor event) async* {
     try {
       yield VotingLoading();
-      bool voted = await groupRepository.voteFor(groupId, event.id);
-      yield voted ? VotingSuccess() : VotingFailure();
+      final message = await groupRepository.voteFor(groupId, event.userId);
+      if (message.status == Status.OK)
+        yield VotingSuccess();
+      else
+        yield VotingFailure();
       yield* _fetchVoting();
     } catch (exception) {
       yield* _handleException(exception);
@@ -50,8 +54,11 @@ class VotingBloc extends Bloc<VotingEvent, VotingState> {
   Stream<VotingState> _mapVoteAgainstToState(VoteAgainst event) async* {
     try {
       yield VotingLoading();
-      bool voted = await groupRepository.voteAgainst(groupId, event.id);
-      yield voted ? VotingSuccess() : VotingFailure();
+      final message = await groupRepository.voteAgainst(groupId, event.userId);
+      if (message.status == Status.OK)
+        yield VotingSuccess();
+      else
+        yield VotingFailure();
       yield* _fetchVoting();
     } catch (exception) {
       yield* _handleException(exception);
@@ -62,9 +69,9 @@ class VotingBloc extends Bloc<VotingEvent, VotingState> {
     try {
       List<User> groupCandidates =
           await groupRepository.fetchGroupCandidates(groupId);
-      List<GroupCandidate> votingResults =
-          await groupRepository.fetchGroupCandidateResults(groupId);
-      yield VotingFetched(groupCandidates, votingResults);
+      List<VotingResult> votingResults =
+          await groupRepository.fetchVotingResults(groupId);
+      yield VotingFetchedCandidatesAndResults(groupCandidates, votingResults);
     } catch (exception) {
       yield* _handleException(exception);
     }
