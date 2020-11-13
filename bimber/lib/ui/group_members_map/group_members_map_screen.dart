@@ -108,7 +108,8 @@ class _MembersMapState extends State<MembersMap> {
       canvas.clipPath(Path()..addOval(oval));
 
       // Add image
-      ui.Image image = await getImageFromUrl(ImageService.getImageUrl(items.first.id));
+      ui.Image image =
+          await getImageFromUrl(ImageService.getImageUrl(items.first.id));
       paintImage(canvas: canvas, image: image, rect: oval, fit: BoxFit.cover);
     } else {
       //if cluster size > 1 paint number of users in cluster

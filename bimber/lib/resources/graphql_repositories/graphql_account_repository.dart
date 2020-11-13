@@ -148,8 +148,7 @@ class GraphqlAccountRepository extends AccountRepository {
 
     Message message = Message.fromJson(queryResult.data['deleteAccount']);
 
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
+    if (message.status == Status.ERROR) return false;
 
     return true;
   }

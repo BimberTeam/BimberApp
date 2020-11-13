@@ -155,7 +155,8 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
       } else if (state is GroupInfoAddFailure) {
         showErrorSnackbar(context, message: "Nie udało się dodać do znajomych");
       } else if (state is GroupInfoAddSuccess) {
-        showSuccessSnackbar(context, message: "Dodano do znajomych");
+        showSuccessSnackbar(context,
+            message: "Wysłano zaproszenie do znajomych");
       }
     }, builder: (context, state) {
       if (state is GroupInfoInitial) {

@@ -90,9 +90,11 @@ class ChatOverviewState extends State<ChatOverview> {
 
   _init() async {
     bool isRead = await widget.chatThumbnail.checkIfRead();
-    setState(() {
-      read = isRead;
-    });
+    if (this.mounted) {
+      setState(() {
+        read = isRead;
+      });
+    }
   }
 
   @override

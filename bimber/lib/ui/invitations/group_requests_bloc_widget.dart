@@ -30,7 +30,8 @@ class GroupRequestsBlocWidget extends StatelessWidget {
             showSuccessSnackbar(context, message: "Usunięto zaproszenie");
           } else if (state is GroupRequestAcceptSuccess) {
             showSuccessSnackbar(context,
-                message: "Zaakaceptowano zaproszenie do grupy");
+                message:
+                    "Zaakaceptowano zaproszenie do grupy. Zostaniesz członkiem gdy reszta członków cie zaakceptuje.");
           }
         },
         builder: (context, state) {

@@ -28,8 +28,7 @@ class GraphqlFriendRepository extends FriendRepository {
 
     Message message = Message.fromJson(queryResult.data['acceptFriendRequest']);
 
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
+    if (message.status == Status.ERROR) return false;
 
     return true;
   }
@@ -49,8 +48,7 @@ class GraphqlFriendRepository extends FriendRepository {
 
     Message message = Message.fromJson(queryResult.data['sendFriendRequest']);
 
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
+    if (message.status == Status.ERROR) return false;
 
     return true;
   }
@@ -70,8 +68,7 @@ class GraphqlFriendRepository extends FriendRepository {
 
     Message message = Message.fromJson(queryResult.data['denyFriendRequest']);
 
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
+    if (message.status == Status.ERROR) return false;
 
     return true;
   }
@@ -91,8 +88,7 @@ class GraphqlFriendRepository extends FriendRepository {
 
     Message message = Message.fromJson(queryResult.data['removeFriend']);
 
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
+    if (message.status == Status.ERROR) return false;
 
     return true;
   }
@@ -132,7 +128,7 @@ class GraphqlFriendRepository extends FriendRepository {
   }
 
   @override
-  Future<List<User>> fetchFriendCandidatesFromGroup(String groupId) async{
+  Future<List<User>> fetchFriendCandidatesFromGroup(String groupId) async {
     //TODO check if works
     final WatchQueryOptions options = WatchQueryOptions(
         document: query.groupMembersWithoutFriendship,

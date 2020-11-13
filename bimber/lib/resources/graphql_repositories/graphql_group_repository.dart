@@ -32,8 +32,7 @@ class GraphqlGroupRepository extends GroupRepository {
     Message message =
         Message.fromJson(queryResult.data['acceptGroupInvitation']);
 
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
+    if (message.status == Status.ERROR) return false;
 
     return true;
   }
@@ -51,8 +50,7 @@ class GraphqlGroupRepository extends GroupRepository {
 
     Message message = Message.fromJson(queryResult.data['addFriendToGroup']);
 
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
+    if (message.status == Status.ERROR) return false;
 
     return true;
   }
@@ -73,8 +71,7 @@ class GraphqlGroupRepository extends GroupRepository {
     Message message =
         Message.fromJson(queryResult.data['rejectGroupInvitation']);
 
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
+    if (message.status == Status.ERROR) return false;
 
     return true;
   }
@@ -92,8 +89,7 @@ class GraphqlGroupRepository extends GroupRepository {
 
     Message message = Message.fromJson(queryResult.data['createGroup']);
 
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
+    if (message.status == Status.ERROR) return false;
 
     return true;
   }
@@ -149,7 +145,7 @@ class GraphqlGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<List<User>> fetchGroupCandidates(String groupId) async{
+  Future<List<User>> fetchGroupCandidates(String groupId) async {
     //TODO check if works
     final WatchQueryOptions options = WatchQueryOptions(
         document: query.groupCandidates,
@@ -159,6 +155,8 @@ class GraphqlGroupRepository extends GroupRepository {
 
     final queryResult =
         await client.value.query(options).timeout(Duration(seconds: 5));
+    print(queryResult.data);
+    print(queryResult.exception);
     checkQueryResultForErrors(queryResult);
 
     return (queryResult.data['groupCandidates'] as List)
@@ -167,7 +165,8 @@ class GraphqlGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<List<GroupCandidate>> fetchGroupCandidateResults(String groupId) async{
+  Future<List<GroupCandidate>> fetchGroupCandidateResults(
+      String groupId) async {
     //TODO check if works
     final WatchQueryOptions options = WatchQueryOptions(
         document: query.groupCandidatesResult,
@@ -177,6 +176,8 @@ class GraphqlGroupRepository extends GroupRepository {
 
     final queryResult =
         await client.value.query(options).timeout(Duration(seconds: 5));
+    print(queryResult.data);
+    print(queryResult.exception);
     checkQueryResultForErrors(queryResult);
 
     return (queryResult.data['groupCandidatesResult'] as List)
@@ -199,8 +200,7 @@ class GraphqlGroupRepository extends GroupRepository {
     Message message =
         Message.fromJson(queryResult.data['rejectGroupPendingUser']);
 
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
+    if (message.status == Status.ERROR) return false;
 
     return true;
   }
@@ -215,13 +215,14 @@ class GraphqlGroupRepository extends GroupRepository {
 
     final queryResult =
         await client.value.mutate(options).timeout(Duration(seconds: 5));
+    print(queryResult.data);
+    print(queryResult.exception);
     checkQueryResultForErrors(queryResult);
 
     Message message =
         Message.fromJson(queryResult.data['acceptGroupPendingUser']);
 
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
+    if (message.status == Status.ERROR) return false;
 
     return true;
   }

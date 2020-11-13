@@ -12,16 +12,11 @@ query GroupList {
          __typename
         id
         name
-        email
         age
         favoriteAlcoholName
         favoriteAlcoholType
         description
         gender
-        genderPreference
-        alcoholPreference
-        agePreferenceFrom
-        agePreferenceTo  
         latestLocation {
           latitude
           longitude
@@ -49,16 +44,11 @@ query GroupInvitationsList {
          __typename
         id
         name
-        email
         age
         favoriteAlcoholName
         favoriteAlcoholType
         description
         gender
-        genderPreference
-        alcoholPreference
-        agePreferenceFrom
-        agePreferenceTo  
         latestLocation {
           latitude
           longitude
@@ -83,16 +73,11 @@ query Group($id: ID!) {
        __typename
       id
       name
-      email
       age
       favoriteAlcoholName
       favoriteAlcoholType
       description
       gender
-      genderPreference
-      alcoholPreference
-      agePreferenceFrom
-      agePreferenceTo  
       latestLocation {
         latitude
         longitude
@@ -113,16 +98,11 @@ query GroupCandidates($id: ID!) {
     __typename
     id
     name
-    email
     age
     favoriteAlcoholName
     favoriteAlcoholType
     description
     gender
-    genderPreference
-    alcoholPreference
-    agePreferenceFrom
-    agePreferenceTo  
     latestLocation {
       latitude
       longitude
@@ -139,16 +119,11 @@ query GroupCandidatesResult($id: ID!) {
     __typename
       id
       name
-      email
       age
       favoriteAlcoholName
       favoriteAlcoholType
       description
       gender
-      genderPreference
-      alcoholPreference
-      agePreferenceFrom
-      agePreferenceTo  
       latestLocation {
         latitude
         longitude
