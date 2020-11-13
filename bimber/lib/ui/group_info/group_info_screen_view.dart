@@ -179,19 +179,32 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
                     fontWeight: FontWeight.w900,
                     fontFamily: 'Baloo')));
       } else {
-        return Container(
-            padding: EdgeInsets.all(10),
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                      _header(context),
-                    ] +
-                    group.members
-                        .where((element) => element.id != meId)
-                        .map((e) => _memberListTile(e, context))
-                        .toList(),
-              ),
+        return RefreshIndicator(
+            onRefresh: () {
+              context.bloc<GroupInfoBloc>().add(RefreshGroupInfo());
+              return Future.delayed(Duration(milliseconds: 500));
+            },
+            child: Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
+                      child: Column(
+                        children: [
+                              _header(context),
+                            ] +
+                            group.members
+                                .where((element) => element.id != meId)
+                                .map((e) => _memberListTile(e, context))
+                                .toList(),
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ));
       }
     });

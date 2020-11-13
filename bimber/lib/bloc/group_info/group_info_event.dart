@@ -13,6 +13,8 @@ abstract class GroupInfoEvent extends Equatable {
 
 class InitGroupInfo extends GroupInfoEvent {}
 
+class RefreshGroupInfo extends GroupInfoEvent {}
+
 class AddMemberToFriends extends GroupInfoEvent {
   final String id;
 

@@ -130,7 +130,6 @@ class GraphqlGroupRepository extends GroupRepository {
 
   @override
   Future<Group> fetchGroup(String groupId) async {
-    // TODO: check if works
     final WatchQueryOptions options = WatchQueryOptions(
         document: query.group,
         fetchResults: true,
@@ -155,8 +154,6 @@ class GraphqlGroupRepository extends GroupRepository {
 
     final queryResult =
         await client.value.query(options).timeout(Duration(seconds: 5));
-    print(queryResult.data);
-    print(queryResult.exception);
     checkQueryResultForErrors(queryResult);
 
     return (queryResult.data['groupCandidates'] as List)
@@ -176,8 +173,6 @@ class GraphqlGroupRepository extends GroupRepository {
 
     final queryResult =
         await client.value.query(options).timeout(Duration(seconds: 5));
-    print(queryResult.data);
-    print(queryResult.exception);
     checkQueryResultForErrors(queryResult);
 
     return (queryResult.data['groupCandidatesResult'] as List)
@@ -187,7 +182,6 @@ class GraphqlGroupRepository extends GroupRepository {
 
   @override
   Future<bool> voteAgainst(String groupId, String userId) async {
-    // TODO: check if works
     final MutationOptions options = MutationOptions(
         document: mutation.voteAgainst,
         fetchPolicy: FetchPolicy.networkOnly,
@@ -207,7 +201,6 @@ class GraphqlGroupRepository extends GroupRepository {
 
   @override
   Future<bool> voteFor(String groupId, String userId) async {
-    // TODO: check if works
     final MutationOptions options = MutationOptions(
         document: mutation.voteFor,
         fetchPolicy: FetchPolicy.networkOnly,
@@ -215,8 +208,6 @@ class GraphqlGroupRepository extends GroupRepository {
 
     final queryResult =
         await client.value.mutate(options).timeout(Duration(seconds: 5));
-    print(queryResult.data);
-    print(queryResult.exception);
     checkQueryResultForErrors(queryResult);
 
     Message message =

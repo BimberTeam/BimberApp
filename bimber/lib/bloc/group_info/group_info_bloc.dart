@@ -33,6 +33,10 @@ class GroupInfoBloc extends Bloc<GroupInfoEvent, GroupInfoState> {
     if (event is AddMemberToFriends) {
       yield* _mapAddMemberToFriendsToState(event);
     }
+    if (event is RefreshGroupInfo) {
+      yield GroupInfoLoading();
+      yield* _mapToState();
+    }
   }
 
   Stream<GroupInfoState> _mapAddMemberToFriendsToState(
