@@ -44,7 +44,7 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
             height: 5,
           ),
           Text(
-            "${group.averageAge} średnia wieku",
+            "${group.averageAge.toInt()} średnia wieku",
             style: style,
           ),
           SizedBox(
@@ -53,11 +53,17 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _button(Icons.search, "Odkryj", () {}, context),
-              _button(Icons.people, "Dodaj", () {
+              _button(Icons.account_box, "Kandydaci", () {
+                context.pushNamed("/group-members-candidates",
+                    arguments: group.id);
+              }, context),
+              _button(Icons.group_add, "Dodaj", () {
                 context.pushNamed("/add-friends-to-group", arguments: group.id);
               }, context),
-              _button(Icons.map, "Mapa", () => 3, context)
+              _button(Icons.map, "Mapa", () {
+                context.pushNamed("/members-map",
+                    arguments: {"groupMembers": group.members, "meId": meId});
+              }, context)
             ],
           ),
           SizedBox(
@@ -109,12 +115,14 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
       child: ListTile(
           contentPadding: EdgeInsets.all(10),
           leading: UserImageHero(
-              user: user,
-              size: Size(60, 60),
-              radius: BorderRadius.circular(15.0),
-              onTap: () {
-                context.pushNamed("/user-details", arguments: user);
-              }),
+            user: user,
+            size: Size(60, 60),
+            radius: BorderRadius.circular(15.0),
+            onTap: () {
+              context.pushNamed("/user-details", arguments: user);
+            },
+            showGradient: false,
+          ),
           title: Text(
             user.name,
             style: TextStyle(
@@ -149,7 +157,8 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
       } else if (state is GroupInfoAddFailure) {
         showErrorSnackbar(context, message: "Nie udało się dodać do znajomych");
       } else if (state is GroupInfoAddSuccess) {
-        showSuccessSnackbar(context, message: "Dodano do znajomych");
+        showSuccessSnackbar(context,
+            message: "Wysłano zaproszenie do znajomych");
       }
     }, builder: (context, state) {
       if (state is GroupInfoInitial) {
@@ -172,19 +181,32 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
                     fontWeight: FontWeight.w900,
                     fontFamily: 'Baloo')));
       } else {
-        return Container(
-            padding: EdgeInsets.all(10),
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                      _header(context),
-                    ] +
-                    group.members
-                        .where((element) => element.id != meId)
-                        .map((e) => _memberListTile(e, context))
-                        .toList(),
-              ),
+        return RefreshIndicator(
+            onRefresh: () {
+              context.bloc<GroupInfoBloc>().add(RefreshGroupInfo());
+              return Future.delayed(Duration(milliseconds: 500));
+            },
+            child: Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
+                      child: Column(
+                        children: [
+                              _header(context),
+                            ] +
+                            group.members
+                                .where((element) => element.id != meId)
+                                .map((e) => _memberListTile(e, context))
+                                .toList(),
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ));
       }
     });

@@ -1,8 +1,6 @@
 import 'package:bimber/bloc/chat_bloc/chat_bloc.dart';
 import 'package:bimber/models/chat_message.dart';
-import 'package:bimber/models/user.dart';
 import 'package:bimber/resources/repositories/account_repository.dart';
-import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/ui/chat/chat_input.dart';
 import 'package:bimber/ui/chat/chat_message_box.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
@@ -20,7 +18,6 @@ class ChatViewScreen extends StatefulWidget {
 
 class _ChatViewScreenState extends State<ChatViewScreen> {
   String userId;
-  List<User> groupMembers;
   Set<ChatMessage> messages = Set();
   List<ChatMessage> currentMessages = [];
   ScrollController scrollController = ScrollController();
@@ -33,12 +30,6 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
         .fetchMe()
         .then((user) => setState(() {
               userId = user.id;
-            }));
-    context
-        .repository<GroupRepository>()
-        .fetchGroup(widget.groupId)
-        .then((group) => setState(() {
-              groupMembers = group.members;
             }));
   }
 
@@ -81,11 +72,6 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
     });
   }
 
-  String _userNameFromId(String id) {
-    if (id == userId) return null;
-    return groupMembers.firstWhere((element) => element.id == id).name;
-  }
-
   Widget _view(BuildContext context) {
     return Column(
       children: <Widget>[
@@ -101,7 +87,6 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
 
             return ChatMessageBox(
               message: message,
-              username: _userNameFromId(message.userId),
               // THIS IS SO FUCKED UP
               isReceived: userId != message.userId,
               showUser: index == currentMessages.length - 1 ||

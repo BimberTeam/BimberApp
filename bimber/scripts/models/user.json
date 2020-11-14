@@ -2,15 +2,10 @@
   "__class__": "User",
   "id": {"type":  "String"},
   "name": {"type": "String"},
-  "email": {"type": "String"},
   "gender": {"type": "Gender", "enum": true},
   "age": {"type": "int"},
   "description": {"type": "String"},
   "favoriteAlcoholType": {"type": "AlcoholType", "enum": true},
   "favoriteAlcoholName": {"type": "String"},
-  "genderPreference": {"type": "Gender", "enum": true},
-  "agePreferenceFrom": {"type": "int"},
-  "agePreferenceTo": {"type": "int"},
-  "alcoholPreference": {"type": "AlcoholType", "enum": true},
   "latestLocation": {"type": "Location"}
 }

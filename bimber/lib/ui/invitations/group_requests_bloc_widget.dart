@@ -30,7 +30,8 @@ class GroupRequestsBlocWidget extends StatelessWidget {
             showSuccessSnackbar(context, message: "Usunięto zaproszenie");
           } else if (state is GroupRequestAcceptSuccess) {
             showSuccessSnackbar(context,
-                message: "Zaakaceptowano zaproszenie do grupy");
+                message:
+                    "Zaakaceptowano zaproszenie do grupy. Zostaniesz członkiem gdy reszta członków cie zaakceptuje.");
           }
         },
         builder: (context, state) {
@@ -69,6 +70,7 @@ class GroupRequestsBlocWidget extends StatelessWidget {
                     group: group,
                     size: Size(60, 60),
                     radius: BorderRadius.circular(15.0),
+                    showGradient: false,
                   )),
               createTitle: (Group group) => "Grupa",
               createSubtitle: (Group group) =>
@@ -83,6 +85,7 @@ class GroupRequestsBlocWidget extends StatelessWidget {
                     .bloc<GroupRequestsBloc>()
                     .add(AcceptGroupRequest(groupId: group.id));
               },
+              emptyListMessage: "Brak zaproszeń",
             );
           }
         },

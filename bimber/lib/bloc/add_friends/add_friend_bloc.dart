@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:bimber/models/status.dart';
 import 'package:bimber/models/user.dart';
+import 'package:bimber/resources/repositories/friend_repository.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/ui/common/constants.dart';
 import 'package:bloc/bloc.dart';
@@ -11,9 +13,13 @@ part 'add_friends_event.dart';
 
 class AddFriendsBloc extends Bloc<AddFriendsEvent, AddFriendsState> {
   final GroupRepository groupRepository;
+  final FriendRepository friendRepository;
   final String groupId;
 
-  AddFriendsBloc({@required this.groupRepository, @required this.groupId})
+  AddFriendsBloc(
+      {@required this.groupRepository,
+      @required this.groupId,
+      @required this.friendRepository})
       : super(AddFriendsInitial());
 
   @override
@@ -32,19 +38,19 @@ class AddFriendsBloc extends Bloc<AddFriendsEvent, AddFriendsState> {
       List<String> memberIds) async* {
     try {
       yield AddFriendsLoading(
-          possibleMembers: await groupRepository
-              .fetchGroupMemberCandidates(groupId, fetchCache: true));
+          possibleMembers: await friendRepository
+              .fetchFriendsWithoutGroupMembership(groupId));
       for (String memberId in memberIds) {
-        bool result = await groupRepository.addToGroup(memberId, groupId);
-        if (!result) {
-          List<User> possibleMembers =
-              await groupRepository.fetchGroupMemberCandidates(groupId);
+        final message = await groupRepository.addToGroup(memberId, groupId);
+        if (message.status == Status.ERROR) {
+          List<User> possibleMembers = await friendRepository
+              .fetchFriendsWithoutGroupMembership(groupId);
           yield AddFriendsFailure(possibleMembers: possibleMembers);
           return;
         }
       }
       List<User> possibleMembers =
-          await groupRepository.fetchGroupMemberCandidates(groupId);
+          await friendRepository.fetchFriendsWithoutGroupMembership(groupId);
       yield AddFriendsSuccess(possibleMembers: possibleMembers);
     } catch (exception) {
       if (exception is TimeoutException)
@@ -57,7 +63,7 @@ class AddFriendsBloc extends Bloc<AddFriendsEvent, AddFriendsState> {
   Stream<AddFriendsState> _mapInitAddFriendsToState() async* {
     try {
       List<User> possibleMembers =
-          await groupRepository.fetchGroupMemberCandidates(groupId);
+          await friendRepository.fetchFriendsWithoutGroupMembership(groupId);
       yield AddFriendsFetched(possibleMembers: possibleMembers);
     } catch (exception) {
       if (exception is TimeoutException)

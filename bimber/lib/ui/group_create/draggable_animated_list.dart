@@ -95,6 +95,7 @@ class _DraggableAnimatedListState extends State<DraggableAnimatedList> {
                 radius: BorderRadius.circular(15.0),
                 user: user,
                 size: Size(60, 60),
+                showGradient: false,
                 onTap: () {
                   context.pushNamed("/user-details", arguments: user);
                 }),
@@ -136,6 +137,7 @@ class _DraggableAnimatedListState extends State<DraggableAnimatedList> {
                   radius: BorderRadius.circular(15.0),
                   user: user,
                   size: Size(60, 60),
+                  showGradient: false,
                   onTap: () {
                     context.pushNamed("/user-details", arguments: user);
                   }),

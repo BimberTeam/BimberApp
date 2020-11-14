@@ -9,12 +9,14 @@ class UserImageHero extends StatelessWidget {
   final Size size;
   final Function onTap;
   final BorderRadius borderRadius;
+  final bool showGradient;
 
   UserImageHero(
       {@required this.user,
       @required this.size,
       this.onTap,
-      BorderRadius radius = const BorderRadius.all(Radius.circular(0))})
+      BorderRadius radius = const BorderRadius.all(Radius.circular(0)),
+      this.showGradient = true})
       : borderRadius = radius;
 
   @override
@@ -47,18 +49,22 @@ class UserImageHero extends StatelessWidget {
                         : 1 - animation.value);
 
                 return _UserImageHolder(
-                    destinationRadius: toHolder.destinationRadius,
-                    currentRadius: currentRadius,
-                    user: user,
-                    onTap: () {},
-                    size: size);
+                  destinationRadius: toHolder.destinationRadius,
+                  currentRadius: currentRadius,
+                  user: user,
+                  onTap: () {},
+                  size: size,
+                  showGradient: showGradient,
+                );
               });
         },
         child: _UserImageHolder(
-            destinationRadius: borderRadius,
-            user: user,
-            onTap: onTap,
-            size: size));
+          destinationRadius: borderRadius,
+          user: user,
+          onTap: onTap,
+          size: size,
+          showGradient: showGradient,
+        ));
   }
 }
 
@@ -68,13 +74,15 @@ class _UserImageHolder extends StatelessWidget {
   final User user;
   final Function onTap;
   final Size size;
+  final bool showGradient;
 
   _UserImageHolder(
       {@required this.destinationRadius,
       this.currentRadius,
       @required this.user,
       @required this.onTap,
-      @required this.size});
+      @required this.size,
+      this.showGradient = true});
 
   @override
   Widget build(BuildContext context) {
@@ -82,14 +90,16 @@ class _UserImageHolder extends StatelessWidget {
       borderRadius: currentRadius ?? destinationRadius,
       child: Container(
           color: indigoDye,
-          foregroundDecoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.transparent, Colors.black],
-                tileMode: TileMode.clamp,
-                stops: [0.7, 1.0]),
-          ),
+          foregroundDecoration: showGradient
+              ? BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Colors.transparent, Colors.black],
+                      tileMode: TileMode.clamp,
+                      stops: [0.7, 1.0]),
+                )
+              : BoxDecoration(),
           height: size.height,
           width: size.width,
           child: Material(

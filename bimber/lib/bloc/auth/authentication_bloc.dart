@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:bimber/resources/graphql_repositories/common.dart';
 import 'package:bimber/resources/repositories/account_repository.dart';
-import 'package:bimber/resources/services/token_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
@@ -31,8 +30,12 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
     try {
-      final isLoggedIn = await accountRepository.isLoggedIn();
-      yield (isLoggedIn ? Authenticated() : Unauthenticated());
+      if (await accountRepository.isLoggedIn()) {
+        accountRepository.updateLocation();
+        yield Authenticated();
+      } else {
+        yield Unauthenticated();
+      }
     } catch (e) {
       yield (e is GraphqlConnectionError
           ? AuthServerNotResponding()
@@ -41,14 +44,8 @@ class AuthenticationBloc
   }
 
   Stream<AuthenticationState> _mapLoggedInToState() async* {
-    try {
-      yield Authenticated();
-    } catch (e) {
-      await TokenService.deleteToken();
-      yield (e is GraphqlConnectionError
-          ? AuthServerNotResponding()
-          : Unauthenticated());
-    }
+    accountRepository.updateLocation();
+    yield Authenticated();
   }
 
   Stream<AuthenticationState> _mapLoggedOutToState() async* {

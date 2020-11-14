@@ -61,12 +61,14 @@ class FriendRequestBlocWidget extends StatelessWidget {
                 return Future.delayed(Duration(seconds: 1));
               },
               createLeadingWidget: (User user) => UserImageHero(
-                  user: user,
-                  size: Size(60, 60),
-                  radius: BorderRadius.circular(15.0),
-                  onTap: () {
-                    context.pushNamed("/user-details", arguments: user);
-                  }),
+                user: user,
+                size: Size(60, 60),
+                radius: BorderRadius.circular(15.0),
+                onTap: () {
+                  context.pushNamed("/user-details", arguments: user);
+                },
+                showGradient: false,
+              ),
               createTitle: (User user) => user.name,
               createSubtitle: (User user) => user.age.toString(),
               onAccept: (User user) {
@@ -79,6 +81,7 @@ class FriendRequestBlocWidget extends StatelessWidget {
                     .bloc<FriendRequestBloc>()
                     .add(DeclineFriendRequest(friendId: user.id));
               },
+              emptyListMessage: "Brak zaproszeń",
             );
           }
         },

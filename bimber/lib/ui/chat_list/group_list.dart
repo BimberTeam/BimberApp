@@ -78,15 +78,23 @@ class ChatOverviewState extends State<ChatOverview> {
   bool read = true;
 
   @override
-  void initState() {
+  void didUpdateWidget(oldWidget) {
     _init();
-    super.initState();
   }
 
-  _init() {
-    widget.chatThumbnail.checkIfRead().then((value) => setState(() {
-          read = value;
-        }));
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
+
+  _init() async {
+    bool isRead = await widget.chatThumbnail.checkIfRead();
+    if (this.mounted) {
+      setState(() {
+        read = isRead;
+      });
+    }
   }
 
   @override

@@ -1,12 +1,11 @@
 import 'package:bimber/models/group.dart';
 import 'package:bimber/models/message.dart';
-import 'package:bimber/models/status.dart';
 import 'package:bimber/models/user.dart';
+import 'package:bimber/models/voting_result.dart';
 import 'package:bimber/resources/graphql_repositories/common.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/graphql/queries.dart' as query;
 import 'package:bimber/graphql/mutations.dart' as mutation;
-import 'package:bimber/ui/common/fixtures.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -16,7 +15,7 @@ class GraphqlGroupRepository extends GroupRepository {
   GraphqlGroupRepository({@required this.client});
 
   @override
-  Future<bool> acceptGroupInvitation(String groupId) async {
+  Future<Message> acceptGroupInvitation(String groupId) async {
     final MutationOptions options = MutationOptions(
         document: mutation.acceptGroupRequest,
         fetchPolicy: FetchPolicy.networkOnly,
@@ -28,17 +27,11 @@ class GraphqlGroupRepository extends GroupRepository {
         await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
-    Message message =
-        Message.fromJson(queryResult.data['acceptGroupInvitation']);
-
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
-
-    return true;
+    return Message.fromJson(queryResult.data['acceptGroupInvitation']);
   }
 
   @override
-  Future<bool> addToGroup(String userId, String groupId) async {
+  Future<Message> addToGroup(String userId, String groupId) async {
     final MutationOptions options = MutationOptions(
         document: mutation.addToGroup,
         fetchPolicy: FetchPolicy.networkOnly,
@@ -48,16 +41,11 @@ class GraphqlGroupRepository extends GroupRepository {
         await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
-    Message message = Message.fromJson(queryResult.data['addFriendToGroup']);
-
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
-
-    return true;
+    return Message.fromJson(queryResult.data['addFriendToGroup']);
   }
 
   @override
-  Future<bool> cancelGroupInvitation(String groupId) async {
+  Future<Message> cancelGroupInvitation(String groupId) async {
     final MutationOptions options = MutationOptions(
         document: mutation.rejectGroupRequest,
         fetchPolicy: FetchPolicy.networkOnly,
@@ -69,17 +57,11 @@ class GraphqlGroupRepository extends GroupRepository {
         await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
-    Message message =
-        Message.fromJson(queryResult.data['rejectGroupInvitation']);
-
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
-
-    return true;
+    return Message.fromJson(queryResult.data['rejectGroupInvitation']);
   }
 
   @override
-  Future<bool> createGroup(List<String> memberIds) async {
+  Future<Message> createGroup(List<String> memberIds) async {
     final MutationOptions options = MutationOptions(
         document: mutation.createGroup,
         fetchPolicy: FetchPolicy.networkOnly,
@@ -89,12 +71,7 @@ class GraphqlGroupRepository extends GroupRepository {
         await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
-    Message message = Message.fromJson(queryResult.data['createGroup']);
-
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
-
-    return true;
+    return Message.fromJson(queryResult.data['createGroup']);
   }
 
   @override
@@ -132,21 +109,79 @@ class GraphqlGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<Group> fetchGroup(String groupId) {
-    // TODO: implement
-    return Future.value(Fixtures.getGroup(groupId));
+  Future<Group> fetchGroup(String groupId) async {
+    final WatchQueryOptions options = WatchQueryOptions(
+        document: query.group,
+        fetchResults: true,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"id": groupId});
+
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    return Group.fromJson(queryResult.data['group']);
   }
 
   @override
-  Future<List<String>> fetchFriendCandidates(String groupId) {
-    // TODO: implement
-    return Future.value(["aaa"]);
+  Future<List<User>> fetchGroupCandidates(String groupId) async {
+    final WatchQueryOptions options = WatchQueryOptions(
+        document: query.groupCandidates,
+        fetchResults: true,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"id": groupId});
+
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    return (queryResult.data['groupCandidates'] as List)
+        .map((json) => User.fromJson(json))
+        .toList();
   }
 
   @override
-  Future<List<User>> fetchGroupMemberCandidates(String groupId,
-      {fetchCache = false}) {
-    // TODO: implement fetchGroupMemberCandidates
-    return Future.value(Fixtures.getUsersList());
+  Future<Message> voteAgainst(String groupId, String userId) async {
+    final MutationOptions options = MutationOptions(
+        document: mutation.voteAgainst,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"userId": userId, "groupId": groupId});
+
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    return Message.fromJson(queryResult.data['rejectGroupPendingUser']);
+  }
+
+  @override
+  Future<Message> voteFor(String groupId, String userId) async {
+    final MutationOptions options = MutationOptions(
+        document: mutation.voteFor,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"userId": userId, "groupId": groupId});
+
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    return Message.fromJson(queryResult.data['acceptGroupPendingUser']);
+  }
+
+  @override
+  Future<List<VotingResult>> fetchVotingResults(String groupId) async {
+    final WatchQueryOptions options = WatchQueryOptions(
+        document: query.votingResults,
+        fetchResults: true,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"id": groupId});
+
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    return (queryResult.data['groupCandidatesResult'] as List)
+        .map((json) => VotingResult.fromJson(json))
+        .toList();
   }
 }

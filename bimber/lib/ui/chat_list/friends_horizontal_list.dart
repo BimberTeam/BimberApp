@@ -38,12 +38,14 @@ class FriendsHorizontalList extends StatelessWidget {
           children: <Widget>[
             FriendPressDetector(
               child: UserImageHero(
-                  user: user,
-                  size: Size(60, 60),
-                  radius: BorderRadius.circular(15.0),
-                  onTap: () {
-                    context.pushNamed("/user-details", arguments: user);
-                  }),
+                user: user,
+                size: Size(60, 60),
+                radius: BorderRadius.circular(15.0),
+                onTap: () {
+                  context.pushNamed("/user-details", arguments: user);
+                },
+                showGradient: false,
+              ),
               menuContent: _menuItem(() {
                 context.pop();
                 context

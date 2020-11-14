@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bimber/models/group.dart';
+import 'package:bimber/models/status.dart';
 import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:bimber/ui/common/constants.dart';
 import 'package:bloc/bloc.dart';
@@ -33,14 +34,21 @@ class GroupInfoBloc extends Bloc<GroupInfoEvent, GroupInfoState> {
     if (event is AddMemberToFriends) {
       yield* _mapAddMemberToFriendsToState(event);
     }
+    if (event is RefreshGroupInfo) {
+      yield GroupInfoLoading();
+      yield* _mapToState();
+    }
   }
 
   Stream<GroupInfoState> _mapAddMemberToFriendsToState(
       AddMemberToFriends event) async* {
     try {
       yield GroupInfoLoading();
-      bool addedFriend = await friendRepository.addFriend(event.id);
-      yield addedFriend ? GroupInfoAddSuccess() : GroupInfoAddFailure();
+      final message = await friendRepository.addFriend(event.id);
+      if (message.status == Status.OK)
+        yield GroupInfoAddSuccess();
+      else
+        yield GroupInfoAddFailure();
       yield* _mapToState();
     } catch (exception) {
       if (exception is TimeoutException)
@@ -54,7 +62,9 @@ class GroupInfoBloc extends Bloc<GroupInfoEvent, GroupInfoState> {
     try {
       final group = await groupRepository.fetchGroup(groupId);
       final friendCandidates =
-          await groupRepository.fetchFriendCandidates(groupId);
+          (await friendRepository.fetchFriendCandidatesFromGroup(groupId))
+              .map((user) => user.id)
+              .toList();
       final meId = (await accountRepository.fetchMe()).id;
       yield GroupInfoFetched(
           group: group, friendCandidates: friendCandidates, meId: meId);

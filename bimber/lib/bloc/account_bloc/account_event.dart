@@ -27,3 +27,5 @@ class EditAccount extends AccountEvent {
 
   EditAccount({@required this.data, @required this.version});
 }
+
+class DeleteAccount extends AccountEvent {}

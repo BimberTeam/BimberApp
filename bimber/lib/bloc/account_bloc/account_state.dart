@@ -41,3 +41,5 @@ class EditAccountError extends AccountState {
 
   EditAccountError({@required this.message});
 }
+
+class AccountDeleted extends AccountState {}

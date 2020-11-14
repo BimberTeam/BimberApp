@@ -10,11 +10,10 @@ import 'package:bimber/ui/account/account_edit_screen.dart';
 import 'package:bimber/ui/add_friend_to_group/add_friends_screen.dart';
 import 'package:bimber/ui/chat/chat_screen.dart';
 import 'package:bimber/ui/chat_list/friend_menu.dart';
-import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:bimber/ui/group_create/group_maker_screen.dart';
 import 'package:bimber/ui/group_details/group_details.dart';
 import 'package:bimber/ui/group_info/group_info_screen.dart';
-import 'package:bimber/ui/home/home_screen.dart';
+import 'package:bimber/ui/group_members_map/group_members_map_screen.dart';
 import 'package:bimber/ui/invitations/invitations_screen.dart';
 import 'package:bimber/ui/login/login_screen.dart';
 import 'package:bimber/ui/common/theme.dart';
@@ -22,6 +21,7 @@ import 'package:bimber/ui/login/starting_screen.dart';
 import 'package:bimber/ui/register/register_screen.dart';
 import 'package:bimber/ui/splash/splash_screen.dart';
 import 'package:bimber/ui/user_details/user_details.dart';
+import 'package:bimber/ui/voting/voting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
@@ -96,17 +96,6 @@ class App extends StatelessWidget {
                             onAccountUpdate: arguments["onAccountUpdate"],
                             accountData: arguments["account"] as AccountData));
                   }
-                case "/home":
-                  {
-                    return PageTransition(
-                        type: PageTransitionType.fade, child: HomeScreen());
-                  }
-                case "/discover":
-                  {
-                    return PageTransition(
-                        type: PageTransitionType.scale,
-                        child: DiscoverScreen());
-                  }
                 case "/user-details":
                   {
                     return PageTransition(
@@ -172,6 +161,27 @@ class App extends StatelessWidget {
                         type: PageTransitionType.fade,
                         duration: Duration(milliseconds: 500),
                         child: AddFriendsScreen(
+                          groupId: settings.arguments,
+                        ));
+                  }
+                case "/members-map":
+                  {
+                    final arguments =
+                        settings.arguments as Map<String, dynamic>;
+                    return PageTransition(
+                        type: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 500),
+                        child: MembersMap(
+                          groupMembers: arguments["groupMembers"],
+                          meId: arguments["meId"],
+                        ));
+                  }
+                case "/group-members-candidates":
+                  {
+                    return PageTransition(
+                        type: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 500),
+                        child: VotingScreen(
                           groupId: settings.arguments,
                         ));
                   }
