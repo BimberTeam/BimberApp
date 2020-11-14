@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ChatScreen extends StatelessWidget {
   final ChatThumbnail chatThumbnail;
 
-  const ChatScreen({this.chatThumbnail});
+  ChatScreen({this.chatThumbnail});
 
   @override
   Widget build(BuildContext context) {

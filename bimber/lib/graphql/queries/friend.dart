@@ -48,8 +48,8 @@ query FriendsList {
 ''');
 
 final listFriendsWithoutGroupMembership = gql(r'''
-query ListFriendWithoutGroupMembership($id: ID!) {
-  listFriendWithoutGroupMembership(id: $id) {
+query ListFriendsWithoutGroupMembership($id: ID!) {
+  listFriendsWithoutGroupMembership(id: $id) {
     __typename
     id
     name

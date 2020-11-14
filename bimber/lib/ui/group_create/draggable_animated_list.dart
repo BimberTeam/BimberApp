@@ -101,6 +101,8 @@ class _DraggableAnimatedListState extends State<DraggableAnimatedList> {
                 }),
             Text(
               user.name,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
               style: TextStyle(
                   color: Theme.of(context).colorScheme.secondaryVariant,
                   fontSize: 20,

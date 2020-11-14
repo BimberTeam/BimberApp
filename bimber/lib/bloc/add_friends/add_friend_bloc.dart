@@ -37,21 +37,21 @@ class AddFriendsBloc extends Bloc<AddFriendsEvent, AddFriendsState> {
   Stream<AddFriendsState> _mapAddFriendsToGroupToState(
       List<String> memberIds) async* {
     try {
-      yield AddFriendsLoading(
-          possibleMembers: await friendRepository
-              .fetchFriendsWithoutGroupMembership(groupId));
+      yield AddFriendsLoading();
       for (String memberId in memberIds) {
         final message = await groupRepository.addToGroup(memberId, groupId);
         if (message.status == Status.ERROR) {
+          yield AddFriendsFailure(message: message.message);
           List<User> possibleMembers = await friendRepository
               .fetchFriendsWithoutGroupMembership(groupId);
-          yield AddFriendsFailure(possibleMembers: possibleMembers);
+          yield AddFriendsFetched(possibleMembers: possibleMembers);
           return;
         }
       }
+      yield AddFriendsSuccess();
       List<User> possibleMembers =
           await friendRepository.fetchFriendsWithoutGroupMembership(groupId);
-      yield AddFriendsSuccess(possibleMembers: possibleMembers);
+      yield AddFriendsFetched(possibleMembers: possibleMembers);
     } catch (exception) {
       if (exception is TimeoutException)
         yield AddFriendsError(message: timeoutExceptionMessage);

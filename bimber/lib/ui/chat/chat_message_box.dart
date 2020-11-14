@@ -76,7 +76,7 @@ class ChatMessageBox extends StatelessWidget {
         children: [
           showUser || showDate
               ? Padding(
-                  padding: EdgeInsets.only(left: 50, bottom: 2, top: 6),
+                  padding: EdgeInsets.only(left: 50, bottom: 2, top: 10),
                   child: Text(message.name,
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.primaryVariant,
@@ -85,7 +85,7 @@ class ChatMessageBox extends StatelessWidget {
                           fontFamily: 'Baloo')))
               : SizedBox(
                   width: 0,
-                  height: 0,
+                  height: 6,
                 ),
           Row(
             children: <Widget>[

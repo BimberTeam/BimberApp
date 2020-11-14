@@ -132,7 +132,7 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
                 fontFamily: 'Baloo'),
           ),
           trailing: friendCandidates.contains(user.id)
-              ? _button(Icons.add, null, () {
+              ? _button(Icons.person_add, null, () {
                   context
                       .bloc<GroupInfoBloc>()
                       .add(AddMemberToFriends(id: user.id));

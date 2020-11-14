@@ -1,5 +1,6 @@
 import 'package:bimber/bloc/add_friends/add_friend_bloc.dart';
 import 'package:bimber/models/user.dart';
+import 'package:bimber/resources/repositories/friend_repository.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/ui/common/dialog_utils.dart';
 import 'package:bimber/ui/common/themed_primary_button.dart';
@@ -10,13 +11,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:build_context/build_context.dart';
 
-class AddFriendsScreen extends StatelessWidget {
+class AddFriendsScreen extends StatefulWidget {
   final DialogUtils dialogUtils = DialogUtils();
   final String groupId;
 
   AddFriendsScreen({Key key, this.groupId}) : super(key: key);
 
-  Widget _draggableAnimatedList(BuildContext context, List<User> friends) {
+  @override
+  State<StatefulWidget> createState() => AddFriendsScreenState();
+}
+
+class AddFriendsScreenState extends State<AddFriendsScreen> {
+  List<User> friends = [];
+
+  Widget _draggableAnimatedList(BuildContext context) {
     return DraggableAnimatedList(
       users: friends,
       onPressed: (List<User> friendsAdded) {
@@ -93,30 +101,34 @@ class AddFriendsScreen extends StatelessWidget {
         body: BlocProvider<AddFriendsBloc>(
             create: (context) => AddFriendsBloc(
                 groupRepository: context.repository<GroupRepository>(),
-                groupId: groupId)
+                friendRepository: context.repository<FriendRepository>(),
+                groupId: widget.groupId)
               ..add(InitAddFriends()),
             child: BlocConsumer<AddFriendsBloc, AddFriendsState>(
                 listener: (context, state) {
               if (state is AddFriendsLoading) {
-                dialogUtils.showLoadingIndicatorDialog(context, "Ładowanie...");
+                widget.dialogUtils
+                    .showLoadingIndicatorDialog(context, "Ładowanie...");
               } else if (state is AddFriendsFailure) {
-                dialogUtils.hideDialog(context);
-                dialogUtils.showIconDialog(Icons.error, Colors.red,
+                widget.dialogUtils.hideDialog(context);
+                widget.dialogUtils.showIconDialog(Icons.error, Colors.red,
                     "Nie udało się dodać znajomych", context);
                 Future.delayed(Duration(milliseconds: 1500), () {
-                  dialogUtils.hideDialog(context);
+                  widget.dialogUtils.hideDialog(context);
                   context.pop();
                 });
               } else if (state is AddFriendsSuccess) {
-                dialogUtils.hideDialog(context);
-                dialogUtils.showIconDialog(Icons.check_circle, Colors.green,
-                    "Wysłano zaproszenia do grupy", context);
+                widget.dialogUtils.hideDialog(context);
+                widget.dialogUtils.showIconDialog(Icons.check_circle,
+                    Colors.green, "Wysłano zaproszenia do grupy", context);
                 Future.delayed(Duration(milliseconds: 1500), () {
-                  dialogUtils.hideDialog(context);
+                  widget.dialogUtils.hideDialog(context);
                   context.pop();
                 });
               } else if (state is AddFriendsError) {
-                dialogUtils.hideDialog(context);
+                widget.dialogUtils.hideDialog(context);
+              } else if (state is AddFriendsFetched) {
+                friends = state.possibleMembers;
               }
             }, builder: (context, state) {
               if (state is AddFriendsInitial)
@@ -132,8 +144,7 @@ class AddFriendsScreen extends StatelessWidget {
                             fontWeight: FontWeight.w900,
                             fontFamily: 'Baloo')));
               } else
-                return _draggableAnimatedList(context,
-                    (state as AddFriendsResources).getPossibleMembers());
+                return _draggableAnimatedList(context);
             })));
   }
 }
