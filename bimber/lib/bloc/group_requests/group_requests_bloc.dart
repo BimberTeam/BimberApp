@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bimber/models/group.dart';
+import 'package:bimber/models/status.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/ui/common/constants.dart';
 import 'package:bloc/bloc.dart';
@@ -53,12 +54,13 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
       yield GroupRequestsLoading(
           requests:
               await groupRepository.fetchGroupInvitationList(fetchCache: true));
-      bool canceledGroup =
+      final message =
           await groupRepository.cancelGroupInvitation(event.groupId);
       List<Group> requests = await groupRepository.fetchGroupInvitationList();
-      yield canceledGroup
-          ? GroupRequestDeclineSuccess(requests: requests)
-          : GroupRequestDeclineError(requests: requests);
+      if (message.status == Status.OK)
+        yield GroupRequestDeclineSuccess(requests: requests);
+      else
+        yield GroupRequestDeclineError(requests: requests);
     } catch (exception) {
       yield* _handleException(exception);
     }
@@ -70,12 +72,13 @@ class GroupRequestsBloc extends Bloc<GroupRequestsEvent, GroupRequestState> {
       yield GroupRequestsLoading(
           requests:
               await groupRepository.fetchGroupInvitationList(fetchCache: true));
-      bool acceptedGroup =
+      final message =
           await groupRepository.acceptGroupInvitation(event.groupId);
       List<Group> requests = await groupRepository.fetchGroupInvitationList();
-      yield acceptedGroup
-          ? GroupRequestAcceptSuccess(requests: requests)
-          : GroupRequestAcceptError(requests: requests);
+      if (message.status == Status.OK)
+        yield GroupRequestAcceptSuccess(requests: requests);
+      else
+        yield GroupRequestAcceptError(requests: requests);
     } catch (exception) {
       yield* _handleException(exception);
     }

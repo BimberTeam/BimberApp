@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bimber/models/status.dart';
 import 'package:bimber/models/user.dart';
 import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:bimber/ui/common/constants.dart';
@@ -40,12 +41,12 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
       yield FriendRequestsLoading(
           requests: await friendRepository.fetchFriendInvitationList(
               fetchCache: true));
-      bool canceledFriend =
-          await friendRepository.declineInvitation(event.friendId);
+      final message = await friendRepository.declineInvitation(event.friendId);
       List<User> requests = await friendRepository.fetchFriendInvitationList();
-      yield canceledFriend
-          ? FriendRequestsDeclineSuccess(requests: requests)
-          : FriendRequestsDeclineError(requests: requests);
+      if (message.status == Status.OK)
+        yield FriendRequestsDeclineSuccess(requests: requests);
+      else
+        yield FriendRequestsDeclineError(requests: requests);
     } catch (exception) {
       yield* _handleException(exception);
     }
@@ -57,12 +58,12 @@ class FriendRequestBloc extends Bloc<FriendRequestEvent, FriendRequestState> {
       yield FriendRequestsLoading(
           requests: await friendRepository.fetchFriendInvitationList(
               fetchCache: true));
-      bool acceptedFriend =
-          await friendRepository.acceptInvitation(event.friendId);
+      final message = await friendRepository.acceptInvitation(event.friendId);
       List<User> requests = await friendRepository.fetchFriendInvitationList();
-      yield acceptedFriend
-          ? FriendRequestsAcceptSuccess(requests: requests)
-          : FriendRequestsAcceptError(requests: requests);
+      if (message.status == Status.OK)
+        yield FriendRequestsAcceptSuccess(requests: requests);
+      else
+        yield FriendRequestsAcceptError(requests: requests);
     } catch (exception) {
       yield* _handleException(exception);
     }

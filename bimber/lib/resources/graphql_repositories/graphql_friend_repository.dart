@@ -1,5 +1,4 @@
 import 'package:bimber/models/message.dart';
-import 'package:bimber/models/status.dart';
 import 'package:bimber/models/user.dart';
 import 'package:bimber/resources/graphql_repositories/common.dart';
 import 'package:bimber/resources/repositories/friend_repository.dart';
@@ -14,7 +13,7 @@ class GraphqlFriendRepository extends FriendRepository {
   GraphqlFriendRepository({@required this.client});
 
   @override
-  Future<bool> acceptInvitation(String friendId) async {
+  Future<Message> acceptInvitation(String friendId) async {
     final MutationOptions options = MutationOptions(
         document: mutation.acceptFriendRequest,
         fetchPolicy: FetchPolicy.networkOnly,
@@ -26,16 +25,11 @@ class GraphqlFriendRepository extends FriendRepository {
         await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
-    Message message = Message.fromJson(queryResult.data['acceptFriendRequest']);
-
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
-
-    return true;
+    return Message.fromJson(queryResult.data['acceptFriendRequest']);
   }
 
   @override
-  Future<bool> addFriend(String friendId) async {
+  Future<Message> addFriend(String friendId) async {
     final MutationOptions options = MutationOptions(
         document: mutation.addFriend,
         fetchPolicy: FetchPolicy.networkOnly,
@@ -47,16 +41,11 @@ class GraphqlFriendRepository extends FriendRepository {
         await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
-    Message message = Message.fromJson(queryResult.data['sendFriendRequest']);
-
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
-
-    return true;
+    return Message.fromJson(queryResult.data['sendFriendRequest']);
   }
 
   @override
-  Future<bool> declineInvitation(String userId) async {
+  Future<Message> declineInvitation(String userId) async {
     final MutationOptions options = MutationOptions(
         document: mutation.denyFriendRequest,
         fetchPolicy: FetchPolicy.networkOnly,
@@ -68,16 +57,11 @@ class GraphqlFriendRepository extends FriendRepository {
         await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
-    Message message = Message.fromJson(queryResult.data['denyFriendRequest']);
-
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
-
-    return true;
+    return Message.fromJson(queryResult.data['denyFriendRequest']);
   }
 
   @override
-  Future<bool> deleteFriend(String friendId) async {
+  Future<Message> deleteFriend(String friendId) async {
     final MutationOptions options = MutationOptions(
         document: mutation.removeFriend,
         fetchPolicy: FetchPolicy.networkOnly,
@@ -89,12 +73,7 @@ class GraphqlFriendRepository extends FriendRepository {
         await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
-    Message message = Message.fromJson(queryResult.data['removeFriend']);
-
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
-
-    return true;
+    return Message.fromJson(queryResult.data['removeFriend']);
   }
 
   @override
@@ -127,6 +106,40 @@ class GraphqlFriendRepository extends FriendRepository {
     checkQueryResultForErrors(queryResult);
 
     return (queryResult.data['me']['friends'] as List)
+        .map((json) => User.fromJson(json))
+        .toList();
+  }
+
+  @override
+  Future<List<User>> fetchFriendCandidatesFromGroup(String groupId) async {
+    final WatchQueryOptions options = WatchQueryOptions(
+        document: query.groupMembersWithoutFriendship,
+        fetchResults: true,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"id": groupId});
+
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    return (queryResult.data['groupMembersWithoutFriendship'] as List)
+        .map((json) => User.fromJson(json))
+        .toList();
+  }
+
+  @override
+  Future<List<User>> fetchFriendsWithoutGroupMembership(String groupId) async {
+    final WatchQueryOptions options = WatchQueryOptions(
+        document: query.listFriendsWithoutGroupMembership,
+        fetchResults: true,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"id": groupId});
+
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    return (queryResult.data['listFriendsWithoutGroupMembership'] as List)
         .map((json) => User.fromJson(json))
         .toList();
   }

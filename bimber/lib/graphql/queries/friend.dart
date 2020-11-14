@@ -9,16 +9,11 @@ query RequestedFriendsList {
       __typename
       id
       name
-      email
       age
       favoriteAlcoholName
       favoriteAlcoholType
       description
       gender
-      genderPreference
-      alcoholPreference
-      agePreferenceFrom
-      agePreferenceTo  
       latestLocation {
         latitude
         longitude
@@ -37,22 +32,55 @@ query FriendsList {
       __typename
       id
       name
-      email
       age
       favoriteAlcoholName
       favoriteAlcoholType
       description
       gender
-      genderPreference
-      alcoholPreference
-      agePreferenceFrom
-      agePreferenceTo
       latestLocation {
         latitude
         longitude
       }
     }
 
+  }
+}
+''');
+
+final listFriendsWithoutGroupMembership = gql(r'''
+query ListFriendWithoutGroupMembership($id: ID!) {
+  listFriendWithoutGroupMembership(id: $id) {
+    __typename
+    id
+    name
+    age
+    favoriteAlcoholName
+    favoriteAlcoholType
+    description
+    gender
+    latestLocation {
+      latitude
+      longitude
+    }
+  }
+}
+''');
+
+final groupMembersWithoutFriendship = gql(r'''
+query GroupMembersWithoutFriendship($id: ID!) {
+  groupMembersWithoutFriendship(groupId: $id) {
+    __typename
+    id
+    name
+    age
+    favoriteAlcoholName
+    favoriteAlcoholType
+    description
+    gender
+    latestLocation {
+      latitude
+      longitude
+    }
   }
 }
 ''');

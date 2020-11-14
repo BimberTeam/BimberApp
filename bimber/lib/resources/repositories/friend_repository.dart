@@ -1,10 +1,13 @@
+import 'package:bimber/models/message.dart';
 import 'package:bimber/models/user.dart';
 
 abstract class FriendRepository {
-  Future<bool> deleteFriend(String friendId);
-  Future<bool> addFriend(String friendId);
+  Future<Message> deleteFriend(String friendId);
+  Future<Message> addFriend(String friendId);
   Future<List<User>> fetchFriendsList({bool fetchCache = false});
   Future<List<User>> fetchFriendInvitationList({bool fetchCache = false});
-  Future<bool> acceptInvitation(String friendId);
-  Future<bool> declineInvitation(String friendId);
+  Future<Message> acceptInvitation(String friendId);
+  Future<Message> declineInvitation(String friendId);
+  Future<List<User>> fetchFriendsWithoutGroupMembership(String groupId);
+  Future<List<User>> fetchFriendCandidatesFromGroup(String groupId);
 }

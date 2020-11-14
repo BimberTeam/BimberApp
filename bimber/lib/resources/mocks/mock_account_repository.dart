@@ -1,6 +1,8 @@
 import 'package:bimber/models/account_data.dart';
 import 'package:bimber/models/edit_account_data.dart';
+import 'package:bimber/models/message.dart';
 import 'package:bimber/models/register_account_data.dart';
+import 'package:bimber/models/status.dart';
 import 'package:bimber/resources/repositories/account_repository.dart';
 
 class MockAccountRepository extends AccountRepository {
@@ -41,8 +43,8 @@ class MockAccountRepository extends AccountRepository {
   }
 
   @override
-  Future<bool> deleteAccount() {
-    return Future.value(true);
+  Future<Message> deleteAccount() {
+    return Future.value(Message(status: Status.OK, message: "ok"));
   }
 
   @override

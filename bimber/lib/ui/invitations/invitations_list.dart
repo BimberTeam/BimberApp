@@ -9,6 +9,7 @@ class InvitationsList<T> extends StatelessWidget {
   final Function createSubtitle;
   final Function onAccept;
   final Function onDecline;
+  final String emptyListMessage;
 
   InvitationsList(
       {@required this.list,
@@ -17,7 +18,8 @@ class InvitationsList<T> extends StatelessWidget {
       @required this.createTitle,
       @required this.createSubtitle,
       @required this.onAccept,
-      @required this.onDecline});
+      @required this.onDecline,
+      @required this.emptyListMessage});
 
   Widget _invitationListTile(T element, BuildContext context) {
     return Container(
@@ -125,7 +127,7 @@ class InvitationsList<T> extends StatelessWidget {
                             child: Align(
                               alignment: Alignment.center,
                               child: Text(
-                                "Brak zaproszeń",
+                                emptyListMessage,
                                 style: TextStyle(
                                     color: Theme.of(context)
                                         .colorScheme

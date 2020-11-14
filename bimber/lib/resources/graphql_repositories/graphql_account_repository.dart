@@ -2,7 +2,6 @@ import 'package:bimber/models/account_data.dart';
 import 'package:bimber/models/edit_account_data.dart';
 import 'package:bimber/models/message.dart';
 import 'package:bimber/models/register_account_data.dart';
-import 'package:bimber/models/status.dart';
 import 'package:bimber/resources/graphql_repositories/common.dart';
 import 'package:bimber/resources/repositories/account_repository.dart';
 import 'package:bimber/resources/services/token_service.dart';
@@ -66,15 +65,7 @@ class GraphqlAccountRepository extends AccountRepository {
 
     final queryResult =
         await client.value.mutate(options).timeout(Duration(seconds: 5));
-
-    try {
-      checkQueryResultForErrors(queryResult);
-    } on GraphqlConnectionError catch (e) {
-      throw e;
-    } catch (e) {
-      print(e);
-      return false;
-    }
+    checkQueryResultForErrors(queryResult);
 
     final token = queryResult.data["login"]["token"];
     await TokenService.persistToken(token);
@@ -131,28 +122,15 @@ class GraphqlAccountRepository extends AccountRepository {
   }
 
   @override
-  Future<bool> deleteAccount() async {
+  Future<Message> deleteAccount() async {
     final MutationOptions options = MutationOptions(
         document: mutation.deleteAccount, fetchPolicy: FetchPolicy.networkOnly);
 
     final queryResult =
         await client.value.mutate(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
 
-    try {
-      checkQueryResultForErrors(queryResult);
-    } on GraphqlConnectionError catch (e) {
-      throw e;
-    } catch (e) {
-      print(e);
-      return false;
-    }
-
-    Message message = Message.fromJson(queryResult.data['deleteAccount']);
-
-    if (message.status == Status.ERROR)
-      throw GraphqlException(message: message.message);
-
-    return true;
+    return Message.fromJson(queryResult.data['deleteAccount']);
   }
 
   @override
@@ -175,8 +153,6 @@ class GraphqlAccountRepository extends AccountRepository {
 
     final queryResult =
         await client.value.mutate(options).timeout(Duration(seconds: 5));
-    print(queryResult.data);
-    print(queryResult.exception);
     checkQueryResultForErrors(queryResult);
 
     return;

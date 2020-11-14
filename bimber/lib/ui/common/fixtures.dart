@@ -5,13 +5,14 @@ import 'package:bimber/models/gender.dart';
 import 'package:bimber/models/location.dart';
 import 'package:bimber/models/chat_message.dart';
 import 'package:bimber/models/user.dart';
+import 'package:bimber/models/voting_result.dart';
 
 class Fixtures {
   static Group getGroup(String id) {
     return Group(
         id: id,
         averageAge: 20,
-        averageLocation: Location(latitude: 50.44, longtitude: 56.78),
+        averageLocation: Location(latitude: 50.44, longitude: 56.78),
         members: getUSAPresidents());
   }
 
@@ -19,17 +20,12 @@ class Fixtures {
     return User(
         id: 'user',
         name: "Harnas",
-        email: null,
         gender: Gender.MALE,
         age: 18,
         description: "Harnas, piwo z gór",
         favoriteAlcoholName: "Harnas",
         favoriteAlcoholType: AlcoholType.BEER,
-        genderPreference: Gender.MALE,
-        agePreferenceFrom: 18,
-        agePreferenceTo: 99,
-        alcoholPreference: AlcoholType.BEER,
-        latestLocation: Location(latitude: 50.44, longtitude: 56.78));
+        latestLocation: Location(latitude: 50.44, longitude: 56.78));
   }
 
   static List<User> getUsersList() {
@@ -37,87 +33,57 @@ class Fixtures {
       User(
           id: 'aaa',
           name: "Harnas",
-          email: null,
           gender: Gender.MALE,
           age: 18,
           description: "Harnas, piwo z gór",
           favoriteAlcoholName: "Harnas",
           favoriteAlcoholType: AlcoholType.BEER,
-          genderPreference: Gender.MALE,
-          agePreferenceFrom: 18,
-          agePreferenceTo: 99,
-          alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
+          latestLocation: Location(latitude: 50.44, longitude: 56.78)),
       User(
           id: 'ccc',
           name: "Harnas",
-          email: null,
           gender: Gender.MALE,
           age: 22,
           description: "Harnas, piwo z gór",
           favoriteAlcoholName: "Harnas",
           favoriteAlcoholType: AlcoholType.BEER,
-          genderPreference: Gender.MALE,
-          agePreferenceFrom: 18,
-          agePreferenceTo: 99,
-          alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
+          latestLocation: Location(latitude: 50.44, longitude: 56.78)),
       User(
           id: 'ddd',
           name: "Harnas",
-          email: null,
           gender: Gender.MALE,
           age: 22,
           description: "Harnas, piwo z gór",
           favoriteAlcoholName: "Harnas",
           favoriteAlcoholType: AlcoholType.BEER,
-          genderPreference: Gender.MALE,
-          agePreferenceFrom: 18,
-          agePreferenceTo: 99,
-          alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
+          latestLocation: Location(latitude: 50.44, longitude: 56.78)),
       User(
           id: 'eee',
           name: "Harnas",
-          email: null,
           gender: Gender.MALE,
           age: 22,
           description: "Harnas, piwo z gór",
           favoriteAlcoholName: "Harnas",
           favoriteAlcoholType: AlcoholType.BEER,
-          genderPreference: Gender.MALE,
-          agePreferenceFrom: 18,
-          agePreferenceTo: 99,
-          alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
+          latestLocation: Location(latitude: 50.44, longitude: 56.78)),
       User(
           id: 'fff',
           name: "Harnas",
-          email: null,
           gender: Gender.MALE,
           age: 22,
           description: "Harnas, piwo z gór",
           favoriteAlcoholName: "Harnas",
           favoriteAlcoholType: AlcoholType.BEER,
-          genderPreference: Gender.MALE,
-          agePreferenceFrom: 18,
-          agePreferenceTo: 99,
-          alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.44, longtitude: 56.78)),
+          latestLocation: Location(latitude: 50.44, longitude: 56.78)),
       User(
           id: 'ggg',
           name: "Harnas",
-          email: null,
           gender: Gender.MALE,
           age: 22,
           description: "Harnas, piwo z gór",
           favoriteAlcoholName: "Harnas",
           favoriteAlcoholType: AlcoholType.BEER,
-          genderPreference: Gender.MALE,
-          agePreferenceFrom: 18,
-          agePreferenceTo: 99,
-          alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.44, longtitude: 56.78))
+          latestLocation: Location(latitude: 50.44, longitude: 56.78))
     ];
   }
 
@@ -126,45 +92,30 @@ class Fixtures {
       User(
           id: 'fff',
           name: "Donald Trump",
-          email: null,
           gender: Gender.MALE,
           age: 18,
           description: "Make america great again",
           favoriteAlcoholName: "Harnas",
           favoriteAlcoholType: AlcoholType.BEER,
-          genderPreference: Gender.MALE,
-          agePreferenceFrom: 18,
-          agePreferenceTo: 99,
-          alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.049683, longtitude: 19.949544)),
+          latestLocation: Location(latitude: 50.049683, longitude: 19.949544)),
       User(
           id: '2',
           name: "Joe Biden",
-          email: null,
           gender: Gender.MALE,
           age: 22,
           description: "vote me",
           favoriteAlcoholName: "Harnas",
           favoriteAlcoholType: AlcoholType.BEER,
-          genderPreference: Gender.MALE,
-          agePreferenceFrom: 18,
-          agePreferenceTo: 99,
-          alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.041683, longtitude: 19.949544)),
+          latestLocation: Location(latitude: 50.041683, longitude: 19.949544)),
       User(
           id: 'aaa',
           name: "Barack Obama",
-          email: null,
           gender: Gender.MALE,
           age: 22,
           description: "just chilling",
           favoriteAlcoholName: "Harnas",
           favoriteAlcoholType: AlcoholType.BEER,
-          genderPreference: Gender.MALE,
-          agePreferenceFrom: 18,
-          agePreferenceTo: 99,
-          alcoholPreference: AlcoholType.BEER,
-          latestLocation: Location(latitude: 50.049683, longtitude: 19.941544)),
+          latestLocation: Location(latitude: 50.049683, longitude: 19.941544)),
     ];
   }
 
@@ -179,8 +130,9 @@ class Fixtures {
             groupId: "aaa" + index.toString(),
             name: "Harnas, Tatra, Żubr, Perła, Kasztelan",
             lastMessage: ChatMessage(
+                name: "Harnas",
                 groupId: "aaa",
-                date: DateTime.now(),
+                date: DateTime.now().subtract(Duration(minutes: index * 15)),
                 message: "siema" + index.toString(),
                 userId: "aaa")));
     chats.add(ChatThumbnail(
@@ -222,5 +174,12 @@ class Fixtures {
         message: "halko? tutaj hymel jadwiga straz nie gasi",
         userId: "id"));
     return messages;
+  }
+
+  static List<VotingResult> getVotingResults() {
+    return getUSAPresidents()
+        .map((user) => VotingResult(
+            user: user, votesAgainst: 3, votesInFavour: 5, groupCount: 10))
+        .toList();
   }
 }
