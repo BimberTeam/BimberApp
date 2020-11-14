@@ -40,3 +40,27 @@ mutation AddFriendToGroup($groupId: ID!, $friendId: ID!){
     }
 }
 ''');
+
+final voteFor = gql(r'''
+mutation AcceptGroupPendingUser($groupId: ID!, $userId: ID!){
+    acceptGroupPendingUser(input: {
+    userId: $userId,
+    groupId: $groupId
+    }) {
+      message
+      status
+    }
+}
+''');
+
+final voteAgainst = gql(r'''
+mutation RejectGroupPendingUser($groupId: ID!, $userId: ID!){
+    rejectGroupPendingUser(input: {
+    userId: $userId,
+    groupId: $groupId
+    }) {
+      message
+      status
+    }
+}
+''');

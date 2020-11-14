@@ -1,0 +1,7 @@
+{
+  "__class__": "VotingResult",
+  "user": {"type":  "User"},
+  "votesAgainst": {"type": "int"},
+  "votesInFavour": {"type": "int"},
+  "groupCount": {"type": "int"}
+}

@@ -81,6 +81,7 @@ class FriendRequestBlocWidget extends StatelessWidget {
                     .bloc<FriendRequestBloc>()
                     .add(DeclineFriendRequest(friendId: user.id));
               },
+              emptyListMessage: "Brak zaproszeń",
             );
           }
         },

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bimber/models/status.dart';
 import 'package:bimber/models/user.dart';
 import 'package:bimber/resources/repositories/friend_repository.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
@@ -35,11 +36,12 @@ class GroupMakerBloc extends Bloc<GroupMakerEvent, GroupMakerState> {
     try {
       yield GroupMakerLoading(
           friends: await friendRepository.fetchFriendsList(fetchCache: true));
-      bool result = await groupRepository.createGroup(memberIds);
+      final message = await groupRepository.createGroup(memberIds);
       List<User> friends = await friendRepository.fetchFriendsList();
-      yield result
-          ? GroupMakerSuccess(friends: friends)
-          : GroupMakerFailure(friends: friends);
+      if (message.status == Status.OK)
+        yield GroupMakerSuccess(friends: friends);
+      else
+        yield GroupMakerFailure(friends: friends);
     } catch (exception) {
       if (exception is TimeoutException)
         yield GroupMakerError(message: timeoutExceptionMessage);

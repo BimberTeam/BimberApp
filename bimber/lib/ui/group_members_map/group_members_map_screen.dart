@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:bimber/models/location.dart';
 import 'package:bimber/models/user.dart';
+import 'package:bimber/resources/services/image_service.dart';
 import 'package:bimber/ui/common/fixtures.dart';
 import 'package:bimber/ui/common/theme.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class _MembersMapState extends State<MembersMap> {
   }
 
   LatLng fromLocation(Location location) {
-    return LatLng(location.latitude, location.longtitude);
+    return LatLng(location.latitude, location.longitude);
   }
 
   @override
@@ -107,8 +108,8 @@ class _MembersMapState extends State<MembersMap> {
       canvas.clipPath(Path()..addOval(oval));
 
       // Add image
-      ui.Image image = await getImageFromUrl(
-          Fixtures.getRandomPresidentImageUrl(items.first.id));
+      ui.Image image =
+          await getImageFromUrl(ImageService.getImageUrl(items.first.id));
       paintImage(canvas: canvas, image: image, rect: oval, fit: BoxFit.cover);
     } else {
       //if cluster size > 1 paint number of users in cluster

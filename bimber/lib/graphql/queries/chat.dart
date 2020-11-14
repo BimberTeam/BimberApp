@@ -5,6 +5,7 @@ query LoadChatMessages($groupId: ID!, $limit: Int, $lastDate: BimberDate) {
   loadChatMessages(input: {
     groupId: $groupId, limit: $limit, lastDate: $lastDate
     }) {
+    name
     groupId
     userId
     message
@@ -19,6 +20,7 @@ query ChatThumbnails {
     groupId
     name
     lastMessage {
+      name
       userId
       groupId
       date

@@ -1,16 +1,20 @@
 import 'package:bimber/models/group.dart';
+import 'package:bimber/models/message.dart';
+import 'package:bimber/models/status.dart';
+import 'package:bimber/models/user.dart';
+import 'package:bimber/models/voting_result.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/ui/common/fixtures.dart';
 
 class MockGroupRepository extends GroupRepository {
   @override
-  Future<bool> acceptGroupInvitation(String groupId) {
-    return Future.value(true);
+  Future<Message> acceptGroupInvitation(String groupId) {
+    return Future.value(Message(status: Status.OK, message: "ok"));
   }
 
   @override
-  Future<bool> cancelGroupInvitation(String groupId) {
-    return Future.value(true);
+  Future<Message> cancelGroupInvitation(String groupId) {
+    return Future.value(Message(status: Status.OK, message: "ok"));
   }
 
   @override
@@ -26,14 +30,13 @@ class MockGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<bool> addToGroup(String userId, String groupId) {
-    return Future.delayed(Duration(seconds: 1), () => true);
+  Future<Message> addToGroup(String userId, String groupId) {
+    return Future.value(Message(status: Status.OK, message: "ok"));
   }
 
   @override
-  Future<bool> createGroup(List<String> memberIds) {
-    return Future.delayed(
-        Duration(seconds: 1), () => memberIds.length > 3 ? true : false);
+  Future<Message> createGroup(List<String> memberIds) {
+    return Future.value(Message(status: Status.OK, message: "ok"));
   }
 
   @override
@@ -42,7 +45,23 @@ class MockGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<List<String>> fetchFriendCandidates(String groupId) {
-    return Future.value(["aaa"]);
+  Future<List<User>> fetchGroupCandidates(String groupId) {
+    return Future.value(Fixtures.getUSAPresidents());
+  }
+
+  @override
+  Future<Message> voteAgainst(String groupId, String userId) {
+    return Future.value(Message(status: Status.OK, message: "ok"));
+  }
+
+  @override
+  Future<Message> voteFor(String groupId, String userId) {
+    return Future.value(Message(status: Status.OK, message: "ok"));
+  }
+
+  @override
+  Future<List<VotingResult>> fetchVotingResults(String groupId) {
+    return Future.delayed(
+        Duration(seconds: 1), () => Fixtures.getVotingResults());
   }
 }

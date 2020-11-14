@@ -51,7 +51,7 @@ void calculateCurrentDistanceFrom(
         position.latitude,
         position.longitude,
         location.latitude,
-        location.longtitude);
+        location.longitude);
     onGetDistance(distanceInMeters);
   } catch (e) {}
 }
