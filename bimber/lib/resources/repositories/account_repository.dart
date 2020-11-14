@@ -11,5 +11,6 @@ abstract class AccountRepository {
   Future<AccountData> register(RegisterAccountData data);
   Future<void> editAccount(EditAccountData data);
   Future<AccountData> fetchMe({bool useCache});
+  Future<void> updateLocation();
   Future<Message> deleteAccount();
 }

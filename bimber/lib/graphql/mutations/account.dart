@@ -93,3 +93,12 @@ mutation DeleteAccount {
   }
 }
 ''');
+
+final updateLocation = gql(r'''
+mutation UpdateLocation($latitude: Float, $longitude: Float) {
+  updateLocation(input: {latitude: $latitude, longitude: $longitude}) {
+    message
+    status
+  }
+}
+''');

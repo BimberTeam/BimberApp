@@ -46,4 +46,10 @@ class MockAccountRepository extends AccountRepository {
   Future<Message> deleteAccount() {
     return Future.value(Message(status: Status.OK, message: "ok"));
   }
+
+  @override
+  Future<void> updateLocation() {
+    // TODO: implement updateLocation
+    throw UnimplementedError();
+  }
 }

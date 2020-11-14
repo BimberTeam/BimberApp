@@ -30,8 +30,12 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
     try {
-      final isLoggedIn = await accountRepository.isLoggedIn();
-      yield (isLoggedIn ? Authenticated() : Unauthenticated());
+      if (await accountRepository.isLoggedIn()) {
+        accountRepository.updateLocation();
+        yield Authenticated();
+      } else {
+        yield Unauthenticated();
+      }
     } catch (e) {
       yield (e is GraphqlConnectionError
           ? AuthServerNotResponding()
@@ -40,6 +44,7 @@ class AuthenticationBloc
   }
 
   Stream<AuthenticationState> _mapLoggedInToState() async* {
+    accountRepository.updateLocation();
     yield Authenticated();
   }
 
