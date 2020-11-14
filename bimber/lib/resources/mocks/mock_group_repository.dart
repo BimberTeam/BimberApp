@@ -64,11 +64,4 @@ class MockGroupRepository extends GroupRepository {
     return Future.delayed(
         Duration(seconds: 1), () => Fixtures.getVotingResults());
   }
-
-  @override
-  Future<List<User>> fetchGroupMemberCandidates(String groupId,
-      {fetchCache = false}) {
-    // TODO: implement fetchGroupMemberCandidates
-    throw UnimplementedError();
-  }
 }

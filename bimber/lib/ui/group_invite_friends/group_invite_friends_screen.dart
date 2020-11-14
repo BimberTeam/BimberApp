@@ -1,4 +1,4 @@
-import 'package:bimber/bloc/add_friends/add_friend_bloc.dart';
+import 'package:bimber/bloc/group_invite_friends//group_invite_friends_bloc.dart';
 import 'package:bimber/models/user.dart';
 import 'package:bimber/resources/repositories/friend_repository.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
@@ -11,24 +11,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:build_context/build_context.dart';
 
-class AddFriendsScreen extends StatefulWidget {
+class GroupInviteFriendsScreen extends StatefulWidget {
   final DialogUtils dialogUtils = DialogUtils();
   final String groupId;
 
-  AddFriendsScreen({Key key, this.groupId}) : super(key: key);
+  GroupInviteFriendsScreen({Key key, this.groupId}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => AddFriendsScreenState();
+  State<StatefulWidget> createState() => GroupInviteFriendsScreenState();
 }
 
-class AddFriendsScreenState extends State<AddFriendsScreen> {
+class GroupInviteFriendsScreenState extends State<GroupInviteFriendsScreen> {
   List<User> friends = [];
 
   Widget _draggableAnimatedList(BuildContext context) {
     return DraggableAnimatedList(
       users: friends,
       onPressed: (List<User> friendsAdded) {
-        context.bloc<AddFriendsBloc>().add(AddFriendsToGroup(
+        context.bloc<GroupInviteFriendsBloc>().add(InviteFriendsToGroup(
             memberIds: friendsAdded.map((e) => e.id).toList()));
       },
       buttonLabel: "Dodaj",
@@ -98,18 +98,19 @@ class AddFriendsScreenState extends State<AddFriendsScreen> {
                   fontWeight: FontWeight.w900,
                   fontFamily: 'Baloo')),
         ),
-        body: BlocProvider<AddFriendsBloc>(
-            create: (context) => AddFriendsBloc(
+        body: BlocProvider<GroupInviteFriendsBloc>(
+            create: (context) => GroupInviteFriendsBloc(
                 groupRepository: context.repository<GroupRepository>(),
                 friendRepository: context.repository<FriendRepository>(),
                 groupId: widget.groupId)
-              ..add(InitAddFriends()),
-            child: BlocConsumer<AddFriendsBloc, AddFriendsState>(
-                listener: (context, state) {
-              if (state is AddFriendsLoading) {
+              ..add(InitGroupInviteFriends()),
+            child:
+                BlocConsumer<GroupInviteFriendsBloc, GroupInviteFriendsState>(
+                    listener: (context, state) {
+              if (state is GroupInviteFriendsLoading) {
                 widget.dialogUtils
                     .showLoadingIndicatorDialog(context, "Ładowanie...");
-              } else if (state is AddFriendsFailure) {
+              } else if (state is GroupInviteFriendsFailure) {
                 widget.dialogUtils.hideDialog(context);
                 widget.dialogUtils.showIconDialog(Icons.error, Colors.red,
                     "Nie udało się dodać znajomych", context);
@@ -117,7 +118,7 @@ class AddFriendsScreenState extends State<AddFriendsScreen> {
                   widget.dialogUtils.hideDialog(context);
                   context.pop();
                 });
-              } else if (state is AddFriendsSuccess) {
+              } else if (state is GroupInviteFriendsSuccess) {
                 widget.dialogUtils.hideDialog(context);
                 widget.dialogUtils.showIconDialog(Icons.check_circle,
                     Colors.green, "Wysłano zaproszenia do grupy", context);
@@ -125,15 +126,15 @@ class AddFriendsScreenState extends State<AddFriendsScreen> {
                   widget.dialogUtils.hideDialog(context);
                   context.pop();
                 });
-              } else if (state is AddFriendsError) {
+              } else if (state is GroupInviteFriendsError) {
                 widget.dialogUtils.hideDialog(context);
-              } else if (state is AddFriendsFetched) {
+              } else if (state is GroupInviteFriendsFetched) {
                 friends = state.possibleMembers;
               }
             }, builder: (context, state) {
-              if (state is AddFriendsInitial)
+              if (state is GroupInviteFriendsInitial)
                 return _initialScreen(context);
-              else if (state is AddFriendsError) {
+              else if (state is GroupInviteFriendsError) {
                 return Container(
                     alignment: Alignment.center,
                     child: Text(state.message,

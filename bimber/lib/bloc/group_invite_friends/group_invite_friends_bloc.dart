@@ -8,68 +8,69 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-part 'add_friends_state.dart';
-part 'add_friends_event.dart';
+part 'group_invite_friends_state.dart';
+part 'group_invite_friends_event.dart';
 
-class AddFriendsBloc extends Bloc<AddFriendsEvent, AddFriendsState> {
+class GroupInviteFriendsBloc
+    extends Bloc<GroupInviteFriendsEvent, GroupInviteFriendsState> {
   final GroupRepository groupRepository;
   final FriendRepository friendRepository;
   final String groupId;
 
-  AddFriendsBloc(
+  GroupInviteFriendsBloc(
       {@required this.groupRepository,
       @required this.groupId,
       @required this.friendRepository})
-      : super(AddFriendsInitial());
+      : super(GroupInviteFriendsInitial());
 
   @override
-  Stream<AddFriendsState> mapEventToState(
-    AddFriendsEvent event,
+  Stream<GroupInviteFriendsState> mapEventToState(
+    GroupInviteFriendsEvent event,
   ) async* {
-    if (event is InitAddFriends) {
+    if (event is InitGroupInviteFriends) {
       yield* _mapInitAddFriendsToState();
     }
-    if (event is AddFriendsToGroup) {
+    if (event is InviteFriendsToGroup) {
       yield* _mapAddFriendsToGroupToState(event.memberIds);
     }
   }
 
-  Stream<AddFriendsState> _mapAddFriendsToGroupToState(
+  Stream<GroupInviteFriendsState> _mapAddFriendsToGroupToState(
       List<String> memberIds) async* {
     try {
-      yield AddFriendsLoading();
+      yield GroupInviteFriendsLoading();
       for (String memberId in memberIds) {
         final message = await groupRepository.addToGroup(memberId, groupId);
         if (message.status == Status.ERROR) {
-          yield AddFriendsFailure(message: message.message);
+          yield GroupInviteFriendsFailure(message: message.message);
           List<User> possibleMembers = await friendRepository
               .fetchFriendsWithoutGroupMembership(groupId);
-          yield AddFriendsFetched(possibleMembers: possibleMembers);
+          yield GroupInviteFriendsFetched(possibleMembers: possibleMembers);
           return;
         }
       }
-      yield AddFriendsSuccess();
+      yield GroupInviteFriendsSuccess();
       List<User> possibleMembers =
           await friendRepository.fetchFriendsWithoutGroupMembership(groupId);
-      yield AddFriendsFetched(possibleMembers: possibleMembers);
+      yield GroupInviteFriendsFetched(possibleMembers: possibleMembers);
     } catch (exception) {
       if (exception is TimeoutException)
-        yield AddFriendsError(message: timeoutExceptionMessage);
+        yield GroupInviteFriendsError(message: timeoutExceptionMessage);
       else
-        yield AddFriendsError(message: defaultErrorMessage);
+        yield GroupInviteFriendsError(message: defaultErrorMessage);
     }
   }
 
-  Stream<AddFriendsState> _mapInitAddFriendsToState() async* {
+  Stream<GroupInviteFriendsState> _mapInitAddFriendsToState() async* {
     try {
       List<User> possibleMembers =
           await friendRepository.fetchFriendsWithoutGroupMembership(groupId);
-      yield AddFriendsFetched(possibleMembers: possibleMembers);
+      yield GroupInviteFriendsFetched(possibleMembers: possibleMembers);
     } catch (exception) {
       if (exception is TimeoutException)
-        yield AddFriendsError(message: timeoutExceptionMessage);
+        yield GroupInviteFriendsError(message: timeoutExceptionMessage);
       else
-        yield AddFriendsError(message: defaultErrorMessage);
+        yield GroupInviteFriendsError(message: defaultErrorMessage);
     }
   }
 }
