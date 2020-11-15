@@ -35,7 +35,7 @@ class GraphqlGroupRepository extends GroupRepository {
     final MutationOptions options = MutationOptions(
         document: mutation.addToGroup,
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: {"groupId": groupId, "friendId": userId});
+        variables: {"groupId": groupId, "userId": userId});
 
     final queryResult =
         await client.value.mutate(options).timeout(Duration(seconds: 5));

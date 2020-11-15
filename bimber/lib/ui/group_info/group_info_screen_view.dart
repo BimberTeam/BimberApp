@@ -57,7 +57,9 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
                 context.pushNamed("/group-members-candidates",
                     arguments: group.id);
               }, context),
-              _button(Icons.group_add, "Dodaj", () => 2, context),
+              _button(Icons.group_add, "Dodaj", () {
+                context.pushNamed("/add-friends-to-group", arguments: group.id);
+              }, context),
               _button(Icons.map, "Mapa", () {
                 context.pushNamed("/members-map",
                     arguments: {"groupMembers": group.members, "meId": meId});
@@ -130,7 +132,7 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
                 fontFamily: 'Baloo'),
           ),
           trailing: friendCandidates.contains(user.id)
-              ? _button(Icons.add, null, () {
+              ? _button(Icons.person_add, null, () {
                   context
                       .bloc<GroupInfoBloc>()
                       .add(AddMemberToFriends(id: user.id));

@@ -1,35 +1,28 @@
+import 'package:bimber/models/user.dart';
 import 'package:bimber/ui/common/themed_primary_button.dart';
+import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:build_context/build_context.dart';
 
-class DraggableAnimatedList<T> extends StatefulWidget {
-  final List<T> elements;
-  final Function itemThumbnail;
-  final Function itemCardLeading;
-  final Function itemCardTitleText;
-  final Function itemCardSubtitleText;
-  final Widget listPlaceholder;
+class DraggableAnimatedList extends StatefulWidget {
+  final List<User> users;
   final Function onPressed;
   final String buttonLabel;
 
   DraggableAnimatedList(
-      {@required this.elements,
-      @required this.itemThumbnail,
-      @required this.itemCardLeading,
-      @required this.itemCardSubtitleText,
-      @required this.itemCardTitleText,
-      @required this.listPlaceholder,
+      {@required this.users,
       @required this.onPressed,
       @required this.buttonLabel});
 
   @override
-  State<StatefulWidget> createState() => _DraggableAnimatedListState<T>();
+  State<StatefulWidget> createState() => _DraggableAnimatedListState();
 }
 
-class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
-  List<T> available;
-  List<T> added;
-  T currentlyDragged;
+class _DraggableAnimatedListState extends State<DraggableAnimatedList> {
+  List<User> available;
+  List<User> added;
+  User currentlyDragged;
   final GlobalKey<AnimatedListState> availableListKey =
       GlobalKey<AnimatedListState>();
   final GlobalKey<AnimatedListState> addedListKey =
@@ -37,13 +30,13 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
 
   @override
   void initState() {
-    available = widget.elements;
+    available = widget.users;
     added = [];
     super.initState();
   }
 
   Widget _animatedDraggable(
-      BuildContext context, T element, int index, animation) {
+      BuildContext context, User user, int index, animation) {
     return SizeTransition(
         axis: Axis.horizontal,
         sizeFactor: CurvedAnimation(
@@ -51,15 +44,15 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
             curve: Curves.bounceOut,
             reverseCurve: Curves.bounceIn),
         child: LongPressDraggable(
-          child: _draggableChild(element, context),
-          childWhenDragging: _draggableChild(element, context),
-          feedback: _draggableChild(element, context),
+          child: _draggableChild(user, context),
+          childWhenDragging: _draggableChild(user, context),
+          feedback: _draggableChild(user, context),
           onDragStarted: () {
-            currentlyDragged = element;
+            currentlyDragged = user;
             availableListKey.currentState.removeItem(
                 index,
                 (_, animation) =>
-                    _animatedDraggable(context, element, index, animation),
+                    _animatedDraggable(context, user, index, animation),
                 duration: Duration(milliseconds: 700));
             setState(() {
               available.removeAt(index);
@@ -80,28 +73,51 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
         ));
   }
 
-  Widget _draggableChild(T element, BuildContext context) {
+  Widget _draggableChild(User user, BuildContext context) {
     return Opacity(
-      opacity: element == currentlyDragged ? 0 : 1,
+      opacity: user == currentlyDragged ? 0 : 1,
       child: Container(
-          margin: EdgeInsets.all(5),
-          padding: EdgeInsets.only(top: 5),
-          width: 90,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Theme.of(context).colorScheme.primaryVariant,
-              boxShadow: [
-                BoxShadow(
-                    blurRadius: 3,
-                    offset: Offset(3, 3),
-                    color: Colors.black.withOpacity(0.4))
-              ]),
-          child: widget.itemThumbnail(element)),
+        margin: EdgeInsets.all(5),
+        padding: EdgeInsets.only(top: 5),
+        width: 90,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Theme.of(context).colorScheme.primaryVariant,
+            boxShadow: [
+              BoxShadow(
+                  blurRadius: 3,
+                  offset: Offset(3, 3),
+                  color: Colors.black.withOpacity(0.4))
+            ]),
+        child: Column(
+          children: [
+            UserImageHero(
+                radius: BorderRadius.circular(15.0),
+                user: user,
+                size: Size(60, 60),
+                showGradient: false,
+                onTap: () {
+                  context.pushNamed("/user-details", arguments: user);
+                }),
+            Text(
+              user.name,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondaryVariant,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'Baloo',
+                  decoration: TextDecoration.none),
+            )
+          ],
+        ),
+      ),
     );
   }
 
   Widget _animatedListTile(
-      BuildContext context, T element, int index, Animation<double> animation) {
+      BuildContext context, User user, int index, Animation<double> animation) {
     return SizeTransition(
       sizeFactor: CurvedAnimation(
           parent: animation,
@@ -119,9 +135,16 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
                     color: Colors.black.withOpacity(0.4))
               ]),
           child: ListTile(
-              leading: widget.itemCardLeading(element),
+              leading: UserImageHero(
+                  radius: BorderRadius.circular(15.0),
+                  user: user,
+                  size: Size(60, 60),
+                  showGradient: false,
+                  onTap: () {
+                    context.pushNamed("/user-details", arguments: user);
+                  }),
               title: Text(
-                widget.itemCardTitleText(element),
+                user.name,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: TextStyle(
@@ -131,7 +154,7 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
                     fontFamily: 'Baloo'),
               ),
               subtitle: Text(
-                widget.itemCardSubtitleText(element),
+                user.age.toString(),
                 style: TextStyle(
                     color: Colors.grey,
                     fontSize: 15,
@@ -140,13 +163,13 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
               ),
               trailing: GestureDetector(
                 onTap: () {
-                  available.insert(0, element);
+                  available.insert(0, user);
                   availableListKey.currentState
                       .insertItem(0, duration: Duration(milliseconds: 700));
                   addedListKey.currentState.removeItem(
                       index,
                       (_, animation) =>
-                          _animatedListTile(context, element, index, animation),
+                          _animatedListTile(context, user, index, animation),
                       duration: Duration(milliseconds: 700));
                   setState(() {
                     added.removeAt(index);
@@ -175,7 +198,17 @@ class _DraggableAnimatedListState<T> extends State<DraggableAnimatedList> {
                     opacity: added.isEmpty ? 1 : 0,
                     child: Container(
                         alignment: Alignment.center,
-                        child: widget.listPlaceholder),
+                        child: Text(
+                          "Przytrzymaj i przeciągnij znajomych",
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).colorScheme.secondaryVariant,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: 'Baloo',
+                          ),
+                          textAlign: TextAlign.center,
+                        )),
                   ),
                   Positioned.fill(
                       child: AnimatedList(

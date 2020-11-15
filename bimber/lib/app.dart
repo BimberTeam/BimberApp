@@ -12,6 +12,7 @@ import 'package:bimber/ui/chat_list/friend_menu.dart';
 import 'package:bimber/ui/group_create/group_maker_screen.dart';
 import 'package:bimber/ui/group_details/group_details.dart';
 import 'package:bimber/ui/group_info/group_info_screen.dart';
+import 'package:bimber/ui/group_invite_friends/group_invite_friends_screen.dart';
 import 'package:bimber/ui/group_members_map/group_members_map_screen.dart';
 import 'package:bimber/ui/invitations/invitations_screen.dart';
 import 'package:bimber/ui/login/login_screen.dart';
@@ -151,6 +152,15 @@ class App extends StatelessWidget {
                         type: PageTransitionType.fade,
                         duration: Duration(milliseconds: 500),
                         child: GroupInfoScreen(
+                          groupId: settings.arguments,
+                        ));
+                  }
+                case "/add-friends-to-group":
+                  {
+                    return PageTransition(
+                        type: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 500),
+                        child: GroupInviteFriendsScreen(
                           groupId: settings.arguments,
                         ));
                   }

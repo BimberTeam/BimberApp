@@ -30,9 +30,9 @@ mutation CreateGroup($usersId: [ID!]!){
 ''');
 
 final addToGroup = gql(r'''
-mutation AddFriendToGroup($groupId: ID!, $friendId: ID!){
+mutation AddFriendToGroup($groupId: ID!, $userId: ID!){
     addFriendToGroup(input: {
-    friendId: $friendId,
+    userId: $userId,
     groupId: $groupId
     }) {
       message

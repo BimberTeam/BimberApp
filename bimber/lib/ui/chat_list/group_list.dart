@@ -101,6 +101,7 @@ class ChatOverviewState extends State<ChatOverview> {
   Widget build(BuildContext context) {
     return ListTile(
         onTap: () {
+          widget.chatThumbnail.markAsRead();
           context.pushNamed("/chat", arguments: widget.chatThumbnail);
         },
         contentPadding: EdgeInsets.all(10),
