@@ -30,16 +30,19 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
     try {
-      if (await accountRepository.isLoggedIn()) {
+      Future<bool> isLoggedIn = accountRepository.isLoggedIn();
+      await Future.delayed(Duration(milliseconds: 4500));
+      if (await isLoggedIn) {
         accountRepository.updateLocation();
         yield Authenticated();
       } else {
         yield Unauthenticated();
       }
     } catch (e) {
-      yield (e is GraphqlConnectionError
-          ? AuthServerNotResponding()
-          : Unauthenticated());
+      if (e is TimeoutException || e is GraphqlConnectionError)
+        yield AuthServerNotResponding();
+      else
+        Unauthenticated();
     }
   }
 
