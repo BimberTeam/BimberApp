@@ -54,8 +54,10 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _button(Icons.account_box, "Kandydaci", () {
-                context.pushNamed("/group-members-candidates",
-                    arguments: group.id);
+                context
+                    .pushNamed("/group-members-candidates", arguments: group.id)
+                    .then((_) =>
+                        context.bloc<GroupInfoBloc>().add(RefreshGroupInfo()));
               }, context),
               _button(Icons.group_add, "Dodaj", () {
                 context.pushNamed("/add-friends-to-group", arguments: group.id);

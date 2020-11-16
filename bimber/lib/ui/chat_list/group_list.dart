@@ -1,9 +1,11 @@
+import 'package:bimber/bloc/chat_list/chat_list_bloc.dart';
 import 'package:bimber/models/chat_thumbnail.dart';
 import 'package:bimber/ui/common/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:bimber/ui/common/extensions.dart';
 import 'package:build_context/build_context.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GroupChatList extends StatelessWidget {
   final List<ChatThumbnail> chatThumbnails;
@@ -102,7 +104,9 @@ class ChatOverviewState extends State<ChatOverview> {
     return ListTile(
         onTap: () {
           widget.chatThumbnail.markAsRead();
-          context.pushNamed("/chat", arguments: widget.chatThumbnail);
+          context
+              .pushNamed("/chat", arguments: widget.chatThumbnail)
+              .then((_) => context.bloc<ChatListBloc>().add(RefreshChatList()));
         },
         contentPadding: EdgeInsets.all(10),
         leading: CircleAvatar(
