@@ -81,7 +81,8 @@ class FriendsHorizontalList extends StatelessWidget {
                 PopupMenuItem(
                     child: _menuItem(() {
                   context.pop();
-                  context.pushNamed("/invitations");
+                  context.pushNamed("/invitations").then((_) =>
+                      context.bloc<ChatListBloc>().add(RefreshChatList()));
                 }, "Zaproszenia", Icons.people_outline,
                         Theme.of(context).colorScheme.secondary)),
               ]),

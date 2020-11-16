@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ChatViewScreen extends StatefulWidget {
   final String groupId;
 
-  const ChatViewScreen({Key key, this.groupId});
+  ChatViewScreen({Key key, this.groupId});
 
   @override
   State<StatefulWidget> createState() => _ChatViewScreenState();
@@ -21,6 +21,7 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
   Set<ChatMessage> messages = Set();
   List<ChatMessage> currentMessages = [];
   ScrollController scrollController = ScrollController();
+  bool loadMore = false;
 
   @override
   void initState() {
@@ -31,6 +32,17 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
         .then((user) => setState(() {
               userId = user.id;
             }));
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        setState(() {
+          loadMore = true;
+        });
+        context
+            .bloc<ChatBloc>()
+            .add(FetchChatMessages(limit: messages.length + 50));
+      }
+    });
   }
 
   _onSubmitted(BuildContext context) {
@@ -49,6 +61,7 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
       if (state is ChatMessagesFetched) {
         messages.addAll(state.messages);
         _reorderMessages();
+        loadMore = false;
       }
       if (state is ChatError) {
         showErrorSnackbar(context, message: state.message);
@@ -58,9 +71,6 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
         _reorderMessages();
       }
     }, builder: (context, state) {
-      if (state is ChatFetchLoading) {
-        return Center(child: CircularProgressIndicator());
-      }
       return _view(context);
     });
   }
@@ -76,32 +86,55 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
     return Column(
       children: <Widget>[
         Flexible(
-            child: ListView.builder(
-          physics: BouncingScrollPhysics(),
-          reverse: true,
-          controller: scrollController,
-          itemBuilder: (context, index) {
-            final message = currentMessages[index];
-            bool hasNext = index + 1 < currentMessages.length;
-            final nextMessage = !hasNext ? null : currentMessages[index + 1];
+            child: Stack(children: [
+          ListView.builder(
+            physics: BouncingScrollPhysics(),
+            reverse: true,
+            controller: scrollController,
+            itemBuilder: (context, index) {
+              final message = currentMessages[index];
+              bool hasNext = index + 1 < currentMessages.length;
+              final nextMessage = !hasNext ? null : currentMessages[index + 1];
 
-            return ChatMessageBox(
-              message: message,
-              // THIS IS SO FUCKED UP
-              isReceived: userId != message.userId,
-              showUser: index == currentMessages.length - 1 ||
-                  ((message.userId != nextMessage?.userId)),
-              showDate: index == currentMessages.length - 1 ||
-                  (message.date
-                          .difference(currentMessages[index + 1].date)
-                          .compareTo(Duration(minutes: 10)) >
-                      0),
-            );
-          },
-          itemCount: currentMessages.length,
-        )),
+              return ChatMessageBox(
+                message: message,
+                // THIS IS SO FUCKED UP
+                isReceived: userId != message.userId,
+                showUser: index == currentMessages.length - 1 ||
+                    ((message.userId != nextMessage?.userId)),
+                showDate: index == currentMessages.length - 1 ||
+                    (message.date
+                            .difference(currentMessages[index + 1].date)
+                            .compareTo(Duration(minutes: 10)) >
+                        0),
+              );
+            },
+            itemCount: currentMessages.length,
+          ),
+          loadMore
+              ? _loadMoreView()
+              : SizedBox(
+                  height: 0,
+                )
+        ])),
         ChatInput(onSubmitted: _onSubmitted(context))
       ],
     );
+  }
+
+  Widget _loadMoreView() {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
   }
 }
