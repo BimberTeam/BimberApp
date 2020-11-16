@@ -1,3 +1,4 @@
+import 'package:bimber/bloc/discover/discover_bloc.dart';
 import 'package:bimber/models/group.dart';
 import 'package:bimber/models/message.dart';
 import 'package:bimber/models/user.dart';
@@ -15,4 +16,6 @@ abstract class GroupRepository {
   Future<List<VotingResult>> fetchVotingResults(String groupId);
   Future<Message> voteFor(String groupId, String userId);
   Future<Message> voteAgainst(String groupId, String userId);
+  Future<List<Group>> fetchGroupSuggestion(int limit);
+  Future<Message> swipeGroup(Swipe swipeDirection, String groupId);
 }

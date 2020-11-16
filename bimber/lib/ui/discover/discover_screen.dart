@@ -17,8 +17,18 @@ class DiscoverScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                createButton(context, Icons.clear, Colors.red, () => {}),
-                createButton(context, Icons.check, Colors.green, () => {})
+                createButton(
+                    context,
+                    Icons.clear,
+                    Theme.of(context).colorScheme.primary,
+                    Theme.of(context).colorScheme.secondaryVariant,
+                    () => {}),
+                createButton(
+                    context,
+                    Icons.favorite_border,
+                    Theme.of(context).colorScheme.secondary,
+                    Theme.of(context).colorScheme.primary,
+                    () => {})
               ],
             ),
           ),
@@ -27,18 +37,15 @@ class DiscoverScreen extends StatelessWidget {
     );
   }
 
-  Container createButton(
-      BuildContext context, IconData icon, Color iconColor, Function onTap) {
+  Container createButton(BuildContext context, IconData icon,
+      Color backgroundColor, Color iconColor, Function onTap) {
     return Container(
-      child: ClipOval(
-        child: Material(
-          color: Theme.of(context).colorScheme.primaryVariant,
-          child: InkWell(
-            splashColor: Theme.of(context).accentColor, // inkwell color
-            child: Icon(icon, color: iconColor, size: 50),
-            onTap: onTap,
-          ),
-        ),
+      child: MaterialButton(
+        color: backgroundColor,
+        child: Icon(icon, color: iconColor, size: 50),
+        onPressed: onTap,
+        padding: EdgeInsets.all(5),
+        shape: CircleBorder(),
       ),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
