@@ -112,7 +112,7 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
             itemCount: currentMessages.length,
           ),
           loadMore
-              ? _loadMoreView(MediaQuery.of(context).size.width)
+              ? _loadMoreView()
               : SizedBox(
                   height: 0,
                 )
@@ -122,7 +122,7 @@ class _ChatViewScreenState extends State<ChatViewScreen> {
     );
   }
 
-  Widget _loadMoreView(double width) {
+  Widget _loadMoreView() {
     return Align(
       alignment: Alignment.topCenter,
       child: Padding(
