@@ -23,7 +23,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
     DiscoverEvent event,
   ) async* {
     if (event is InitDiscover) {
-      yield* _mapFetchSuggestions(5);
+      yield* _mapFetchSuggestions(3);
     }
     if (event is SwipeGroup) {
       yield* _mapSwipeGroup(event.swipeDirection, event.groupId);
@@ -68,6 +68,7 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
       final suggestions = await groupRepository.fetchGroupSuggestion(limit);
       yield DiscoverFetched(groupSuggestions: suggestions);
     } catch (exception) {
+      print(exception);
       if (exception is TimeoutException)
         yield DiscoverError(message: timeoutExceptionMessage);
       else

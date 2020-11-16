@@ -68,7 +68,7 @@ class MockGroupRepository extends GroupRepository {
 
   @override
   Future<List<Group>> fetchGroupSuggestion(int limit) {
-    List<Group> suggestions;
+    List<Group> suggestions = [];
     for (int i = 0; i < limit; i++) {
       suggestions.add(Fixtures.getGroup("id$i"));
     }
@@ -77,10 +77,7 @@ class MockGroupRepository extends GroupRepository {
 
   @override
   Future<Message> swipeGroup(Swipe swipeDirection, String groupId) {
-    if (swipeDirection == Swipe.LIKE) {
-      return Future.value(Message(status: Status.ERROR, message: "Błąd"));
-    } else {
-      return Future.value(Message(status: Status.OK, message: "git"));
-    }
+    return Future.delayed(Duration(seconds: 1),
+        () => Message(status: Status.OK, message: "MATCH"));
   }
 }

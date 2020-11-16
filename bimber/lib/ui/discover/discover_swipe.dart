@@ -1,8 +1,10 @@
+import 'package:bimber/bloc/discover/discover_bloc.dart';
 import 'package:bimber/ui/common/position.dart';
 import 'package:bimber/ui/common/utils.dart';
 import 'package:bimber/ui/discover/discover_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sprung/sprung.dart';
 
 class DiscoverSwipe extends StatefulWidget {
@@ -82,7 +84,7 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
   _animateTo(double left,
       {void Function(DiscoverCard) onEnd,
       bool animateY,
-      Duration duration = const Duration(milliseconds: 300)}) {
+      Duration duration = const Duration(milliseconds: 1000)}) {
     setState(() {
       animating = true;
 
@@ -236,12 +238,22 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onPanStart: _onPanStart,
-        onPanUpdate: _onPanUpdate,
-        onPanEnd: _onPanEnd,
-        child: Opacity(opacity: dragChildOpacity, child: widget.card));
+    return BlocListener<DiscoverBloc, DiscoverState>(
+      listener: (context, state) {
+        if (state is DiscoverAnimate) {
+          if (state.swipeAnimation == Swipe.LIKE)
+            _animateToLike();
+          else
+            _animateToDislike();
+        }
+      },
+      child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onPanStart: _onPanStart,
+          onPanUpdate: _onPanUpdate,
+          onPanEnd: _onPanEnd,
+          child: Opacity(opacity: dragChildOpacity, child: widget.card)),
+    );
   }
 }
 
