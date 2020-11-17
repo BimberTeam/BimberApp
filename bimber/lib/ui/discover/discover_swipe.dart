@@ -84,7 +84,7 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
   _animateTo(double left,
       {void Function(DiscoverCard) onEnd,
       bool animateY,
-      Duration duration = const Duration(milliseconds: 1000)}) {
+      Duration duration = const Duration(milliseconds: 500)}) {
     setState(() {
       animating = true;
 
@@ -241,10 +241,20 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
     return BlocListener<DiscoverBloc, DiscoverState>(
       listener: (context, state) {
         if (state is DiscoverAnimate) {
-          if (state.swipeAnimation == Swipe.LIKE)
-            _animateToLike();
-          else
-            _animateToDislike();
+          if (!animating) {
+            _onPanStart(DragStartDetails());
+            final size = MediaQuery.of(context).size;
+            if (state.swipeAnimation == Swipe.LIKE)
+              _animateTo(1.3 * size.width,
+                  onEnd: widget.onAccept,
+                  animateY: true,
+                  duration: Duration(seconds: 1));
+            else
+              _animateTo(-1.3 * size.width,
+                  onEnd: widget.onDismiss,
+                  animateY: true,
+                  duration: Duration(seconds: 1));
+          }
         }
       },
       child: GestureDetector(

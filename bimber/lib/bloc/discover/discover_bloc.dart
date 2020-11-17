@@ -51,10 +51,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
       final message = await groupRepository.swipeGroup(swipeDirection, groupId);
       if (message.status == Status.OK) {
         if (message.message == "MATCH") yield DiscoverSwipeMatch();
-        yield* _mapFetchSuggestions(1);
       } else {
         yield DiscoverError(message: message.message);
       }
+      yield* _mapFetchSuggestions(1);
     } catch (exception) {
       if (exception is TimeoutException)
         yield DiscoverError(message: timeoutExceptionMessage);

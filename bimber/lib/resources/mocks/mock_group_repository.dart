@@ -77,7 +77,6 @@ class MockGroupRepository extends GroupRepository {
 
   @override
   Future<Message> swipeGroup(Swipe swipeDirection, String groupId) {
-    return Future.delayed(Duration(seconds: 1),
-        () => Message(status: Status.OK, message: "MATCH"));
+    return Future.value(Message(status: Status.OK, message: "MATCH"));
   }
 }
