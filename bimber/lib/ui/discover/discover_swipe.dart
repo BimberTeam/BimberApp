@@ -240,11 +240,11 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
   Widget build(BuildContext context) {
     return BlocListener<DiscoverBloc, DiscoverState>(
       listener: (context, state) {
-        if (state is DiscoverAnimate) {
+        if (state is DiscoverSwipeButtonPressed) {
           if (!animating) {
             _onPanStart(DragStartDetails());
             final size = MediaQuery.of(context).size;
-            if (state.swipeAnimation == Swipe.LIKE)
+            if (state.swipeType == SwipeType.LIKE)
               _animateTo(1.3 * size.width,
                   onEnd: widget.onAccept,
                   animateY: true,

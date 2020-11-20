@@ -193,7 +193,7 @@ class GraphqlGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<Message> swipeGroup(Swipe swipeDirection, String groupId) {
+  Future<Message> swipeGroup(SwipeType swipeType, String groupId) {
     // TODO: implement swipeGroup
     throw UnimplementedError();
   }

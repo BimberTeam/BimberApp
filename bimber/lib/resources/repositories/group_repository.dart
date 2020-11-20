@@ -17,5 +17,5 @@ abstract class GroupRepository {
   Future<Message> voteFor(String groupId, String userId);
   Future<Message> voteAgainst(String groupId, String userId);
   Future<List<Group>> fetchGroupSuggestion(int limit);
-  Future<Message> swipeGroup(Swipe swipeDirection, String groupId);
+  Future<Message> swipeGroup(SwipeType swipeType, String groupId);
 }

@@ -28,12 +28,12 @@ class DiscoverScreen extends StatelessWidget {
                       icon: Icons.clear,
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       iconColor: Theme.of(context).colorScheme.secondaryVariant,
-                      swipeDirection: Swipe.DISLIKE),
+                      swipeType: SwipeType.DISLIKE),
                   DiscoverButton(
                       icon: Icons.favorite_border,
                       backgroundColor: Theme.of(context).colorScheme.secondary,
                       iconColor: Theme.of(context).colorScheme.primary,
-                      swipeDirection: Swipe.LIKE)
+                      swipeType: SwipeType.LIKE)
                 ],
               ),
             ),
@@ -48,14 +48,14 @@ class DiscoverButton extends StatelessWidget {
   final IconData icon;
   final Color backgroundColor;
   final Color iconColor;
-  final Swipe swipeDirection;
+  final SwipeType swipeType;
 
   const DiscoverButton(
       {Key key,
       this.icon,
       this.backgroundColor,
       this.iconColor,
-      this.swipeDirection})
+      this.swipeType})
       : super(key: key);
 
   @override
@@ -67,7 +67,7 @@ class DiscoverButton extends StatelessWidget {
         onPressed: () {
           context
               .bloc<DiscoverBloc>()
-              .add(SwipeButtonPressed(swipeDirection: swipeDirection));
+              .add(SwipeButtonPressed(swipeType: swipeType));
         },
         padding: EdgeInsets.all(5),
         shape: CircleBorder(),

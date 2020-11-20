@@ -14,20 +14,20 @@ abstract class DiscoverEvent extends Equatable {
 class InitDiscover extends DiscoverEvent {}
 
 class SwipeGroup extends DiscoverEvent {
-  final Swipe swipeDirection;
+  final SwipeType swipeType;
   final String groupId;
 
-  SwipeGroup({this.swipeDirection, this.groupId});
+  SwipeGroup({this.swipeType, this.groupId});
 
   @override
-  List<Object> get props => [this.swipeDirection];
+  List<Object> get props => [this.swipeType];
 }
 
 class SwipeButtonPressed extends DiscoverEvent {
-  final Swipe swipeDirection;
+  final SwipeType swipeType;
 
-  SwipeButtonPressed({this.swipeDirection});
+  SwipeButtonPressed({this.swipeType});
 
   @override
-  List<Object> get props => [this.swipeDirection];
+  List<Object> get props => [this.swipeType];
 }

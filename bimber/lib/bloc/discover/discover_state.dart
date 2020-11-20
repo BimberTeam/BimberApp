@@ -33,13 +33,13 @@ class DiscoverFetched extends DiscoverState {
 
 class DiscoverLoading extends DiscoverState {}
 
-class DiscoverSwipeMatch extends DiscoverState {}
+class DiscoverSwipeMatched extends DiscoverState {}
 
-class DiscoverAnimate extends DiscoverState {
-  final Swipe swipeAnimation;
+class DiscoverSwipeButtonPressed extends DiscoverState {
+  final SwipeType swipeType;
 
-  DiscoverAnimate({@required this.swipeAnimation});
+  DiscoverSwipeButtonPressed({@required this.swipeType});
 
   @override
-  List<Object> get props => [this.swipeAnimation];
+  List<Object> get props => [this.swipeType];
 }

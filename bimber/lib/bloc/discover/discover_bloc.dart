@@ -11,7 +11,7 @@ part 'discover_event.dart';
 
 part 'discover_state.dart';
 
-enum Swipe { LIKE, DISLIKE }
+enum SwipeType { LIKE, DISLIKE }
 
 class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
   final GroupRepository groupRepository;
@@ -26,16 +26,16 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
       yield* _mapFetchSuggestions(3);
     }
     if (event is SwipeGroup) {
-      yield* _mapSwipeGroup(event.swipeDirection, event.groupId);
+      yield* _mapSwipeGroup(event.swipeType, event.groupId);
     }
     if (event is SwipeButtonPressed) {
-      yield* _mapButtonPressed(event.swipeDirection);
+      yield* _mapButtonPressed(event.swipeType);
     }
   }
 
-  Stream<DiscoverState> _mapButtonPressed(Swipe swipeDirection) async* {
+  Stream<DiscoverState> _mapButtonPressed(SwipeType swipeDirection) async* {
     try {
-      yield DiscoverAnimate(swipeAnimation: swipeDirection);
+      yield DiscoverSwipeButtonPressed(swipeType: swipeDirection);
     } catch (exception) {
       if (exception is TimeoutException)
         yield DiscoverError(message: timeoutExceptionMessage);
@@ -45,12 +45,12 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
   }
 
   Stream<DiscoverState> _mapSwipeGroup(
-      Swipe swipeDirection, String groupId) async* {
+      SwipeType swipeDirection, String groupId) async* {
     try {
       yield DiscoverLoading();
       final message = await groupRepository.swipeGroup(swipeDirection, groupId);
       if (message.status == Status.OK) {
-        if (message.message == "MATCH") yield DiscoverSwipeMatch();
+        if (message.message == "MATCH") yield DiscoverSwipeMatched();
       } else {
         yield DiscoverError(message: message.message);
       }

@@ -51,12 +51,13 @@ class _DiscoverStackState extends State<DiscoverStack> {
           _replaceSwipeCard();
           context
               .bloc<DiscoverBloc>()
-              .add(SwipeGroup(swipeDirection: Swipe.LIKE, groupId: group.id));
+              .add(SwipeGroup(swipeType: SwipeType.LIKE, groupId: group.id));
         },
         onDismiss: (_) {
           _replaceSwipeCard();
-          context.bloc<DiscoverBloc>().add(
-              SwipeGroup(swipeDirection: Swipe.DISLIKE, groupId: group.id));
+          context
+              .bloc<DiscoverBloc>()
+              .add(SwipeGroup(swipeType: SwipeType.DISLIKE, groupId: group.id));
         },
         onCancel: (card) {});
   }
@@ -102,7 +103,7 @@ class _DiscoverStackState extends State<DiscoverStack> {
           //dont know what to put here
         } else if (state is DiscoverError) {
           showErrorSnackbar(context, message: state.message);
-        } else if (state is DiscoverSwipeMatch) {
+        } else if (state is DiscoverSwipeMatched) {
           dialogUtils.showIconDialog(Icons.favorite, Colors.green,
               "Użytkownik odzwzajemnił Twoje polubienie!", context);
           Future.delayed(Duration(milliseconds: 1500), () {
