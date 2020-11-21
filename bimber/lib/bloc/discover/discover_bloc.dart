@@ -33,9 +33,9 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
     }
   }
 
-  Stream<DiscoverState> _mapButtonPressed(SwipeType swipeDirection) async* {
+  Stream<DiscoverState> _mapButtonPressed(SwipeType swipeType) async* {
     try {
-      yield DiscoverSwipeButtonPressed(swipeType: swipeDirection);
+      yield DiscoverSwipeButtonPressed(swipeType: swipeType);
     } catch (exception) {
       if (exception is TimeoutException)
         yield DiscoverError(message: timeoutExceptionMessage);
@@ -45,10 +45,10 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
   }
 
   Stream<DiscoverState> _mapSwipeGroup(
-      SwipeType swipeDirection, String groupId) async* {
+      SwipeType swipeType, String groupId) async* {
     try {
       yield DiscoverLoading();
-      final message = await groupRepository.swipeGroup(swipeDirection, groupId);
+      final message = await groupRepository.swipeGroup(swipeType, groupId);
       if (message.status == Status.OK) {
         if (message.message == "MATCH") yield DiscoverSwipeMatched();
       } else {
