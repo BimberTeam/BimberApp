@@ -1,10 +1,14 @@
 import 'dart:math';
 import 'dart:ui';
-import 'package:bimber/ui/common/fixtures.dart';
+import 'package:bimber/bloc/discover/discover_bloc.dart';
+import 'package:bimber/models/group.dart';
+import 'package:bimber/ui/common/dialog_utils.dart';
+import 'package:bimber/ui/common/snackbar_utils.dart';
 import 'package:bimber/ui/discover/discover_card.dart';
 import 'package:bimber/ui/discover/discover_swipe.dart';
 import 'package:bimber/ui/discover/discover_card_content.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DiscoverStack extends StatefulWidget {
   final Size size;
@@ -16,23 +20,13 @@ class DiscoverStack extends StatefulWidget {
 }
 
 class _DiscoverStackState extends State<DiscoverStack> {
-  List<DiscoverCard> cards;
-  DiscoverCard currentCard;
+  List<Group> groups = [];
+  Group currentGroup;
+  DialogUtils dialogUtils = DialogUtils();
 
   @override
   void initState() {
     super.initState();
-
-    cards = [
-      DiscoverCard(
-          size: widget.size,
-          child: LayoutBuilder(builder: (context, constraints) {
-            return DiscoverCardContent(
-                group: Fixtures.getGroup("bjdsa"), size: constraints.smallest);
-          }))
-    ];
-
-    currentCard = cards.removeLast();
   }
 
   _background() {
@@ -45,46 +39,81 @@ class _DiscoverStackState extends State<DiscoverStack> {
                 fontFamily: 'Baloo')));
   }
 
-  _createDiscoverSwipe(DiscoverCard card) {
+  _createDiscoverSwipe(Group group) {
     return DiscoverSwipe(
-        card: card,
+        card: DiscoverCard(
+            size: widget.size,
+            child: LayoutBuilder(builder: (context, constraints) {
+              return DiscoverCardContent(
+                  group: group, size: constraints.smallest);
+            })),
         onAccept: (_) {
           _replaceSwipeCard();
+          context
+              .bloc<DiscoverBloc>()
+              .add(SwipeGroup(swipeType: SwipeType.LIKE, groupId: group.id));
         },
         onDismiss: (_) {
           _replaceSwipeCard();
+          context
+              .bloc<DiscoverBloc>()
+              .add(SwipeGroup(swipeType: SwipeType.DISLIKE, groupId: group.id));
         },
         onCancel: (card) {});
   }
 
   _replaceSwipeCard() {
     setState(() {
-      if (cards.isEmpty) {
-        currentCard = null;
+      if (groups.isEmpty) {
+        currentGroup = null;
       } else {
-        currentCard = cards.removeLast();
+        currentGroup = groups.removeLast();
       }
     });
   }
 
-  List<Widget> _stackElements(List<DiscoverCard> cards) {
-    if (cards.isEmpty && currentCard == null) return [];
+  List<Widget> _stackElements() {
+    if (groups.isEmpty && currentGroup == null) return [];
 
     List<Widget> elements = List<Widget>();
-    if (cards.isNotEmpty) {
-      elements.addAll(cards.sublist(cards.length - min(cards.length, 3)));
+    if (groups.isNotEmpty) {
+      elements.addAll(groups
+          .sublist(groups.length - min(groups.length, 3))
+          .map((group) => DiscoverCard(
+              size: widget.size,
+              child: LayoutBuilder(builder: (context, constraints) {
+                return DiscoverCardContent(
+                    group: group, size: constraints.smallest);
+              }))));
     }
-    elements.add(_createDiscoverSwipe(currentCard));
+    elements.add(_createDiscoverSwipe(currentGroup));
     return elements;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(child: _background()),
-        ..._stackElements(cards)
-      ],
+    return BlocListener<DiscoverBloc, DiscoverState>(
+      listener: (context, state) {
+        if (state is DiscoverFetched) {
+          setState(() {
+            groups.addAll(state.groupSuggestions);
+            if (currentGroup == null) currentGroup = groups.removeLast();
+          });
+        } else if (state is DiscoverLoading) {
+          //dont know what to put here
+        } else if (state is DiscoverError) {
+          showErrorSnackbar(context, message: state.message);
+        } else if (state is DiscoverSwipeMatched) {
+          dialogUtils.showIconDialog(Icons.favorite, Colors.green,
+              "Użytkownik odzwzajemnił Twoje polubienie!", context);
+          Future.delayed(Duration(milliseconds: 1500), () {
+            dialogUtils.hideDialog(context);
+          });
+        }
+      },
+      child: Stack(
+        children: [Positioned.fill(child: _background()), ..._stackElements()],
+      ),
     );
   }
 }

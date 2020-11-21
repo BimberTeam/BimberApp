@@ -1,3 +1,4 @@
+import 'package:bimber/bloc/discover/discover_bloc.dart';
 import 'package:bimber/models/group.dart';
 import 'package:bimber/models/message.dart';
 import 'package:bimber/models/status.dart';
@@ -63,5 +64,19 @@ class MockGroupRepository extends GroupRepository {
   Future<List<VotingResult>> fetchVotingResults(String groupId) {
     return Future.delayed(
         Duration(seconds: 1), () => Fixtures.getVotingResults());
+  }
+
+  @override
+  Future<List<Group>> fetchGroupSuggestion(int limit) {
+    List<Group> suggestions = [];
+    for (int i = 0; i < limit; i++) {
+      suggestions.add(Fixtures.getGroup("id$i"));
+    }
+    return Future.value(suggestions);
+  }
+
+  @override
+  Future<Message> swipeGroup(SwipeType swipeType, String groupId) {
+    return Future.value(Message(status: Status.OK, message: "MATCH"));
   }
 }

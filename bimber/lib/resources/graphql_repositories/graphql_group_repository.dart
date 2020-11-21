@@ -1,3 +1,4 @@
+import 'package:bimber/bloc/discover/discover_bloc.dart';
 import 'package:bimber/models/group.dart';
 import 'package:bimber/models/message.dart';
 import 'package:bimber/models/user.dart';
@@ -183,5 +184,17 @@ class GraphqlGroupRepository extends GroupRepository {
     return (queryResult.data['groupCandidatesResult'] as List)
         .map((json) => VotingResult.fromJson(json))
         .toList();
+  }
+
+  @override
+  Future<List<Group>> fetchGroupSuggestion(int limit) {
+    // TODO: implement fetchGroupSuggestion
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Message> swipeGroup(SwipeType swipeType, String groupId) {
+    // TODO: implement swipeGroup
+    throw UnimplementedError();
   }
 }
