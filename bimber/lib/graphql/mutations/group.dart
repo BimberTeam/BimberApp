@@ -64,3 +64,56 @@ mutation RejectGroupPendingUser($groupId: ID!, $userId: ID!){
     }
 }
 ''');
+
+final groupSuggestions = gql(r'''
+mutation SuggestGroups($limit: Int!, $range: Int!){
+    suggestGroups(input: {
+    limit: $limit,
+    range: $range
+    }) {
+      __typename
+      id
+      members{
+         __typename
+        id
+        name
+        age
+        favoriteAlcoholName
+        favoriteAlcoholType
+        description
+        gender
+        latestLocation {
+          latitude
+          longitude
+        }   
+      }
+      averageAge
+      averageLocation{
+        latitude
+        longitude
+      }
+    }
+}
+''');
+
+final swipeToLike = gql(r'''
+mutation SwipeToLike($groupId: ID!){
+    swipeToLike(input: {
+    groupId: $groupId
+    }) {
+      message
+      status
+    }
+}
+''');
+
+final swipeToDislike = gql(r'''
+mutation SwipeToDislike($groupId: ID!){
+    swipeToDisLike(input: {
+    groupId: $groupId
+    }) {
+      message
+      status
+    }
+}
+''');

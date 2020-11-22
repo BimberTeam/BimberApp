@@ -187,14 +187,38 @@ class GraphqlGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<List<Group>> fetchGroupSuggestion(int limit) {
-    // TODO: implement fetchGroupSuggestion
-    throw UnimplementedError();
+  Future<List<Group>> fetchGroupSuggestion(int limit) async {
+    final MutationOptions options = MutationOptions(
+        document: mutation.groupSuggestions,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"limit": limit, "range": 1000000}); //when we set range? xd
+
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
+    print(queryResult.data);
+    print(queryResult.exception);
+    checkQueryResultForErrors(queryResult);
+
+    return (queryResult.data['suggestGroups'] as List)
+        .map((json) => Group.fromJson(json))
+        .toList();
   }
 
   @override
-  Future<Message> swipeGroup(SwipeType swipeType, String groupId) {
-    // TODO: implement swipeGroup
-    throw UnimplementedError();
+  Future<Message> swipeGroup(SwipeType swipeType, String groupId) async {
+    final MutationOptions options = MutationOptions(
+        document: swipeType == SwipeType.LIKE
+            ? mutation.swipeToLike
+            : mutation.swipeToDislike,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"groupId": groupId});
+
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    return swipeType == SwipeType.LIKE
+        ? Message.fromJson(queryResult.data['swipeToLike'])
+        : Message.fromJson(queryResult.data['swipeToDisLike']);
   }
 }

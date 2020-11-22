@@ -97,7 +97,8 @@ class _DiscoverStackState extends State<DiscoverStack> {
         if (state is DiscoverFetched) {
           setState(() {
             groups.addAll(state.groupSuggestions);
-            if (currentGroup == null) currentGroup = groups.removeLast();
+            if (currentGroup == null && groups.isNotEmpty)
+              currentGroup = groups.removeLast();
           });
         } else if (state is DiscoverLoading) {
           //dont know what to put here
