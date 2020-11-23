@@ -12,6 +12,7 @@ import 'package:bimber/ui/common/age_preference_slider.dart';
 import 'package:bimber/ui/common/dialog_utils.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
 import 'package:bimber/ui/common/theme.dart';
+import 'package:bimber/ui/common/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -32,6 +33,7 @@ class AccountEditScreen extends StatefulWidget {
 class _AccountEditScreenState extends State<AccountEditScreen> {
   final _fbKey = GlobalKey<FormBuilderState>();
   AgePreference _agePreference;
+  double _currentSliderValue = 50;
   DialogUtils dialogUtils = DialogUtils();
 
   @override
@@ -40,6 +42,9 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
     _agePreference = AgePreference(
         from: widget.accountData.agePreferenceFrom,
         to: widget.accountData.agePreferenceTo);
+    getRangePreference().then((value) => setState(() {
+          _currentSliderValue = value;
+        }));
   }
 
   Future<String> _getAvatarLocalPath(String imageUrl) async {
@@ -87,6 +92,25 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
     );
   }
 
+  Widget _distanceRangeSlider() {
+    return Column(children: [
+      Text("Preferencja odległości: ${_currentSliderValue.round()}km",
+          style: textTheme.subtitle1),
+      Slider(
+        value: _currentSliderValue,
+        label: "${_currentSliderValue}km",
+        min: 0,
+        max: 500,
+        divisions: 100,
+        onChanged: (value) {
+          setState(() {
+            _currentSliderValue = value;
+          });
+        },
+      ),
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -108,6 +132,7 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
             return FloatingActionButton(
               child: Icon(Icons.save, color: orangeYellowCrayola),
               onPressed: () {
+                setRangePreference(_currentSliderValue);
                 if (_fbKey.currentState.saveAndValidate()) {
                   Map<String, dynamic> values = _fbKey.currentState.value;
                   values.update("age", (age) => int.parse(age));
@@ -205,6 +230,7 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
                               }),
                           AccountFormField.alcoholPreferenceField,
                           AccountFormField.alcoholNameField,
+                          _distanceRangeSlider(),
                           _deleteAccountButton(context)
                         ].map((field) => FormFieldCard(child: field)).toList(),
                       ),

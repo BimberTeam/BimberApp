@@ -30,13 +30,21 @@ class _DiscoverStackState extends State<DiscoverStack> {
   }
 
   _background() {
-    return Center(
-        child: Text("Brak imprezowiczów!",
-            style: TextStyle(
-                color: Theme.of(context).accentColor,
-                fontSize: 33,
-                fontWeight: FontWeight.w900,
-                fontFamily: 'Baloo')));
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Text("Brak imprezowiczów!",
+          style: TextStyle(
+              color: Theme.of(context).accentColor,
+              fontSize: 33,
+              fontWeight: FontWeight.w900,
+              fontFamily: 'Baloo')),
+      Text("Zwiększ preferencję odległości by poszukać imprez dalej od Ciebie.",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Theme.of(context).accentColor,
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Baloo')),
+    ]);
   }
 
   _createDiscoverSwipe(Group group) {

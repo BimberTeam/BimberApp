@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:bimber/models/location.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Size sizeWithoutAppBar(BuildContext context) {
   // final height = MediaQuery.of(context).size.height — MediaQuery.of(context).padding.top — kToolbarHeight;
@@ -58,4 +59,18 @@ void calculateCurrentDistanceFrom(
 
 Color colorFromGroupId(String groupId) {
   return Color(groupId.hashCode).withOpacity(1.0);
+}
+
+Future<double> getRangePreference() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  double value = prefs.getDouble("range_preference");
+  if (value != null)
+    return value;
+  else
+    return 50;
+}
+
+Future<double> setRangePreference(double value) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setDouble("range_preference", value);
 }

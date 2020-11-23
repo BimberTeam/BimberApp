@@ -7,6 +7,7 @@ import 'package:bimber/resources/graphql_repositories/common.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/graphql/queries.dart' as query;
 import 'package:bimber/graphql/mutations.dart' as mutation;
+import 'package:bimber/ui/common/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -188,10 +189,11 @@ class GraphqlGroupRepository extends GroupRepository {
 
   @override
   Future<List<Group>> fetchGroupSuggestion(int limit) async {
+    final range = (await getRangePreference()).round() * 1000;
     final MutationOptions options = MutationOptions(
         document: mutation.groupSuggestions,
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: {"limit": limit, "range": 1000000}); //when we set range? xd
+        variables: {"limit": limit, "range": range});
 
     final queryResult =
         await client.value.mutate(options).timeout(Duration(seconds: 5));
