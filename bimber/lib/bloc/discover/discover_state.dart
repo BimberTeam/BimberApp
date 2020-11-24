@@ -43,3 +43,5 @@ class DiscoverSwipeButtonPressed extends DiscoverState {
   @override
   List<Object> get props => [this.swipeType];
 }
+
+class NoGroupsToDiscover extends DiscoverState {}

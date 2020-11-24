@@ -108,6 +108,9 @@ class _DiscoverStackState extends State<DiscoverStack> {
             if (currentGroup == null && groups.isNotEmpty)
               currentGroup = groups.removeLast();
           });
+          if (currentGroup == null && groups.isEmpty) {
+            context.bloc<DiscoverBloc>().add(NoGroupsLeft());
+          }
         } else if (state is DiscoverLoading) {
           //dont know what to put here
         } else if (state is DiscoverError) {

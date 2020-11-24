@@ -31,6 +31,9 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
     if (event is SwipeButtonPressed) {
       yield* _mapButtonPressed(event.swipeType);
     }
+    if (event is NoGroupsLeft) {
+      yield NoGroupsToDiscover();
+    }
   }
 
   Stream<DiscoverState> _mapButtonPressed(SwipeType swipeType) async* {

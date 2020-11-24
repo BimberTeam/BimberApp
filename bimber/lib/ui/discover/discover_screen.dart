@@ -60,28 +60,33 @@ class DiscoverButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: MaterialButton(
-        color: backgroundColor,
-        child: Icon(icon, color: iconColor, size: 50),
-        onPressed: () {
-          context
-              .bloc<DiscoverBloc>()
-              .add(SwipeButtonPressed(swipeType: swipeType));
-        },
-        padding: EdgeInsets.all(5),
-        shape: CircleBorder(),
-      ),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-              color: Colors.grey,
-              blurRadius: 10.0,
-              offset: Offset(3.0, 3.0),
-              spreadRadius: 3.0)
-        ],
-      ),
-    );
+    return BlocBuilder<DiscoverBloc, DiscoverState>(builder: (context, state) {
+      if (state is DiscoverFetched || state is DiscoverSwipeButtonPressed) {
+        return Container(
+          child: MaterialButton(
+            color: backgroundColor,
+            child: Icon(icon, color: iconColor, size: 50),
+            onPressed: () {
+              context
+                  .bloc<DiscoverBloc>()
+                  .add(SwipeButtonPressed(swipeType: swipeType));
+            },
+            padding: EdgeInsets.all(5),
+            shape: CircleBorder(),
+          ),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 10.0,
+                  offset: Offset(3.0, 3.0),
+                  spreadRadius: 3.0)
+            ],
+          ),
+        );
+      }
+      return Container();
+    });
   }
 }
