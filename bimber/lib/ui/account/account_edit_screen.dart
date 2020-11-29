@@ -174,8 +174,7 @@ class _AccountEditScreenState extends State<AccountEditScreen> {
               dialogUtils.hideDialog(context);
             }
             if (state is EditAccountError) {
-              showErrorSnackbar(context,
-                  message: "Błąd podczas aktualizacji informacji...");
+              showErrorSnackbar(context, message: state.message);
             }
             if (state is EditAccountSuccess) {
               // context.bloc<AccountBloc>().add(FetchAccount());
