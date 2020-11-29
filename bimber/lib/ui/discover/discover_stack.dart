@@ -21,6 +21,7 @@ class DiscoverStack extends StatefulWidget {
 
 class _DiscoverStackState extends State<DiscoverStack> {
   List<Group> groups = [];
+  Set<String> uniqueGroups = {};
   Group currentGroup;
   DialogUtils dialogUtils = DialogUtils();
 
@@ -104,7 +105,12 @@ class _DiscoverStackState extends State<DiscoverStack> {
       listener: (context, state) {
         if (state is DiscoverFetched) {
           setState(() {
-            groups.addAll(state.groupSuggestions);
+            var newSuggestions = state.groupSuggestions;
+            newSuggestions = newSuggestions
+                .where((group) => !uniqueGroups.contains(group.id))
+                .toList();
+            uniqueGroups.addAll(newSuggestions.map((group) => group.id));
+            groups.addAll(newSuggestions);
             if (currentGroup == null && groups.isNotEmpty)
               currentGroup = groups.removeLast();
           });

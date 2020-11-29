@@ -135,3 +135,34 @@ query GroupCandidatesResult($id: ID!) {
   }
 }
 ''');
+
+final groupSuggestions = gql(r'''
+query SuggestGroups($limit: Int!, $range: Int!){
+    suggestGroups(input: {
+    limit: $limit,
+    range: $range
+    }) {
+      __typename
+      id
+      members{
+         __typename
+        id
+        name
+        age
+        favoriteAlcoholName
+        favoriteAlcoholType
+        description
+        gender
+        latestLocation {
+          latitude
+          longitude
+        }   
+      }
+      averageAge
+      averageLocation{
+        latitude
+        longitude
+      }
+    }
+}
+''');

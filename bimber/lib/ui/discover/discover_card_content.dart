@@ -53,7 +53,7 @@ class DiscoverCardContent extends StatelessWidget {
                   ? onlyUser.name + ", " + onlyUser.age.toString()
                   : "Grupa",
               style: TextStyle(
-                  fontSize: 40,
+                  fontSize: 30,
                   fontWeight: FontWeight.w900,
                   fontFamily: 'Baloo',
                   color: Colors.white,

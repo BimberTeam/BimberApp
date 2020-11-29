@@ -190,15 +190,14 @@ class GraphqlGroupRepository extends GroupRepository {
   @override
   Future<List<Group>> fetchGroupSuggestion(int limit) async {
     final range = (await getRangePreference()).round() * 1000;
-    final MutationOptions options = MutationOptions(
-        document: mutation.groupSuggestions,
+    final WatchQueryOptions options = WatchQueryOptions(
+        document: query.groupSuggestions,
+        fetchResults: true,
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: {"limit": limit, "range": range});
+        variables: {"range": range, "limit": limit});
 
     final queryResult =
-        await client.value.mutate(options).timeout(Duration(seconds: 5));
-    print(queryResult.data);
-    print(queryResult.exception);
+        await client.value.query(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);
 
     return (queryResult.data['suggestGroups'] as List)
@@ -221,6 +220,6 @@ class GraphqlGroupRepository extends GroupRepository {
 
     return swipeType == SwipeType.LIKE
         ? Message.fromJson(queryResult.data['swipeToLike'])
-        : Message.fromJson(queryResult.data['swipeToDisLike']);
+        : Message.fromJson(queryResult.data['swipeToDislike']);
   }
 }
