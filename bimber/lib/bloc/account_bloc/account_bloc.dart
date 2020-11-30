@@ -56,13 +56,13 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       if (message.status == Status.OK)
         yield AccountDeleted();
       else
-        yield AccountError(message: message.message);
+        yield EditAccountError(message: message.message);
     } catch (e) {
       yield (e is GraphqlConnectionError
           ? AccountServerNotResponding()
-          : AccountError(
+          : EditAccountError(
               message:
-                  "Wystąpił problem podczas usuwania profilu, spróbuj ponownie później!"));
+                  "Wystąpił błąd podczas aktualizacji zdjęcia! Spróbuj później..."));
     }
   }
 

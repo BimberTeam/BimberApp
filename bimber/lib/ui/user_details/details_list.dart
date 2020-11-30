@@ -25,16 +25,18 @@ class DetailsList extends StatelessWidget {
   }
 
   _name(Color color) {
-    return Row(children: <Widget>[
-      Text(
+    return Container(
+      child: Text(
         "${user.name}, ${user.age}",
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         style: TextStyle(
             color: color,
             fontSize: 30,
             fontWeight: FontWeight.w900,
             fontFamily: 'Baloo'),
       ),
-    ]);
+    );
   }
 
   _iconText(IconData icon, String text, Color color) {

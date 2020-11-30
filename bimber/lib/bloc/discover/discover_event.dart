@@ -13,6 +13,8 @@ abstract class DiscoverEvent extends Equatable {
 
 class InitDiscover extends DiscoverEvent {}
 
+class NoGroupsLeft extends DiscoverEvent {}
+
 class SwipeGroup extends DiscoverEvent {
   final SwipeType swipeType;
   final String groupId;

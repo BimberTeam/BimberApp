@@ -21,6 +21,7 @@ class DiscoverStack extends StatefulWidget {
 
 class _DiscoverStackState extends State<DiscoverStack> {
   List<Group> groups = [];
+  Set<String> uniqueGroups = {};
   Group currentGroup;
   DialogUtils dialogUtils = DialogUtils();
 
@@ -30,13 +31,21 @@ class _DiscoverStackState extends State<DiscoverStack> {
   }
 
   _background() {
-    return Center(
-        child: Text("Brak imprezowiczów!",
-            style: TextStyle(
-                color: Theme.of(context).accentColor,
-                fontSize: 33,
-                fontWeight: FontWeight.w900,
-                fontFamily: 'Baloo')));
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Text("Brak imprezowiczów!",
+          style: TextStyle(
+              color: Theme.of(context).accentColor,
+              fontSize: 33,
+              fontWeight: FontWeight.w900,
+              fontFamily: 'Baloo')),
+      Text("Zwiększ preferencję odległości by poszukać imprez dalej od Ciebie.",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Theme.of(context).accentColor,
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Baloo')),
+    ]);
   }
 
   _createDiscoverSwipe(Group group) {
@@ -96,9 +105,18 @@ class _DiscoverStackState extends State<DiscoverStack> {
       listener: (context, state) {
         if (state is DiscoverFetched) {
           setState(() {
-            groups.addAll(state.groupSuggestions);
-            if (currentGroup == null) currentGroup = groups.removeLast();
+            var newSuggestions = state.groupSuggestions;
+            newSuggestions = newSuggestions
+                .where((group) => !uniqueGroups.contains(group.id))
+                .toList();
+            uniqueGroups.addAll(newSuggestions.map((group) => group.id));
+            groups.addAll(newSuggestions);
+            if (currentGroup == null && groups.isNotEmpty)
+              currentGroup = groups.removeLast();
           });
+          if (currentGroup == null && groups.isEmpty) {
+            context.bloc<DiscoverBloc>().add(NoGroupsLeft());
+          }
         } else if (state is DiscoverLoading) {
           //dont know what to put here
         } else if (state is DiscoverError) {

@@ -31,6 +31,9 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
     if (event is SwipeButtonPressed) {
       yield* _mapButtonPressed(event.swipeType);
     }
+    if (event is NoGroupsLeft) {
+      yield NoGroupsToDiscover();
+    }
   }
 
   Stream<DiscoverState> _mapButtonPressed(SwipeType swipeType) async* {
@@ -50,11 +53,12 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
       yield DiscoverLoading();
       final message = await groupRepository.swipeGroup(swipeType, groupId);
       if (message.status == Status.OK) {
-        if (message.message == "MATCH") yield DiscoverSwipeMatched();
+        if (message.message == "Utworzono nową grupę!")
+          yield DiscoverSwipeMatched();
       } else {
         yield DiscoverError(message: message.message);
       }
-      yield* _mapFetchSuggestions(1);
+      yield* _mapFetchSuggestions(3);
     } catch (exception) {
       if (exception is TimeoutException)
         yield DiscoverError(message: timeoutExceptionMessage);
@@ -68,7 +72,6 @@ class DiscoverBloc extends Bloc<DiscoverEvent, DiscoverState> {
       final suggestions = await groupRepository.fetchGroupSuggestion(limit);
       yield DiscoverFetched(groupSuggestions: suggestions);
     } catch (exception) {
-      print(exception);
       if (exception is TimeoutException)
         yield DiscoverError(message: timeoutExceptionMessage);
       else

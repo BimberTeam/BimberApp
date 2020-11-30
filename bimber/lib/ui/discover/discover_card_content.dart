@@ -44,36 +44,38 @@ class DiscoverCardContent extends StatelessWidget {
   }
 
   _name() {
-    return Align(
-        alignment: Alignment.bottomLeft,
-        child: Padding(
-          padding: EdgeInsets.only(left: 10),
-          child: Text(
-              onlyUser != null
-                  ? onlyUser.name + ", " + onlyUser.age.toString()
-                  : "Grupa",
-              style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.w900,
-                  fontFamily: 'Baloo',
-                  color: Colors.white,
-                  decoration: TextDecoration.none)),
-        ));
+    return Container(
+      alignment: Alignment.bottomLeft,
+      padding: EdgeInsets.only(left: 10),
+      width: size.width -
+          60, //we don't want name widget to flow over info icon, 60 because icon padding plus size = 60
+      child: Text(
+          onlyUser != null
+              ? onlyUser.name + ", " + onlyUser.age.toString()
+              : "Grupa",
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w900,
+              fontFamily: 'Baloo',
+              color: Colors.white,
+              decoration: TextDecoration.none)),
+    );
   }
 
   _info(BuildContext context) {
     return GestureDetector(
       onTap: () => _navigateToDetails(context),
-      child: Align(
-          alignment: Alignment.bottomRight,
-          child: Padding(
-            padding: EdgeInsets.only(right: 30, bottom: 20),
-            child: Icon(
-              Icons.info,
-              color: Colors.white,
-              size: 30,
-            ),
-          )),
+      child: Container(
+        alignment: Alignment.bottomRight,
+        padding: EdgeInsets.only(right: 30, bottom: 20),
+        child: Icon(
+          Icons.info,
+          color: Colors.white,
+          size: 30,
+        ),
+      ),
     );
   }
 }

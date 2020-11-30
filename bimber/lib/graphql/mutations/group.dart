@@ -64,3 +64,25 @@ mutation RejectGroupPendingUser($groupId: ID!, $userId: ID!){
     }
 }
 ''');
+
+final swipeToLike = gql(r'''
+mutation SwipeToLike($groupId: ID!){
+    swipeToLike(input: {
+    groupId: $groupId
+    }) {
+      message
+      status
+    }
+}
+''');
+
+final swipeToDislike = gql(r'''
+mutation SwipeToDislike($groupId: ID!){
+    swipeToDislike(input: {
+    groupId: $groupId
+    }) {
+      message
+      status
+    }
+}
+''');

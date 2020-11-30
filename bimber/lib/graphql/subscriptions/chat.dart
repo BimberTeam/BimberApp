@@ -6,6 +6,7 @@ subscription NewChatMessage($groupId: ID!) {
     groupId: $groupId
     }) {
     userId
+    name
     groupId
     message
     date

@@ -50,8 +50,8 @@ class App extends StatelessWidget {
                 GraphqlChatRepository(client: GraphqlClientService.client),
           ),
           RepositoryProvider<GroupRepository>(
-            create: (context) => MockGroupRepository(),
-          )
+              create: (context) =>
+                  GraphqlGroupRepository(client: GraphqlClientService.client))
         ],
         child: BlocProvider<AuthenticationBloc>(
           create: (BuildContext context) => AuthenticationBloc(

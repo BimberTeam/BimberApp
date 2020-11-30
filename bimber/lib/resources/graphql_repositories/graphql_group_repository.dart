@@ -7,6 +7,7 @@ import 'package:bimber/resources/graphql_repositories/common.dart';
 import 'package:bimber/resources/repositories/group_repository.dart';
 import 'package:bimber/graphql/queries.dart' as query;
 import 'package:bimber/graphql/mutations.dart' as mutation;
+import 'package:bimber/ui/common/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -187,14 +188,38 @@ class GraphqlGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<List<Group>> fetchGroupSuggestion(int limit) {
-    // TODO: implement fetchGroupSuggestion
-    throw UnimplementedError();
+  Future<List<Group>> fetchGroupSuggestion(int limit) async {
+    final range = (await getRangePreference()).round() * 1000;
+    final WatchQueryOptions options = WatchQueryOptions(
+        document: query.groupSuggestions,
+        fetchResults: true,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"range": range, "limit": limit});
+
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    return (queryResult.data['suggestGroups'] as List)
+        .map((json) => Group.fromJson(json))
+        .toList();
   }
 
   @override
-  Future<Message> swipeGroup(SwipeType swipeType, String groupId) {
-    // TODO: implement swipeGroup
-    throw UnimplementedError();
+  Future<Message> swipeGroup(SwipeType swipeType, String groupId) async {
+    final MutationOptions options = MutationOptions(
+        document: swipeType == SwipeType.LIKE
+            ? mutation.swipeToLike
+            : mutation.swipeToDislike,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"groupId": groupId});
+
+    final queryResult =
+        await client.value.mutate(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    return swipeType == SwipeType.LIKE
+        ? Message.fromJson(queryResult.data['swipeToLike'])
+        : Message.fromJson(queryResult.data['swipeToDislike']);
   }
 }
