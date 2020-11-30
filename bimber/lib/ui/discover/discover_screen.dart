@@ -61,7 +61,9 @@ class DiscoverButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DiscoverBloc, DiscoverState>(builder: (context, state) {
-      if (state is DiscoverFetched || state is DiscoverSwipeButtonPressed) {
+      if (state is NoGroupsToDiscover || state is DiscoverInitial) {
+        return Container();
+      } else {
         return Container(
           child: MaterialButton(
             color: backgroundColor,
@@ -86,7 +88,6 @@ class DiscoverButton extends StatelessWidget {
           ),
         );
       }
-      return Container();
     });
   }
 }
