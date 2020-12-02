@@ -27,9 +27,7 @@ class ChatListScreen extends StatelessWidget {
             ..add(InitChatList()),
           child: BlocConsumer<ChatListBloc, ChatListState>(
             listener: (context, state) {
-              if (state is ChatListLoading) {
-                showLoadingSnackbar(context, message: "");
-              } else if (state is ChatListDeleteFailure) {
+              if (state is ChatListDeleteFailure) {
                 showErrorSnackbar(context,
                     message: "Nie udało się usunąć znajomego");
               } else if (state is ChatListDeleteSuccess) {
@@ -81,6 +79,7 @@ class ChatListView extends StatelessWidget {
     return RefreshIndicator(
         onRefresh: () {
           context.bloc<ChatListBloc>().add(RefreshChatList());
+          showLoadingSnackbar(context, message: "");
           return Future.delayed(Duration(seconds: 1));
         },
         child: Column(

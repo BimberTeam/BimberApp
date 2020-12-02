@@ -65,44 +65,16 @@ class FriendsHorizontalList extends StatelessWidget {
         ));
   }
 
-  Widget _createPopupMenu(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: PopupMenuButton(
-          icon: Icon(Icons.more_horiz, color: Colors.white),
-          color: Theme.of(context).colorScheme.primary,
-          itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                PopupMenuItem(
-                    child: _menuItem(() {
-                  context.pop();
-                  context.pushNamed("/group-create");
-                }, "Stwórz grupę", Icons.create,
-                        Theme.of(context).colorScheme.secondary)),
-                PopupMenuItem(
-                    child: _menuItem(() {
-                  context.pop();
-                  context.pushNamed("/invitations").then((_) =>
-                      context.bloc<ChatListBloc>().add(RefreshChatList()));
-                }, "Zaproszenia", Icons.people_outline,
-                        Theme.of(context).colorScheme.secondary)),
-              ]),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 20),
       child: Column(
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Text(
                     "Znajomi",
                     style: TextStyle(
                         color: Colors.white,
@@ -110,10 +82,6 @@ class FriendsHorizontalList extends StatelessWidget {
                         fontWeight: FontWeight.w900,
                         fontFamily: 'Baloo'),
                   ),
-                ),
-                _createPopupMenu(context)
-              ],
-            ),
           ),
           Container(
               padding: EdgeInsets.only(left: 4.0),
@@ -136,7 +104,31 @@ class FriendsHorizontalList extends StatelessWidget {
                             fontFamily: 'Baloo'),
                         textAlign: TextAlign.center,
                       ),
-                    ))
+                    )),
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.4))
+                ]),
+            child: ListTile(
+              enabled: true,
+              leading: Icon(Icons.people, color: Colors.red,),
+              title: Text(
+                "Nowe zaproszenia",
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                    fontFamily: 'Baloo'),
+              ),
+              trailing: Icon(Icons.arrow_forward_ios, color: Colors.red, size: 18,),
+              onTap: () =>  context.pushNamed("/invitations").then((_) =>
+                  context.bloc<ChatListBloc>().add(RefreshChatList())),
+            ),
+          ),
         ],
       ),
     );

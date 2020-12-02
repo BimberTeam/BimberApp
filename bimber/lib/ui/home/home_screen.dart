@@ -1,7 +1,9 @@
 import 'package:bimber/ui/account/account_screen.dart';
 import 'package:bimber/ui/chat_list/chat_list_screen.dart';
+import 'package:bimber/ui/common/theme.dart';
 import 'package:bimber/ui/discover/discover_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:build_context/build_context.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -38,6 +40,12 @@ class HomeScreenState extends State<HomeScreen>
         ));
   }
 
+  Widget _floatingActionButton(){
+    if(_tabController.index == 2){
+      return FloatingActionButton(onPressed: () => context.pushNamed("/group-create"), child: Icon(Icons.group_add, color: indigoDye,), backgroundColor: lemonMeringue,);
+    } else return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -61,6 +69,7 @@ class HomeScreenState extends State<HomeScreen>
             DiscoverScreen(),
             ChatListScreen()
           ],
-        ));
+        ),
+      floatingActionButton: _floatingActionButton(),);
   }
 }

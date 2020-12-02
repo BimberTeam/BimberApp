@@ -154,8 +154,6 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
         group = state.group;
         friendCandidates = state.friendCandidates;
         meId = state.meId;
-      } else if (state is GroupInfoLoading) {
-        showLoadingSnackbar(context, message: "");
       } else if (state is GroupInfoAddFailure) {
         showErrorSnackbar(context, message: "Nie udało się dodać do znajomych");
       } else if (state is GroupInfoAddSuccess) {
@@ -186,6 +184,7 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
         return RefreshIndicator(
             onRefresh: () {
               context.bloc<GroupInfoBloc>().add(RefreshGroupInfo());
+              showLoadingSnackbar(context, message: "");
               return Future.delayed(Duration(milliseconds: 500));
             },
             child: Column(
