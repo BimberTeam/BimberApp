@@ -61,7 +61,9 @@ class DiscoverButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DiscoverBloc, DiscoverState>(builder: (context, state) {
-      if (state is NoGroupsToDiscover || state is DiscoverInitial) {
+      if (state is NoGroupsToDiscover ||
+          state is DiscoverInitial ||
+          state is DiscoverError) {
         return Container();
       } else {
         return Container(

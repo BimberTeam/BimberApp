@@ -22,40 +22,22 @@ class ChatListError extends ChatListState {
   List<Object> get props => [message];
 }
 
-class ChatListResources extends ChatListState {
+class ChatListFetched extends ChatListState {
   final List<User> friends;
   final List<ChatThumbnail> chatThumbnails;
+  final bool newInvitations;
 
-  ChatListResources({@required this.friends, @required this.chatThumbnails});
+  ChatListFetched(
+      {@required this.friends,
+      @required this.chatThumbnails,
+      @required this.newInvitations});
 
   @override
-  List<Object> get props => [friends, chatThumbnails];
-
-  List<ChatThumbnail> getChats() {
-    return chatThumbnails;
-  }
-
-  List<User> getFriends() {
-    return friends;
-  }
+  List<Object> get props => [friends, chatThumbnails, newInvitations];
 }
 
-class ChatListFetched extends ChatListResources {
-  ChatListFetched({@required friends, @required chatThumbnails})
-      : super(friends: friends, chatThumbnails: chatThumbnails);
-}
+class ChatListLoading extends ChatListState {}
 
-class ChatListLoading extends ChatListResources {
-  ChatListLoading({@required friends, @required chatThumbnails})
-      : super(friends: friends, chatThumbnails: chatThumbnails);
-}
+class ChatListDeleteSuccess extends ChatListState {}
 
-class ChatListDeleteSuccess extends ChatListResources {
-  ChatListDeleteSuccess({@required friends, @required chatThumbnails})
-      : super(friends: friends, chatThumbnails: chatThumbnails);
-}
-
-class ChatListDeleteFailure extends ChatListResources {
-  ChatListDeleteFailure({@required friends, @required chatThumbnails})
-      : super(friends: friends, chatThumbnails: chatThumbnails);
-}
+class ChatListDeleteFailure extends ChatListState {}

@@ -8,8 +8,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FriendsHorizontalList extends StatelessWidget {
   final List<User> friends;
+  final bool newInvitations;
 
-  FriendsHorizontalList({@required this.friends});
+  FriendsHorizontalList(
+      {@required this.friends, @required this.newInvitations});
 
   Widget _menuItem(
       Function onTap, String text, IconData iconData, Color color) {
@@ -75,13 +77,13 @@ class FriendsHorizontalList extends StatelessWidget {
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Text(
-                    "Znajomi",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w900,
-                        fontFamily: 'Baloo'),
-                  ),
+              "Znajomi",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'Baloo'),
+            ),
           ),
           Container(
               padding: EdgeInsets.only(left: 4.0),
@@ -105,30 +107,37 @@ class FriendsHorizontalList extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                     )),
-          Container(
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black.withOpacity(0.4))
-                ]),
-            child: ListTile(
-              enabled: true,
-              leading: Icon(Icons.people, color: Colors.red,),
-              title: Text(
-                "Nowe zaproszenia",
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900,
-                    fontFamily: 'Baloo'),
-              ),
-              trailing: Icon(Icons.arrow_forward_ios, color: Colors.red, size: 18,),
-              onTap: () =>  context.pushNamed("/invitations").then((_) =>
-                  context.bloc<ChatListBloc>().add(RefreshChatList())),
-            ),
-          ),
+          newInvitations
+              ? Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(color: Colors.black.withOpacity(0.4))
+                  ]),
+                  child: ListTile(
+                    enabled: true,
+                    leading: Icon(
+                      Icons.people,
+                      color: Colors.red,
+                    ),
+                    title: Text(
+                      "Nowe zaproszenia",
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          fontFamily: 'Baloo'),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.red,
+                      size: 18,
+                    ),
+                    onTap: () => context.pushNamed("/invitations").then((_) =>
+                        context.bloc<ChatListBloc>().add(RefreshChatList())),
+                  ),
+                )
+              : Container(),
         ],
       ),
     );
