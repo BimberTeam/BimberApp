@@ -1,0 +1,9 @@
+{
+  "__class__": "TTL",
+  "year": {"type": "int"},
+  "month": {"type": "int"},
+  "day": {"type": "int"},
+  "hour": {"type": "int"},
+  "minute": {"type": "int"},
+  "second": {"type": "int"}
+}

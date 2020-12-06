@@ -26,11 +26,17 @@ class GroupInfoFetched extends GroupInfoState {
   final List<String> friendCandidates;
   final String meId;
   final Group group;
+  final DateTime endTime;
 
-  GroupInfoFetched({this.friendCandidates, this.meId, this.group});
+  GroupInfoFetched(
+      {@required this.friendCandidates,
+      @required this.meId,
+      @required this.group,
+      @required this.endTime});
 
   @override
-  List<Object> get props => [this.friendCandidates, this.meId, this.group];
+  List<Object> get props =>
+      [this.friendCandidates, this.meId, this.group, this.endTime];
 }
 
 class GroupInfoLoading extends GroupInfoState {}

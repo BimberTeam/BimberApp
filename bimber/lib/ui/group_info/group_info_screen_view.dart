@@ -19,7 +19,7 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
   Group group;
   List<String> friendCandidates;
   String meId;
-  DateTime endTime = DateTime.now();
+  DateTime endTime;
   DialogUtils dialogUtils = DialogUtils();
 
   String infoText(DateTime date) {
@@ -47,7 +47,7 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
                     Icons.access_time,
                     Theme.of(context).colorScheme.primaryVariant,
                     "Pozostało wam: ${endTime.difference(DateTime.now()).inDays} dni",
-                    infoText(DateTime.now()),
+                    infoText(endTime),
                     context);
               },
               child: Text(
@@ -180,9 +180,12 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
     return BlocConsumer<GroupInfoBloc, GroupInfoState>(
         listener: (context, state) {
       if (state is GroupInfoFetched) {
-        group = state.group;
-        friendCandidates = state.friendCandidates;
-        meId = state.meId;
+        setState(() {
+          group = state.group;
+          friendCandidates = state.friendCandidates;
+          meId = state.meId;
+          endTime = state.endTime;
+        });
       } else if (state is GroupInfoAddFailure) {
         showErrorSnackbar(context, message: "Nie udało się dodać do znajomych");
       } else if (state is GroupInfoAddSuccess) {

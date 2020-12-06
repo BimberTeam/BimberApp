@@ -166,3 +166,16 @@ query SuggestGroups($limit: Int!, $range: Int!){
     }
 }
 ''');
+
+final groupTTL = gql(r'''
+query GroupTTL($groupId: ID!){
+  groupTTL(id: $groupId){
+    year
+    month
+    day
+    hour
+    minute
+    second
+  }
+}
+''');

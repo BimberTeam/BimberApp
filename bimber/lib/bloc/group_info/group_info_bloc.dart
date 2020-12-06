@@ -5,6 +5,7 @@ import 'package:bimber/resources/repositories/repositories.dart';
 import 'package:bimber/ui/common/constants.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
 part 'group_info_event.dart';
@@ -66,8 +67,12 @@ class GroupInfoBloc extends Bloc<GroupInfoEvent, GroupInfoState> {
               .map((user) => user.id)
               .toList();
       final meId = (await accountRepository.fetchMe()).id;
+      final endTime = await groupRepository.fetchGroupTTL(groupId);
       yield GroupInfoFetched(
-          group: group, friendCandidates: friendCandidates, meId: meId);
+          group: group,
+          friendCandidates: friendCandidates,
+          meId: meId,
+          endTime: endTime);
     } catch (exception) {
       print(exception);
       if (exception is TimeoutException)
