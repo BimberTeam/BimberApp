@@ -59,10 +59,13 @@ class _ChatInputState extends State<ChatInput> {
                 )),
                 IconButton(
                   icon: Icon(Icons.send),
-                  onPressed: () {
-                    sendMessage(inputController.text);
-                  },
+                  onPressed: inputController.text == ''
+                      ? null
+                      : () {
+                          sendMessage(inputController.text);
+                        },
                   color: color,
+                  disabledColor: Colors.grey,
                 ),
               ],
             ),
@@ -75,6 +78,5 @@ class _ChatInputState extends State<ChatInput> {
   void sendMessage(String message) {
     widget.onSubmitted(message);
     inputController.text = '';
-    focusNode.unfocus();
   }
 }
