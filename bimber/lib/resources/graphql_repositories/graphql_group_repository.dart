@@ -1,6 +1,7 @@
 import 'package:bimber/bloc/discover/discover_bloc.dart';
 import 'package:bimber/models/group.dart';
 import 'package:bimber/models/message.dart';
+import 'package:bimber/models/t_t_l.dart';
 import 'package:bimber/models/user.dart';
 import 'package:bimber/models/voting_result.dart';
 import 'package:bimber/resources/graphql_repositories/common.dart';
@@ -221,5 +222,23 @@ class GraphqlGroupRepository extends GroupRepository {
     return swipeType == SwipeType.LIKE
         ? Message.fromJson(queryResult.data['swipeToLike'])
         : Message.fromJson(queryResult.data['swipeToDislike']);
+  }
+
+  @override
+  Future<DateTime> fetchGroupTTL(String groupId) async {
+    final WatchQueryOptions options = WatchQueryOptions(
+        document: query.groupTTL,
+        fetchResults: true,
+        fetchPolicy: FetchPolicy.networkOnly,
+        variables: {"groupId": groupId});
+
+    final queryResult =
+        await client.value.query(options).timeout(Duration(seconds: 5));
+    checkQueryResultForErrors(queryResult);
+
+    TTL groupTTL = TTL.fromJson(queryResult.data['groupTTL']);
+
+    return DateTime(groupTTL.year, groupTTL.month, groupTTL.day, groupTTL.hour,
+        groupTTL.minute, groupTTL.second);
   }
 }

@@ -89,15 +89,75 @@ class DialogUtils {
     );
   }
 
-  _button(String text, Function onPressed, Color color) {
+  void showInfoDialog(IconData icon, Color color, String header, String text,
+      BuildContext context) {
+    _isDialogOpen = true;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                content: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        icon,
+                        color: color,
+                        size: 50,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        header,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primaryVariant,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: 'Baloo'),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        text,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primaryVariant,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'Baloo'),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      _button(
+                        "OK",
+                        () => hideDialog(context),
+                        color,
+                        Theme.of(context).colorScheme.secondary,
+                      ),
+                    ])));
+      },
+    );
+  }
+
+  _button(String text, Function onPressed, Color buttonColor, Color textColor) {
     return RaisedButton(
       onPressed: onPressed,
-      color: color,
+      color: buttonColor,
       elevation: 5,
       child: Text(text,
           textAlign: TextAlign.center,
           style: TextStyle(
-              color: Colors.white,
+              color: textColor,
               fontFamily: 'Baloo',
               fontSize: 15.0,
               fontWeight: FontWeight.bold)),
@@ -148,12 +208,13 @@ class DialogUtils {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              _button(
-                                  confirmText, onConfirmed, confirmButtonColor),
+                              _button(confirmText, onConfirmed,
+                                  confirmButtonColor, Colors.white),
                               SizedBox(
                                 width: 10,
                               ),
-                              _button(cancelText, onCanceled, cancelButtonColor)
+                              _button(cancelText, onCanceled, cancelButtonColor,
+                                  Colors.white)
                             ],
                           )
                         ]))));

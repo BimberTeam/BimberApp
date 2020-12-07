@@ -55,7 +55,8 @@ final indicator = SizedBox(
         strokeWidth: 2.0));
 
 void showLoadingSnackbar(BuildContext context,
-    {String message, Duration duration = const Duration(seconds: 2)}) {
+    {String message = "Trwa ładowanie...",
+    Duration duration = const Duration(seconds: 2)}) {
   Scaffold.of(context)
     ..removeCurrentSnackBar()
     ..showSnackBar(SnackBar(
@@ -68,6 +69,6 @@ void showLoadingSnackbar(BuildContext context,
             indicator,
           ],
         ),
-        backgroundColor: Colors.black.withOpacity(0.2),
+        backgroundColor: Colors.black,
         duration: duration));
 }

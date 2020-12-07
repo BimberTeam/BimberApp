@@ -21,73 +21,78 @@ class ChatListScreen extends StatelessWidget {
               topRight: Radius.circular(50.0),
             )),
         child: BlocProvider<ChatListBloc>(
-          create: (context) => ChatListBloc(
-              friendRepository: context.repository<FriendRepository>(),
-              chatRepository: context.repository<ChatRepository>())
-            ..add(InitChatList()),
-          child: BlocConsumer<ChatListBloc, ChatListState>(
-            listener: (context, state) {
-              if (state is ChatListLoading) {
-                showLoadingSnackbar(context, message: "");
-              } else if (state is ChatListDeleteFailure) {
-                showErrorSnackbar(context,
-                    message: "Nie udało się usunąć znajomego");
-              } else if (state is ChatListDeleteSuccess) {
-                showSuccessSnackbar(context, message: "Usunięto znajomego.");
-              }
-            },
-            builder: (context, state) {
-              if (state is ChatListInitial) {
-                return Align(
-                  alignment: Alignment.center,
-                  child: SizedBox(
-                      height: 50,
-                      width: 50,
-                      child: CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(lemonMeringue),
-                          strokeWidth: 3.0)),
-                );
-              } else if (state is ChatListError) {
-                return Container(
-                    alignment: Alignment.center,
-                    child: Text(state.message,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.primaryVariant,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
-                            fontFamily: 'Baloo')));
-              } else {
-                return ChatListView(
-                  friends: (state as ChatListResources).getFriends(),
-                  chatThumbnails: (state as ChatListResources).getChats(),
-                );
-              }
-            },
-          ),
-        ));
+            create: (context) => ChatListBloc(
+                friendRepository: context.repository<FriendRepository>(),
+                chatRepository: context.repository<ChatRepository>(),
+                groupRepository: context.repository<GroupRepository>())
+              ..add(InitChatList()),
+            child: ChatListView()));
   }
 }
 
-class ChatListView extends StatelessWidget {
-  final List<User> friends;
-  final List<ChatThumbnail> chatThumbnails;
+class ChatListView extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => ChatListViewState();
+}
 
-  ChatListView({@required this.chatThumbnails, @required this.friends});
+class ChatListViewState extends State<ChatListView> {
+  List<User> friends = [];
+  List<ChatThumbnail> chatThumbnails = [];
+  bool newInvitations = false;
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-        onRefresh: () {
-          context.bloc<ChatListBloc>().add(RefreshChatList());
-          return Future.delayed(Duration(seconds: 1));
-        },
-        child: Column(
-          children: <Widget>[
-            FriendsHorizontalList(friends: friends),
-            GroupChatList(chatThumbnails: chatThumbnails)
-          ],
-        ));
+    return BlocConsumer<ChatListBloc, ChatListState>(
+      listener: (context, state) {
+        if (state is ChatListDeleteFailure) {
+          showErrorSnackbar(context, message: "Nie udało się usunąć znajomego");
+        } else if (state is ChatListDeleteSuccess) {
+          showSuccessSnackbar(context, message: "Usunięto znajomego.");
+        } else if (state is ChatListFetched) {
+          friends = state.friends;
+          chatThumbnails = state.chatThumbnails;
+          newInvitations = state.newInvitations;
+        }
+      },
+      builder: (context, state) {
+        if (state is ChatListInitial) {
+          return Align(
+            alignment: Alignment.center,
+            child: SizedBox(
+                height: 50,
+                width: 50,
+                child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(lemonMeringue),
+                    strokeWidth: 3.0)),
+          );
+        } else if (state is ChatListError) {
+          return Container(
+              alignment: Alignment.center,
+              child: Text(state.message,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.primaryVariant,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      fontFamily: 'Baloo')));
+        } else {
+          return RefreshIndicator(
+              onRefresh: () {
+                context.bloc<ChatListBloc>().add(RefreshChatList());
+                showLoadingSnackbar(context, message: "");
+                return Future.delayed(Duration(seconds: 1));
+              },
+              child: Column(
+                children: <Widget>[
+                  FriendsHorizontalList(
+                    friends: friends,
+                    newInvitations: newInvitations,
+                  ),
+                  GroupChatList(chatThumbnails: chatThumbnails)
+                ],
+              ));
+        }
+      },
+    );
   }
 }

@@ -79,4 +79,10 @@ class MockGroupRepository extends GroupRepository {
   Future<Message> swipeGroup(SwipeType swipeType, String groupId) {
     return Future.value(Message(status: Status.OK, message: "MATCH"));
   }
+
+  @override
+  Future<DateTime> fetchGroupTTL(String groupId) {
+    // TODO: implement fetchGroupTTL
+    throw UnimplementedError();
+  }
 }

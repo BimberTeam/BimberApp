@@ -1,12 +1,14 @@
 import 'package:bimber/bloc/group_info/group_info_bloc.dart';
 import 'package:bimber/models/group.dart';
 import 'package:bimber/models/user.dart';
+import 'package:bimber/ui/common/dialog_utils.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
 import 'package:bimber/ui/group_details/user_image_hero.dart';
 import 'package:flutter/material.dart';
 import 'package:bimber/ui/common/utils.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class GroupInfoViewScreen extends StatefulWidget {
   @override
@@ -17,6 +19,13 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
   Group group;
   List<String> friendCandidates;
   String meId;
+  DateTime endTime;
+  DialogUtils dialogUtils = DialogUtils();
+
+  String infoText(DateTime date) {
+    final format = DateFormat("dd-MM-yyyy HH:mm");
+    return "Każda grupa, ma określony czas przez który jest aktywna. W ciągu tego czasu członkowie mogą się spotkać i wspólnie napić, a po tym czasie grupa znika na zawsze. Pamiętaj więc by ludzi, których polubisz dodać do znajomych by spotkać się jeszcze na jakiejś imprezie w przyszłości! Wasza grupa przestanie być aktywna: ${format.format(date)}";
+  }
 
   Widget _header(BuildContext context) {
     TextStyle style = TextStyle(
@@ -32,6 +41,26 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
           CircleAvatar(
             backgroundColor: colorFromGroupId(group.id),
             radius: 50,
+            child: GestureDetector(
+              onTap: () {
+                dialogUtils.showInfoDialog(
+                    Icons.access_time,
+                    Theme.of(context).colorScheme.primaryVariant,
+                    "Pozostało wam: ${endTime.difference(DateTime.now()).inDays} dni",
+                    infoText(endTime),
+                    context);
+              },
+              child: Text(
+                endTime.difference(DateTime.now()).inDays.toString(),
+                style: TextStyle(
+                    color: colorFromGroupId(group.id).computeLuminance() > 0.5
+                        ? Colors.black
+                        : Theme.of(context).colorScheme.primaryVariant,
+                    fontSize: 50,
+                    fontWeight: FontWeight.w900,
+                    fontFamily: 'Baloo'),
+              ),
+            ),
           ),
           SizedBox(
             height: 5,
@@ -151,11 +180,12 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
     return BlocConsumer<GroupInfoBloc, GroupInfoState>(
         listener: (context, state) {
       if (state is GroupInfoFetched) {
-        group = state.group;
-        friendCandidates = state.friendCandidates;
-        meId = state.meId;
-      } else if (state is GroupInfoLoading) {
-        showLoadingSnackbar(context, message: "");
+        setState(() {
+          group = state.group;
+          friendCandidates = state.friendCandidates;
+          meId = state.meId;
+          endTime = state.endTime;
+        });
       } else if (state is GroupInfoAddFailure) {
         showErrorSnackbar(context, message: "Nie udało się dodać do znajomych");
       } else if (state is GroupInfoAddSuccess) {
@@ -186,6 +216,7 @@ class GroupInfoViewScreenState extends State<GroupInfoViewScreen> {
         return RefreshIndicator(
             onRefresh: () {
               context.bloc<GroupInfoBloc>().add(RefreshGroupInfo());
+              showLoadingSnackbar(context, message: "");
               return Future.delayed(Duration(milliseconds: 500));
             },
             child: Column(
