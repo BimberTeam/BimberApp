@@ -110,7 +110,7 @@ class _DiscoverStackState extends State<DiscoverStack> {
                 .where((group) => !uniqueGroups.contains(group.id))
                 .toList();
             uniqueGroups.addAll(newSuggestions.map((group) => group.id));
-            groups.addAll(newSuggestions);
+            groups.insertAll(max(0, groups.length - 1), newSuggestions);
             if (currentGroup == null && groups.isNotEmpty)
               currentGroup = groups.removeLast();
           });
@@ -122,11 +122,8 @@ class _DiscoverStackState extends State<DiscoverStack> {
         } else if (state is DiscoverError) {
           showErrorSnackbar(context, message: state.message);
         } else if (state is DiscoverSwipeMatched) {
-          dialogUtils.showIconDialog(Icons.favorite, Colors.green,
-              "Użytkownik odzwzajemnił Twoje polubienie!", context);
-          Future.delayed(Duration(milliseconds: 1500), () {
-            dialogUtils.hideDialog(context);
-          });
+          dialogUtils.showInfoDialog(Icons.favorite, Colors.green,
+              "Użytkownik odzwzajemnił Twoje polubienie!", "", context);
         }
       },
       child: Stack(

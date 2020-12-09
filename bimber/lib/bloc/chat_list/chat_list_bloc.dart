@@ -17,11 +17,13 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
   final ChatRepository chatRepository;
   final FriendRepository friendRepository;
   final GroupRepository groupRepository;
+  final AccountRepository accountRepository;
 
   ChatListBloc(
       {@required this.friendRepository,
       @required this.chatRepository,
-      @required this.groupRepository})
+      @required this.groupRepository,
+      @required this.accountRepository})
       : super(ChatListInitial());
 
   @override
@@ -58,6 +60,7 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
     try {
       List<User> friends = await friendRepository.fetchFriendsList();
       List<ChatThumbnail> chats = await chatRepository.fetchChatThumbnails();
+      final meId = (await accountRepository.fetchMe()).id;
       bool newInvitations =
           (await friendRepository.fetchFriendInvitationList()).isNotEmpty ||
               (await groupRepository.fetchGroupInvitationList()).isNotEmpty;
@@ -65,7 +68,8 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
       yield ChatListFetched(
           friends: friends,
           chatThumbnails: chats,
-          newInvitations: newInvitations);
+          newInvitations: newInvitations,
+          meId: meId);
     } catch (exception) {
       yield* _handleExceptions(exception);
     }

@@ -9,8 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GroupChatList extends StatelessWidget {
   final List<ChatThumbnail> chatThumbnails;
+  final String meId;
 
-  GroupChatList({@required this.chatThumbnails});
+  GroupChatList({@required this.chatThumbnails, @required this.meId});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,10 @@ class GroupChatList extends StatelessWidget {
                           parent: AlwaysScrollableScrollPhysics()),
                       scrollDirection: Axis.vertical,
                       children: chatThumbnails
-                          .map((chat) => ChatOverview(chatThumbnail: chat))
+                          .map((chat) => ChatOverview(
+                                chatThumbnail: chat,
+                                meId: meId,
+                              ))
                           .toList())
                   : LayoutBuilder(builder: (BuildContext context,
                       BoxConstraints viewportConstraints) {
@@ -69,8 +73,9 @@ class GroupChatList extends StatelessWidget {
 
 class ChatOverview extends StatefulWidget {
   final ChatThumbnail chatThumbnail;
+  final String meId;
 
-  ChatOverview({@required this.chatThumbnail});
+  ChatOverview({@required this.chatThumbnail, @required this.meId});
 
   @override
   State<StatefulWidget> createState() => ChatOverviewState();
@@ -91,7 +96,7 @@ class ChatOverviewState extends State<ChatOverview> {
   }
 
   _init() async {
-    bool isRead = await widget.chatThumbnail.checkIfRead();
+    bool isRead = await widget.chatThumbnail.checkIfRead(widget.meId);
     if (this.mounted) {
       setState(() {
         read = isRead;

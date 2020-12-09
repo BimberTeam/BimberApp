@@ -26,11 +26,13 @@ class ChatListFetched extends ChatListState {
   final List<User> friends;
   final List<ChatThumbnail> chatThumbnails;
   final bool newInvitations;
+  final String meId;
 
   ChatListFetched(
       {@required this.friends,
       @required this.chatThumbnails,
-      @required this.newInvitations});
+      @required this.newInvitations,
+      @required this.meId});
 
   @override
   List<Object> get props => [friends, chatThumbnails, newInvitations];
