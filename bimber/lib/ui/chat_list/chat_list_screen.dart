@@ -24,7 +24,8 @@ class ChatListScreen extends StatelessWidget {
             create: (context) => ChatListBloc(
                 friendRepository: context.repository<FriendRepository>(),
                 chatRepository: context.repository<ChatRepository>(),
-                groupRepository: context.repository<GroupRepository>())
+                groupRepository: context.repository<GroupRepository>(),
+                accountRepository: context.repository<AccountRepository>())
               ..add(InitChatList()),
             child: ChatListView()));
   }
@@ -39,6 +40,7 @@ class ChatListViewState extends State<ChatListView> {
   List<User> friends = [];
   List<ChatThumbnail> chatThumbnails = [];
   bool newInvitations = false;
+  String meId;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +54,7 @@ class ChatListViewState extends State<ChatListView> {
           friends = state.friends;
           chatThumbnails = state.chatThumbnails;
           newInvitations = state.newInvitations;
+          meId = state.meId;
         }
       },
       builder: (context, state) {
@@ -88,7 +91,10 @@ class ChatListViewState extends State<ChatListView> {
                     friends: friends,
                     newInvitations: newInvitations,
                   ),
-                  GroupChatList(chatThumbnails: chatThumbnails)
+                  GroupChatList(
+                    chatThumbnails: chatThumbnails,
+                    meId: meId,
+                  )
                 ],
               ));
         }

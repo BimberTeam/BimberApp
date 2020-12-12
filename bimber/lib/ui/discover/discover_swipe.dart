@@ -42,6 +42,7 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
   Animation<double> _translateX;
   Animation<double> _translateY;
   bool animating = false;
+  bool canSwipe = true;
 
   @override
   void initState() {
@@ -84,7 +85,7 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
   _animateTo(double left,
       {void Function(DiscoverCard) onEnd,
       bool animateY,
-      Duration duration = const Duration(milliseconds: 500)}) {
+      Duration duration = const Duration(milliseconds: 300)}) {
     setState(() {
       animating = true;
 
@@ -117,11 +118,17 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
   _animateToLike() {
     final size = MediaQuery.of(context).size;
     _animateTo(2 * size.width, onEnd: widget.onAccept, animateY: false);
+    setState(() {
+      canSwipe = false;
+    });
   }
 
   _animateToDislike() {
     final size = MediaQuery.of(context).size;
     _animateTo(-2 * size.width, onEnd: widget.onDismiss, animateY: false);
+    setState(() {
+      canSwipe = false;
+    });
   }
 
   _animateBack() {
@@ -132,7 +139,7 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
   }
 
   _onPanStart(DragStartDetails details) {
-    if (animating) return;
+    if (animating || !canSwipe) return;
 
     setState(() {
       dragChildOpacity = 0.0;
@@ -189,7 +196,7 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
   }
 
   _onPanUpdate(DragUpdateDetails details) {
-    if (animating) return;
+    if (animating || !canSwipe) return;
     if (_discoverCardEntry != null) {
       setState(() {
         _currentDragPosition.top += details.delta.dy;
@@ -202,7 +209,7 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
   }
 
   _onPanEnd(DragEndDetails details) {
-    if (animating) return;
+    if (animating || !canSwipe) return;
     final leftThreshold = 0.35;
     final rightThreshold = 0.65;
 
@@ -241,20 +248,25 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
     return BlocListener<DiscoverBloc, DiscoverState>(
       listener: (context, state) {
         if (state is DiscoverSwipeButtonPressed) {
-          if (!animating) {
+          if (!animating && canSwipe) {
             _onPanStart(DragStartDetails());
             final size = MediaQuery.of(context).size;
             if (state.swipeType == SwipeType.LIKE)
               _animateTo(1.3 * size.width,
                   onEnd: widget.onAccept,
                   animateY: true,
-                  duration: Duration(seconds: 1));
+                  duration: Duration(milliseconds: 500));
             else
               _animateTo(-1.3 * size.width,
                   onEnd: widget.onDismiss,
                   animateY: true,
-                  duration: Duration(seconds: 1));
+                  duration: Duration(milliseconds: 500));
           }
+        }
+        if (state is DiscoverFetched) {
+          setState(() {
+            canSwipe = true;
+          });
         }
       },
       child: GestureDetector(

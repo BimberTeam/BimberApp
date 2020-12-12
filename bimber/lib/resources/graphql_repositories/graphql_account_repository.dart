@@ -57,7 +57,7 @@ class GraphqlAccountRepository extends AccountRepository {
   }
 
   @override
-  Future<bool> login(String email, String password) async {
+  Future<void> login(String email, String password) async {
     final MutationOptions options = MutationOptions(
         document: mutation.login,
         fetchPolicy: FetchPolicy.networkOnly,
@@ -70,7 +70,7 @@ class GraphqlAccountRepository extends AccountRepository {
     final token = queryResult.data["login"]["token"];
     await TokenService.persistToken(token);
 
-    return true;
+    return;
   }
 
   @override
