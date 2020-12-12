@@ -42,17 +42,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> _mapCheckPasswordToState(LoginCheckPassword event) async* {
     yield LoginLoading();
     try {
-      bool loginSucceed =
-          await accountRepository.login(event.email, event.password);
+      await accountRepository.login(event.email, event.password);
 
-      yield (loginSucceed
-          ? LoginSucceed()
-          : LoginFailed(message: "Nieprawidłowe hasło!"));
+      yield LoginSucceed();
     } catch (e) {
-      print(e);
-      yield (e is GraphqlConnectionError
-          ? LoginServerNotResponding()
-          : LoginFailed(message: "Nieznany błąd..."));
+      if (e is TimeoutException || e is GraphqlConnectionError)
+        yield LoginServerNotResponding();
+      else
+        yield LoginFailed(message: "Nieprawidłowe hasło!");
     }
   }
 }

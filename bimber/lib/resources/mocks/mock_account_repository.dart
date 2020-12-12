@@ -22,7 +22,7 @@ class MockAccountRepository extends AccountRepository {
   }
 
   @override
-  Future<bool> login(String email, String password) {
+  Future<void> login(String email, String password) {
     return Future.value(email == "kuba@gmail.com" && password == "12345678");
   }
 

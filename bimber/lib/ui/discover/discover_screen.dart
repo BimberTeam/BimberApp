@@ -71,9 +71,11 @@ class DiscoverButton extends StatelessWidget {
             color: backgroundColor,
             child: Icon(icon, color: iconColor, size: 50),
             onPressed: () {
-              context
-                  .bloc<DiscoverBloc>()
-                  .add(SwipeButtonPressed(swipeType: swipeType));
+              if (state is DiscoverFetched) {
+                context
+                    .bloc<DiscoverBloc>()
+                    .add(SwipeButtonPressed(swipeType: swipeType));
+              }
             },
             padding: EdgeInsets.all(5),
             shape: CircleBorder(),

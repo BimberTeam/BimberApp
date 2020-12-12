@@ -118,11 +118,17 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
   _animateToLike() {
     final size = MediaQuery.of(context).size;
     _animateTo(2 * size.width, onEnd: widget.onAccept, animateY: false);
+    setState(() {
+      canSwipe = false;
+    });
   }
 
   _animateToDislike() {
     final size = MediaQuery.of(context).size;
     _animateTo(-2 * size.width, onEnd: widget.onDismiss, animateY: false);
+    setState(() {
+      canSwipe = false;
+    });
   }
 
   _animateBack() {
@@ -256,11 +262,6 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
                   animateY: true,
                   duration: Duration(milliseconds: 500));
           }
-        }
-        if (state is DiscoverLoading) {
-          setState(() {
-            canSwipe = false;
-          });
         }
         if (state is DiscoverFetched) {
           setState(() {
