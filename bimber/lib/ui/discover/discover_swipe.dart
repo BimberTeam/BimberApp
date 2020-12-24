@@ -254,12 +254,12 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
             if (state.swipeType == SwipeType.LIKE)
               _animateTo(1.3 * size.width,
                   onEnd: widget.onAccept,
-                  animateY: true,
+                  animateY: false,
                   duration: Duration(milliseconds: 500));
             else
               _animateTo(-1.3 * size.width,
                   onEnd: widget.onDismiss,
-                  animateY: true,
+                  animateY: false,
                   duration: Duration(milliseconds: 500));
           }
         }

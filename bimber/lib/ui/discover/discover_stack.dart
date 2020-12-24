@@ -4,6 +4,7 @@ import 'package:bimber/bloc/discover/discover_bloc.dart';
 import 'package:bimber/models/group.dart';
 import 'package:bimber/ui/common/dialog_utils.dart';
 import 'package:bimber/ui/common/snackbar_utils.dart';
+import 'package:bimber/ui/common/theme.dart';
 import 'package:bimber/ui/discover/discover_card.dart';
 import 'package:bimber/ui/discover/discover_swipe.dart';
 import 'package:bimber/ui/discover/discover_card_content.dart';
@@ -31,21 +32,36 @@ class _DiscoverStackState extends State<DiscoverStack> {
   }
 
   _background() {
-    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Text("Brak imprezowiczów!",
-          style: TextStyle(
-              color: Theme.of(context).accentColor,
-              fontSize: 33,
-              fontWeight: FontWeight.w900,
-              fontFamily: 'Baloo')),
-      Text("Zwiększ preferencję odległości by poszukać imprez dalej od Ciebie.",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: Theme.of(context).accentColor,
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
-              fontFamily: 'Baloo')),
-    ]);
+    return BlocBuilder<DiscoverBloc, DiscoverState>(builder: (context, state) {
+      if (state is DiscoverInitial) {
+        return Align(
+          alignment: Alignment.center,
+          child: SizedBox(
+              height: 50,
+              width: 50,
+              child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(indigoDye),
+                  strokeWidth: 3.0)),
+        );
+      } else {
+        return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text("Brak imprezowiczów!",
+              style: TextStyle(
+                  color: Theme.of(context).accentColor,
+                  fontSize: 33,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'Baloo')),
+          Text(
+              "Zwiększ preferencję odległości by poszukać imprez dalej od Ciebie.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Theme.of(context).accentColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'Baloo')),
+        ]);
+      }
+    });
   }
 
   _createDiscoverSwipe(Group group) {
@@ -102,33 +118,35 @@ class _DiscoverStackState extends State<DiscoverStack> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<DiscoverBloc, DiscoverState>(
-      listener: (context, state) {
-        if (state is DiscoverFetched) {
-          setState(() {
-            var newSuggestions = state.groupSuggestions;
-            newSuggestions = newSuggestions
-                .where((group) => !uniqueGroups.contains(group.id))
-                .toList();
-            uniqueGroups.addAll(newSuggestions.map((group) => group.id));
-            groups.insertAll(max(0, groups.length - 1), newSuggestions);
-            if (currentGroup == null && groups.isNotEmpty)
-              currentGroup = groups.removeLast();
-          });
-          if (currentGroup == null && groups.isEmpty) {
-            context.bloc<DiscoverBloc>().add(NoGroupsLeft());
+        listener: (context, state) {
+          if (state is DiscoverFetched) {
+            setState(() {
+              var newSuggestions = state.groupSuggestions;
+              newSuggestions = newSuggestions
+                  .where((group) => !uniqueGroups.contains(group.id))
+                  .toList();
+              uniqueGroups.addAll(newSuggestions.map((group) => group.id));
+              groups.insertAll(max(0, groups.length - 1), newSuggestions);
+              if (currentGroup == null && groups.isNotEmpty)
+                currentGroup = groups.removeLast();
+            });
+            if (currentGroup == null && groups.isEmpty) {
+              context.bloc<DiscoverBloc>().add(NoGroupsLeft());
+            }
+          } else if (state is DiscoverLoading) {
+            //dont know what to put here
+          } else if (state is DiscoverError) {
+            showErrorSnackbar(context, message: state.message);
+          } else if (state is DiscoverSwipeMatched) {
+            dialogUtils.showInfoDialog(Icons.favorite, Colors.green,
+                "Użytkownik odzwzajemnił Twoje polubienie!", "", context);
           }
-        } else if (state is DiscoverLoading) {
-          //dont know what to put here
-        } else if (state is DiscoverError) {
-          showErrorSnackbar(context, message: state.message);
-        } else if (state is DiscoverSwipeMatched) {
-          dialogUtils.showInfoDialog(Icons.favorite, Colors.green,
-              "Użytkownik odzwzajemnił Twoje polubienie!", "", context);
-        }
-      },
-      child: Stack(
-        children: [Positioned.fill(child: _background()), ..._stackElements()],
-      ),
-    );
+        },
+        child: Stack(
+          children: [
+            Positioned.fill(child: _background()),
+            ..._stackElements()
+          ],
+        ));
   }
 }
