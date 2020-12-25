@@ -85,7 +85,7 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
   _animateTo(double left,
       {void Function(DiscoverCard) onEnd,
       bool animateY,
-      Duration duration = const Duration(milliseconds: 300)}) {
+      Duration duration = const Duration(milliseconds: 500)}) {
     setState(() {
       animating = true;
 
@@ -117,18 +117,22 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
 
   _animateToLike() {
     final size = MediaQuery.of(context).size;
-    _animateTo(2 * size.width, onEnd: widget.onAccept, animateY: false);
     setState(() {
       canSwipe = false;
     });
+    _animateTo(1.3 * size.width, onEnd: widget.onAccept, animateY: false);
   }
 
   _animateToDislike() {
     final size = MediaQuery.of(context).size;
-    _animateTo(-2 * size.width, onEnd: widget.onDismiss, animateY: false);
     setState(() {
       canSwipe = false;
     });
+    _animateTo(
+      -1.3 * size.width,
+      onEnd: widget.onDismiss,
+      animateY: false,
+    );
   }
 
   _animateBack() {
@@ -250,17 +254,10 @@ class _DiscoverSwipeState extends State<DiscoverSwipe>
         if (state is DiscoverSwipeButtonPressed) {
           if (!animating && canSwipe) {
             _onPanStart(DragStartDetails());
-            final size = MediaQuery.of(context).size;
             if (state.swipeType == SwipeType.LIKE)
-              _animateTo(1.3 * size.width,
-                  onEnd: widget.onAccept,
-                  animateY: false,
-                  duration: Duration(milliseconds: 500));
+              _animateToLike();
             else
-              _animateTo(-1.3 * size.width,
-                  onEnd: widget.onDismiss,
-                  animateY: false,
-                  duration: Duration(milliseconds: 500));
+              _animateToDislike();
           }
         }
         if (state is DiscoverFetched) {
