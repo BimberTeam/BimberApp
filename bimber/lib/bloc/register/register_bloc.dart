@@ -51,7 +51,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             : RegisterError(
                 data: event.data,
                 message:
-                    "Nie udało się utworzyć konta, powodu brak, spróbuj później!"));
+                    "Nie udało się utworzyć konta, spróbuj później!"));
       }
     }
   }

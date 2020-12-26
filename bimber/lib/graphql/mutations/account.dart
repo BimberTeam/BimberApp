@@ -13,7 +13,9 @@ mutation Register(
     $genderPreference: Gender,
     $alcoholPreference: AlcoholType!,
     $agePreferenceFrom: Int!,
-    $agePreferenceTo: Int!
+    $agePreferenceTo: Int!,
+    $latitude: Float!,
+    $longitude: Float!
   ) {
   register(input: {
     name: $name,
@@ -27,7 +29,9 @@ mutation Register(
     genderPreference: $genderPreference,
     alcoholPreference: $alcoholPreference,
     agePreferenceFrom: $agePreferenceFrom,
-    agePreferenceTo: $agePreferenceTo
+    agePreferenceTo: $agePreferenceTo,
+    latitude: $latitude,
+    longitude: $longitude
   }) {
     id
   }

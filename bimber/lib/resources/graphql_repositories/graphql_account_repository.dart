@@ -80,11 +80,13 @@ class GraphqlAccountRepository extends AccountRepository {
 
   @override
   Future<AccountData> register(RegisterAccountData data) async {
+    Position position = await Geolocator()
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
+    RegisterAccountData newData = data.copyWith(longitude: position.longitude, latitude: position.latitude);
     final MutationOptions options = MutationOptions(
         document: mutation.register,
         fetchPolicy: FetchPolicy.networkOnly,
-        variables: data.toJson());
-
+        variables: newData.toJson());
     final queryResult =
         await client.value.mutate(options).timeout(Duration(seconds: 5));
     checkQueryResultForErrors(queryResult);

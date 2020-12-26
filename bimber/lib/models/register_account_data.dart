@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import "package:bimber/models/age_preference.dart";
 import "package:bimber/models/alcohol_type.dart";
+import "package:bimber/models/age_preference.dart";
 import "package:bimber/models/gender.dart";
 
 class RegisterAccountData extends Equatable {
@@ -21,6 +21,8 @@ class RegisterAccountData extends Equatable {
   final AlcoholType alcoholPreference;
   final String password;
   final String imagePath;
+  final double latitude;
+  final double longitude;
 
   RegisterAccountData(
       {@required this.name,
@@ -36,7 +38,9 @@ class RegisterAccountData extends Equatable {
       @required this.agePreferenceTo,
       @required this.alcoholPreference,
       @required this.password,
-      @required this.imagePath});
+      @required this.imagePath,
+      @required this.latitude,
+      @required this.longitude});
 
   RegisterAccountData copyWith(
       {String name,
@@ -52,7 +56,9 @@ class RegisterAccountData extends Equatable {
       int agePreferenceTo,
       AlcoholType alcoholPreference,
       String password,
-      String imagePath}) {
+      String imagePath,
+      double latitude,
+      double longitude}) {
     return RegisterAccountData(
         name: name ?? this.name,
         email: email ?? this.email,
@@ -67,7 +73,9 @@ class RegisterAccountData extends Equatable {
         agePreferenceTo: agePreferenceTo ?? this.agePreferenceTo,
         alcoholPreference: alcoholPreference ?? this.alcoholPreference,
         password: password ?? this.password,
-        imagePath: imagePath ?? this.imagePath);
+        imagePath: imagePath ?? this.imagePath,
+        latitude: latitude ?? this.latitude,
+        longitude: longitude ?? this.longitude);
   }
 
   @override
@@ -85,7 +93,9 @@ class RegisterAccountData extends Equatable {
         agePreferenceTo,
         alcoholPreference,
         password,
-        imagePath
+        imagePath,
+        latitude,
+        longitude
       ];
 
   Map<String, dynamic> toJson() {
@@ -103,7 +113,9 @@ class RegisterAccountData extends Equatable {
       "agePreferenceTo": agePreferenceTo,
       "alcoholPreference": alcoholPreference?.toJson(),
       "password": password,
-      "imagePath": imagePath
+      "imagePath": imagePath,
+      "latitude": latitude,
+      "longitude": longitude
     };
   }
 
@@ -125,6 +137,8 @@ class RegisterAccountData extends Equatable {
         alcoholPreference:
             AlcoholTypeExtension.fromJson(json["alcoholPreference"]),
         password: json["password"],
-        imagePath: json["imagePath"]);
+        imagePath: json["imagePath"],
+        latitude: json["latitude"] as double,
+        longitude: json["longitude"] as double);
   }
 }

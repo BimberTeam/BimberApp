@@ -14,5 +14,7 @@
     "agePreferenceTo": {"type": "int"},
     "alcoholPreference": {"type": "AlcoholType", "enum": true},
     "password": {"type": "String"},
-    "imagePath": {"type": "String"}
+    "imagePath": {"type": "String"},
+    "latitude": {"type":  "double"},
+    "longitude": {"type":  "double"}
 }
