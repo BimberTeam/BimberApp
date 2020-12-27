@@ -60,37 +60,37 @@ flutter install
 ```
 
 ## Frontend demo :iphone:
-Here you can se demo of most features our app offers
+Here you can see demo of most features our app offers
 ### Discovering new peoples and groups
 
-![discover](gifs/discover.gif)
+<img src="gifs/discover.gif" height=500/>
 
-![match](gifs/match.gif)
+<img src="gifs/match.gif" height=500/>
 
 ### Accepting friend/group requests
 
-![accept](gifs/friend-accept.gif)
+<img src="gifs/friend-accept.gif" height=500/>
 
 ### Chatting with your matches
 
-![chat](gifs/chat.gif)
+<img src="gifs/chat.gif" height=500/>
 
-### checking group info and map
+### Checking group info and map
 
-![group-info](gifs/group-info.gif)
+<img src="gifs/group-info.gif" height=500/>
 
 ### Voting on new group members
 
-![voting](gifs/voting.gif)
+<img src="gifs/voting.gif" height=500 />
 
 ### Adding friends to group
 
-![add-friends](gifs/add-friends.gif)
+<img src="gifs/add-friends.gif" height=500/>
 
 ### Creating new group from friends
 
-![create-group](gifs/create-group.gif)
+<img src="gifs/create-group.gif" height=500/>
 
 ### Editing your account
 
-![edit-account](gifs/edit-account.gif)
+<img src="gifs/edit-account.gif" height=500 />
