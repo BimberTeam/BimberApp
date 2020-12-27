@@ -198,7 +198,7 @@ class GraphqlGroupRepository extends GroupRepository {
         variables: {"range": range, "limit": limit});
 
     final queryResult =
-        await client.value.query(options).timeout(Duration(seconds: 5));
+        await client.value.query(options).timeout(Duration(seconds: 10));
     checkQueryResultForErrors(queryResult);
 
     return (queryResult.data['suggestGroups'] as List)

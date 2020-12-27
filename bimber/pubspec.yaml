@@ -47,7 +47,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
-    - assets/env/.env_dev
+    - assets/env/.env_prod
   fonts:
   - family: Baloo
     fonts:

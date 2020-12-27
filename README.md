@@ -28,9 +28,7 @@ During working on that project we learned a lot about team cooperation. We often
 ### Backend
 Full description of backend technologies is available [here](https://github.com/BimberTeam/Bimber)
 ### Frontend
-To develop a mobile application we went for the multiplatform framework **Flutter**. For state management, we went for the BLoC pattern which is great to separate business logic from presentation. To communicate with our backend server we went for graphql_flutter.
-
-## Frontend demo :iphone:
+To develop a mobile application we went for the multiplatform framework **Flutter**. As our team created flutter apps before, we tried to focus on developing some more complex views. During creating UI we tried to imitate Tinder views, to make our app as similar as possible. However as our app introduces features that aren't available on Tinder, some views are completely our ideas. For state management, we went for the **BLoC pattern** which is great to separate business logic from presentation. Together with our team, we decided to use **GraphQL** to develop an API. So to communicate with our backend server we went for **graphql_flutter** library.
 
 ## Get Started :fire:
 
@@ -53,10 +51,46 @@ Then you have to modify server url in mobile app. Firstly clone repository using
 ```bash
 git clone git@github.com:BimberTeam/BimberApp.git
 ```
-Next open [.env_dev file](bimber/assets/env/.env_dev) and edit it replacing DigitalOcean server ip with your own ip. Then you can build and install your app on your mobile device using the following commands:
+Next open [.env_prod file](bimber/assets/env/.env_prod) and edit it replacing DigitalOcean server ip with your own ip. Then you can build and install your app on your mobile device using the following commands:
 
 ```bash
 cd BimberApp/bimber
 flutter build apk --split-per-abi
 flutter install
 ```
+
+## Frontend demo :iphone:
+Here you can se demo of most features our app offers
+### Discovering new peoples and groups
+
+![discover](gifs/discover.gif)
+
+![match](gifs/match.gif)
+
+### Accepting friend/group requests
+
+![accept](gifs/friend-accept.gif)
+
+### Chatting with your matches
+
+![chat](gifs/chat.gif)
+
+### checking group info and map
+
+![group-info](gifs/group-info.gif)
+
+### Voting on new group members
+
+![voting](gifs/voting.gif)
+
+### Adding friends to group
+
+![add-friends](gifs/add-friends.gif)
+
+### Creating new group from friends
+
+![create-group](gifs/create-group.gif)
+
+### Editing your account
+
+![edit-account](gifs/edit-account.gif)

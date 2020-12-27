@@ -30,7 +30,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await preloadFlare();
 
-  await DotEnv().load("assets/env/.env_dev");
+  await DotEnv().load("assets/env/.env_prod");
 
   Bloc.observer = SimpleBlocObserver();
 
